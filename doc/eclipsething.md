@@ -3,12 +3,12 @@
 ### 安装
 
 1. 装一个新立德软件包管理器
-2. 搜索eclipse,勾选eclipse，eclipse-cdt,eclipse-egit
-3. 点右键，全部选中，安装
+2. 搜索eclipse，勾选eclipse，eclipse-cdt，eclipse-egit
+3. 点右键，全部选中，安装。
 
 ### workspace
 
-相当于工程文件默认的存放地址，默认放个地方就行
+相当于工程文件默认的存放地址，目前将此代码库作为独立的workspace
 
 ### 代码提示
 
@@ -27,7 +27,7 @@
 目前有的配置文件就是代码格式
 
 1. 点开 window-> preferences ->c++->code style -> formatter 
-1. 点击import，选择文件即可
+1. 点击import，选择文件即可（配置文件在这里）
 1. 写代码的时候，通过按下ctrl+shift+f自动代码格式化
 
 ## Eclipse里用Git
