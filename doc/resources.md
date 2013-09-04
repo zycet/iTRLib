@@ -8,10 +8,8 @@
 * [Markdown入门指南](http://jianshu.io/p/q81RER)
 * [Markdown语法说明](http://wowubuntu.com/markdown/)
 * [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown)
-* [Eclipse 基本操作说明]()
-* [Eclipse 配置导入说明]()
-* [Eclipse Git配置与使用说明]()
-* [开发计划]()
-* [目录约定]()
+* [Eclipse 基本说明](eclipsething.md)
+* [开发计划](developplan.md)
+* [目录约定](directorydefine.md)
 
 *请大家按照以上格式添加相关信息*
