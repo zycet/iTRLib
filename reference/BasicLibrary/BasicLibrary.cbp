@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="BasicLibrary" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="x86\bin\Debug\BasicLibrary" prefix_auto="1" extension_auto="1" />
+				<Option object_output="x86\obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add option="-DDEBUG" />
+					<Add option="-DCORE=CORE_X86" />
+					<Add option="-DCOMPILER=COMPILER_GCC" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="x86\bin\Release\BasicLibrary" prefix_auto="1" extension_auto="1" />
+				<Option object_output="x86\obj\Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-DCORE=CORE_X86" />
+					<Add option="-DCOMPILER=COMPILER_GCC" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Unit filename="BasicLibrary.h" />
+		<Unit filename="BasicMath\BasicMath.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="BasicMath\BasicMath.h" />
+		<Unit filename="BasicMath\Filter.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="BasicMath\Filter.h" />
+		<Unit filename="BasicMath\LinearFitting.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="BasicMath\LinearFitting.h" />
+		<Unit filename="BasicMath\Matrix.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="BasicMath\Matrix.h" />
+		<Unit filename="BasicMath\VTrack.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="BasicMath\VTrack.h" />
+		<Unit filename="Basic\Basic.h" />
+		<Unit filename="Basic\Config.h" />
+		<Unit filename="Basic\MacroDef.h" />
+		<Unit filename="Basic\Misc.h" />
+		<Unit filename="Basic\MiscTools.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Basic\MiscTools.h" />
+		<Unit filename="Basic\TypeDef.h" />
+		<Unit filename="Control\Control.h" />
+		<Unit filename="Control\PIDAlgorithm.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Control\PIDAlgorithm.h" />
+		<Unit filename="DataStruct\DataStruct.h" />
+		<Unit filename="DataStruct\Queue.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="DataStruct\Queue.h" />
+		<Unit filename="HAL\BlockDevice.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="HAL\BlockDevice.h" />
+		<Unit filename="HAL\HAL.h" />
+		<Unit filename="NavMath\NavMath.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="NavMath\NavMath.h" />
+		<Unit filename="Protocol\BaseProtocol.h" />
+		<Unit filename="Protocol\Protocol.h" />
+		<Unit filename="Protocol\StandSerialProtocol.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Protocol\StandSerialProtocol.h" />
+		<Unit filename="Protocol\StandSerialProtocol_CB.h" />
+		<Unit filename="Protocol\TCPLiteProtocol.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Protocol\TCPLiteProtocol.h" />
+		<Unit filename="Protocol\TCPLiteSSPAdaptor.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="Protocol\TCPLiteSSPAdaptor.h" />
+		<Unit filename="Protocol\ZTCPLite.h" />
+		<Unit filename="main.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
