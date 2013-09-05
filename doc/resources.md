@@ -10,5 +10,7 @@
 * [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown)
 * [Eclipse 基本说明](eclipsething.md)
 * [开发计划及目录约定](developplan.md)
+* [BitTorrent Sync](http://labs.bittorrent.com/experiments/sync.html)
+* VirtualBox VMs:AYWG43ITRFBN46Y3QS3YAQAHNW5C2IQSP
 
 *请大家按照以上格式添加相关信息*
