@@ -9,7 +9,6 @@
 * [Markdown语法说明](http://wowubuntu.com/markdown/)
 * [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown)
 * [Eclipse 基本说明](eclipsething.md)
-* [开发计划](developplan.md)
-* [目录约定](directorydefine.md)
+* [开发计划及目录约定](developplan.md)
 
 *请大家按照以上格式添加相关信息*
