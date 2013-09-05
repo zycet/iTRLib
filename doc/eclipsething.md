@@ -27,7 +27,7 @@
 目前有的配置文件就是代码格式
 
 1. 点开 window-> preferences ->c++->code style -> formatter 
-1. 点击import，选择文件即可（配置文件在这里）
+1. 点击import，选择文件即可（配置文件在 *doc/EclipseStyle.xml* ）
 1. 写代码的时候，通过按下ctrl+shift+f自动代码格式化
 
 ## Eclipse里用Git
