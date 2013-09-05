@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="org.eclipse.core.runtime.text.contenttype_context" deleted="false" description="Default template for newly created text files" enabled="true" id="org.eclipse.cdt.ui.text.codetemplates.textfile" name="Default text file template">${file_name}
+
+ Created on: ${date}
+     Author: ${user}
+
+</template></templates>
