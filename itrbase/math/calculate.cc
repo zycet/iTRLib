@@ -35,4 +35,22 @@ namespace itr_math
         }
     }
 
+    void Calculate::Sub(S32* SourceA,S32* SourceB,S32 Length,
+            S32* Result)
+    {
+        for (S32 i = 0; i < Length; i++)
+                {
+                    Result[i] = SourceA[i] - SourceB[i];
+                }
+    }
+
+    void Calculate::Sub(F32* SourceA,F32* SourceB, S32 Length,
+                F32* Result)
+        {
+            for (S32 i = 0; i < Length; i++)
+            {
+                Result[i] = SourceA[i] - SourceB[i];
+            }
+        }
+
 } /* namespace itr_math */

@@ -18,6 +18,8 @@ namespace itr_math
         public:
             virtual void Add(S32* SourceA, S32* SourceB, S32 Length, S32* Result);
             virtual void Add(F32* SourceA, F32* SourceB, S32 Length, F32* Result);
+            virtual void Sub(S32* SourceA, S32* SourceB, S32 Length, S32* Result);
+            virtual void Sub(F32* SourceA, F32* SourceB, S32 Length, F32* Result);
             Calculate();
             virtual ~Calculate();
     };
