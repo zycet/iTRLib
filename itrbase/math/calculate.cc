@@ -230,4 +230,4 @@ namespace itr_math
             Result[0] *= SourceA[i];
         }
     }
-} /* namespace itr_math */
+} // namespace itr_math

@@ -50,6 +50,6 @@ namespace itr_math
             virtual ~Calculate();
     };
 
-} /* namespace itr_math */
+} // namespace itr_math
 
 #endif /* CALCULATE_H_ */
