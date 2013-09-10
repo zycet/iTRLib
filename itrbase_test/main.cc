@@ -12,6 +12,9 @@
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
  *    distribution.
+ * 3. Neither the name PX4 nor the names of its contributors may be
+ *    used to endorse or promote products derived from this software
+ *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,24 +29,20 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * numerical.h
- *  Created on: 2013年9月9日
- *      Author: ZYC
+ * main.cc
+ *  Created on: 2013-9-10
+ *      Author: buaa
  */
 
-#ifndef NUMERICAL_H_
-#define NUMERICAL_H_
-
-#include "typedef.h"
-
-class Numerical
+void TestAssistMacro()
 {
-    public:
-        Numerical();
-        virtual ~Numerical();
-        virtual bool Sin(F32 Source,F32& Result);
-        virtual bool Cos(F32 Source,F32& Result);
-        virtual bool SinCos(F32 Source,F32& ResultSin,F32& ResultCos);
-};
 
-#endif // NUMERICAL_H_
+}
+
+int main()
+{
+
+    return 0;
+}
+
+
