@@ -44,6 +44,19 @@ class Numerical
         virtual bool Sin(F32 Source,F32& Result);
         virtual bool Cos(F32 Source,F32& Result);
         virtual bool SinCos(F32 Source,F32& ResultSin,F32& ResultCos);
+        virtual bool Tan(F32 Source,F32& Result);
+        virtual bool Asin(F32 Source,F32& Result);
+        virtual bool Acos(F32 Source,F32& Result);
+        virtual bool Atan(F32 Source,F32& Result);
+        virtual bool Atan2(F32 SourceA,F32 SourceB,F32& Result);
+        virtual bool Sqrt(F32 Source,F32& Result);
+        virtual bool InvSqrt(F32 Source,F32& Result);
+        virtual bool Exp(F32 Source,F32& Result);
+        virtual bool Log(F32 Source,F32& Result);
+        virtual bool Log10(F32 Source,F32& Result);
+        virtual bool Pow(F32 SourceA,F32 SourceB,F32& Result);
+        virtual bool Floor(F32 Source,F32& Result);
+        virtual bool Mod(F32 SourceA,F32 SourceB,F32& Result);
 };
 
 #endif // NUMERICAL_H_

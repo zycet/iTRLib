@@ -139,7 +139,7 @@ namespace itr_math
         }
     }
 
-    void Calculate::Normal(S32* SourceA, S32 Length, S32* Result)
+    void Calculate::Normalization(S32* SourceA, S32 Length, S32* Result)
     {
         S32 temp = 0;
         for (S32 i = 0; i < Length; i++)
@@ -153,7 +153,7 @@ namespace itr_math
         }
     }
 
-    void Calculate::Normal(F32* SourceA, S32 Length, F32* Result)
+    void Calculate::Normalization(F32* SourceA, S32 Length, F32* Result)
     {
         F32 temp = 0;
         for (S32 i = 0; i < Length; i++)
@@ -200,34 +200,34 @@ namespace itr_math
         }
     }
 
-    void Calculate::Sum(S32* SourceA, S32 Length, S32* Result)
+    void Calculate::Sum(S32* SourceA, S32 Length, S32& Result)
     {
         for (S32 i = 0; i < Length; i++)
         {
-            Result[0] += SourceA[i];
+            Result += SourceA[i];
         }
     }
 
-    void Calculate::Sum(F32* SourceA, S32 Length, F32* Result)
+    void Calculate::Sum(F32* SourceA, S32 Length, F32& Result)
     {
         for (S32 i = 0; i < Length; i++)
         {
-            Result[0] += SourceA[i];
+            Result += SourceA[i];
         }
     }
-    void Calculate::Product(S32* SourceA, S32 Length, S32* Result)
+    void Calculate::Product(S32* SourceA, S32 Length, S32& Result)
     {
         for (S32 i = 0; i < Length; i++)
         {
-            Result[0] *= SourceA[i];
+            Result *= SourceA[i];
         }
     }
 
-    void Calculate::Product(F32* SourceA, S32 Length, F32* Result)
+    void Calculate::Product(F32* SourceA, S32 Length, F32& Result)
     {
         for (S32 i = 0; i < Length; i++)
         {
-            Result[0] *= SourceA[i];
+            Result *= SourceA[i];
         }
     }
 } // namespace itr_math
