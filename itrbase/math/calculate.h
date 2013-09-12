@@ -35,6 +35,7 @@
 #define CALCULATE_H_
 
 #include "typedef.h"
+#include "numerical.h"
 
 namespace itr_math
 {
@@ -64,10 +65,12 @@ namespace itr_math
             virtual void Sum(F32* SourceA, S32 Length, F32& Result);
             virtual void Product(S32* SourceA, S32 Length, S32& Result);
             virtual void Product(F32* SourceA, S32 Length, F32& Result);
-            Calculate();
+            Calculate(const Numerical& numericalObj);
             virtual ~Calculate();
+        private:
+            Numerical numericalObj;
     };
 
 } // namespace itr_math
 
-#endif /* CALCULATE_H_ */
+#endif //* CALCULATE_H_

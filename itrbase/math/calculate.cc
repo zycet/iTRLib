@@ -35,8 +35,9 @@
 
 namespace itr_math
 {
-    Calculate::Calculate()
+    Calculate::Calculate(const Numerical& numericalObj)
     {
+        this->numericalObj = numericalObj;
     }
 
     Calculate::~Calculate()
@@ -141,15 +142,15 @@ namespace itr_math
 
     void Calculate::Normalization(S32* SourceA, S32 Length, S32* Result)
     {
-        S32 temp = 0;
+        F32 temp = 0;
         for (S32 i = 0; i < Length; i++)
         {
             temp += SourceA[i] * SourceA[i];
         }
-        for (S32 j = 0; j < Length; j++)
+        temp = 1 / numericalObj.Sqrt(temp, temp);
+        for(int i=0;i<Length;i++)
         {
-            //Result[j] = SourceA[j]/
-            //TODO:暂时没有sqrt
+            Result[i]=SourceA[i]*temp;
         }
     }
 
@@ -160,11 +161,8 @@ namespace itr_math
         {
             temp += SourceA[i] * SourceA[i];
         }
-        for (S32 j = 0; j < Length; j++)
-        {
-            //Result[j] = SourceA[j]/
-            //TODO:暂时没有sqrt
-        }
+        temp = 1 / numericalObj.Sqrt(temp, temp);
+        Scale(SourceA, temp, Length, Result);
     }
 
     void Calculate::Abs(S32* SourceA, S32 Length, S32* Result)
