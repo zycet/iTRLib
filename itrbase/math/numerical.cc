@@ -37,7 +37,6 @@
 Numerical::Numerical()
 {
     // TODO Auto-generated constructor stub
-
 }
 
 Numerical::~Numerical()
@@ -135,8 +134,8 @@ bool Numerical::Floor(F32 Source, F32& Result)
     Result = floor(Source);
     return true;
 }
-bool Numerical::Mod(F32 SourceA,F32 SourceB,F32& Result)
+bool Numerical::Mod(S32 SourceA, S32 SourceB, S32& Result)
 {
-    Result = SourceA%SourceB;
+    Result = SourceA % SourceB;
     return true;
 }

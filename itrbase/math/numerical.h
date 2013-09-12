@@ -56,7 +56,7 @@ class Numerical
         virtual bool Log10(F32 Source,F32& Result);
         virtual bool Pow(F32 SourceA,F32 SourceB,F32& Result);
         virtual bool Floor(F32 Source,F32& Result);
-        virtual bool Mod(F32 SourceA,F32 SourceB,F32& Result);
+        virtual bool Mod(S32 SourceA,S32 SourceB,S32& Result);
 };
 
 #endif // NUMERICAL_H_
