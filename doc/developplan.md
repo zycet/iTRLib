@@ -85,6 +85,7 @@
 				- 定点/浮点Max
 				- 定点/浮点Min
 				- 定点/浮点Mean
+				- 定点/浮点Average
 				- 定点/浮点RMS
 				- 定点/浮点STD
 	* **itrvision**:视觉库项目
