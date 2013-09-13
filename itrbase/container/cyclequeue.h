@@ -13,7 +13,7 @@ class CycleQueue
         CycleQueue(int init);
         bool InsertCycleQueue(T e);
         bool DelCycleQueue();
-        inline T operator[] (int index);
+        inline T operator[] (int index) const;
         int CycleQueueLength();
 
     private:
@@ -64,8 +64,8 @@ bool CycleQueue<T>::DelCycleQueue()
 }
 
 template<typename T>
-inline T operator[](int index) const
+inline T CycleQueue<T>::operator[](int index) const
 {
-    return CycleQueue[index];
+    return base[index];
 }
 
