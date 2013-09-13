@@ -26,22 +26,61 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * itrbase.h
+ * memoryoperation.cc
  *  Created on: 2013-9-13
  *      Author: buaa
  */
 
-#ifndef ITRBASE_H_
-#define ITRBASE_H_
+#include "typedef.h"
+#include "memoryoperation.h"
+#include <stddef.h>
 
-#include "platform/platform.h"
-#include "math/math.h"
-#include "container/container.h"
+U8* exMomoryOffset = NULL;
 
-/*
-#include "../platform/platform.h"
-#include "../math/math.h"
-#include "../container/container.h"
-*/
+void* ExMemoryAlloc(S32 Length)
+{
+    if(exMomoryOffset+Length>EXMEMORY_Length)
+    {
+        return NULL;
+    }
+    else
+    {
+        U8* temp=exMomoryOffset;
+        exMomoryOffset+=Length;
+        return static_cast<void*>(temp+EXMEMORY_ORIGINATE);
+    }
+}
 
-#endif // ITRBASE_H_
+void MemoryCopy(void* Destination,void* Source,S32 Length)
+{
+    U8* dst=static_cast<U8*>(Destination);
+    U8* sou=static_cast<U8*>(Source);
+    for(int i=0;i<Length;i++)
+    {
+        dst[i]=sou[i];
+    }
+}
+
+bool MemoryComp(void* SourceA,void* SourceB,S32 Length)
+{
+    U8* souA=static_cast<U8*>(SourceA);
+    U8* souB=static_cast<U8*>(SourceB);
+    for(int i=0;i<Length;i++)
+    {
+        if(souA[i]!=souB[i])
+            return false;
+    }
+    return true;
+}
+
+void MemoryClear(void* Destination,S32 Length)
+{
+
+}
+
+void MemorySwap(void* SourceA,void* SourceB,S32 Length)
+{
+
+}
+
+

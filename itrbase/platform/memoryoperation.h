@@ -26,22 +26,22 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * itrbase.h
+ * memoryoperation.h
  *  Created on: 2013-9-13
  *      Author: buaa
  */
 
-#ifndef ITRBASE_H_
-#define ITRBASE_H_
+#ifndef MEMORYOPERATION_H_
+#define MEMORYOPERATION_H_
 
-#include "platform/platform.h"
-#include "math/math.h"
-#include "container/container.h"
+#define EXMEMORY_ORIGINATE 0x00000000
+#define EXMEMORY_Length 0
 
-/*
-#include "../platform/platform.h"
-#include "../math/math.h"
-#include "../container/container.h"
-*/
+void* ExMemoryAlloc(S32 Length);
 
-#endif // ITRBASE_H_
+void MemoryCopy(void* Destination,void* Source,S32 Length);
+void MemoryComp(void* SourceA,void* SourceB,S32 Length);
+void MemoryClear(void* Destination,S32 Length);
+void MemorySwap(void* SourceA,void* SourceB,S32 Length);
+
+#endif // MEMORYOPERATION_H_

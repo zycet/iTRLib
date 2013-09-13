@@ -26,22 +26,14 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * itrbase.h
+ * container.h
  *  Created on: 2013-9-13
  *      Author: buaa
  */
 
-#ifndef ITRBASE_H_
-#define ITRBASE_H_
+#ifndef CONTAINER_H_
+#define CONTAINER_H_
 
-#include "platform/platform.h"
-#include "math/math.h"
-#include "container/container.h"
+#include "cyclequeue.h"
 
-/*
-#include "../platform/platform.h"
-#include "../math/math.h"
-#include "../container/container.h"
-*/
-
-#endif // ITRBASE_H_
+#endif // CONTAINER_H_
