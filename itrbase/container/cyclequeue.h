@@ -11,12 +11,9 @@ class CycleQueue
 {
     public:
         CycleQueue(int init);
-        bool CycleQueueEmpty() const;
-        void CycleQueueTraverse() const;
-
         bool InsertCycleQueue(T e);
         bool DelCycleQueue();
-        bool RandomReadCycleQueue();
+        inline T operator[] (int index);
         int CycleQueueLength();
 
     private:
@@ -64,5 +61,11 @@ bool CycleQueue<T>::DelCycleQueue()
     }
     front = (front + 1) % size;
     return true;
+}
+
+template<typename T>
+inline T operator[](int index) const
+{
+    return CycleQueue[index];
 }
 
