@@ -34,14 +34,17 @@
  *      Author: buaa
  */
 
+#include "itrbase.h"
+
 void TestAssistMacro()
 {
-
+    int kkk=123;
+    PRINT_INFO(kkk);
 }
 
 int main()
 {
-
+    TestAssistMacro();
     return 0;
 }
 
