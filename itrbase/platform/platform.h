@@ -37,5 +37,6 @@
 #include "typedef.h"
 #include "assistmacro.h"
 #include "debugsupport.h"
+#include "memoryoperation.h"
 
 #endif // PLATFORM_H_
