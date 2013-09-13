@@ -26,37 +26,15 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * numerical.h
- *  Created on: 2013年9月9日
- *      Author: ZYC
+ * math.h
+ *  Created on: 2013-9-13
+ *      Author: buaa
  */
 
-#ifndef NUMERICAL_H_
-#define NUMERICAL_H_
+#ifndef MATH_H_
+#define MATH_H_
 
-#include "../platform/platform.h"
+#include "numerical.h"
+#include "calculate.h"
 
-class Numerical
-{
-    public:
-        Numerical();
-        virtual ~Numerical();
-        virtual bool Sin(F32 Source,F32& Result);
-        virtual bool Cos(F32 Source,F32& Result);
-        virtual bool SinCos(F32 Source,F32& ResultSin,F32& ResultCos);
-        virtual bool Tan(F32 Source,F32& Result);
-        virtual bool Asin(F32 Source,F32& Result);
-        virtual bool Acos(F32 Source,F32& Result);
-        virtual bool Atan(F32 Source,F32& Result);
-        virtual bool Atan2(F32 SourceA,F32 SourceB,F32& Result);
-        virtual bool Sqrt(F32 Source,F32& Result);
-        virtual bool InvSqrt(F32 Source,F32& Result);
-        virtual bool Exp(F32 Source,F32& Result);
-        virtual bool Log(F32 Source,F32& Result);
-        virtual bool Log10(F32 Source,F32& Result);
-        virtual bool Pow(F32 SourceA,F32 SourceB,F32& Result);
-        virtual bool Floor(F32 Source,F32& Result);
-        virtual bool Mod(S32 SourceA,S32 SourceB,S32& Result);
-};
-
-#endif // NUMERICAL_H_
+#endif // MATH_H_

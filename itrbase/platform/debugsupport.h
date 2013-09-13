@@ -12,6 +12,9 @@
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
  *    distribution.
+ * 3. Neither the name PX4 nor the names of its contributors may be
+ *    used to endorse or promote products derived from this software
+ *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,37 +29,33 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * numerical.h
- *  Created on: 2013年9月9日
- *      Author: ZYC
+ * debugsupport.h
+ *  Created on: 2013-9-12
+ *      Author: buaa
  */
 
-#ifndef NUMERICAL_H_
-#define NUMERICAL_H_
+#ifndef DEBUGSUPPORT_H_
+#define DEBUGSUPPORT_H_
 
-#include "../platform/platform.h"
+#include <assert.h>
+#include <iostream>
 
-class Numerical
-{
-    public:
-        Numerical();
-        virtual ~Numerical();
-        virtual bool Sin(F32 Source,F32& Result);
-        virtual bool Cos(F32 Source,F32& Result);
-        virtual bool SinCos(F32 Source,F32& ResultSin,F32& ResultCos);
-        virtual bool Tan(F32 Source,F32& Result);
-        virtual bool Asin(F32 Source,F32& Result);
-        virtual bool Acos(F32 Source,F32& Result);
-        virtual bool Atan(F32 Source,F32& Result);
-        virtual bool Atan2(F32 SourceA,F32 SourceB,F32& Result);
-        virtual bool Sqrt(F32 Source,F32& Result);
-        virtual bool InvSqrt(F32 Source,F32& Result);
-        virtual bool Exp(F32 Source,F32& Result);
-        virtual bool Log(F32 Source,F32& Result);
-        virtual bool Log10(F32 Source,F32& Result);
-        virtual bool Pow(F32 SourceA,F32 SourceB,F32& Result);
-        virtual bool Floor(F32 Source,F32& Result);
-        virtual bool Mod(S32 SourceA,S32 SourceB,S32& Result);
-};
+#define PRINT_INFO(x) std::clog<<"["#x" = "<<x<<"]"<<std::endl
+#define PRINT_ERROR(x) std::cerr<<"["#x" = "<<x<<"]"<<std::endl
 
-#endif // NUMERICAL_H_
+#define TRACE_INFO(x) std::clong<<"["<<__FILE__<<":"<<__FUNCTION__<<"():"<<__LINE__<<" "<<x<<std::endl;
+#define TRACE_ERROR(x) std::cerr<<"["<<__FILE__<<":"<<__FUNCTION__<<"():"<<__LINE__<<" "<<x<<std::endl;
+
+#ifdef  NDEBUG
+
+#define PRINT_DEBUG(x)
+#define TRACE_DEBUG(x)
+
+#else
+
+#define PRINT_DEBUG(x) std::cout<<"["#x" = "<<x<<"]"<<std::endl
+#define TRACE_DEBUG(x) std::cout<<"["<<__FILE__<<":"<<__FUNCTION__<<"():"<<__LINE__<<" "<<x<<std::endl;
+
+#endif
+
+#endif // DEBUGSUPPORT_H_

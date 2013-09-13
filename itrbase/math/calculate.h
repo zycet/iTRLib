@@ -34,7 +34,7 @@
 #ifndef CALCULATE_H_
 #define CALCULATE_H_
 
-#include "typedef.h"
+#include "../platform/platform.h"
 #include "numerical.h"
 
 namespace itr_math

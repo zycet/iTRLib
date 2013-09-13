@@ -3,6 +3,7 @@
 	<name>itrbase_test</name>
 	<comment></comment>
 	<projects>
+		<project>itrbase</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

@@ -28,10 +28,7 @@
 							<tool id="cdt.managedbuild.tool.gnu.cpp.compiler.lib.debug.1437206054" name="GCC C++ Compiler" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.lib.debug">
 								<option id="gnu.cpp.compiler.lib.debug.option.optimization.level.1162426430" name="Optimization Level" superClass="gnu.cpp.compiler.lib.debug.option.optimization.level" value="gnu.cpp.compiler.optimization.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.lib.debug.option.debugging.level.682093656" name="Debug Level" superClass="gnu.cpp.compiler.lib.debug.option.debugging.level" value="gnu.cpp.compiler.debugging.level.max" valueType="enumerated"/>
-								<option id="gnu.cpp.compiler.option.include.paths.1248017634" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/math}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/platform}&quot;"/>
-								</option>
+								<option id="gnu.cpp.compiler.option.include.paths.1248017634" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.179896432" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
 							<tool id="cdt.managedbuild.tool.gnu.c.compiler.lib.debug.1057054778" name="GCC C Compiler" superClass="cdt.managedbuild.tool.gnu.c.compiler.lib.debug">
@@ -78,9 +75,8 @@
 								<option id="gnu.cpp.compiler.lib.release.option.optimization.level.1619200197" name="Optimization Level" superClass="gnu.cpp.compiler.lib.release.option.optimization.level" value="gnu.cpp.compiler.optimization.level.most" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.lib.release.option.debugging.level.857391849" name="Debug Level" superClass="gnu.cpp.compiler.lib.release.option.debugging.level" value="gnu.cpp.compiler.debugging.level.none" valueType="enumerated"/>
 								<option id="gnu.cpp.compiler.option.include.paths.543751618" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/math}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/mathstand}&quot;"/>
-									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/${ProjName}/platform}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itrbase/platform}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itrbase/math}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1486977515" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
