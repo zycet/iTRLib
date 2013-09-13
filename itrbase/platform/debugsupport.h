@@ -43,7 +43,7 @@
 #define PRINT_INFO(x) std::clog<<"["#x" = "<<x<<"]"<<std::endl
 #define PRINT_ERROR(x) std::cerr<<"["#x" = "<<x<<"]"<<std::endl
 
-#define TRACE_INFO(x) std::clong<<"["<<__FILE__<<":"<<__FUNCTION__<<"():"<<__LINE__<<" "<<x<<std::endl;
+#define TRACE_INFO(x) std::clog<<"["<<__FILE__<<":"<<__FUNCTION__<<"():"<<__LINE__<<" "<<x<<std::endl;
 #define TRACE_ERROR(x) std::cerr<<"["<<__FILE__<<":"<<__FUNCTION__<<"():"<<__LINE__<<" "<<x<<std::endl;
 
 #ifdef  NDEBUG
