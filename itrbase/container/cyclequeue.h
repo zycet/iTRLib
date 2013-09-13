@@ -64,8 +64,8 @@ bool CycleQueue<T>::DelCycleQueue()
 }
 
 template<typename T>
-inline T operator[](int index) const
+inline T CycleQueue<T>::operator[](int index)
 {
-    return CycleQueue[index];
+    return base[(rear + index) % size];
 }
 
