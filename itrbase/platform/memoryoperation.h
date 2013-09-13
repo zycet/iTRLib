@@ -34,13 +34,13 @@
 #ifndef MEMORYOPERATION_H_
 #define MEMORYOPERATION_H_
 
-#define EXMEMORY_ORIGINATE 0x00000000
+#define EXMEMORY_ORIGINATE 0xFFFFFFFF
 #define EXMEMORY_Length 0
 
 void* ExMemoryAlloc(S32 Length);
 
 void MemoryCopy(void* Destination,void* Source,S32 Length);
-bool MemoryComp(void* SourceA,void* SourceB,S32 Length);
+bool MemoryCompare(void* SourceA,void* SourceB,S32 Length);
 void MemoryClear(void* Destination,S32 Length);
 void MemorySwap(void* SourceA,void* SourceB,S32 Length);
 
