@@ -38,12 +38,19 @@
 
 void TestAssistMacro()
 {
-    int kkk=123;
+    int kkk;
+    kkk=0;
+    PRINT_DEBUG(kkk);
+    kkk=1;
     PRINT_INFO(kkk);
+    kkk=2;
+    PRINT_ERROR(kkk);
 }
 
 int main()
 {
+    int a=4;
+    assert(a==5);
     TestAssistMacro();
     return 0;
 }

@@ -39,48 +39,59 @@ U8* exMomoryOffset = NULL;
 
 void* ExMemoryAlloc(S32 Length)
 {
-    if(exMomoryOffset+Length>EXMEMORY_Length)
+    if (exMomoryOffset + Length > EXMEMORY_Length)
     {
         return NULL;
     }
     else
     {
-        U8* temp=exMomoryOffset;
-        exMomoryOffset+=Length;
-        return static_cast<void*>(temp+EXMEMORY_ORIGINATE);
+        U8* temp = exMomoryOffset;
+        exMomoryOffset += Length;
+        return static_cast<void*>(temp + EXMEMORY_ORIGINATE);
     }
 }
 
-void MemoryCopy(void* Destination,void* Source,S32 Length)
+void MemoryCopy(void* Destination, void* Source, S32 Length)
 {
-    U8* dst=static_cast<U8*>(Destination);
-    U8* sou=static_cast<U8*>(Source);
-    for(int i=0;i<Length;i++)
+    U8* dst = static_cast<U8*>(Destination);
+    U8* sou = static_cast<U8*>(Source);
+    for (int i = 0; i < Length; i++)
     {
-        dst[i]=sou[i];
+        dst[i] = sou[i];
     }
 }
 
-bool MemoryComp(void* SourceA,void* SourceB,S32 Length)
+bool MemoryComp(void* SourceA, void* SourceB, S32 Length)
 {
-    U8* souA=static_cast<U8*>(SourceA);
-    U8* souB=static_cast<U8*>(SourceB);
-    for(int i=0;i<Length;i++)
+    U8* souA = static_cast<U8*>(SourceA);
+    U8* souB = static_cast<U8*>(SourceB);
+    for (int i = 0; i < Length; i++)
     {
-        if(souA[i]!=souB[i])
+        if (souA[i] != souB[i])
             return false;
     }
     return true;
 }
 
-void MemoryClear(void* Destination,S32 Length)
+void MemoryClear(void* Destination, S32 Length)
 {
-
+    U8* dst = static_cast<U8*>(Destination);
+    for (int i = 0; i < Length; i++)
+    {
+        dst[i] = 0;
+    }
 }
 
-void MemorySwap(void* SourceA,void* SourceB,S32 Length)
+void MemorySwap(void* SourceA, void* SourceB, S32 Length)
 {
-
+    U8* souA = static_cast<U8*>(SourceA);
+    U8* souB = static_cast<U8*>(SourceB);
+    U8 temp;
+    for (int i = 0; i < Length; i++)
+    {
+        temp=souA[i];
+        souA[i]=souB[i];
+        souB[i]=temp;
+    }
 }
-
 
