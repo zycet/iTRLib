@@ -40,7 +40,7 @@
 void* ExMemoryAlloc(S32 Length);
 
 void MemoryCopy(void* Destination,void* Source,S32 Length);
-void MemoryComp(void* SourceA,void* SourceB,S32 Length);
+bool MemoryComp(void* SourceA,void* SourceB,S32 Length);
 void MemoryClear(void* Destination,S32 Length);
 void MemorySwap(void* SourceA,void* SourceB,S32 Length);
 
