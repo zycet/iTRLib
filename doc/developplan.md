@@ -64,7 +64,7 @@
 				- 求逆
 				- 加减
 				- 转置
-		 * **numerical**:数值计算
+			+ numerical:数值计算
 				- sin
 				- cos
 				- sincos
@@ -81,7 +81,7 @@
 				- pow
 				- floor
 				- mod
-		 * **statistics**:统计计算
+			+ statistics:统计计算
 				- 定点/浮点Max
 				- 定点/浮点Min
 				- 定点/浮点Mean

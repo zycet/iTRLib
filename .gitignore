@@ -11,5 +11,10 @@
 *.lai
 *.la
 *.a
+
+# Config file
 .metadata/
+
+#Temp file
+*.*~
 
