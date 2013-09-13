@@ -16,6 +16,7 @@ class CycleQueue
 
         bool InsertCycleQueue(T e);
         bool DelCycleQueue();
+        bool RandomReadCycleQueue();
         int CycleQueueLength();
 
     private:
@@ -30,8 +31,6 @@ CycleQueue<T>::CycleQueue(int init)
 {
     size = init;
     base = new T[size];
-    if (!base)
-        return (1);
     front = rear = 0;
 }
 
