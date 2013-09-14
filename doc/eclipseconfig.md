@@ -9,7 +9,7 @@
   
   ![snapshot5](https://f.cloud.github.com/assets/5391344/1139304/d2c84a72-1c88-11e3-8d7a-bdad653aa720.png)
   
-  Name Style, Code之下到6项相关属性配置
+  Name Style, Code之下的6项相关属性配置
   
   ![snapshot6](https://f.cloud.github.com/assets/5391344/1139338/6d3e6ef6-1c89-11e3-8ecb-54d5d5555c91.png)
   ![snapshot7](https://f.cloud.github.com/assets/5391344/1139340/6e0dc746-1c89-11e3-88db-1c9701435ac8.png)
@@ -17,6 +17,12 @@
   ![snapshot9](https://f.cloud.github.com/assets/5391344/1139344/74b8f4ee-1c89-11e3-9400-e6e10e003caa.png)  
   ![snapshot10](https://f.cloud.github.com/assets/5391344/1139345/78c44d7c-1c89-11e3-81f0-cba5236f63a4.png)
   ![snapshot11](https://f.cloud.github.com/assets/5391344/1139346/79ef24d8-1c89-11e3-9ca9-9b01ccb4bf4a.png)
+  
+  Name Style, Files下的3项相关属性配置
+  ![snapshot13](https://f.cloud.github.com/assets/5391344/1143528/c3b9d882-1d43-11e3-9bc5-a5bb5ae795ce.png)
+  ![snapshot14](https://f.cloud.github.com/assets/5391344/1143530/c416402c-1d43-11e3-9c0f-bd7e292f3212.png) 
+  ![snapshot15](https://f.cloud.github.com/assets/5391344/1143529/c3f1e286-1d43-11e3-986d-d40c46b3ac36.png)
+
 
 2. Workspace配置
   
