@@ -39,18 +39,19 @@
 void TestAssistMacro()
 {
     //AS Type
-    U8 data[4]={0,1,2,3};
-    U16 u16=ASU16(&data[0]);
+    U8 data[4] =
+    { 0, 1, 2, 3 };
+    U16 u16 = ASU16(&data[0]);
     assert(u16==(0*1+1*256));
-    u16=ASU16(&data[2]);
+    u16 = ASU16(&data[2]);
     assert(u16==(2*1+3*256));
 
     //Bit Test
-    U32 bitTest=0;
+    U32 bitTest = 0;
     assert(IS_BIT_TRUE(bitTest,0)==false);
-    bitTest=SET_BIT_TRUE(bitTest,0);
+    bitTest = SET_BIT_TRUE(bitTest,0);
     assert(IS_BIT_TRUE(bitTest,0)==true);
-    bitTest=CLEAR_BIT_TRUE(bitTest,0);
+    bitTest = CLEAR_BIT_TRUE(bitTest,0);
     assert(IS_BIT_TRUE(bitTest,0)==false);
 
     //Range
@@ -123,22 +124,33 @@ void TestMemoryOperation()
 void TestCycleQueue()
 {
     S32 t;
-    itr_container::CycleQueue<S32> cycleQueue=itr_container::CycleQueue<S32>(4);
+    itr_container::CycleQueue<S32> cycleQueue = itr_container::CycleQueue<S32>(4);
     cycleQueue.Insert(1);
     cycleQueue.Insert(2);
     cycleQueue.Insert(3);
     cycleQueue.Insert(4);
     cycleQueue.Insert(5);
     cycleQueue.Insert(6);
+    assert(cycleQueue[0]==3);
+    assert(cycleQueue[1]==4);
+    assert(cycleQueue[2]==5);
+    assert(cycleQueue[3]==6);
     cycleQueue.Fetch(t);
-    assert(t==2);
+    assert(t==3);
+    cycleQueue.Fetch(t);
+    assert(t==4);
+    cycleQueue.Fetch(t);
+    assert(t==5);
+    cycleQueue.Fetch(t);
+    assert(t==6);
+    assert(cycleQueue.Fetch(t)==false);
 }
 
 int main()
 {
-    //TestAssistMacro();
-    //TestDebugSupport();
-    //TestMemoryOperation();
+    TestAssistMacro();
+    TestDebugSupport();
+    TestMemoryOperation();
     TestCycleQueue();
 
     return 0;
