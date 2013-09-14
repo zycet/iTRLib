@@ -123,22 +123,24 @@ void TestMemoryOperation()
 void TestCycleQueue()
 {
     S32 t;
-    itr_container::CycleQueue<S32> cycleQueue=itr_container::CycleQueue<S32>(5);
-    cycleQueue.InsertCycleQueue(1);
-    cycleQueue.InsertCycleQueue(2);
-    cycleQueue.InsertCycleQueue(3);
-    cycleQueue.InsertCycleQueue(4);
-    cycleQueue.InsertCycleQueue(5);
-    cycleQueue.FetchCycleQueue(t);
-    assert(t==4);
+    itr_container::CycleQueue<S32> cycleQueue=itr_container::CycleQueue<S32>(4);
+    cycleQueue.Insert(1);
+    cycleQueue.Insert(2);
+    cycleQueue.Insert(3);
+    cycleQueue.Insert(4);
+    cycleQueue.Insert(5);
+    cycleQueue.Insert(6);
+    cycleQueue.Fetch(t);
+    assert(t==2);
 }
 
 int main()
 {
-    TestAssistMacro();
+    //TestAssistMacro();
     //TestDebugSupport();
-    TestMemoryOperation();
+    //TestMemoryOperation();
     TestCycleQueue();
+
     return 0;
 }
 
