@@ -10,67 +10,83 @@ namespace itr_container
     class CycleQueue
     {
         public:
-            CycleQueue(int init);
-            void InsertCycleQueue(T e);
-            bool FetchCycleQueue(T& Item);
-            inline T operator[](int index);
-            int CycleQueueLength();
+            CycleQueue(S32 Capacity);
+            void Insert(T Item);
+            BOOL Fetch(T& Item);
+            inline T operator[](S32 Index);
+            S32 GetLength();
+            S32 GetCapacity();
 
         private:
-            int size;
-            int front;
-            int rear;
+            S32 capacity;
+            S32 front;
+            S32 length;
             T *base;
+            void AddOne();
     };
 
     template<typename T>
-    CycleQueue<T>::CycleQueue(int init)
+    CycleQueue<T>::CycleQueue(S32 Capacity)
     {
-        size = init;
-        base = new T[size];
-        front = rear = 0;
+        base = new T[Capacity];
+        capacity = Capacity;
+        length = 0;
+        front = 0;
     }
 
     template<typename T>
-    int CycleQueue<T>::CycleQueueLength()
+    S32 CycleQueue<T>::GetLength()
     {
-        return ((rear - front + size + 1) % size);
+        return length;
     }
 
     template<typename T>
-    void CycleQueue<T>::InsertCycleQueue(T e)
+    S32 CycleQueue<T>::GetCapacity()
     {
-        if ((rear + 1) % size == front)
+        return capacity;
+    }
+
+    template<typename T>
+    void CycleQueue<T>::AddOne()
+    {
+        front++;
+        front=front%capacity;
+    }
+
+    template<typename T>
+    void CycleQueue<T>::Insert(T Item)
+    {
+        S32 t=(front+length)%capacity;
+        base[t]=Item;
+        if(length==capacity)
         {
-            front = (front + 1) % size;
-            base[rear] = e;
-            rear = (rear + 1) % size;
+            AddOne();
         }
         else
         {
-            base[rear] = e;
-            rear = (rear + 1) % size;
+            length++;
         }
     }
 
     template<typename T>
-    bool CycleQueue<T>::FetchCycleQueue(T& Item)
+    BOOL CycleQueue<T>::Fetch(T& Item)
     {
-        if ((front - rear)%size==0)
+        if (length>0)
+        {
+            Item = base[front];
+            AddOne();
+            length--;
+            return true;
+        }
+        else
         {
             return false;
         }
-        else
-        {
-            Item=base[front % size];
-            front = (front + 1) % size;
-            return true;
-        }
     }
 
     template<typename T>
-    inline T CycleQueue<T>::operator[](int index)
+    inline T CycleQueue<T>::operator[](S32 Index)
     {
-        return base[(front + index) % size];
+        return base[(front + Index) % capacity];
     }
 }

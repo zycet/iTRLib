@@ -12,5 +12,6 @@ typedef unsigned short U16;
 typedef signed short S16;
 typedef unsigned long long U64;
 typedef signed long long S64;
+typedef unsigned char BOOL;
 
 #endif
