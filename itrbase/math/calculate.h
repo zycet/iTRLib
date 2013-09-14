@@ -39,7 +39,6 @@
 
 namespace itr_math
 {
-
     class Calculate
     {
         public:

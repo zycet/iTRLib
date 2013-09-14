@@ -120,11 +120,25 @@ void TestMemoryOperation()
     TRACE_INFO("TestMemoryOperation() OK");
 }
 
+void TestCycleQueue()
+{
+    S32 t;
+    itr_container::CycleQueue<S32> cycleQueue=itr_container::CycleQueue<S32>(5);
+    cycleQueue.InsertCycleQueue(1);
+    cycleQueue.InsertCycleQueue(2);
+    cycleQueue.InsertCycleQueue(3);
+    cycleQueue.InsertCycleQueue(4);
+    cycleQueue.InsertCycleQueue(5);
+    cycleQueue.FetchCycleQueue(t);
+    assert(t==4);
+}
+
 int main()
 {
     TestAssistMacro();
     //TestDebugSupport();
     TestMemoryOperation();
+    TestCycleQueue();
     return 0;
 }
 
