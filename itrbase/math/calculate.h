@@ -65,6 +65,7 @@ namespace itr_math
             virtual void Product(S32* SourceA, S32 Length, S32& Result);
             virtual void Product(F32* SourceA, S32 Length, F32& Result);
             Calculate(const Numerical& numericalObj);
+            Calculate();
             virtual ~Calculate();
         private:
             Numerical numericalObj;

@@ -36,15 +36,26 @@
 
 #ifndef STATISTICS_H_
 #define STATISTICS_H_
-
+#include "../platform/platform.h"
+#include "numerical.h"
+#include "calculate.h"
 namespace itr_math
 {
 
     class Statistics
     {
         public:
+            virtual bool Max(S32* Source, S32 Length, S32& Result);
+            virtual bool Max(F32* Source, F32 Length, F32& Result);
+            virtual bool Min(S32* Source, S32 Length, S32& Result);
+            virtual bool Min(F32* Source, F32 Length, F32& Result);
+
+            Statistics(const Numerical& numericalObj,const Calculate& calculateObj);
             Statistics();
             virtual ~Statistics();
+        private:
+            Numerical numericalObj;
+            Calculate calculateObj;
     };
 
 } // namespace itr_math

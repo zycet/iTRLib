@@ -39,10 +39,10 @@
 namespace itr_math
 {
 
-    Statistics::Statistics()
+    Statistics::Statistics(const Numerical& numericalObj, const Calculate& calculateObj)
     {
-        // TODO Auto-generated constructor stub
-
+        this->numericalObj = numericalObj;
+        this->calculateObj = calculateObj;
     }
 
     Statistics::~Statistics()
@@ -50,4 +50,25 @@ namespace itr_math
         // TODO Auto-generated destructor stub
     }
 
+    bool Statistics::Max(S32* Source, S32 Length, S32& Result)
+    {
+        Result = Source[0];
+        for (S32 i = 0; i <= Length; i++)
+        {
+            if (Result <= Source[i])
+                Result = Source[i];
+        }
+        return true;
+    }
+
+    bool Statistics::Max(F32* Source, F32 Length, F32& Result)
+    {
+        Result = Source[0];
+        for (S32 i = 0; i <= Length; i++)
+        {
+            if (Result <= Source[i])
+                Result = Source[i];
+        }
+        return true;
+    }
 } // namespace itr_math
