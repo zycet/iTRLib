@@ -53,7 +53,7 @@ namespace itr_math
     bool Statistics::Max(S32* Source, S32 Length, S32& Result)
     {
         Result = Source[0];
-        for (S32 i = 0; i <= Length; i++)
+        for (S32 i = 0; i < Length; i++)
         {
             if (Result <= Source[i])
                 Result = Source[i];
@@ -64,7 +64,7 @@ namespace itr_math
     bool Statistics::Max(F32* Source, F32 Length, F32& Result)
     {
         Result = Source[0];
-        for (S32 i = 0; i <= Length; i++)
+        for (S32 i = 0; i < Length; i++)
         {
             if (Result <= Source[i])
                 Result = Source[i];

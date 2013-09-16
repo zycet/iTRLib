@@ -1,7 +1,7 @@
 /*
  * platform_test.h
  *
- *  Created on: 2013Äê9ÔÂ15ÈÕ
+ *  Created on: 2013ï¿½ï¿½9ï¿½ï¿½15ï¿½ï¿½
  *      Author: ZYC
  */
 
@@ -11,5 +11,8 @@
 void TestAssistMacro();
 void TestDebugSupport();
 void TestMemoryOperation();
+void TestCalculate();
+void TestNumerical();
+void TestStatistics();
 
 #endif /* PLATFORM_TEST_H_ */

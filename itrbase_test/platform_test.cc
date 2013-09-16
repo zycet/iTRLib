@@ -1,7 +1,7 @@
 /*
  * platform_test.cc
  *
- *  Created on: 2013Äê9ÔÂ15ÈÕ
+ *  Created on: 2013ï¿½ï¿½9ï¿½ï¿½15ï¿½ï¿½
  *      Author: ZYC
  */
 
@@ -92,4 +92,34 @@ void TestMemoryOperation()
     TRACE_INFO("TestMemoryOperation() OK");
 }
 
+void TestCalculate()
+{
+    /*
+    S32 SourceA[50];
+    S32 SourceB[50];
+    F32 SourceC[50];
+    F32 SourceD[50];
+    S32 Length = 50;
+    S32 AddAns = 2450;
+    F32 AddAnsF = 245.0;
+    for (S32 i = 0; i < Length; i++)
+    {
+        SourceA[i] = i;
+        SourceB[i] = i;
+        SourceC[i] = i / 10;
+        SourceD[i] = i / 10;
+    }
 
+    //assert(Calculate::);
+     * */
+}
+
+void TestNumerical()
+{
+
+}
+
+void TestStatistics()
+{
+//TODO:
+}
