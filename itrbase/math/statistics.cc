@@ -39,7 +39,7 @@
 
 namespace itr_math
 {
-    Statistics::Statistics(Numerical* numericalObj,Calculate* calculateObj)
+    Statistics::Statistics(Numerical* numericalObj, Calculate* calculateObj)
     {
         this->numericalObj = numericalObj;
         this->calculateObj = calculateObj;
@@ -69,6 +69,16 @@ namespace itr_math
             if (Result <= Source[i])
                 Result = Source[i];
         }
+        return true;
+    }
+
+    bool Statistics::Min(S32* Source, S32 Length, S32& Result)
+    {
+        return true;
+    }
+
+    bool Statistics::Min(F32* Source, F32 Length, F32& Result)
+    {
         return true;
     }
 } // namespace itr_math

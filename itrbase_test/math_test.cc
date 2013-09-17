@@ -27,9 +27,54 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * math_test.cc
- *  Created on: 2013Äê9ÔÂ17ÈÕ
+ *  Created on: 2013å¹´9æœˆ17æ—¥
  *      Author: ZYC
  */
 
 #include "math_test.h"
+#include "itrbase.h"
 
+void TestCalculate()
+{
+    //Objects
+    itr_math::Numerical numericalObj;
+    itr_math::Calculate calculateObj(&numericalObj);
+    itr_math::Statistics statisticsObj(&numericalObj,&calculateObj);
+
+    //Data
+    S32 SourceS32A[50];
+    S32 SourceS32B[50];
+    S32 ResultS32[50];
+    F32 SourceF32A[50];
+    F32 SourceF32B[50];
+    F32 ResultF32A[50];
+    F32 ResultF32;
+    S32 Length = 50;
+    S32 AddAns = 2450;
+    F32 AddAnsF = 245.0;
+    //Init
+    for (S32 i = 0; i < Length; i++)
+    {
+        SourceS32A[i] = i;
+        SourceS32B[i] = i;
+        SourceF32A[i] = i;
+        SourceF32A[i] = i;
+    }
+    //Add
+    calculateObj.Add(SourceF32A,SourceF32B,Length,ResultF32A);
+    calculateObj.Sum(ResultF32A,Length,ResultF32);
+    assert(ResultF32==2450);
+    //Sub...
+
+    TRACE_INFO("OK TestCalculate()");
+}
+
+void TestNumerical()
+{
+
+}
+
+void TestStatistics()
+{
+//TODO:
+}

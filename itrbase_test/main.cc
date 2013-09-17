@@ -37,14 +37,23 @@
 #include "itrbase.h"
 #include "platform_test.h"
 #include "containertest.h"
+#include "math_test.h"
 
 int main()
 {
+    //Platform
     TestAssistMacro();
     TestDebugSupport();
     TestMemoryOperation();
+    TestTypedef();
+    //Container
     TestCycleQueue();
-
+    //Math
+    TestCalculate();
+    TestNumerical();
+    TestStatistics();
+    //Finish
+    TRACE_INFO("OK All");
     return 0;
 }
 

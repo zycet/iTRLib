@@ -34,8 +34,8 @@
 #ifndef MATH_TEST_H_
 #define MATH_TEST_H_
 
-class math_test
-{
-};
+void TestCalculate();
+void TestNumerical();
+void TestStatistics();
 
 #endif // MATH_TEST_H_

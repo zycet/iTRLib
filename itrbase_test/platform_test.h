@@ -11,8 +11,6 @@
 void TestAssistMacro();
 void TestDebugSupport();
 void TestMemoryOperation();
-void TestCalculate();
-void TestNumerical();
-void TestStatistics();
+void TestTypedef();
 
 #endif /* PLATFORM_TEST_H_ */
