@@ -31,11 +31,12 @@
  *      Author: ZYC
  */
 
-#include "calculate.h"
+#include "../platform/platform.h"
+#include "math.h"
 
 namespace itr_math
 {
-    Calculate::Calculate(const Numerical& numericalObj)
+    Calculate::Calculate(Numerical* numericalObj)
     {
         this->numericalObj = numericalObj;
     }
@@ -147,10 +148,10 @@ namespace itr_math
         {
             temp += SourceA[i] * SourceA[i];
         }
-        temp = 1 / numericalObj.Sqrt(temp, temp);
-        for(int i=0;i<Length;i++)
+        temp = 1 / numericalObj->Sqrt(temp, temp);
+        for (int i = 0; i < Length; i++)
         {
-            Result[i]=SourceA[i]*temp;
+            Result[i] = SourceA[i] * temp;
         }
     }
 
@@ -161,7 +162,7 @@ namespace itr_math
         {
             temp += SourceA[i] * SourceA[i];
         }
-        temp = 1 / numericalObj.Sqrt(temp, temp);
+        temp = 1 / numericalObj->Sqrt(temp, temp);
         Scale(SourceA, temp, Length, Result);
     }
 

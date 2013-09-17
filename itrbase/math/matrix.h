@@ -37,9 +37,11 @@
 #ifndef MATRIX_H_
 #define MATRIX_H_
 
+#include "../platform/platform.h"
+#include "math.h"
+
 namespace itr_math
 {
-
     class Matrix
     {
         public:
@@ -48,4 +50,5 @@ namespace itr_math
     };
 
 } // namespace itr_math
+
 #endif // MATRIX_H_

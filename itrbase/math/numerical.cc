@@ -27,115 +27,119 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * numerical.cc
- *  Created on: 2013年9月9日
+ *  Created on: 2013骞�鏈�鏃�
  *      Author: ZYC
  */
 
-#include "numerical.h"
+#include "../platform/platform.h"
+#include "math.h"
 #include <math.h>
 
-Numerical::Numerical()
+namespace itr_math
 {
-    // TODO Auto-generated constructor stub
-}
+    Numerical::Numerical()
+    {
+        // TODO Auto-generated constructor stub
+    }
 
-Numerical::~Numerical()
-{
-    // TODO Auto-generated destructor stub
-}
+    Numerical::~Numerical()
+    {
+        // TODO Auto-generated destructor stub
+    }
 
-bool Numerical::Sin(F32 Source, F32& Result)
-{
-    Result = sin(Source);
-    return true;
-}
+    bool Numerical::Sin(F32 Source, F32& Result)
+    {
+        Result = sin(Source);
+        return true;
+    }
 
-bool Numerical::Cos(F32 Source, F32& Result)
-{
-    Result = sin(Source);
-    return true;
-}
+    bool Numerical::Cos(F32 Source, F32& Result)
+    {
+        Result = sin(Source);
+        return true;
+    }
 
-bool Numerical::SinCos(F32 Source, F32& ResultSin, F32& ResultCos)
-{
-    ResultSin = sin(Source);
-    ResultCos = cos(Source);
-    return true;
-}
+    bool Numerical::SinCos(F32 Source, F32& ResultSin, F32& ResultCos)
+    {
+        ResultSin = sin(Source);
+        ResultCos = cos(Source);
+        return true;
+    }
 
-bool Numerical::Tan(F32 Source, F32& Result)
-{
-    Result = tan(Source);
-    return true;
-}
+    bool Numerical::Tan(F32 Source, F32& Result)
+    {
+        Result = tan(Source);
+        return true;
+    }
 
-bool Numerical::Asin(F32 Source, F32& Result)
-{
-    Result = asin(Source);
-    return true;
-}
+    bool Numerical::Asin(F32 Source, F32& Result)
+    {
+        Result = asin(Source);
+        return true;
+    }
 
-bool Numerical::Acos(F32 Source, F32& Result)
-{
-    Result = acos(Source);
-    return true;
-}
+    bool Numerical::Acos(F32 Source, F32& Result)
+    {
+        Result = acos(Source);
+        return true;
+    }
 
-bool Numerical::Atan(F32 Source, F32& Result)
-{
-    Result = atan(Source);
-    return true;
-}
+    bool Numerical::Atan(F32 Source, F32& Result)
+    {
+        Result = atan(Source);
+        return true;
+    }
 
-bool Numerical::Atan2(F32 SourceA, F32 SourceB, F32& Result)
-{
-    Result = atan2(SourceA, SourceB);
-    return true;
-}
+    bool Numerical::Atan2(F32 SourceA, F32 SourceB, F32& Result)
+    {
+        Result = atan2(SourceA, SourceB);
+        return true;
+    }
 
-bool Numerical::Sqrt(F32 Source, F32& Result)
-{
-    Result = sqrt(Source);
-    return true;
-}
+    bool Numerical::Sqrt(F32 Source, F32& Result)
+    {
+        Result = sqrt(Source);
+        return true;
+    }
 
-bool Numerical::InvSqrt(F32 Source, F32& Result)
-{
-    Result = sqrt(Source);
-    Result = 1 / Result;
-    return true;
-}
+    bool Numerical::InvSqrt(F32 Source, F32& Result)
+    {
+        Result = sqrt(Source);
+        Result = 1 / Result;
+        return true;
+    }
 
-bool Numerical::Exp(F32 Source, F32& Result)
-{
-    Result = exp(Source);
-    return true;
-}
+    bool Numerical::Exp(F32 Source, F32& Result)
+    {
+        Result = exp(Source);
+        return true;
+    }
 
-bool Numerical::Log(F32 Source, F32& Result)
-{
-    Result = log(Source);
-    return true;
-}
+    bool Numerical::Log(F32 Source, F32& Result)
+    {
+        Result = log(Source);
+        return true;
+    }
 
-bool Numerical::Log10(F32 Source, F32& Result)
-{
-    Result = log10(Source);
-    return true;
-}
+    bool Numerical::Log10(F32 Source, F32& Result)
+    {
+        Result = log10(Source);
+        return true;
+    }
 
-bool Numerical::Pow(F32 SourceA, F32 SourceB, F32& Result)
-{
-    Result = pow(SourceA, SourceB);
-    return true;
-}
-bool Numerical::Floor(F32 Source, F32& Result)
-{
-    Result = floor(Source);
-    return true;
-}
-bool Numerical::Mod(S32 SourceA, S32 SourceB, S32& Result)
-{
-    Result = SourceA % SourceB;
-    return true;
+    bool Numerical::Pow(F32 SourceA, F32 SourceB, F32& Result)
+    {
+        Result = pow(SourceA, SourceB);
+        return true;
+    }
+    bool Numerical::Floor(F32 Source, F32& Result)
+    {
+        Result = floor(Source);
+        return true;
+    }
+    bool Numerical::Mod(S32 SourceA, S32 SourceB, S32& Result)
+    {
+        Result = SourceA % SourceB;
+        return true;
+    }
 }

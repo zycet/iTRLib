@@ -34,12 +34,12 @@
  *      Author: zhouyi
  */
 
-#include "statistics.h"
+#include "../platform/platform.h"
+#include "math.h"
 
 namespace itr_math
 {
-
-    Statistics::Statistics(const Numerical& numericalObj, const Calculate& calculateObj)
+    Statistics::Statistics(Numerical* numericalObj,Calculate* calculateObj)
     {
         this->numericalObj = numericalObj;
         this->calculateObj = calculateObj;

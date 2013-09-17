@@ -34,11 +34,11 @@
  *      Author: zhouyi
  */
 
-#include "matrix.h"
+#include "../platform/platform.h"
+#include "math.h"
 
 namespace itr_math
 {
-
     Matrix::Matrix()
     {
         // TODO Auto-generated constructor stub
@@ -49,5 +49,4 @@ namespace itr_math
     {
         // TODO Auto-generated destructor stub
     }
-
 } // namespace itr_math

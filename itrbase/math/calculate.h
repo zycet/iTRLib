@@ -35,13 +35,15 @@
 #define CALCULATE_H_
 
 #include "../platform/platform.h"
-#include "numerical.h"
+#include "math.h"
 
 namespace itr_math
 {
     class Calculate
     {
         public:
+            Calculate(Numerical* numericalObj);
+            virtual ~Calculate();
             virtual void Add(S32* SourceA, S32* SourceB, S32 Length, S32* Result);
             virtual void Add(F32* SourceA, F32* SourceB, S32 Length, F32* Result);
             virtual void Sub(S32* SourceA, S32* SourceB, S32 Length, S32* Result);
@@ -64,11 +66,9 @@ namespace itr_math
             virtual void Sum(F32* SourceA, S32 Length, F32& Result);
             virtual void Product(S32* SourceA, S32 Length, S32& Result);
             virtual void Product(F32* SourceA, S32 Length, F32& Result);
-            Calculate(const Numerical& numericalObj);
-            Calculate();
-            virtual ~Calculate();
+
         private:
-            Numerical numericalObj;
+            Numerical* numericalObj;
     };
 
 } // namespace itr_math
