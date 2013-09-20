@@ -37,6 +37,7 @@
 #include "numerical.h"
 #include "calculate.h"
 #include "statistics.h"
+#include "vector.h"
 #include "matrix.h"
 
 #endif // MATH_H_
