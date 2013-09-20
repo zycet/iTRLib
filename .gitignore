@@ -18,3 +18,5 @@
 #Temp file
 *.*~
 
+test/
+RemoteSystemsTempFiles/
