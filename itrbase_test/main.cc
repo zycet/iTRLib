@@ -37,7 +37,7 @@
 #include "itrbase.h"
 #include "platform_test.h"
 #include "containertest.h"
-#include "math_test.h"
+#include "mathtest.h"
 
 int main()
 {
@@ -52,6 +52,7 @@ int main()
     TestCalculate();
     TestNumerical();
     TestStatistics();
+    TestVector();
     //Finish
     TRACE_INFO("OK All");
     return 0;

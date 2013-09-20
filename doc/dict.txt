@@ -5,3 +5,4 @@ col
 mul
 calc
 vec
+inline
