@@ -33,9 +33,11 @@
 
 #include "../platform/platform.h"
 #include "math.h"
+#include <stddef.h>
 
 namespace itr_math
 {
+    Calculate* Vector::calculateObj = NULL;
     /*
      * 初始化维数为Dim的向量(自动分配本地空间)
      */
@@ -59,7 +61,7 @@ namespace itr_math
      */
     Vector::~Vector()
     {
-        if(localData==true)
+        if (localData == true)
         {
             delete data;
         }
@@ -67,42 +69,52 @@ namespace itr_math
 
     void Vector::CopyFrom(S32 Offset, S32 Num, F32* Data)
     {
-        MemoryCopy(data+Offset,Data,Num*sizeof(F32));
+        MemoryCopy(data + Offset, Data, Num * sizeof(F32));
     }
     /*
      * 复制数据至内部
      */
     void Vector::CopyFrom(F32* Data)
     {
-        MemoryCopy(data,Data,dim*sizeof(F32));
+        MemoryCopy(data, Data, dim * sizeof(F32));
     }
     /*
      * 复制指定位置数据到Data
      */
     void Vector::CopyTo(S32 Offset, S32 Num, F32* Data) const
     {
-        MemoryCopy(Data,data+Offset,Num*sizeof(F32));
+        MemoryCopy(Data, data + Offset, Num * sizeof(F32));
     }
     /*
      * 复制数据至Data
      */
     void Vector::CopyTo(F32* Data) const
     {
-        MemoryCopy(Data,data,dim*sizeof(F32));
+        MemoryCopy(Data, data, dim * sizeof(F32));
+    }
+    /*
+     * 向量元素积
+     */
+    void Vector::Product(const Vector& Vec) const
+    {
+        calculateObj->Multi(data, Vec.GetData(), dim, data);
     }
     /*
      * 向量内积
      */
-    F32 Vector::Mul(const Vector& Vec) const
+    F32 Vector::ProductInner(const Vector& Vec) const
     {
-
+        F32 result = 0;
+        calculateObj->Product(data, Vec.GetData(), dim, result);
+        return result;
     }
     /*
      * 向量外积
      */
-    Vector Vector::DotMul(const Vector& Vec) const
+    Vector Vector::ProductOuter(const Vector& Vec) const
     {
-
+        assert(false);
+        return *this;
     }
 
 } // namespace itr_math

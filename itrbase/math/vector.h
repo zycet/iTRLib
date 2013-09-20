@@ -35,19 +35,13 @@
 #define VECTOR_H_
 
 #include "../platform/platform.h"
+#include "math.h"
 
 namespace itr_math
 {
     class Vector
     {
         public:
-            /*
-             * 设置数值计算对象
-             */
-            inline static void SetNumericalObj(Numerical* NumericalObj)
-            {
-                numericalObj = NumericalObj;
-            }
             /*
              * 设置批量计算对象
              */
@@ -77,7 +71,7 @@ namespace itr_math
             /*
              * 返回内部数据地址
              */
-            inline S32 GetData() const
+            inline F32* GetData() const
             {
                 return data;
             }
@@ -100,14 +94,14 @@ namespace itr_math
              */
             inline virtual void Zero()
             {
-
+                calculateObj->Set(data, 0, dim);
             }
             /*
              * 全部设置为指定值
              */
             inline virtual void Set(F32 K)
             {
-
+                calculateObj->Set(data, K, dim);
             }
             /*
              * 复制数据至内部指定位置
@@ -144,42 +138,45 @@ namespace itr_math
              */
             inline virtual void Add(F32 K)
             {
-
+                calculateObj->Offset(data, K, dim, data);
             }
             /*
              * 全部元素乘以K
              */
             inline virtual void Mul(F32 K)
             {
-
+                calculateObj->Scale(data, K, dim, data);
             }
             /*
              * 加上向量Vec(维数需一致)
              */
             inline virtual void Add(const Vector& Vec)
             {
-
+                calculateObj->Add(data, Vec.GetData(), dim, data);
             }
             /*
              * 减去向量Vec(维数需一致)
              */
             inline virtual void Sub(const Vector& Vec)
             {
-
+                calculateObj->Sub(data, Vec.GetData(), dim, data);
             }
+            /*
+             * 向量元素积
+             */
+            virtual void Product(const Vector& Vec) const;
             /*
              * 向量内积
              */
-            inline virtual F32 Mul(const Vector& Vec) const;
+            virtual F32 ProductInner(const Vector& Vec) const;
             /*
              * 向量外积
              */
-            virtual Vector DotMul(const Vector& Vec) const;
+            virtual Vector ProductOuter(const Vector& Vec) const;
         private:
             F32* data;
             S32 dim;
             BOOL localData;
-            static Numerical* numericalObj;
             static Calculate* calculateObj;
     };
 
