@@ -201,6 +201,7 @@ namespace itr_math
 
     void Calculate::Sum(S32* SourceA, S32 Length, S32& Result)
     {
+        Result = 0;
         for (S32 i = 0; i < Length; i++)
         {
             Result += SourceA[i];
@@ -209,24 +210,44 @@ namespace itr_math
 
     void Calculate::Sum(F32* SourceA, S32 Length, F32& Result)
     {
+        Result = 0;
         for (S32 i = 0; i < Length; i++)
         {
             Result += SourceA[i];
         }
     }
-    void Calculate::Product(S32* SourceA, S32 Length, S32& Result)
+
+    void Calculate::Product(S32* SourceA, S32* SourceB, S32 Length, S32& Result)
     {
+        Result = 0;
         for (S32 i = 0; i < Length; i++)
         {
-            Result *= SourceA[i];
+            Result += SourceA[i] * SourceB[i];
         }
     }
 
-    void Calculate::Product(F32* SourceA, S32 Length, F32& Result)
+    void Calculate::Product(F32* SourceA, F32* SourceB, S32 Length, F32& Result)
+    {
+        Result = 0;
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result += SourceA[i] * SourceB[i];
+        }
+    }
+
+    void Calculate::Set(S32* SourceA, S32 Value, S32 Length)
     {
         for (S32 i = 0; i < Length; i++)
         {
-            Result *= SourceA[i];
+            SourceA[i] = Value;
+        }
+    }
+
+    void Calculate::Set(F32* SourceA, F32 Value, S32 Length)
+    {
+        for (S32 i = 0; i < Length; i++)
+        {
+            SourceA[i] = Value;
         }
     }
 } // namespace itr_math

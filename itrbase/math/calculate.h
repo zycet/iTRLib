@@ -64,8 +64,10 @@ namespace itr_math
             virtual void Opposite(F32* SourceA, S32 Length, F32* Result);
             virtual void Sum(S32* SourceA, S32 Length, S32& Result);
             virtual void Sum(F32* SourceA, S32 Length, F32& Result);
-            virtual void Product(S32* SourceA, S32 Length, S32& Result);
-            virtual void Product(F32* SourceA, S32 Length, F32& Result);
+            virtual void Product(S32* SourceA, S32* SourceB, S32 Length, S32& Result);
+            virtual void Product(F32* SourceA, F32* SourceB, S32 Length, F32& Result);
+            virtual void Set(S32* SourceA, S32 Value, S32 Length);
+            virtual void Set(F32* SourceA, F32 Value, S32 Length);
 
         private:
             Numerical* numericalObj;
