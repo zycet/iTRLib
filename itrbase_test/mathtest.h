@@ -34,6 +34,8 @@
 #ifndef MATHTEST_H_
 #define MATHTEST_H_
 
+void TestMathInit();
+void TestMathdeDeinit();
 void TestCalculate();
 void TestNumerical();
 void TestStatistics();

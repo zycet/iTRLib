@@ -34,13 +34,32 @@
 #include "mathtest.h"
 #include "itrbase.h"
 
+itr_math::Numerical* NumericalObj;
+itr_math::Calculate* CalculateObj;
+itr_math::Statistics* StatisticsObj;
+
+void TestMathInit()
+{
+    NumericalObj=new itr_math::Numerical();
+    itr_math::Calculate::SetNumericalObj(NumericalObj);
+    CalculateObj=new itr_math::Calculate();
+    itr_math::Statistics::SetNumericalObj(NumericalObj);
+    itr_math::Statistics::SetCalculateObj(CalculateObj);
+    StatisticsObj=new itr_math::Statistics();
+    itr_math::Vector::SetCalculateObj(CalculateObj);
+    itr_math::Matrix::SetNumericalObj(NumericalObj);
+    itr_math::Matrix::SetCalculateObj(CalculateObj);
+}
+
+void TestMathdeDeinit()
+{
+    delete NumericalObj;
+    delete CalculateObj;
+    delete StatisticsObj;
+}
+
 void TestCalculate()
 {
-    //Objects
-    itr_math::Numerical numericalObj;
-    itr_math::Calculate calculateObj(&numericalObj);
-    itr_math::Statistics statisticsObj(&numericalObj, &calculateObj);
-
     //Data
     S32 SourceS32A[50];
     S32 SourceS32B[50];
@@ -61,8 +80,8 @@ void TestCalculate()
         SourceF32A[i] = i;
     }
     //Add
-    calculateObj.Add(SourceF32A, SourceF32B, Length, ResultF32A);
-    calculateObj.AddSum(ResultF32A, Length, ResultF32);
+    CalculateObj->Add(SourceF32A, SourceF32B, Length, ResultF32A);
+    CalculateObj->AddSum(ResultF32A, Length, ResultF32);
     assert(ResultF32 == 2450);
     //Sub...
 
@@ -81,11 +100,5 @@ void TestStatistics()
 
 void TestVector()
 {
-    //Objects
-    itr_math::Numerical numericalObj;
-    itr_math::Calculate calculateObj(&numericalObj);
-
-    itr_math::Vector::SetCalculateObj(&calculateObj);
-    //itr_math::Vector::calculateObj=&calculateObj;
-    itr_math::Vector v(1);
+    //itr_math::Vector v(3);
 }

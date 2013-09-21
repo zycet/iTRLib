@@ -49,10 +49,12 @@ int main()
     //Container
     TestCycleQueue();
     //Math
-    TestCalculate();
+    TestMathInit();
+    //TestCalculate();
     TestNumerical();
     TestStatistics();
     TestVector();
+    TestMathdeDeinit();
     //Finish
     TRACE_INFO("OK All");
     return 0;
