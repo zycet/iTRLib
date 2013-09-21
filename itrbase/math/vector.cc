@@ -44,6 +44,7 @@ namespace itr_math
     Vector::Vector(S32 Dim)
     {
         assert(calculateObj!=NULL);
+        assert(Dim > 0);
         data = new F32[Dim];
         assert(data!=NULL);
         dim = Dim;
@@ -55,6 +56,7 @@ namespace itr_math
     Vector::Vector(S32 Dim, F32* Data)
     {
         assert(calculateObj!=NULL);
+        assert(Dim > 0);
         data = Data;
         assert(data!=NULL);
         dim = Dim;
@@ -125,7 +127,40 @@ namespace itr_math
      */
     void Vector::ProductOuter(const Vector& Vec)
     {
+
         assert(matchDimension(Vec));
+        const int dim3 = 3;
+        assert(dim == dim3); //暂时只支持维数为3的向量计算
+        F32 r0[dim3] =
+        { 0 };
+        F32 r1[dim3] =
+        { 0 };
+        F32 a[dim3];
+        F32 b[dim3];
+        //ay*bz
+        a[0] = data[1];
+        b[0] = Vec[2];
+        //az*bx
+        a[1] = data[2];
+        b[1] = Vec[0];
+        //ax*by
+        a[2] = data[0];
+        b[2] = Vec[1];
+        calculateObj->Multi(a, b, dim3, r0);
+
+        //-az*by
+        a[0] = data[2];
+        b[0] = -Vec[1];
+        //-ax*bz
+        a[1] = data[0];
+        b[1] = -Vec[2];
+        //-ay*bx
+        a[2] = data[1];
+        b[2] = -Vec[0];
+        calculateObj->Multi(a, b, dim3, r1);
+        //累加
+        calculateObj->Add(r0, r1, dim3, data);
+
         assert(false);
     }
 

@@ -6,3 +6,7 @@ mul
 calc
 vec
 inline
+ay
+bz
+az
+bx
