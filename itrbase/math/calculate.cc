@@ -36,113 +36,160 @@
 
 namespace itr_math
 {
-    Calculate::Calculate(Numerical* numericalObj)
+    Calculate::Calculate()
     {
-        this->numericalObj = numericalObj;
+        assert(numericalObj!=NULL);
     }
 
     Calculate::~Calculate()
     {
     }
 
-    void Calculate::Add(S32* SourceA, S32* SourceB, S32 Length, S32* Result)
+    void Calculate::Add(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] + SourceB[i];
         }
     }
 
-    void Calculate::Add(F32* SourceA, F32* SourceB, S32 Length, F32* Result)
+    void Calculate::Add(F32* SourceA, F32* SourceB, S32 Length, F32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] + SourceB[i];
         }
     }
 
-    void Calculate::Sub(S32* SourceA, S32* SourceB, S32 Length, S32* Result)
+    void Calculate::Sub(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] - SourceB[i];
         }
     }
 
-    void Calculate::Sub(F32* SourceA, F32* SourceB, S32 Length, F32* Result)
+    void Calculate::Sub(F32* SourceA, F32* SourceB, S32 Length, F32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] - SourceB[i];
         }
     }
 
-    void Calculate::Multi(S32* SourceA, S32* SourceB, S32 Length, S32* Result)
+    void Calculate::Multi(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] * SourceB[i];
         }
     }
 
-    void Calculate::Multi(F32* SourceA, F32* SourceB, S32 Length, F32* Result)
+    void Calculate::Multi(F32* SourceA, F32* SourceB, S32 Length, F32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] * SourceB[i];
         }
     }
 
-    void Calculate::Div(S32* SourceA, S32* SourceB, S32 Length, S32* Result)
+    void Calculate::Div(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] / SourceB[i];
         }
     }
 
-    void Calculate::Div(F32* SourceA, F32* SourceB, S32 Length, F32* Result)
+    void Calculate::Div(F32* SourceA, F32* SourceB, S32 Length, F32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] / SourceB[i];
         }
     }
 
-    void Calculate::Offset(S32* SourceA, S32 Offset, S32 Length, S32* Result)
+    void Calculate::Offset(S32* SourceA, S32 Offset, S32 Length, S32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] + Offset;
         }
     }
 
-    void Calculate::Offset(F32* SourceA, F32 Offset, S32 Length, F32* Result)
+    void Calculate::Offset(F32* SourceA, F32 Offset, S32 Length, F32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] + Offset;
         }
     }
 
-    void Calculate::Scale(S32* SourceA, S32 Scale, S32 Length, S32* Result)
+    void Calculate::Scale(S32* SourceA, S32 Scale, S32 Length, S32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] * Scale;
         }
     }
 
-    void Calculate::Scale(F32* SourceA, F32 Scale, S32 Length, F32* Result)
+    void Calculate::Scale(F32* SourceA, F32 Scale, S32 Length, F32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] * Scale;
         }
     }
 
-    void Calculate::Normalization(S32* SourceA, S32 Length, S32* Result)
+    void Calculate::Normalization(S32* SourceA, S32 Length, S32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         F32 temp = 0;
         for (S32 i = 0; i < Length; i++)
         {
@@ -155,8 +202,11 @@ namespace itr_math
         }
     }
 
-    void Calculate::Normalization(F32* SourceA, S32 Length, F32* Result)
+    void Calculate::Normalization(F32* SourceA, S32 Length, F32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         F32 temp = 0;
         for (S32 i = 0; i < Length; i++)
         {
@@ -166,8 +216,11 @@ namespace itr_math
         Scale(SourceA, temp, Length, Result);
     }
 
-    void Calculate::Abs(S32* SourceA, S32 Length, S32* Result)
+    void Calculate::Abs(S32* SourceA, S32 Length, S32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             (SourceA[i] >= 0) ? Result[i] = SourceA[i] : Result[i] = -1 * SourceA[i];
@@ -175,32 +228,43 @@ namespace itr_math
         }
     }
 
-    void Calculate::Abs(F32* SourceA, S32 Length, F32* Result)
+    void Calculate::Abs(F32* SourceA, S32 Length, F32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             (SourceA[i] >= 0) ? Result[i] = SourceA[i] : Result[i] = -1 * SourceA[i];
         }
     }
 
-    void Calculate::Opposite(S32* SourceA, S32 Length, S32* Result)
+    void Calculate::Opposite(S32* SourceA, S32 Length, S32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = -1 * SourceA[i];
         }
     }
 
-    void Calculate::Opposite(F32* SourceA, S32 Length, F32* Result)
+    void Calculate::Opposite(F32* SourceA, S32 Length, F32* Result) const
     {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = -1 * SourceA[i];
         }
     }
 
-    void Calculate::Sum(S32* SourceA, S32 Length, S32& Result)
+    void Calculate::AddSum(S32* SourceA, S32 Length, S32& Result) const
     {
+        assert(SourceA!=NULL);
+        assert(Length > 0);
         Result = 0;
         for (S32 i = 0; i < Length; i++)
         {
@@ -208,8 +272,10 @@ namespace itr_math
         }
     }
 
-    void Calculate::Sum(F32* SourceA, S32 Length, F32& Result)
+    void Calculate::AddSum(F32* SourceA, S32 Length, F32& Result) const
     {
+        assert(SourceA!=NULL);
+        assert(Length > 0);
         Result = 0;
         for (S32 i = 0; i < Length; i++)
         {
@@ -217,8 +283,11 @@ namespace itr_math
         }
     }
 
-    void Calculate::Product(S32* SourceA, S32* SourceB, S32 Length, S32& Result)
+    void Calculate::MultiSum(S32* SourceA, S32* SourceB, S32 Length, S32& Result) const
     {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Length > 0);
         Result = 0;
         for (S32 i = 0; i < Length; i++)
         {
@@ -226,8 +295,11 @@ namespace itr_math
         }
     }
 
-    void Calculate::Product(F32* SourceA, F32* SourceB, S32 Length, F32& Result)
+    void Calculate::MultiSum(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const
     {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Length > 0);
         Result = 0;
         for (S32 i = 0; i < Length; i++)
         {
@@ -235,16 +307,43 @@ namespace itr_math
         }
     }
 
-    void Calculate::Set(S32* SourceA, S32 Value, S32 Length)
+    void Calculate::Product(S32* SourceA, S32 Length, S32& Result) const
     {
+        assert(SourceA!=NULL);
+        assert(Length > 0);
+        Result = 0;
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result *= SourceA[i];
+        }
+    }
+
+    void Calculate::Product(F32* SourceA, S32 Length, F32& Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(Length > 0);
+        Result = 0;
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result *= SourceA[i];
+        }
+    }
+    //Product
+
+    void Calculate::Set(S32* SourceA, S32 Value, S32 Length) const
+    {
+        assert(SourceA!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             SourceA[i] = Value;
         }
     }
 
-    void Calculate::Set(F32* SourceA, F32 Value, S32 Length)
+    void Calculate::Set(F32* SourceA, F32 Value, S32 Length) const
     {
+        assert(SourceA!=NULL);
+        assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
             SourceA[i] = Value;
