@@ -34,19 +34,13 @@
  *      Author: zhouyi
  */
 
+#include <stddef.h>
 #include "../platform/platform.h"
 #include "math.h"
 
 namespace itr_math
 {
-    Matrix::Matrix()
-    {
-        // TODO Auto-generated constructor stub
+    Numerical* Matrix::numericalObj = NULL;
+    Calculate* Matrix::calculateObj = NULL;
 
-    }
-
-    Matrix::~Matrix()
-    {
-        // TODO Auto-generated destructor stub
-    }
 } // namespace itr_math

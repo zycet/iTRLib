@@ -36,6 +36,8 @@
 
 namespace itr_math
 {
+    Numerical* Calculate::numericalObj=NULL;
+
     Calculate::Calculate()
     {
         assert(numericalObj!=NULL);
