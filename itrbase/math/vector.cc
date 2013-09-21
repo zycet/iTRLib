@@ -31,9 +31,9 @@
  *      Author: ZYC
  */
 
+#include <stddef.h>
 #include "../platform/platform.h"
 #include "math.h"
-#include <stddef.h>
 
 namespace itr_math
 {
@@ -43,7 +43,9 @@ namespace itr_math
      */
     Vector::Vector(S32 Dim)
     {
+        assert(calculateObj!=NULL);
         data = new F32[Dim];
+        assert(data!=NULL);
         dim = Dim;
         localData = true;
     }
@@ -52,7 +54,9 @@ namespace itr_math
      */
     Vector::Vector(S32 Dim, F32* Data)
     {
+        assert(calculateObj!=NULL);
         data = Data;
+        assert(data!=NULL);
         dim = Dim;
         localData = false;
     }
@@ -69,6 +73,8 @@ namespace itr_math
 
     void Vector::CopyFrom(S32 Offset, S32 Num, F32* Data)
     {
+        assert((Offset + Num) <= dim);
+        assert(Data!=NULL);
         MemoryCopy(data + Offset, Data, Num * sizeof(F32));
     }
     /*
@@ -76,6 +82,7 @@ namespace itr_math
      */
     void Vector::CopyFrom(F32* Data)
     {
+        assert(Data!=NULL);
         MemoryCopy(data, Data, dim * sizeof(F32));
     }
     /*
@@ -83,6 +90,8 @@ namespace itr_math
      */
     void Vector::CopyTo(S32 Offset, S32 Num, F32* Data) const
     {
+        assert((Offset + Num) <= dim);
+        assert(Data!=NULL);
         MemoryCopy(Data, data + Offset, Num * sizeof(F32));
     }
     /*
@@ -90,31 +99,34 @@ namespace itr_math
      */
     void Vector::CopyTo(F32* Data) const
     {
+        assert(Data!=NULL);
         MemoryCopy(Data, data, dim * sizeof(F32));
     }
     /*
-     * 向量元素积
+     * 向量元素积(对应元素相乘)
      */
-    void Vector::Product(const Vector& Vec) const
+    void Vector::Product(const Vector& Vec)
     {
+        assert(matchDimension(Vec));
         calculateObj->Multi(data, Vec.GetData(), dim, data);
     }
     /*
-     * 向量内积
+     * 向量内积(点乘)
      */
     F32 Vector::ProductInner(const Vector& Vec) const
     {
+        assert(matchDimension(Vec));
         F32 result = 0;
-        calculateObj->Product(data, Vec.GetData(), dim, result);
+        calculateObj->MultiSum(data, Vec.GetData(), dim, result);
         return result;
     }
     /*
-     * 向量外积
+     * 向量外积(叉乘)
      */
-    Vector Vector::ProductOuter(const Vector& Vec) const
+    void Vector::ProductOuter(const Vector& Vec)
     {
+        assert(matchDimension(Vec));
         assert(false);
-        return *this;
     }
 
 } // namespace itr_math
