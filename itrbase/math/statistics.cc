@@ -39,10 +39,13 @@
 
 namespace itr_math
 {
-    Statistics::Statistics(Numerical* numericalObj, Calculate* calculateObj)
+    Numerical* Statistics::numericalObj = NULL;
+    Calculate* Statistics::calculateObj = NULL;
+
+    Statistics::Statistics()
     {
-        this->numericalObj = numericalObj;
-        this->calculateObj = calculateObj;
+        assert(numericalObj!=NULL);
+        assert(calculateObj!=NULL);
     }
 
     Statistics::~Statistics()

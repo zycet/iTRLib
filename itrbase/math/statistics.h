@@ -45,7 +45,21 @@ namespace itr_math
     class Statistics
     {
         public:
-            Statistics(Numerical* numericalObj,Calculate* calculateObj);
+            /*
+             * 设置数值计算对象(此函数需要在进行所有计算前调用)
+             */
+            inline static void SetNumericalObj(Numerical* NumericalObj)
+            {
+                numericalObj = NumericalObj;
+            }
+            /*
+             * 设置批量计算对象(此函数需要在进行所有计算前调用)
+             */
+            inline static void SetCalculateObj(Calculate* CalculateObj)
+            {
+                calculateObj = CalculateObj;
+            }
+            Statistics();
             virtual ~Statistics();
             virtual bool Max(S32* Source, S32 Length, S32& Result);
             virtual bool Max(F32* Source, F32 Length, F32& Result);
@@ -53,8 +67,8 @@ namespace itr_math
             virtual bool Min(F32* Source, F32 Length, F32& Result);
 
         private:
-            Numerical* numericalObj;
-            Calculate* calculateObj;
+            static Numerical* numericalObj;
+            static Calculate* calculateObj;
     };
 
 } // namespace itr_math
