@@ -38,6 +38,7 @@
 namespace itr_math
 {
     Calculate* Vector::calculateObj = NULL;
+
     /*
      * 初始化维数为Dim的向量(自动分配本地空间)
      */
@@ -61,6 +62,18 @@ namespace itr_math
         assert(data!=NULL);
         dim = Dim;
         localData = false;
+    }
+    /*
+     * 构造完全一样的向量(Clone)
+     */
+    Vector::Vector(const Vector& Vec)
+    {
+        assert(calculateObj!=NULL);
+        data = new F32[Vec.GetDim()];
+        assert(data!=NULL);
+        dim = Vec.GetDim();
+        CopyFrom(Vec.GetData());
+        localData = true;
     }
     /*
      * 回收本地空间(如果曾经分配)
@@ -109,7 +122,7 @@ namespace itr_math
      */
     void Vector::Product(const Vector& Vec)
     {
-        assert(matchDimension(Vec));
+        assert(MatchDim(Vec));
         calculateObj->Multi(data, Vec.GetData(), dim, data);
     }
     /*
@@ -117,7 +130,7 @@ namespace itr_math
      */
     F32 Vector::ProductInner(const Vector& Vec) const
     {
-        assert(matchDimension(Vec));
+        assert(MatchDim(Vec));
         F32 result = 0;
         calculateObj->MultiSum(data, Vec.GetData(), dim, result);
         return result;
@@ -128,7 +141,7 @@ namespace itr_math
     void Vector::ProductOuter(const Vector& Vec)
     {
 
-        assert(matchDimension(Vec));
+        assert(MatchDim(Vec));
         const int dim3 = 3;
         assert(dim == dim3); //暂时只支持维数为3的向量计算
         F32 r0[dim3] =

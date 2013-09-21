@@ -59,6 +59,10 @@ namespace itr_math
              */
             Vector(S32 Dim, F32* Data);
             /*
+             * 构造完全一样的向量(Clone)
+             */
+            Vector(const Vector& Vec);
+            /*
              * 回收本地空间(如果曾经分配)
              */
             virtual ~Vector();
@@ -86,7 +90,7 @@ namespace itr_math
             /*
              * 返回维数是否一致
              */
-            inline BOOL matchDimension(const Vector& Vec) const
+            inline BOOL MatchDim(const Vector& Vec) const
             {
                 return (Vec.GetDim() == dim);
             }
@@ -155,7 +159,7 @@ namespace itr_math
              */
             inline virtual void Add(const Vector& Vec)
             {
-                assert(matchDimension(Vec));
+                assert(MatchDim(Vec));
                 calculateObj->Add(data, Vec.GetData(), dim, data);
             }
             /*
@@ -163,7 +167,7 @@ namespace itr_math
              */
             inline virtual void Sub(const Vector& Vec)
             {
-                assert(matchDimension(Vec));
+                assert(MatchDim(Vec));
                 calculateObj->Sub(data, Vec.GetData(), dim, data);
             }
             /*
