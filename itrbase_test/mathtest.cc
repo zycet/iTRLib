@@ -62,7 +62,7 @@ void TestCalculate()
     }
     //Add
     calculateObj.Add(SourceF32A, SourceF32B, Length, ResultF32A);
-    calculateObj.Sum(ResultF32A, Length, ResultF32);
+    calculateObj.AddSum(ResultF32A, Length, ResultF32);
     assert(ResultF32 == 2450);
     //Sub...
 

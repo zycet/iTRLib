@@ -34,6 +34,7 @@
 #ifndef VECTOR_H_
 #define VECTOR_H_
 
+#include <stddef.h>
 #include "../platform/platform.h"
 #include "math.h"
 
@@ -43,7 +44,7 @@ namespace itr_math
     {
         public:
             /*
-             * 设置批量计算对象
+             * 设置批量计算对象(此函数需要在进行所有计算前调用)
              */
             inline static void SetCalculateObj(Calculate* CalculateObj)
             {
@@ -124,6 +125,7 @@ namespace itr_math
              */
             inline F32& operator[](int index)
             {
+                assert(index < dim);
                 return data[index];
             }
             /*
@@ -131,6 +133,7 @@ namespace itr_math
              */
             inline F32 operator[](int index) const
             {
+                assert(index < dim);
                 return data[index];
             }
             /*
@@ -152,6 +155,7 @@ namespace itr_math
              */
             inline virtual void Add(const Vector& Vec)
             {
+                assert(matchDimension(Vec));
                 calculateObj->Add(data, Vec.GetData(), dim, data);
             }
             /*
@@ -159,12 +163,13 @@ namespace itr_math
              */
             inline virtual void Sub(const Vector& Vec)
             {
+                assert(matchDimension(Vec));
                 calculateObj->Sub(data, Vec.GetData(), dim, data);
             }
             /*
              * 向量元素积
              */
-            virtual void Product(const Vector& Vec) const;
+            virtual void Product(const Vector& Vec);
             /*
              * 向量内积
              */
@@ -172,7 +177,7 @@ namespace itr_math
             /*
              * 向量外积
              */
-            virtual Vector ProductOuter(const Vector& Vec) const;
+            virtual void ProductOuter(const Vector& Vec);
         private:
             F32* data;
             S32 dim;
