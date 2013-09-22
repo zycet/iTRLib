@@ -90,15 +90,15 @@
 				- 定点/浮点STD
 	* **itrvision**:视觉库项目
 		* **basictypes**:基础数据类型定义
-			+ colorARGB:ARGB颜色类型
+			+ colorARGB:彩色色彩类型(U8*4)
+			+ colorGray:灰度色彩类型(S16*1)
 			+ point2D:2D点类型
 			+ distance2D:2D距离类型
 			+ rectangle:矩形类型
 		* **image**:图像数据类型
-			+ image1ch:单色图像(F32)
-			+ image4ch:彩色图像(U8)
+			+ imageARGB:彩色图像(colorARGB)
+			+ imageGray:单色图像(colorGray)
 		* **format**:格式支持
-			+ formatargb:ARGB格式
 			+ formatyuv:YUV格式
 			+ formatbmp:BMP格式
 			+ formatjpg:JPG格式
