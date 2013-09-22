@@ -189,14 +189,14 @@ namespace itr_math
         assert(Length>0);
         S32 aver;
         Mean(Source, Length, aver);
-        F32 STDsum = 0;
-        for (S32 i = 0; i < Length; i++)
-        {
-           STDsum = STDsum * STDsum + Source[i] * Source[i];
-        }
-        F32 STDr;
-        numericalObj->Sqrt((STDsum / Length), STDr);
-        Result = STDr;
+        S32* temp=new S32[Length];
+        calculateObj->Offset(Source,-aver,Length,temp);
+        calculateObj->Multi(temp,temp,Length,temp);
+        S32 rS32=0;
+        calculateObj->AddSum(temp,Length,rS32);
+        F32 rF32=rS32;
+        numericalObj->Sqrt((rF32 / Length), rF32);
+        Result=rS32;
         return true;
     }
 
