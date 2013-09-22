@@ -62,9 +62,17 @@ namespace itr_math
             Statistics();
             virtual ~Statistics();
             virtual bool Max(S32* Source, S32 Length, S32& Result);
-            virtual bool Max(F32* Source, F32 Length, F32& Result);
+            virtual bool Max(F32* Source, S32 Length, F32& Result);
             virtual bool Min(S32* Source, S32 Length, S32& Result);
-            virtual bool Min(F32* Source, F32 Length, F32& Result);
+            virtual bool Min(F32* Source, S32 Length, F32& Result);
+            virtual bool Mean(S32* Source, S32 Length, S32& Result);
+            virtual bool Mean(F32* Source, S32 Length, F32& Result);
+            virtual bool Median(S32* Source, S32 Length, S32& Result);
+            virtual bool Median(F32* Source, S32 Length, F32& Result);
+            virtual bool RMS(S32* Source, S32 Length, S32& Result);
+            virtual bool RMS(F32* Source, S32 Length, F32& Result);
+            virtual bool STD(S32* Source, S32 Length, S32& Result);
+            virtual bool STD(F32* Source, S32 Length, F32& Result);
 
         private:
             static Numerical* numericalObj;
@@ -74,3 +82,4 @@ namespace itr_math
 } // namespace itr_math
 
 #endif //statistics STATISTICS_H_
+

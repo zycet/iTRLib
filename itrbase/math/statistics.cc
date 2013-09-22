@@ -55,8 +55,10 @@ namespace itr_math
 
     bool Statistics::Max(S32* Source, S32 Length, S32& Result)
     {
+        assert(Source!=NULL);
+        assert(Length>0);
         Result = Source[0];
-        for (S32 i = 0; i < Length; i++)
+        for (S32 i = 0; i < Length - 1; i++)
         {
             if (Result <= Source[i])
                 Result = Source[i];
@@ -64,10 +66,12 @@ namespace itr_math
         return true;
     }
 
-    bool Statistics::Max(F32* Source, F32 Length, F32& Result)
+    bool Statistics::Max(F32* Source, S32 Length, F32& Result)
     {
+        assert(Source!=NULL);
+        assert(Length>0);
         Result = Source[0];
-        for (S32 i = 0; i < Length; i++)
+        for (S32 i = 0; i < Length - 1; i++)
         {
             if (Result <= Source[i])
                 Result = Source[i];
@@ -77,11 +81,137 @@ namespace itr_math
 
     bool Statistics::Min(S32* Source, S32 Length, S32& Result)
     {
+        assert(Source!=NULL);
+        assert(Length>0);
+        Result = Source[0];
+        for (S32 i = 0; i < Length - 1; i++)
+        {
+            if (Result >= Source[i])
+                Result = Source[i];
+        }
         return true;
     }
 
-    bool Statistics::Min(F32* Source, F32 Length, F32& Result)
+    bool Statistics::Min(F32* Source, S32 Length, F32& Result)
     {
+        assert(Source!=NULL);
+        assert(Length>0);
+        Result = 0;
+        for (S32 i = 0; i < Length; i++)
+        {
+            if (Result >= Source[i])
+                Result = Source[i];
+        }
+        return true;
+    }
+
+    bool Statistics::Mean(S32* Source, S32 Length, S32& Result)
+    {
+        assert(Source!=NULL);
+        assert(Length>0);
+        S32 Sum =0;
+        for (S32 i = 0; i < Length ; i++)
+        {
+           Sum =  Sum + Source[i];
+        }
+        Result = Sum / Length;
+        return true;
+    }
+
+    bool Statistics::Mean(F32* Source, S32 Length, F32& Result)
+    {
+        assert(Source!=NULL);
+        assert(Length>0);
+        F32 Sum = 0;
+        for (S32 i = 0; i < Length; i++)
+        {
+           Sum =  Sum + Source[i];
+        }
+        Result = Sum / Length;
+        return true;
+    }
+
+    bool Statistics::Median(S32* Source, S32 Length, S32& Result)
+    {
+        assert(Source!=NULL);
+        assert(Length>0);
+        S32 M;
+        Max(Source, Length, M);
+        S32 m;
+        Min(Source, Length, m);
+        Result = (M + m) / 2;
+        return true;
+    }
+
+    bool Statistics::Median(F32* Source, S32 Length, F32& Result)
+    {
+        assert(Source!=NULL);
+        assert(Length>0);
+        F32 M;
+        Max(Source, Length, M);
+        F32 m;
+        Min(Source, Length, m);
+        Result = (M + m) / 2;
+        return true;
+    }
+
+    bool Statistics::RMS(S32* Source, S32 Length, S32& Result)
+    {
+        assert(Source!=NULL);
+        assert(Length>0);
+        F32 RMSsum = 0;
+        for (S32 i = 0; i < Length; i++)
+        {
+            RMSsum = RMSsum + Source[i] * Source[i];
+        }
+        F32 r;
+        numericalObj->Sqrt((RMSsum / Length), r);
+        Result = r;
+        return true;
+    }
+
+    bool Statistics::RMS(F32* Source, S32 Length, F32& Result)
+    {
+        assert(Source!=NULL);
+        assert(Length>0);
+        F32 RMSsum = 0;
+        for (S32 i = 0; i < Length; i++)
+        {
+            RMSsum = RMSsum + Source[i] * Source[i];
+        }
+        numericalObj->Sqrt(RMSsum / Length, Result);
+        return true;
+    }
+
+    bool Statistics::STD(S32* Source, S32 Length, S32& Result)
+    {
+        assert(Source!=NULL);
+        assert(Length>0);
+        S32 aver;
+        Mean(Source, Length, aver);
+        F32 STDsum = 0;
+        for (S32 i = 0; i < Length; i++)
+        {
+           STDsum = STDsum * STDsum + Source[i] * Source[i];
+        }
+        F32 STDr;
+        numericalObj->Sqrt((STDsum / Length), STDr);
+        Result = STDr;
+        return true;
+    }
+
+    bool Statistics::STD(F32* Source, S32 Length, F32& Result)
+    {
+        assert(Source!=NULL);
+        assert(Length>0);
+        F32 aver;
+        Mean(Source, Length, aver);
+        F32 STDsum = 0;
+        for (S32 i = 0; i < Length; i++)
+        {
+           STDsum = STDsum * STDsum + Source[i] * Source[i];
+        }
+        numericalObj->Sqrt(STDsum / Length, Result);
         return true;
     }
 } // namespace itr_math
