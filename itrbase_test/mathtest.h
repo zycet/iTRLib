@@ -40,5 +40,6 @@ void TestCalculate();
 void TestNumerical();
 void TestStatistics();
 void TestVector();
+void TestCalculateTest();
 
 #endif // MATH_TEST_H_

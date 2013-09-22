@@ -32,6 +32,7 @@
  */
 
 #include "mathtest.h"
+#include "calculatetest.h"
 #include "itrbase.h"
 
 itr_math::Numerical* NumericalObj;
@@ -101,4 +102,17 @@ void TestStatistics()
 void TestVector()
 {
     //itr_math::Vector v(3);
+}
+
+void TestCalculateTest()
+{
+    F32 A[]={1,1};
+    F32 B[]={2,2};
+    F32 C[]={0,0};
+    CalculateTest calcObjT;
+    itr_math::Calculate* calcObj=&calcObjT;
+    calcObj->Add(A,B,2,C);
+
+//    itr_math::Calculate calcObj=CalculateTest();
+//    calcObj.Add(A,B,2,C);
 }

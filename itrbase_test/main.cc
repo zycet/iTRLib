@@ -54,6 +54,7 @@ int main()
     TestNumerical();
     TestStatistics();
     TestVector();
+    TestCalculateTest();
     TestMathdeDeinit();
     //Finish
     TRACE_INFO("OK All");

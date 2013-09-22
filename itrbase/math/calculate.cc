@@ -69,6 +69,7 @@ namespace itr_math
         {
             Result[i] = SourceA[i] + SourceB[i];
         }
+        PRINT_DEBUG("Calculate::Add");
     }
 
     void Calculate::Sub(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const
@@ -330,7 +331,6 @@ namespace itr_math
             Result *= SourceA[i];
         }
     }
-    //Product
 
     void Calculate::Set(S32* SourceA, S32 Value, S32 Length) const
     {
