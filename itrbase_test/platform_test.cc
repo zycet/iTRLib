@@ -62,7 +62,7 @@ void TestMemoryOperation()
     //ExMemoryAlloc
     void* m0 = ExMemoryAlloc(0);
     void* m1 = ExMemoryAlloc(EXMEMORY_Length + 1);
-    assert(reinterpret_cast<U32>(m0)==EXMEMORY_ORIGINATE);
+    assert(reinterpret_cast<U64>(m0)==EXMEMORY_ORIGINATE);
     assert(m1==NULL);
 
     //Memory Clear&Compare&Copy&Swap
