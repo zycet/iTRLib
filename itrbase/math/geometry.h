@@ -39,4 +39,26 @@ struct Point2D
         F32 X, Y;
 };
 
+struct Point3D
+{
+        F32 X, Y, Z;
+};
+
+class Rectangle
+{
+    public:
+        F32 X;
+        F32 Y;
+        F32 Width;
+        F32 Height;
+
+        inline Rectangle(F32 X,F32 Y,F32 Width,F32 Height)
+        {
+            this->X = X;
+            this->Y = Y;
+            this->Width = Width;
+            this->Height = Height;
+        }
+};
+
 #endif // GEOMETRY_H_
