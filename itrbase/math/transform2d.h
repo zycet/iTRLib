@@ -26,19 +26,45 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * math.h
- *  Created on: 2013-9-13
+ * transform2d.h
+ *  Created on: 2013-9-23
  *      Author: buaa
  */
 
-#ifndef MATH_H_
-#define MATH_H_
+#ifndef TRANSFORM2D_H_
+#define TRANSFORM2D_H_
 
-#include "numerical.h"
-#include "calculate.h"
-#include "statistics.h"
-#include "vector.h"
-#include "matrix.h"
-#include "transform2d.h"
+#include "../platform/platform.h"
+#include "math.h"
 
-#endif // MATH_H_
+namespace itr_math
+{
+
+    class Transform2D
+    {
+        public:
+            Transform2D();
+            virtual ~Transform2D();
+            inline Matrix& GetTransformMatrix()
+            {
+                return transformMatrix;
+            }
+            void Reset();
+            void Offset(F32 X,F32 Y);
+            void Scale(F32 K);
+            void Rotate(F32 Angle);
+
+            Vector operator*(const Vector& Vec) const
+            {
+                Vector v(2);
+                return v;
+            }
+        private:
+            Matrix transformMatrix;
+            Matrix tempMatrix;
+            Vector inputVector;
+
+    };
+
+} // namespace itr_math
+#endif // TRANSFORM2D_H_

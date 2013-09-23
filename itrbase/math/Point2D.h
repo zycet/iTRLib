@@ -26,19 +26,21 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * math.h
- *  Created on: 2013-9-13
+ * Point2D.h
+ *  Created on: 2013-9-23
  *      Author: buaa
  */
 
-#ifndef MATH_H_
-#define MATH_H_
+#ifndef POINT2D_H_
+#define POINT2D_H_
 
-#include "numerical.h"
-#include "calculate.h"
-#include "statistics.h"
-#include "vector.h"
-#include "matrix.h"
-#include "transform2d.h"
+#include "../platform/platform.h"
+#include "math.h"
 
-#endif // MATH_H_
+struct Point2D
+{
+        F32 X,Y;
+};
+
+
+#endif // POINT2D_H_

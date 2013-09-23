@@ -26,19 +26,30 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * math.h
- *  Created on: 2013-9-13
+ * transform2d.cc
+ *  Created on: 2013-9-23
  *      Author: buaa
  */
 
-#ifndef MATH_H_
-#define MATH_H_
-
-#include "numerical.h"
-#include "calculate.h"
-#include "statistics.h"
-#include "vector.h"
-#include "matrix.h"
 #include "transform2d.h"
 
-#endif // MATH_H_
+namespace itr_math
+{
+
+    Transform2D::Transform2D():transformMatrix(3),tempMatrix(3),inputVector(3)
+    {
+        Reset();
+    }
+
+    void Transform2D::Reset()
+    {
+        transformMatrix.Clear();
+        transformMatrix.SetDiag(1);
+    }
+
+    Transform2D::~Transform2D()
+    {
+        // TODO Auto-generated destructor stub
+    }
+
+} // namespace itr_math
