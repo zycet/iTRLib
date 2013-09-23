@@ -395,7 +395,7 @@ namespace itr_math
             Matrix virtual operator*(const Matrix& Mat) const;
             Matrix virtual operator+(const Matrix& Mat) const;
             Matrix virtual operator-(const Matrix& Mat) const;
-            Matrix virtual operator=(const Matrix& Mat) const;
+            void virtual operator=(const Matrix& Mat);
             /*
              * 求矩阵逆并将结果放至MatResult
              */
