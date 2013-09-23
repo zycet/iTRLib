@@ -376,6 +376,8 @@ namespace itr_math
              */
             void virtual RightMulCol(const Vector& Vec, Matrix& MatResult) const;
 
+             Vector virtual operator*(const Vector& vec) const;
+
             //**********矩阵相关计算**********
             /*
              * 加上矩阵MatrixAdd
@@ -389,6 +391,11 @@ namespace itr_math
              * 右乘矩阵Mat并将结果存至MatResult
              */
             void virtual Mul(const Matrix& Mat, Matrix& MatResult) const;
+
+            Matrix virtual operator*(const Matrix& Mat) const;
+            Matrix virtual operator+(const Matrix& Mat) const;
+            Matrix virtual operator-(const Matrix& Mat) const;
+            Matrix virtual operator=(const Matrix& Mat) const;
             /*
              * 求矩阵逆并将结果放至MatResult
              */
