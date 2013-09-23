@@ -26,21 +26,17 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * Point2D.h
+ * geometry.h
  *  Created on: 2013-9-23
  *      Author: buaa
  */
 
-#ifndef POINT2D_H_
-#define POINT2D_H_
-
-#include "../platform/platform.h"
-#include "math.h"
+#ifndef GEOMETRY_H_
+#define GEOMETRY_H_
 
 struct Point2D
 {
-        F32 X,Y;
+        F32 X, Y;
 };
 
-
-#endif // POINT2D_H_
+#endif // GEOMETRY_H_

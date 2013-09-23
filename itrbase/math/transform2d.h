@@ -39,31 +39,65 @@
 
 namespace itr_math
 {
-
+    /*
+     * 2D仿射变换器
+     * 初始化后按需求调用偏移、缩放、旋转后调用变换函数对目标坐标进行转换
+     */
     class Transform2D
     {
         public:
             Transform2D();
             virtual ~Transform2D();
+            /*
+             * 返回内部变换矩阵（3*3）
+             */
             inline Matrix& GetTransformMatrix()
             {
                 return transformMatrix;
             }
+            /*
+             * 重置为初始状态
+             */
             void Reset();
-            void Offset(F32 X,F32 Y);
-            void Scale(F32 K);
+            /*
+             * 直角坐标偏移
+             */
+            void Offset(F32 X, F32 Y);
+            /*
+             * 直角坐标缩放
+             * 系数为1表示不缩放，大于1放到，小于1缩小(负数则镜像)
+             */
+            void Scale(F32 KX, F32 KY);
+            /*
+             * 旋转（右手坐标系，逆时针为正，角度制）
+             */
             void Rotate(F32 Angle);
+            /*
+             * 反转矩阵使其可以进行反向变换
+             */
+            void Inv();
 
-            Vector operator*(const Vector& Vec) const
-            {
-                Vector v(2);
-                return v;
-            }
+            /*
+             * 2元向量坐标变换
+             * Input&Output维度均需为3(齐次坐标）
+             */
+            void Transform(const Vector& Input, Vector& Output);
+            /*
+             * 2D点坐标变换
+             */
+            void Transform(const Point2D& Input, Point2D& Output);
+            /*
+             * 2D坐标变换
+             */
+            void Transform(F32 InputX, F32 InputY, F32& OutputX, F32& OutputY);
+
         private:
             Matrix transformMatrix;
             Matrix tempMatrix;
             Vector inputVector;
-
+            Vector outputVector;
+            Numerical numericalObj;
+            void Reset(Matrix& Mat);
     };
 
 } // namespace itr_math

@@ -34,11 +34,16 @@
 #ifndef MATH_H_
 #define MATH_H_
 
+#define PI 3.14159265359
+#define ANG2RAD(x) (x*0.01745329251)
+#define RAD2ANG(x) (x*57.2957795131)
+
 #include "numerical.h"
 #include "calculate.h"
 #include "statistics.h"
 #include "vector.h"
 #include "matrix.h"
+#include "geometry.h"
 #include "transform2d.h"
 
 #endif // MATH_H_
