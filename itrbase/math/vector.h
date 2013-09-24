@@ -141,6 +141,15 @@ namespace itr_math
                 return data[index];
             }
             /*
+             * 复制运算符重载
+             */
+            inline void operator=(const Vector& Vec) const
+            {
+                assert(MatchDim(Vec));
+                Vec.CopyTo(data);
+            }
+
+            /*
              * 全部元素增加K
              */
             inline virtual void Add(F32 K)
@@ -181,7 +190,7 @@ namespace itr_math
             /*
              * 向量外积
              */
-            virtual void ProductOuter(const Vector& Vec);
+            virtual void ProductOuter(const Vector& Vec, Vector& VecResult) const;
         private:
             F32* data;
             S32 dim;

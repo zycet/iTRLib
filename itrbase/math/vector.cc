@@ -138,10 +138,10 @@ namespace itr_math
     /*
      * 向量外积(叉乘)
      */
-    void Vector::ProductOuter(const Vector& Vec)
+    void Vector::ProductOuter(const Vector& Vec, Vector& VecResult) const
     {
-
         assert(MatchDim(Vec));
+        assert(MatchDim(VecResult));
         const int dim3 = 3;
         assert(dim == dim3); //暂时只支持维数为3的向量计算
         F32 r0[dim3] =
@@ -172,9 +172,7 @@ namespace itr_math
         b[2] = -Vec[0];
         calculateObj->Multi(a, b, dim3, r1);
         //累加
-        calculateObj->Add(r0, r1, dim3, data);
-
-        assert(false);
+        calculateObj->Add(r0, r1, dim3, VecResult.GetData());
     }
 
 } // namespace itr_math

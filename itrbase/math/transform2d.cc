@@ -36,20 +36,83 @@
 namespace itr_math
 {
 
-    Transform2D::Transform2D():transformMatrix(3),tempMatrix(3),inputVector(3)
+    Transform2D::Transform2D() :
+            transformMatrix(3), tempMatrix(3), inputVector(3), outputVector(3)
     {
-        Reset();
+        Reset(transformMatrix);
     }
 
     void Transform2D::Reset()
     {
-        transformMatrix.Clear();
-        transformMatrix.SetDiag(1);
+        Reset(transformMatrix);
     }
 
     Transform2D::~Transform2D()
     {
-        // TODO Auto-generated destructor stub
+    }
+
+    void Transform2D::Offset(F32 X, F32 Y)
+    {
+        Reset(tempMatrix);
+        tempMatrix(0, 2) = X;
+        tempMatrix(1, 2) = Y;
+        transformMatrix = tempMatrix * transformMatrix;
+    }
+
+    void Transform2D::Scale(F32 KX, F32 KY)
+    {
+        Reset(tempMatrix);
+        tempMatrix(0, 0) = KX;
+        tempMatrix(1, 1) = KY;
+        transformMatrix = tempMatrix * transformMatrix;
+    }
+
+    void Transform2D::Rotate(F32 Angle)
+    {
+        F32 rad = ANG2RAD(Angle);
+        F32 sin, cos;
+        numericalObj.SinCos(rad, sin, cos);
+        Reset(tempMatrix);
+        tempMatrix(0, 0) = cos;
+        tempMatrix(0, 1) = -sin;
+        tempMatrix(1, 0) = sin;
+        tempMatrix(1, 1) = cos;
+        transformMatrix = tempMatrix * transformMatrix;
+    }
+
+    void Transform2D::Inv()
+    {
+        Matrix temp = transformMatrix;
+        temp.Inv(transformMatrix);
+    }
+
+    void Transform2D::Transform(const Vector& Input, Vector& Output)
+    {
+        Output = transformMatrix * Input;
+    }
+
+    void Transform2D::Transform(const Point2D& Input, Point2D& Output)
+    {
+        inputVector[0] = Input.X;
+        inputVector[1] = Input.Y;
+        Transform(inputVector, outputVector);
+        Output.X = outputVector[0];
+        Output.Y = outputVector[1];
+    }
+
+    void Transform2D::Transform(F32 InputX, F32 InputY, F32& OutputX, F32& OutputY)
+    {
+        inputVector[0] = InputX;
+        inputVector[1] = InputY;
+        Transform(inputVector, outputVector);
+        OutputX = outputVector[0];
+        OutputY = outputVector[1];
+    }
+
+    void Transform2D::Reset(Matrix& Mat)
+    {
+        Mat.Clear();
+        Mat.SetDiag(1);
     }
 
 } // namespace itr_math

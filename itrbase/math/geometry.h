@@ -26,21 +26,39 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * Point2D.h
+ * geometry.h
  *  Created on: 2013-9-23
  *      Author: buaa
  */
 
-#ifndef POINT2D_H_
-#define POINT2D_H_
-
-#include "../platform/platform.h"
-#include "math.h"
+#ifndef GEOMETRY_H_
+#define GEOMETRY_H_
 
 struct Point2D
 {
-        F32 X,Y;
+        F32 X, Y;
 };
 
+struct Point3D
+{
+        F32 X, Y, Z;
+};
 
-#endif // POINT2D_H_
+class Rectangle
+{
+    public:
+        F32 X;
+        F32 Y;
+        F32 Width;
+        F32 Height;
+
+        inline Rectangle(F32 X,F32 Y,F32 Width,F32 Height)
+        {
+            this->X = X;
+            this->Y = Y;
+            this->Width = Width;
+            this->Height = Height;
+        }
+};
+
+#endif // GEOMETRY_H_
