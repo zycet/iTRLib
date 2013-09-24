@@ -146,7 +146,7 @@ namespace itr_math
     void Matrix::MulRow(F32 K, S32 RowNoResult)
     {
         assert(RowNoResult <= row);
-        CalculateObj->Multi(K, data + (RowNoResult - 1) * col, col, data + (RowNoResult - 1) * col);
+        CalculateObj->Scale(data + (RowNoResult - 1) * col,K,  col, data + (RowNoResult - 1) * col);
     }
     //Swap Row
     /*
@@ -230,7 +230,7 @@ namespace itr_math
     {
         for (S32 i = 0; i < col; i++)
         {
-            CalculateObj->Add(K, data + i * col, col, data + i * col);
+            CalculateObj->Offset(data + i * col, K, col, data + i * col);
         }
     }
     /*
@@ -240,7 +240,7 @@ namespace itr_math
     {
         for (S32 i = 0; i < col; i++)
         {
-            CalculateObj->Multi(K, data + i * col, col, data + i * col);
+            CalculateObj->Scale(data + i * col, K, col, data + i * col);
         }
     }
     //**********矩阵相关计算**********
@@ -291,7 +291,7 @@ namespace itr_math
     {
         assert(Mat.row == col);
         Matrix MatResult(row, Mat.col);
-        Mul(Mat,MatResult);
+        Mul(Mat, MatResult);
         return MatResult;
     }
 
@@ -307,11 +307,11 @@ namespace itr_math
     Matrix Matrix::operator-(const Matrix& Mat) const
     {
         assert(row == Mat.row);
-                assert(col == Mat.col);
-                Matrix Result(row, col);
-                Result = *this;
-                Result.Add(Mat);
-                return Result;
+        assert(col == Mat.col);
+        Matrix Result(row, col);
+        Result = *this;
+        Result.Add(Mat);
+        return Result;
     }
     void Matrix::operator=(const Matrix& Mat)
     {
