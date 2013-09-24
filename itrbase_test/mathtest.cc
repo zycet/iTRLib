@@ -35,28 +35,14 @@
 #include "calculatetest.h"
 #include "itrbase.h"
 
-itr_math::Numerical* NumericalObj;
-itr_math::Calculate* CalculateObj;
-itr_math::Statistics* StatisticsObj;
-
 void TestMathInit()
 {
-    NumericalObj=new itr_math::Numerical();
-    itr_math::Calculate::SetNumericalObj(NumericalObj);
-    CalculateObj=new itr_math::Calculate();
-    itr_math::Statistics::SetNumericalObj(NumericalObj);
-    itr_math::Statistics::SetCalculateObj(CalculateObj);
-    StatisticsObj=new itr_math::Statistics();
-    itr_math::Vector::SetCalculateObj(CalculateObj);
-    itr_math::Matrix::SetNumericalObj(NumericalObj);
-    itr_math::Matrix::SetCalculateObj(CalculateObj);
+    itr_math::MathObjStandInit();
 }
 
 void TestMathdeDeinit()
 {
-    delete NumericalObj;
-    delete CalculateObj;
-    delete StatisticsObj;
+    itr_math::MathObjStandDeinit();
 }
 
 void TestCalculate()
@@ -81,8 +67,8 @@ void TestCalculate()
         SourceF32A[i] = i;
     }
     //Add
-    CalculateObj->Add(SourceF32A, SourceF32B, Length, ResultF32A);
-    CalculateObj->AddSum(ResultF32A, Length, ResultF32);
+    itr_math::CalculateObj->Add(SourceF32A, SourceF32B, Length, ResultF32A);
+    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
     assert(ResultF32 == 2450);
     //Sub...
 

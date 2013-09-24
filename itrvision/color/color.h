@@ -34,7 +34,21 @@
 #ifndef COLOR_H_
 #define COLOR_H_
 
-#include "colorargb.h"
-#include "colorgray.h"
+#include "itrbase.h"
+
+namespace itr_color
+{
+    union ColorARGB
+    {
+            U32 Value;
+            U8 A, R, G, B;
+    };
+
+    union ColorGray
+    {
+            U16 Value;
+            S16 Gray;
+    };
+}
 
 #endif // COLOR_H_
