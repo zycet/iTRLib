@@ -469,6 +469,10 @@ namespace itr_math
 
             //**********矩阵相关计算**********
             /*
+             * 用于抽取矩阵中的某列
+             */
+            void virtual ColFill(F32* Data, S32 Offset, S32 Interval, S32 Length, F32* Result);
+            /*
              * 加上矩阵MatrixAdd
              */
             void virtual Add(const Matrix& Mat);

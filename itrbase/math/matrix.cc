@@ -246,15 +246,96 @@ namespace itr_math
             calculateObj->Multi(K, data + i * col, col, data + i * col);
         }
     }
-    //**********向量相关计算**********
+    //**********矩阵相关计算**********
     /*
-     * 左乘行向量
+     * 用于抽取矩阵中的某列
      */
-    void Matrix::LeftMulRow(const Vector& Vec, Matrix& MatResult) const
+    void Matrix::ColFill(F32* Data, S32 Offset, S32 Interval, S32 Length, F32* Result)
     {
-        assert(Vec.GetDim()==MatResult.row);
-        for(S32 i =0;i<col;i++)
-            calc
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result[i] = Data[Offset + Interval * i];
+        }
+    }
+    /*
+     * 加上矩阵MatrixAdd
+     */
+    void Matrix::Add(const Matrix& Mat)
+    {
+        calculateObj->Add(this->data, Mat.GetData(), this->row * this->col, this->data);
+    }
+    /*
+     * 减去矩阵MatrixSub
+     */
+    void Matrix::Sub(const Matrix& Mat)
+    {
+        calculateObj->Sub(this->data, Mat.GetData(), this->row * this->col, this->data);
+    }
+    /*
+     * 右乘矩阵Mat并将结果存至MatResult
+     */
+    void Matrix::Mul(const Matrix& Mat, Matrix& MatResult) const
+    {
+        assert(this->col == Mat.row);
+        assert(this->row == MatResult.row);
+        assert(Mat.col == MatResult.col);
+
+    }
+    //**********矩阵运算符重载*********
+    Matrix Matrix::operator*(const Matrix& Mat) const
+    {
+        assert(Mat.row == col);
+        Matrix Result(row, Mat.col);
+        F32* tempVect = new F32[Mat.row];
+        F32* tempVectAns = new F32[Result.row];
+        for (S32 i = 0; i < Mat.col; i++)
+        {
+            for (S32 j = 0; j < Mat.row; j++)
+                tempVect[j] = Mat[j * Mat.row + i];
+            for (S32 k = 0; k < Result.row; k++)
+                calculateObj->MultiSum(data + k * row, tempVect, Mat.row, tempVectAns[k]);
+            Result.CopyColFrom(i, tempVectAns);
+        }
+        return Result;
+    }
+
+    Matrix Matrix::operator+(const Matrix& Mat) const
+    {
+        assert(row == Mat.row);
+        assert(col == Mat.col);
+        Matrix Result(row, col);
+        F32* tempVect = new F32[Mat.col];
+        F32* tempVectAns = new F32[Result.col];
+        for (S32 i = 0; i < row; i++)
+        {
+            for (S32 j = 0; j < col; j++)
+                tempVect[j] = Mat[i * Mat.row + j];
+            calculateObj->Add(data + i * row, tempVect, col, tempVectAns);
+            Result.CopyRowFrom(i, tempVectAns);
+        }
+        return Result;
+    }
+    Matrix Matrix::operator-(const Matrix& Mat) const
+    {
+        assert(row == Mat.row);
+        assert(col == Mat.col);
+        Matrix Result(row, col);
+        F32* tempVect = new F32[Mat.col];
+        F32* tempVectAns = new F32[Result.col];
+        for (S32 i = 0; i < row; i++)
+        {
+            for (S32 j = 0; j < col; j++)
+                tempVect[j] = Mat[i * Mat.row + j];
+            calculateObj->Sub(data + i * row, tempVect, col, tempVectAns);
+            Result.CopyRowFrom(i, tempVectAns);
+        }
+        return Result;
+    }
+    void Matrix::operator=(const Matrix& Mat)
+    {
+        assert(row == Mat.row);
+        assert(col == Mat.col);
+        this->CopyTo(Mat.data);
     }
 }
 // namespace itr_math
