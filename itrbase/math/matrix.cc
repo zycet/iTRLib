@@ -104,6 +104,157 @@ namespace itr_math
             delete data;
         }
     }
-
+    //**********初等变换**********
+    /*
+     * 将RowNoAdd行加至RowNoResult行
+     */
+    void Matrix::AddRow(S32 RowNoAdd, S32 RowNoResult)
+    {
+        assert(RowNoAdd <= row && RowNoResult <= row);
+        calculateObj->Add(data + (RowNoAdd - 1) * col, data + (RowNoResult - 1) * col, col,
+                data + (RowNoResult - 1) * col);
+    }
+    /*
+     * 将Data加至RowNoResult行
+     */
+    void Matrix::AddRow(F32* Data, S32 RowNoResult)
+    {
+        assert(Data!=NULL);
+        assert(RowNoResult <= row);
+        calculateObj->Add(Data, data + (RowNoResult - 1) * col, col,
+                data + (RowNoResult - 1) * col);
+    }
+    /*
+     * 将RowNoSub行减至RowNoResult行
+     */
+    void Matrix::SubRow(S32 RowNoSub, S32 RowNoResult)
+    {
+        assert(RowNoSub <= row && RowNoResult <= row);
+        calculateObj->Sub(data + (RowNoResult - 1) * col, data + (RowNoSub - 1) * col, col,
+                data + (RowNoResult - 1) * col);
+    }
+    /*
+     * 将Data减至RowNoResult行
+     */
+    void Matrix::SubRow(F32* Data, S32 RowNoResult)
+    {
+        assert(Data!=NULL);
+        assert(RowNoResult <= row);
+        calculateObj->Sub(data + (RowNoResult - 1) * col, Data, col,
+                data + (RowNoResult - 1) * col);
+    }
+    /*
+     * 将RowNoResult行乘以K
+     */
+    void Matrix::MulRow(F32 K, S32 RowNoResult)
+    {
+        assert(RowNoResult <= row);
+        calculateObj->Multi(K, data + (RowNoResult - 1) * col, col, data + (RowNoResult - 1) * col);
+    }
+    //Swap Row
+    /*
+     * 交换RowNoA行和RowNoB行
+     */
+    void Matrix::SwapRow(S32 RowNoA, S32 RowNoB)
+    {
+        assert(RowNoA <= row);
+        assert(RowNoB <= row);
+        MemorySwap(data + (RowNoA - 1) * col, data + (RowNoB - 1) * col, col);
+    }
+    /*
+     * 将ColNoAdd列加至ColNoResult列
+     */
+    void Matrix::AddCol(S32 ColNoAdd, S32 ColNoResult)
+    {
+        assert(ColNoAdd<=col);
+        assert(ColNoResult<=col);
+        for (S32 i = 0; i < row; i++)
+            data[i * col + ColNoResult] = data[i * col + ColNoAdd] + data[i * col + ColNoResult];
+    }
+    /*
+     * 将Data加至ColNoResult列
+     */
+    void Matrix::AddCol(F32* Data, S32 ColNoResult)
+    {
+        assert(Data!=NULL);
+        assert(ColNoResult<=col);
+        for (S32 i = 0; i < row; i++)
+            data[i * col + ColNoResult] = Data[i] + data[i * col + ColNoResult];
+    }
+    /*
+     * 将ColNoSub列减至ColNoResult列
+     */
+    void Matrix::SubCol(S32 ColNoSub, S32 ColNoResult)
+    {
+        assert(ColNoSub<col);
+        assert(ColNoResult<col);
+        for (S32 i = 0; i < row; i++)
+            data[i * col + ColNoResult] = data[i * col + ColNoResult] - data[i * col + ColNoSub];
+    }
+    /*
+     * 将Data减至ColNoResult列
+     */
+    void Matrix::SubCol(F32* Data, S32 ColNoResult)
+    {
+        assert(Data!=NULL);
+        assert(ColNoResult<=col);
+        for (S32 i = 0; i < row; i++)
+            data[i * col + ColNoResult] = data[i * col + ColNoResult] - Data[i];
+    }
+    /*
+     * 将ColNoResult列乘以K
+     */
+    void Matrix::MulCol(F32 K, S32 ColNoResult)
+    {
+        assert(ColNoResult < col);
+        for (S32 i = 0; i < row; i++)
+            data[i * col + ColNoResult] = data[i * col + ColNoResult] * K;
+    }
+    /*
+     * 交换ColNoA列和ColNoB列
+     */
+    void Matrix::SwapCol(S32 ColNoA, S32 ColNoB)
+    {
+        assert(ColNoA<=col);
+        assert(ColNoB<=col);
+        F32 temp;
+        for (S32 i = 0; i < row; i++)
+        {
+            temp = data[i * col + ColNoB];
+            data[i * col + ColNoB] = data[i * col + ColNoA];
+            data[i * col + ColNoA] = temp;
+        }
+    }
+    //**********常量相关计算**********
+    /*
+     * 全部元素加上K
+     */
+    void Matrix::Add(F32 K)
+    {
+        for (S32 i = 0; i < col; i++)
+        {
+            calculateObj->Add(K, data + i * col, col, data + i * col);
+        }
+    }
+    /*
+     * 全部元素乘以K
+     */
+    void Matrix::Mul(F32 K)
+    {
+        for (S32 i = 0; i < col; i++)
+        {
+            calculateObj->Multi(K, data + i * col, col, data + i * col);
+        }
+    }
+    //**********向量相关计算**********
+    /*
+     * 左乘行向量
+     */
+    void Matrix::LeftMulRow(const Vector& Vec, Matrix& MatResult) const
+    {
+        assert(Vec.GetDim()==MatResult.row);
+        for(S32 i =0;i<col;i++)
+            calc
+    }
 }
 // namespace itr_math

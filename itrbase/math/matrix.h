@@ -413,15 +413,15 @@ namespace itr_math
              */
             void virtual SwapRow(S32 RowNoA, S32 RowNoB);
             /*
-             * 将ColNoAdd列加至ColNoResult行
+             * 将ColNoAdd列加至ColNoResult列
              */
             void virtual AddCol(S32 ColNoAdd, S32 ColNoResult);
             /*
-             * 将Data加至ColNoResult行
+             * 将Data加至ColNoResult列
              */
             void virtual AddCol(F32* Data, S32 ColNoResult);
             /*
-             * 将ColNoSub列减至ColNoResult行
+             * 将ColNoSub列减至ColNoResult列
              */
             void virtual SubCol(S32 ColNoSub, S32 ColNoResult);
             /*
