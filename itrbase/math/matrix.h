@@ -45,20 +45,6 @@ namespace itr_math
     class Matrix
     {
         public:
-            /*
-             * 设置数值计算对象(此函数需要在进行所有计算前调用)
-             */
-            inline static void SetNumericalObj(Numerical* NumericalObj)
-            {
-                numericalObj = NumericalObj;
-            }
-            /*
-             * 设置批量计算对象(此函数需要在进行所有计算前调用)
-             */
-            inline static void SetCalculateObj(Calculate* CalculateObj)
-            {
-                calculateObj = CalculateObj;
-            }
             //**********构造&析构**********
             /*
              * 初始化一个指定行列数的空矩阵(自动分配内存)
@@ -194,20 +180,45 @@ namespace itr_math
             /*
              * 将数据复制到指定列的部分区域
              */
-            inline void virtual CopyColFrom(S32 ColNo, S32 RowOffset, S32 RowNum, F32* Data);
+            inline void virtual CopyColFrom(S32 ColNo, S32 RowOffset, S32 RowNum, F32* Data)
+            {
+                assert(ColNo <= col && RowOffset+RowNum <= row);
+                assert(Data!=NULL);
+                for (S32 i = 0; i < RowNum; i++)
+                    MemoryCopy(data + (RowOffset - 1) * col + ColNo + i * row, Data, sizeof(F32));
+            }
             /*
              * 将数据复制到指定列
              */
-            inline void virtual CopyColFrom(S32 ColNo, F32* Data);
+            inline void virtual CopyColFrom(S32 ColNo, F32* Data)
+            {
+                assert(ColNo <= col);
+                assert(Data!=NULL);
+                for (S32 i = 0; i < row; i++)
+                    MemoryCopy(data + ColNo + i * row, Data, sizeof(F32));
+            }
             //Copy Col To
             /*
              * 复制指定列的部分区域数据出来
              */
-            inline void virtual CopyColTo(S32 ColNo, S32 RowOffset, S32 RowlNum, F32* Data) const;
+            inline void virtual CopyColTo(S32 ColNo, S32 RowOffset, S32 RowNum, F32* Data) const
+            {
+                assert(ColNo <= col&&RowOffset+RowNum<=row);
+                assert(Data!=NULL);
+                for (S32 i = 0; i < RowNum; i++)
+                    MemoryCopy(Data, data + (RowOffset - 1) * col + ColNo + i * row, sizeof(F32));
+
+            }
             /*
              * 复制指定列的数据出来
              */
-            inline void virtual CopyColTo(S32 ColNo, F32* Data) const;
+            inline void virtual CopyColTo(S32 ColNo, F32* Data) const
+            {
+                assert(ColNo<=col);
+                assert(Data!=NULL);
+                for (S32 i = 0; i < row; i++)
+                    MemoryCopy(Data, data + ColNo + i * row, sizeof(F32));
+            }
 
             //**********数据访问**********
             /*
@@ -249,53 +260,117 @@ namespace itr_math
             /*
              * 设置所有元素为0
              */
-            inline void virtual Clear();
+            inline void virtual Clear()
+            {
+                for (S32 i = 0; i < row * col; i++)
+                    data[i] = 0;
+            }
             /*
              * 设置所有元素为K
              */
-            inline void virtual Set(F32 K);
+            inline void virtual Set(F32 K)
+            {
+                for (S32 i = 0; i < row * col; i++)
+                    data[i] = K;
+            }
             /*
              * 设置主对角线元素为K
              */
-            void virtual SetDiag(F32 K);
+            inline void virtual SetDiag(F32 K)
+            {
+                for (S32 i = 0; i < row; i++)
+                    data[i * row + i] = K;
+            }
             /*
              * 设置主对角线元素为Data
              */
-            void virtual SetDiag(F32* Data);
+            inline void virtual SetDiag(F32* Data)
+            {
+                assert(Data!=NULL);
+                for (S32 i = 0; i < row; i++)
+                    data[i * row + i] = Data[i];
+            }
             /*
              * 将主对角线元素放至Data
              */
-            void virtual GetDiag(F32* Data) const;
+            inline void virtual GetDiag(F32* Data) const
+            {
+                assert(Data!=NULL);
+                for (S32 i = 0; i < row; i++)
+                    Data[i] = data[i * row + i];
+            }
 
             //**********维数匹配**********
             /*
              * 检查维数与Mat是否一致
              */
-            inline void virtual MatchDim(const Matrix& Mat) const;
+            inline BOOL virtual MatchDim(const Matrix& Mat) const
+            {
+                if (Mat.row == row && Mat.col == col)
+                    return true;
+                else
+                    return false;
+            }
             /*
              * 检查维数是否为Row,Col
              */
-            inline void virtual MatchDim(int Row, int Col) const;
+            inline BOOL virtual MatchDim(int Row, int Col) const
+            {
+                if (Row == row && Col == col)
+                    return true;
+                else
+                    return false;
+            }
             /*
              * 检查维数是否可右乘Mat
              */
-            inline void virtual MatchMul(const Matrix& Mat) const;
+            inline BOOL virtual MatchMul(const Matrix& Mat) const
+            {
+                if (col == Mat.row)
+                    return true;
+                else
+                    return false;
+            }
             /*
              * 检查维数是否可右乘行向量Vec
              */
-            inline void virtual MatchRightMulRow(const Vector& Vec) const;
+            inline BOOL virtual MatchRightMulRow(const Vector& Vec) const
+            {
+                if (col == Vec.GetDim())
+                    return true;
+                else
+                    return false;
+            }
             /*
              * 检查维数是否可右乘列向量Vec
              */
-            inline void virtual MatchRightMulCol(const Vector& Vec) const;
+            inline BOOL virtual MatchRightMulCol(const Vector& Vec) const
+            {
+                if (col == 1)
+                    return true;
+                else
+                    return false;
+            }
             /*
              * 检查维数是否可左乘行向量Vec
              */
-            inline void virtual MatchLeftMulRow(const Vector& Vec) const;
+            inline BOOL virtual MatchLeftMulRow(const Vector& Vec) const
+            {
+                if (row == Vec.GetDim())
+                    return true;
+                else
+                    return false;
+            }
             /*
              * 检查维数是否可左乘列向量Vec
              */
-            inline void virtual MatchLeftMulCol(const Vector& Vec) const;
+            inline BOOL virtual MatchLeftMulCol(const Vector& Vec) const
+            {
+                if (row == 1)
+                    return true;
+                else
+                    return false;
+            }
 
             //**********初等变换**********
             /*
@@ -324,15 +399,15 @@ namespace itr_math
              */
             void virtual SwapRow(S32 RowNoA, S32 RowNoB);
             /*
-             * 将ColNoAdd列加至ColNoResult行
+             * 将ColNoAdd列加至ColNoResult列
              */
             void virtual AddCol(S32 ColNoAdd, S32 ColNoResult);
             /*
-             * 将Data加至ColNoResult行
+             * 将Data加至ColNoResult列
              */
             void virtual AddCol(F32* Data, S32 ColNoResult);
             /*
-             * 将ColNoSub列减至ColNoResult行
+             * 将ColNoSub列减至ColNoResult列
              */
             void virtual SubCol(S32 ColNoSub, S32 ColNoResult);
             /*
@@ -376,9 +451,13 @@ namespace itr_math
              */
             void virtual RightMulCol(const Vector& Vec, Matrix& MatResult) const;
 
-             Vector virtual operator*(const Vector& vec) const;
+            Vector virtual operator*(const Vector& vec) const;
 
             //**********矩阵相关计算**********
+            /*
+             * 用于抽取矩阵中的某列
+             */
+            void virtual ColFill(F32* Data, S32 Offset, S32 Interval, S32 Length, F32* Result);
             /*
              * 加上矩阵MatrixAdd
              */
@@ -415,8 +494,6 @@ namespace itr_math
             S32 row, col;
             F32* data;
             BOOL localData;
-            static Numerical* numericalObj;
-            static Calculate* calculateObj;
     };
 
 } // namespace itr_math
