@@ -47,97 +47,97 @@ namespace itr_math
         // TODO Auto-generated destructor stub
     }
 
-    bool Numerical::Sin(F32 Source, F32& Result)
+    bool Numerical::Sin(F32 Source, F32& Result) const
     {
         Result = sin(Source);
         return true;
     }
 
-    bool Numerical::Cos(F32 Source, F32& Result)
+    bool Numerical::Cos(F32 Source, F32& Result) const
     {
         Result = sin(Source);
         return true;
     }
 
-    bool Numerical::SinCos(F32 Source, F32& ResultSin, F32& ResultCos)
+    bool Numerical::SinCos(F32 Source, F32& ResultSin, F32& ResultCos) const
     {
         ResultSin = sin(Source);
         ResultCos = cos(Source);
         return true;
     }
 
-    bool Numerical::Tan(F32 Source, F32& Result)
+    bool Numerical::Tan(F32 Source, F32& Result) const
     {
         Result = tan(Source);
         return true;
     }
 
-    bool Numerical::Asin(F32 Source, F32& Result)
+    bool Numerical::Asin(F32 Source, F32& Result) const
     {
         Result = asin(Source);
         return true;
     }
 
-    bool Numerical::Acos(F32 Source, F32& Result)
+    bool Numerical::Acos(F32 Source, F32& Result) const
     {
         Result = acos(Source);
         return true;
     }
 
-    bool Numerical::Atan(F32 Source, F32& Result)
+    bool Numerical::Atan(F32 Source, F32& Result) const
     {
         Result = atan(Source);
         return true;
     }
 
-    bool Numerical::Atan2(F32 SourceA, F32 SourceB, F32& Result)
+    bool Numerical::Atan2(F32 SourceA, F32 SourceB, F32& Result) const
     {
         Result = atan2(SourceA, SourceB);
         return true;
     }
 
-    bool Numerical::Sqrt(F32 Source, F32& Result)
+    bool Numerical::Sqrt(F32 Source, F32& Result) const
     {
         Result = sqrt(Source);
         return true;
     }
 
-    bool Numerical::InvSqrt(F32 Source, F32& Result)
+    bool Numerical::InvSqrt(F32 Source, F32& Result) const
     {
         Result = sqrt(Source);
         Result = 1 / Result;
         return true;
     }
 
-    bool Numerical::Exp(F32 Source, F32& Result)
+    bool Numerical::Exp(F32 Source, F32& Result) const
     {
         Result = exp(Source);
         return true;
     }
 
-    bool Numerical::Log(F32 Source, F32& Result)
+    bool Numerical::Log(F32 Source, F32& Result) const
     {
         Result = log(Source);
         return true;
     }
 
-    bool Numerical::Log10(F32 Source, F32& Result)
+    bool Numerical::Log10(F32 Source, F32& Result) const
     {
         Result = log10(Source);
         return true;
     }
 
-    bool Numerical::Pow(F32 SourceA, F32 SourceB, F32& Result)
+    bool Numerical::Pow(F32 SourceA, F32 SourceB, F32& Result) const
     {
         Result = pow(SourceA, SourceB);
         return true;
     }
-    bool Numerical::Floor(F32 Source, F32& Result)
+    bool Numerical::Floor(F32 Source, F32& Result) const
     {
         Result = floor(Source);
         return true;
     }
-    bool Numerical::Mod(S32 SourceA, S32 SourceB, S32& Result)
+    bool Numerical::Mod(S32 SourceA, S32 SourceB, S32& Result) const
     {
         Result = SourceA % SourceB;
         return true;

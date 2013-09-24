@@ -42,13 +42,6 @@ namespace itr_math
     class Calculate
     {
         public:
-            /*
-             * 设置数值计算对象(此函数需要在进行所有计算前调用)
-             */
-            inline static void SetNumericalObj(Numerical* NumericalObj)
-            {
-                numericalObj = NumericalObj;
-            }
             Calculate();
             virtual ~Calculate();
             virtual void Add(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const;
@@ -77,9 +70,6 @@ namespace itr_math
             virtual void Product(F32* SourceA, S32 Length, F32& Result) const;
             virtual void Set(S32* SourceA, S32 Value, S32 Length) const;
             virtual void Set(F32* SourceA, F32 Value, S32 Length) const;
-
-        private:
-            static Numerical* numericalObj;
     };
 
 } // namespace itr_math

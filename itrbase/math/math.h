@@ -39,11 +39,29 @@
 #define RAD2ANG(x) (x*57.2957795131)
 
 #include "numerical.h"
+namespace itr_math
+{
+    extern Numerical* NumericalObj;
+}
 #include "calculate.h"
+namespace itr_math
+{
+    extern Calculate* CalculateObj;
+}
 #include "statistics.h"
+namespace itr_math
+{
+    extern Statistics* StatisticsObj;
+}
 #include "vector.h"
 #include "matrix.h"
 #include "geometry.h"
 #include "transform2d.h"
+
+namespace itr_math
+{
+    void MathObjStandInit();
+    void MathObjStandDeinit();
+}
 
 #endif // MATH_H_

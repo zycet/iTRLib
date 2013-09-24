@@ -26,41 +26,33 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * numerical.h
- *  Created on: 2013年9月9日
- *      Author: ZYC
+ * math.cc
+ *  Created on: 2013-9-24
+ *      Author: buaa
  */
-
-#ifndef NUMERICAL_H_
-#define NUMERICAL_H_
 
 #include "../platform/platform.h"
 #include "math.h"
 
 namespace itr_math
 {
-    class Numerical
+    Numerical* NumericalObj;
+    Calculate* CalculateObj;
+    Statistics* StatisticsObj;
+
+    void MathObjStandInit()
     {
-        public:
-            Numerical();
-            virtual ~Numerical();
-            virtual bool Sin(F32 Source, F32& Result) const;
-            virtual bool Cos(F32 Source, F32& Result) const;
-            virtual bool SinCos(F32 Source, F32& ResultSin, F32& ResultCos) const;
-            virtual bool Tan(F32 Source, F32& Result) const;
-            virtual bool Asin(F32 Source, F32& Result) const;
-            virtual bool Acos(F32 Source, F32& Result) const;
-            virtual bool Atan(F32 Source, F32& Result) const;
-            virtual bool Atan2(F32 SourceA, F32 SourceB, F32& Result) const;
-            virtual bool Sqrt(F32 Source, F32& Result) const;
-            virtual bool InvSqrt(F32 Source, F32& Result) const;
-            virtual bool Exp(F32 Source, F32& Result) const;
-            virtual bool Log(F32 Source, F32& Result) const;
-            virtual bool Log10(F32 Source, F32& Result) const;
-            virtual bool Pow(F32 SourceA, F32 SourceB, F32& Result) const;
-            virtual bool Floor(F32 Source, F32& Result) const;
-            virtual bool Mod(S32 SourceA, S32 SourceB, S32& Result) const;
-    };
+        NumericalObj = new Numerical();
+        CalculateObj = new Calculate();
+        StatisticsObj = new Statistics();
+    }
+
+    void MathObjStandDeinit()
+    {
+        delete NumericalObj;
+        delete CalculateObj;
+        delete StatisticsObj;
+    }
 }
 
-#endif // NUMERICAL_H_
+

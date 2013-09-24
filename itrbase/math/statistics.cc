@@ -39,13 +39,10 @@
 
 namespace itr_math
 {
-    Numerical* Statistics::numericalObj = NULL;
-    Calculate* Statistics::calculateObj = NULL;
-
     Statistics::Statistics()
     {
-        assert(numericalObj!=NULL);
-        assert(calculateObj!=NULL);
+        assert(NumericalObj!=NULL);
+        assert(CalculateObj!=NULL);
     }
 
     Statistics::~Statistics()
@@ -53,7 +50,7 @@ namespace itr_math
         // TODO Auto-generated destructor stub
     }
 
-    bool Statistics::Max(S32* Source, S32 Length, S32& Result)
+    bool Statistics::Max(S32* Source, S32 Length, S32& Result) const
     {
         assert(Source!=NULL);
         assert(Length>0);
@@ -66,7 +63,7 @@ namespace itr_math
         return true;
     }
 
-    bool Statistics::Max(F32* Source, S32 Length, F32& Result)
+    bool Statistics::Max(F32* Source, S32 Length, F32& Result) const
     {
         assert(Source!=NULL);
         assert(Length>0);
@@ -79,7 +76,7 @@ namespace itr_math
         return true;
     }
 
-    bool Statistics::Min(S32* Source, S32 Length, S32& Result)
+    bool Statistics::Min(S32* Source, S32 Length, S32& Result) const
     {
         assert(Source!=NULL);
         assert(Length>0);
@@ -92,7 +89,7 @@ namespace itr_math
         return true;
     }
 
-    bool Statistics::Min(F32* Source, S32 Length, F32& Result)
+    bool Statistics::Min(F32* Source, S32 Length, F32& Result) const
     {
         assert(Source!=NULL);
         assert(Length>0);
@@ -105,7 +102,7 @@ namespace itr_math
         return true;
     }
 
-    bool Statistics::Mean(S32* Source, S32 Length, S32& Result)
+    bool Statistics::Mean(S32* Source, S32 Length, S32& Result) const
     {
         assert(Source!=NULL);
         assert(Length>0);
@@ -118,7 +115,7 @@ namespace itr_math
         return true;
     }
 
-    bool Statistics::Mean(F32* Source, S32 Length, F32& Result)
+    bool Statistics::Mean(F32* Source, S32 Length, F32& Result) const
     {
         assert(Source!=NULL);
         assert(Length>0);
@@ -131,7 +128,7 @@ namespace itr_math
         return true;
     }
 
-    bool Statistics::Median(S32* Source, S32 Length, S32& Result)
+    bool Statistics::Median(S32* Source, S32 Length, S32& Result) const
     {
         assert(Source!=NULL);
         assert(Length>0);
@@ -143,7 +140,7 @@ namespace itr_math
         return true;
     }
 
-    bool Statistics::Median(F32* Source, S32 Length, F32& Result)
+    bool Statistics::Median(F32* Source, S32 Length, F32& Result) const
     {
         assert(Source!=NULL);
         assert(Length>0);
@@ -155,7 +152,7 @@ namespace itr_math
         return true;
     }
 
-    bool Statistics::RMS(S32* Source, S32 Length, S32& Result)
+    bool Statistics::RMS(S32* Source, S32 Length, S32& Result) const
     {
         assert(Source!=NULL);
         assert(Length>0);
@@ -165,12 +162,12 @@ namespace itr_math
             RMSsum = RMSsum + Source[i] * Source[i];
         }
         F32 r;
-        numericalObj->Sqrt((RMSsum / Length), r);
+        NumericalObj->Sqrt((RMSsum / Length), r);
         Result = r;
         return true;
     }
 
-    bool Statistics::RMS(F32* Source, S32 Length, F32& Result)
+    bool Statistics::RMS(F32* Source, S32 Length, F32& Result) const
     {
         assert(Source!=NULL);
         assert(Length>0);
@@ -179,28 +176,28 @@ namespace itr_math
         {
             RMSsum = RMSsum + Source[i] * Source[i];
         }
-        numericalObj->Sqrt(RMSsum / Length, Result);
+        NumericalObj->Sqrt(RMSsum / Length, Result);
         return true;
     }
 
-    bool Statistics::STD(S32* Source, S32 Length, S32& Result)
+    bool Statistics::STD(S32* Source, S32 Length, S32& Result) const
     {
         assert(Source!=NULL);
         assert(Length>0);
         S32 aver;
         Mean(Source, Length, aver);
         S32* temp=new S32[Length];
-        calculateObj->Offset(Source,-aver,Length,temp);
-        calculateObj->Multi(temp,temp,Length,temp);
+        CalculateObj->Offset(Source,-aver,Length,temp);
+        CalculateObj->Multi(temp,temp,Length,temp);
         S32 rS32=0;
-        calculateObj->AddSum(temp,Length,rS32);
+        CalculateObj->AddSum(temp,Length,rS32);
         F32 rF32=rS32;
-        numericalObj->Sqrt((rF32 / Length), rF32);
+        NumericalObj->Sqrt((rF32 / Length), rF32);
         Result=rS32;
         return true;
     }
 
-    bool Statistics::STD(F32* Source, S32 Length, F32& Result)
+    bool Statistics::STD(F32* Source, S32 Length, F32& Result) const
     {
         assert(Source!=NULL);
         assert(Length>0);
@@ -211,7 +208,7 @@ namespace itr_math
         {
            STDsum = STDsum * STDsum + Source[i] * Source[i];
         }
-        numericalObj->Sqrt(STDsum / Length, Result);
+        NumericalObj->Sqrt(STDsum / Length, Result);
         return true;
     }
 } // namespace itr_math

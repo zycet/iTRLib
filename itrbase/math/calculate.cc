@@ -36,11 +36,9 @@
 
 namespace itr_math
 {
-    Numerical* Calculate::numericalObj=NULL;
-
     Calculate::Calculate()
     {
-        assert(numericalObj!=NULL);
+        assert(NumericalObj!=NULL);
     }
 
     Calculate::~Calculate()
@@ -69,7 +67,6 @@ namespace itr_math
         {
             Result[i] = SourceA[i] + SourceB[i];
         }
-        PRINT_DEBUG("Calculate::Add");
     }
 
     void Calculate::Sub(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const
@@ -198,7 +195,7 @@ namespace itr_math
         {
             temp += SourceA[i] * SourceA[i];
         }
-        temp = 1 / numericalObj->Sqrt(temp, temp);
+        temp = 1 / NumericalObj->Sqrt(temp, temp);
         for (int i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] * temp;
@@ -215,7 +212,7 @@ namespace itr_math
         {
             temp += SourceA[i] * SourceA[i];
         }
-        temp = 1 / numericalObj->Sqrt(temp, temp);
+        temp = 1 / NumericalObj->Sqrt(temp, temp);
         Scale(SourceA, temp, Length, Result);
     }
 
@@ -226,8 +223,7 @@ namespace itr_math
         assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
-            (SourceA[i] >= 0) ? Result[i] = SourceA[i] : Result[i] = -1 * SourceA[i];
-
+            Result[i] = GET_ABS(SourceA[i]);
         }
     }
 
@@ -238,7 +234,7 @@ namespace itr_math
         assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
-            (SourceA[i] >= 0) ? Result[i] = SourceA[i] : Result[i] = -1 * SourceA[i];
+            Result[i] = GET_ABS(SourceA[i]);
         }
     }
 
@@ -249,7 +245,7 @@ namespace itr_math
         assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
-            Result[i] = -1 * SourceA[i];
+            Result[i] = -SourceA[i];
         }
     }
 
@@ -260,7 +256,7 @@ namespace itr_math
         assert(Length > 0);
         for (S32 i = 0; i < Length; i++)
         {
-            Result[i] = -1 * SourceA[i];
+            Result[i] = -SourceA[i];
         }
     }
 

@@ -45,41 +45,22 @@ namespace itr_math
     class Statistics
     {
         public:
-            /*
-             * 设置数值计算对象(此函数需要在进行所有计算前调用)
-             */
-            inline static void SetNumericalObj(Numerical* NumericalObj)
-            {
-                numericalObj = NumericalObj;
-            }
-            /*
-             * 设置批量计算对象(此函数需要在进行所有计算前调用)
-             */
-            inline static void SetCalculateObj(Calculate* CalculateObj)
-            {
-                calculateObj = CalculateObj;
-            }
             Statistics();
             virtual ~Statistics();
-            virtual bool Max(S32* Source, S32 Length, S32& Result);
-            virtual bool Max(F32* Source, S32 Length, F32& Result);
-            virtual bool Min(S32* Source, S32 Length, S32& Result);
-            virtual bool Min(F32* Source, S32 Length, F32& Result);
-            virtual bool Mean(S32* Source, S32 Length, S32& Result);
-            virtual bool Mean(F32* Source, S32 Length, F32& Result);
-            virtual bool Median(S32* Source, S32 Length, S32& Result);
-            virtual bool Median(F32* Source, S32 Length, F32& Result);
-            virtual bool RMS(S32* Source, S32 Length, S32& Result);
-            virtual bool RMS(F32* Source, S32 Length, F32& Result);
-            virtual bool STD(S32* Source, S32 Length, S32& Result);
-            virtual bool STD(F32* Source, S32 Length, F32& Result);
-
-        private:
-            static Numerical* numericalObj;
-            static Calculate* calculateObj;
+            virtual bool Max(S32* Source, S32 Length, S32& Result) const;
+            virtual bool Max(F32* Source, S32 Length, F32& Result) const;
+            virtual bool Min(S32* Source, S32 Length, S32& Result) const;
+            virtual bool Min(F32* Source, S32 Length, F32& Result) const;
+            virtual bool Mean(S32* Source, S32 Length, S32& Result) const;
+            virtual bool Mean(F32* Source, S32 Length, F32& Result) const;
+            virtual bool Median(S32* Source, S32 Length, S32& Result) const;
+            virtual bool Median(F32* Source, S32 Length, F32& Result) const;
+            virtual bool RMS(S32* Source, S32 Length, S32& Result) const;
+            virtual bool RMS(F32* Source, S32 Length, F32& Result) const;
+            virtual bool STD(S32* Source, S32 Length, S32& Result) const;
+            virtual bool STD(F32* Source, S32 Length, F32& Result) const;
     };
 
 } // namespace itr_math
 
 #endif //statistics STATISTICS_H_
-
