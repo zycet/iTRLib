@@ -36,11 +36,7 @@
 
 namespace itr_math
 {
-<<<<<<< HEAD
-=======
-    Numerical* Calculate::numericalObj = NULL;
 
->>>>>>> c77f70b0132074fe6e1bd8a1e982a69dd48e4315
     Calculate::Calculate()
     {
         assert(NumericalObj!=NULL);
@@ -72,28 +68,6 @@ namespace itr_math
         {
             Result[i] = SourceA[i] + SourceB[i];
         }
-    }
-    void Calculate::Add(S32 SourceA, S32* SourceB, S32 Length, S32* Result) const
-    {
-        assert(SourceB!=NULL);
-        assert(Result!=NULL);
-        assert(Length > 0);
-        for (S32 i = 0; i < Length; i++)
-        {
-            Result[i] = SourceA + SourceB[i];
-        }
-    }
-
-    void Calculate::Add(F32 SourceA, F32* SourceB, S32 Length, F32* Result) const
-    {
-        assert(SourceB!=NULL);
-        assert(Result!=NULL);
-        assert(Length > 0);
-        for (S32 i = 0; i < Length; i++)
-        {
-            Result[i] = SourceA + SourceB[i];
-        }
-        PRINT_DEBUG("Calculate::Add");
     }
 
     void Calculate::Sub(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const
@@ -144,27 +118,6 @@ namespace itr_math
         }
     }
 
-    void Calculate::Multi(S32 SourceA, S32* SourceB, S32 Length, S32* Result) const
-    {
-        assert(SourceB!=NULL);
-        assert(Result!=NULL);
-        assert(Length > 0);
-        for (S32 i = 0; i < Length; i++)
-        {
-            Result[i] = SourceA * SourceB[i];
-        }
-    }
-
-    void Calculate::Multi(F32 SourceA, F32* SourceB, S32 Length, F32* Result) const
-    {
-        assert(SourceB!=NULL);
-        assert(Result!=NULL);
-        assert(Length > 0);
-        for (S32 i = 0; i < Length; i++)
-        {
-            Result[i] = SourceA * SourceB[i];
-        }
-    }
     void Calculate::Div(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const
     {
         assert(SourceA!=NULL);
