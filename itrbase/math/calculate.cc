@@ -27,7 +27,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * calculate.cc
- *  Created on: 2013��9��9��
+ *  Created on: 2013年9月9日
  *      Author: ZYC
  */
 

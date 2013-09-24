@@ -46,10 +46,14 @@ namespace itr_math
             virtual ~Calculate();
             virtual void Add(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const;
             virtual void Add(F32* SourceA, F32* SourceB, S32 Length, F32* Result) const;
+            virtual void Add(S32 SourceA, S32* SourceB, S32 Length, S32* Result) const;
+            virtual void Add(F32 SourceA, F32* SourceB, S32 Length, F32* Result) const;
             virtual void Sub(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const;
             virtual void Sub(F32* SourceA, F32* SourceB, S32 Length, F32* Result) const;
             virtual void Multi(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const;
             virtual void Multi(F32* SourceA, F32* SourceB, S32 Length, F32* Result) const;
+            virtual void Multi(S32 SourceA, S32* SourceB, S32 Length, S32* Result) const;
+            virtual void Multi(F32 SourceA, F32* SourceB, S32 Length, F32* Result) const;
             virtual void Div(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const;
             virtual void Div(F32* SourceA, F32* SourceB, S32 Length, F32* Result) const;
             virtual void Offset(S32* SourceA, S32 Offset, S32 Length, S32* Result) const;
