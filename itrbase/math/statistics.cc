@@ -106,12 +106,8 @@ namespace itr_math
     {
         assert(Source!=NULL);
         assert(Length>0);
-        S32 Sum =0;
-        for (S32 i = 0; i < Length ; i++)
-        {
-           Sum =  Sum + Source[i];
-        }
-        Result = Sum / Length;
+        CalculateObj->AddSum(Source,Length,Result);
+        Result=Result/Length;
         return true;
     }
 
@@ -119,36 +115,20 @@ namespace itr_math
     {
         assert(Source!=NULL);
         assert(Length>0);
-        F32 Sum = 0;
-        for (S32 i = 0; i < Length; i++)
-        {
-           Sum =  Sum + Source[i];
-        }
-        Result = Sum / Length;
+        CalculateObj->AddSum(Source,Length,Result);
+        Result=Result/Length;
         return true;
     }
 
     bool Statistics::Median(S32* Source, S32 Length, S32& Result) const
     {
-        assert(Source!=NULL);
-        assert(Length>0);
-        S32 M;
-        Max(Source, Length, M);
-        S32 m;
-        Min(Source, Length, m);
-        Result = (M + m) / 2;
+        //To Do
         return true;
     }
 
     bool Statistics::Median(F32* Source, S32 Length, F32& Result) const
     {
-        assert(Source!=NULL);
-        assert(Length>0);
-        F32 M;
-        Max(Source, Length, M);
-        F32 m;
-        Min(Source, Length, m);
-        Result = (M + m) / 2;
+        //To DO
         return true;
     }
 
@@ -156,14 +136,13 @@ namespace itr_math
     {
         assert(Source!=NULL);
         assert(Length>0);
-        F32 RMSsum = 0;
-        for (S32 i = 0; i < Length; i++)
-        {
-            RMSsum = RMSsum + Source[i] * Source[i];
-        }
-        F32 r;
-        NumericalObj->Sqrt((RMSsum / Length), r);
-        Result = r;
+        S32* temp=new S32[Length];
+        CalculateObj->Multi(Source,Source,Length,temp);
+        S32 rS32=0;
+        CalculateObj->AddSum(temp,Length,rS32);
+        F32 rF32=rS32;
+        NumericalObj->Sqrt((rF32 / Length), rF32);
+        Result=rF32;
         return true;
     }
 
@@ -171,12 +150,10 @@ namespace itr_math
     {
         assert(Source!=NULL);
         assert(Length>0);
-        F32 RMSsum = 0;
-        for (S32 i = 0; i < Length; i++)
-        {
-            RMSsum = RMSsum + Source[i] * Source[i];
-        }
-        NumericalObj->Sqrt(RMSsum / Length, Result);
+        F32* temp=new F32[Length];
+        CalculateObj->Multi(Source,Source,Length,temp);
+        CalculateObj->AddSum(temp,Length,Result);
+        NumericalObj->Sqrt((Result / Length), Result);
         return true;
     }
 
@@ -193,7 +170,7 @@ namespace itr_math
         CalculateObj->AddSum(temp,Length,rS32);
         F32 rF32=rS32;
         NumericalObj->Sqrt((rF32 / Length), rF32);
-        Result=rS32;
+        Result=rF32;
         return true;
     }
 
@@ -203,12 +180,11 @@ namespace itr_math
         assert(Length>0);
         F32 aver;
         Mean(Source, Length, aver);
-        F32 STDsum = 0;
-        for (S32 i = 0; i < Length; i++)
-        {
-           STDsum = STDsum * STDsum + Source[i] * Source[i];
-        }
-        NumericalObj->Sqrt(STDsum / Length, Result);
+        F32* temp=new F32[Length];
+        CalculateObj->Offset(Source,-aver,Length,temp);
+        CalculateObj->Multi(temp,temp,Length,temp);
+        CalculateObj->AddSum(temp,Length,Result);
+        NumericalObj->Sqrt((Result / Length), Result);
         return true;
     }
 } // namespace itr_math
