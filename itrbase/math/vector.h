@@ -44,13 +44,6 @@ namespace itr_math
     {
         public:
             /*
-             * 设置批量计算对象(此函数需要在进行所有计算前调用)
-             */
-            inline static void SetCalculateObj(Calculate* CalculateObj)
-            {
-                calculateObj = CalculateObj;
-            }
-            /*
              * 初始化维数为Dim的向量(自动分配本地空间)
              */
             Vector(S32 Dim);
@@ -99,14 +92,14 @@ namespace itr_math
              */
             inline virtual void Zero()
             {
-                calculateObj->Set(data, 0, dim);
+                CalculateObj->Set(data, 0, dim);
             }
             /*
              * 全部设置为指定值
              */
             inline virtual void Set(F32 K)
             {
-                calculateObj->Set(data, K, dim);
+                CalculateObj->Set(data, K, dim);
             }
             /*
              * 复制数据至内部指定位置
@@ -154,14 +147,14 @@ namespace itr_math
              */
             inline virtual void Add(F32 K)
             {
-                calculateObj->Offset(data, K, dim, data);
+                CalculateObj->Offset(data, K, dim, data);
             }
             /*
              * 全部元素乘以K
              */
             inline virtual void Mul(F32 K)
             {
-                calculateObj->Scale(data, K, dim, data);
+                CalculateObj->Scale(data, K, dim, data);
             }
             /*
              * 加上向量Vec(维数需一致)
@@ -169,7 +162,7 @@ namespace itr_math
             inline virtual void Add(const Vector& Vec)
             {
                 assert(MatchDim(Vec));
-                calculateObj->Add(data, Vec.GetData(), dim, data);
+                CalculateObj->Add(data, Vec.GetData(), dim, data);
             }
             /*
              * 减去向量Vec(维数需一致)
@@ -177,7 +170,7 @@ namespace itr_math
             inline virtual void Sub(const Vector& Vec)
             {
                 assert(MatchDim(Vec));
-                calculateObj->Sub(data, Vec.GetData(), dim, data);
+                CalculateObj->Sub(data, Vec.GetData(), dim, data);
             }
             /*
              * 向量元素积
@@ -195,7 +188,6 @@ namespace itr_math
             F32* data;
             S32 dim;
             BOOL localData;
-            static Calculate* calculateObj;
     };
 
 } // namespace itr_math

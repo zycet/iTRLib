@@ -37,14 +37,12 @@
 
 namespace itr_math
 {
-    Calculate* Vector::calculateObj = NULL;
-
     /*
      * 初始化维数为Dim的向量(自动分配本地空间)
      */
     Vector::Vector(S32 Dim)
     {
-        assert(calculateObj!=NULL);
+        assert(CalculateObj!=NULL);
         assert(Dim > 0);
         data = new F32[Dim];
         assert(data!=NULL);
@@ -56,7 +54,7 @@ namespace itr_math
      */
     Vector::Vector(S32 Dim, F32* Data)
     {
-        assert(calculateObj!=NULL);
+        assert(CalculateObj!=NULL);
         assert(Dim > 0);
         data = Data;
         assert(data!=NULL);
@@ -68,7 +66,7 @@ namespace itr_math
      */
     Vector::Vector(const Vector& Vec)
     {
-        assert(calculateObj!=NULL);
+        assert(CalculateObj!=NULL);
         data = new F32[Vec.GetDim()];
         assert(data!=NULL);
         dim = Vec.GetDim();
@@ -123,7 +121,7 @@ namespace itr_math
     void Vector::Product(const Vector& Vec)
     {
         assert(MatchDim(Vec));
-        calculateObj->Multi(data, Vec.GetData(), dim, data);
+        CalculateObj->Multi(data, Vec.GetData(), dim, data);
     }
     /*
      * 向量内积(点乘)
@@ -132,7 +130,7 @@ namespace itr_math
     {
         assert(MatchDim(Vec));
         F32 result = 0;
-        calculateObj->MultiSum(data, Vec.GetData(), dim, result);
+        CalculateObj->MultiSum(data, Vec.GetData(), dim, result);
         return result;
     }
     /*
@@ -159,7 +157,7 @@ namespace itr_math
         //ax*by
         a[2] = data[0];
         b[2] = Vec[1];
-        calculateObj->Multi(a, b, dim3, r0);
+        CalculateObj->Multi(a, b, dim3, r0);
 
         //-az*by
         a[0] = data[2];
@@ -170,9 +168,9 @@ namespace itr_math
         //-ay*bx
         a[2] = data[1];
         b[2] = -Vec[0];
-        calculateObj->Multi(a, b, dim3, r1);
+        CalculateObj->Multi(a, b, dim3, r1);
         //累加
-        calculateObj->Add(r0, r1, dim3, VecResult.GetData());
+        CalculateObj->Add(r0, r1, dim3, VecResult.GetData());
     }
 
 } // namespace itr_math
