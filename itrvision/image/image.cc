@@ -40,12 +40,12 @@ namespace itr_vision
     {
         assert(Width>0);
         assert(Height>0);
-        this->pixels = new ColorARGB[Width * Height];
+        this->pixels = new U32[Width * Height];
         assert(this->pixels!=NULL);
         this->width = Width;
         this->height = Height;
         this->pixelsNumber = Width * Height;
-        this->pixelsLength = Width * Height * sizeof(ColorARGB);
+        this->pixelsLength = Width * Height * sizeof(U32);
         this->localData = true;
     }
 
@@ -54,11 +54,11 @@ namespace itr_vision
         assert(Width>0);
         assert(Height>0);
         assert(Pixels!=NULL);
-        this->pixels = static_cast<ColorARGB*>(Pixels);
+        this->pixels = static_cast<U32*>(Pixels);
         this->width = Width;
         this->height = Height;
         this->pixelsNumber = Width * Height;
-        this->pixelsLength = Width * Height * sizeof(ColorARGB);
+        this->pixelsLength = Width * Height * sizeof(U32);
         this->localData = false;
     }
 
@@ -74,12 +74,12 @@ namespace itr_vision
     {
         assert(Width>0);
         assert(Height>0);
-        this->pixels = new ColorGray[Width * Height];
+        this->pixels = new S16[Width * Height];
         assert(this->pixels!=NULL);
         this->width = Width;
         this->height = Height;
         this->pixelsNumber = Width * Height;
-        this->pixelsLength = Width * Height * sizeof(ColorGray);
+        this->pixelsLength = Width * Height * sizeof(S16);
         this->localData = true;
     }
 
@@ -88,11 +88,11 @@ namespace itr_vision
         assert(Width>0);
         assert(Height>0);
         assert(Pixels!=NULL);
-        this->pixels = static_cast<ColorGray*>(Pixels);
+        this->pixels = static_cast<S16*>(Pixels);
         this->width = Width;
         this->height = Height;
         this->pixelsNumber = Width * Height;
-        this->pixelsLength = Width * Height * sizeof(ColorGray);
+        this->pixelsLength = Width * Height * sizeof(S16);
         this->localData = false;
     }
 

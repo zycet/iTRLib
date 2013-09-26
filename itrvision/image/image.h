@@ -36,179 +36,161 @@
 
 #include "itrbase.h"
 
-namespace itr_vision
-{
+ namespace itr_vision
+ {
     /*
      * Alpha,Red,Green,Blue
      */
-    struct ARGB
-    {
-            U8 A, R, G, B;
-    };
-
-    /*
-     * A,R,G,B 4 Channel
-     * PixelSize=4
-     */
-    union ColorARGB
-    {
-            U32 Value;
-            ARGB Color;
-    };
-
-    /*
-     * Gray 1 Channel
-     * PixelSize=2
-     */
-    union ColorGray
-    {
-            U16 Value;
-            S16 Gray;
+     struct ARGB
+     {
+        U8 A, R, G, B;
     };
 
     class ImageARGB
     {
-        public:
-            ImageARGB(S32 Width, S32 Height);
-            ImageARGB(S32 Width, S32 Height, void* Pixels);
-            virtual ~ImageARGB();
-            inline ColorARGB* GetPixels()
-            {
-                return pixels;
-            }
-            inline ColorARGB* GetPixel(S32 Y, S32 X)
-            {
-                assert(X < this->width);
-                assert(Y < this->height);
-                return &this->pixels[Y * this->width + X];
-            }
-            inline ColorARGB& operator[](int index)
-            {
-                assert(index < this->pixelsNumber);
-                return this->pixels[index];
-            }
-            inline ColorARGB operator[](int index) const
-            {
-                assert(index < this->pixelsNumber);
-                return this->pixels[index];
-            }
-            inline ColorARGB& operator()(int Y, int X)
-            {
-                assert(X < this->width);
-                assert(Y < this->height);
-                return this->pixels[Y * this->width + X];
-            }
-            inline ColorARGB operator()(int Y, int X) const
-            {
-                assert(X < this->width);
-                assert(Y < this->height);
-                return this->pixels[Y * this->width + X];
-            }
+    public:
+        ImageARGB(S32 Width, S32 Height);
+        ImageARGB(S32 Width, S32 Height, void* Pixels);
+        ImageARGB(const ImageARGB& Img);
+        virtual ~ImageARGB();
+        inline U32* GetPixels()
+        {
+            return pixels;
+        }
+        inline U32* GetPixel(S32 Y, S32 X)
+        {
+            assert(X < this->width);
+            assert(Y < this->height);
+            return &this->pixels[Y * this->width + X];
+        }
+        inline U32& operator[](int index)
+        {
+            assert(index < this->pixelsNumber);
+            return this->pixels[index];
+        }
+        inline U32 operator[](int index) const
+        {
+            assert(index < this->pixelsNumber);
+            return this->pixels[index];
+        }
+        inline U32& operator()(int Y, int X)
+        {
+            assert(X < this->width);
+            assert(Y < this->height);
+            return this->pixels[Y * this->width + X];
+        }
+        inline U32 operator()(int Y, int X) const
+        {
+            assert(X < this->width);
+            assert(Y < this->height);
+            return this->pixels[Y * this->width + X];
+        }
 
-            inline S32 GetWidth() const
-            {
-                return width;
-            }
-            inline S32 GetHeight() const
-            {
-                return height;
-            }
-            inline S32 GetPixelsNumber() const
-            {
-                return pixelsNumber;
-            }
-            inline S32 GetPixelsLength() const
-            {
-                return pixelsLength;
-            }
-            inline BOOL MatchWidthHeight(const ImageARGB& Img) const
-            {
-                return (this->width == Img.GetWidth() && this->height == Img.GetHeight());
-            }
-            inline BOOL MatchWidthHeight(S32 Width, S32 Height) const
-            {
-                return (this->width == Width && this->height == Height);
-            }
+        inline S32 GetWidth() const
+        {
+            return width;
+        }
+        inline S32 GetHeight() const
+        {
+            return height;
+        }
+        inline S32 GetPixelsNumber() const
+        {
+            return pixelsNumber;
+        }
+        inline S32 GetPixelsLength() const
+        {
+            return pixelsLength;
+        }
+        inline BOOL MatchWidthHeight(const ImageARGB& Img) const
+        {
+            return (this->width == Img.GetWidth() && this->height == Img.GetHeight());
+        }
+        inline BOOL MatchWidthHeight(S32 Width, S32 Height) const
+        {
+            return (this->width == Width && this->height == Height);
+        }
 
-        private:
-            ColorARGB* pixels;
-            S32 width;
-            S32 height;
-            S32 pixelsNumber;
-            S32 pixelsLength;
-            BOOL localData;
+    private:
+        U32* pixels;
+        S32 width;
+        S32 height;
+        S32 pixelsNumber;
+        S32 pixelsLength;
+        BOOL localData;
     };
     class ImageGray
+    {
+    public:
+        ImageGray(S32 Width, S32 Height);
+        ImageGray(S32 Width, S32 Height, void* Pixels);
+        ImageGray(const ImageGray& Img);
+        virtual ~ImageGray();
+        inline S16* GetPixels()
         {
-            public:
-            ImageGray(S32 Width, S32 Height);
-            ImageGray(S32 Width, S32 Height, void* Pixels);
-                virtual ~ImageGray();
-                inline ColorGray* GetPixels()
-                {
-                    return pixels;
-                }
-                inline ColorGray* GetPixel(S32 Y, S32 X)
-                {
-                    assert(X < this->width);
-                    assert(Y < this->height);
-                    return &this->pixels[Y * this->width + X];
-                }
-                inline ColorGray& operator[](int index)
-                {
-                    assert(index < this->pixelsNumber);
-                    return this->pixels[index];
-                }
-                inline ColorGray operator[](int index) const
-                {
-                    assert(index < this->pixelsNumber);
-                    return this->pixels[index];
-                }
-                inline ColorGray& operator()(int Y, int X)
-                {
-                    assert(X < this->width);
-                    assert(Y < this->height);
-                    return this->pixels[Y * this->width + X];
-                }
-                inline ColorGray operator()(int Y, int X) const
-                {
-                    assert(X < this->width);
-                    assert(Y < this->height);
-                    return this->pixels[Y * this->width + X];
-                }
+            return pixels;
+        }
+        inline S16* GetPixel(S32 Y, S32 X)
+        {
+            assert(X < this->width);
+            assert(Y < this->height);
+            return &this->pixels[Y * this->width + X];
+        }
+        inline S16& operator[](int index)
+        {
+            assert(index < this->pixelsNumber);
+            return this->pixels[index];
+        }
+        inline S16 operator[](int index) const
+        {
+            assert(index < this->pixelsNumber);
+            return this->pixels[index];
+        }
+        inline S16& operator()(int Y, int X)
+        {
+            assert(X < this->width);
+            assert(Y < this->height);
+            return this->pixels[Y * this->width + X];
+        }
+        inline S16 operator()(int Y, int X) const
+        {
+            assert(X < this->width);
+            assert(Y < this->height);
+            return this->pixels[Y * this->width + X];
+        }
 
-                inline S32 GetWidth() const
-                {
-                    return width;
-                }
-                inline S32 GetHeight() const
-                {
-                    return height;
-                }
-                inline S32 GetPixelsNumber() const
-                {
-                    return pixelsNumber;
-                }
-                inline S32 GetPixelsLength() const
-                {
-                    return pixelsLength;
-                }
-                inline BOOL MatchWidthHeight(const ImageARGB& Img) const
-                {
-                    return (this->width == Img.GetWidth() && this->height == Img.GetHeight());
-                }
-                inline BOOL MatchWidthHeight(S32 Width, S32 Height) const
-                {
-                    return (this->width == Width && this->height == Height);
-                }
+        inline S32 GetWidth() const
+        {
+            return width;
+        }
+        inline S32 GetHeight() const
+        {
+            return height;
+        }
+        inline S32 GetPixelsNumber() const
+        {
+            return pixelsNumber;
+        }
+        inline S32 GetPixelsLength() const
+        {
+            return pixelsLength;
+        }
+        inline BOOL MatchWidthHeight(const ImageGray& Img) const
+        {
+            return (this->width == Img.GetWidth() && this->height == Img.GetHeight());
+        }
+        inline BOOL MatchWidthHeight(S32 Width, S32 Height) const
+        {
+            return (this->width == Width && this->height == Height);
+        }
 
-            private:
-                ColorGray* pixels;
-                S32 width;
-                S32 height;
-                S32 pixelsNumber;
-                S32 pixelsLength;
-                BOOL localData;
-        };
+    private:
+        S16* pixels;
+        S32 width;
+        S32 height;
+        S32 pixelsNumber;
+        S32 pixelsLength;
+        BOOL localData;
+    };
 } // namespace itr_image
 #endif // IMAGE_H_
