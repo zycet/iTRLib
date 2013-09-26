@@ -103,4 +103,34 @@ namespace itr_vision
             delete this->pixels;
         }
     }
+
+    void ImageFormatComvert(const ImageARGB& Input, ImageGray& Output)
+    {
+        assert(Input.MatchWidthHeight(Output.GetWidth(),Output.GetHeight()));
+        S32 pixelsNumber = Input.GetPixelsNumber();
+        U8* input = (U8*) Input.GetPixels();
+        S16* output = Output.GetPixels();
+        S32 offset = 0;
+        for (int i = 0; i < pixelsNumber; i++)
+        {
+            output[i] = input[offset + 1] + input[offset + 2] + input[offset + 3];
+            offset += 4;
+        }
+    }
+
+    void ImageFormatComvert(const ImageGray& Input, ImageARGB& Output, S32 DivK)
+    {
+        assert(Input.MatchWidthHeight(Output.GetWidth(),Output.GetHeight()));
+        S32 pixelsNumber = Input.GetPixelsNumber();
+        S16* input = Input.GetPixels();
+        U8* output = (U8*) Output.GetPixels();
+        S32 offset = 0;
+        U8 value;
+        for (int i = 0; i < pixelsNumber; i++)
+        {
+            value = GET_IN_RANGE(GET_ABS((input[i]>>DivK)),0,255);
+            output[offset + 1] = output[offset + 2] = output[offset + 3] = value;
+            offset += 4;
+        }
+    }
 } // namespace itr_image

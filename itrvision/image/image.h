@@ -53,11 +53,11 @@
         ImageARGB(S32 Width, S32 Height, void* Pixels);
         ImageARGB(const ImageARGB& Img);
         virtual ~ImageARGB();
-        inline U32* GetPixels()
+        inline U32* GetPixels() const
         {
             return pixels;
         }
-        inline U32* GetPixel(S32 Y, S32 X)
+        inline U32* GetPixel(S32 Y, S32 X) const
         {
             assert(X < this->width);
             assert(Y < this->height);
@@ -126,11 +126,11 @@
         ImageGray(S32 Width, S32 Height, void* Pixels);
         ImageGray(const ImageGray& Img);
         virtual ~ImageGray();
-        inline S16* GetPixels()
+        inline S16* GetPixels() const
         {
             return pixels;
         }
-        inline S16* GetPixel(S32 Y, S32 X)
+        inline S16* GetPixel(S32 Y, S32 X) const
         {
             assert(X < this->width);
             assert(Y < this->height);
@@ -192,5 +192,8 @@
         S32 pixelsLength;
         BOOL localData;
     };
+
+    void ImageFormatComvert(const ImageARGB& Input,ImageGray& Output);
+    void ImageFormatComvert(const ImageGray& Input,ImageARGB& Output,S32 DivK);
 } // namespace itr_image
 #endif // IMAGE_H_
