@@ -36,39 +36,33 @@
 
 namespace itr_vision
 {
-    Image::Image(S32 Width, S32 Height, S32 PixelSize, S32 PixelType)
+    ImageARGB::ImageARGB(S32 Width, S32 Height)
     {
         assert(Width>0);
         assert(Height>0);
-        assert(PixelSize>0);
-        this->pixels = new U8[Width * Height * pixelSize];
+        this->pixels = new ColorARGB[Width * Height];
         assert(this->pixels!=NULL);
         this->width = Width;
         this->height = Height;
-        this->pixelSize = PixelSize;
-        this->pixelType = PixelType;
         this->pixelsNumber = Width * Height;
-        this->pixelsLength = Width * Height * pixelSize;
+        this->pixelsLength = Width * Height * sizeof(ColorARGB);
         this->localData = true;
     }
 
-    Image::Image(S32 Width, S32 Height, S32 PixelSize, S32 PixelType, void* Pixels)
+    ImageARGB::ImageARGB(S32 Width, S32 Height, void* Pixels)
     {
         assert(Width>0);
         assert(Height>0);
-        assert(PixelSize>0);
         assert(Pixels!=NULL);
-        this->pixels = static_cast<U8*>(Pixels);
+        this->pixels = static_cast<ColorARGB*>(Pixels);
         this->width = Width;
         this->height = Height;
-        this->pixelSize = PixelSize;
-        this->pixelType = PixelType;
         this->pixelsNumber = Width * Height;
-        this->pixelsLength = Width * Height * pixelSize;
+        this->pixelsLength = Width * Height * sizeof(ColorARGB);
         this->localData = false;
     }
 
-    Image::~Image()
+    ImageARGB::~ImageARGB()
     {
         if (this->localData == true)
         {
@@ -76,23 +70,37 @@ namespace itr_vision
         }
     }
 
-    BOOL Image::CovertTypeTo(Image& ImgOutput) const
+    ImageGray::ImageGray(S32 Width, S32 Height)
     {
-        assert(this->MatchWidthHeight(ImgOutput));
-        if (this->GetPixelType() == 0 && ImgOutput.GetPixelType() == 1)
-        {
-            assert(false);
-
-        }
-        else if (this->GetPixelType() == 1 && ImgOutput.GetPixelType() == 0)
-        {
-            assert(false);
-        }
-        else
-        {
-            return false;
-        }
-        return true;
+        assert(Width>0);
+        assert(Height>0);
+        this->pixels = new ColorGray[Width * Height];
+        assert(this->pixels!=NULL);
+        this->width = Width;
+        this->height = Height;
+        this->pixelsNumber = Width * Height;
+        this->pixelsLength = Width * Height * sizeof(ColorGray);
+        this->localData = true;
     }
 
+    ImageGray::ImageGray(S32 Width, S32 Height, void* Pixels)
+    {
+        assert(Width>0);
+        assert(Height>0);
+        assert(Pixels!=NULL);
+        this->pixels = static_cast<ColorGray*>(Pixels);
+        this->width = Width;
+        this->height = Height;
+        this->pixelsNumber = Width * Height;
+        this->pixelsLength = Width * Height * sizeof(ColorGray);
+        this->localData = false;
+    }
+
+    ImageGray::~ImageGray()
+    {
+        if (this->localData == true)
+        {
+            delete this->pixels;
+        }
+    }
 } // namespace itr_image

@@ -44,9 +44,7 @@ namespace itr_vision
         public:
             enum ConvertResult
             {
-                Success = 0,
-                LengthIllegal=1,
-                FormatIllegal=2
+                Success = 0, LengthIllegal = 1, FormatIllegal = 2
             };
             struct ImageInfo
             {
@@ -57,9 +55,11 @@ namespace itr_vision
             };
             IFormat();
             virtual ~IFormat();
-            virtual ConvertResult GetInfo(const U8* Data, S32 Length, ImageInfo& ImgInfo)=0;
-            virtual ConvertResult ToImage(const U8* Data, S32 Length, Image& Img)=0;
-            virtual ConvertResult ToBinary(const Image& Img, U8* Data, S32& Length)=0;
+            virtual ConvertResult GetInfo(U8* Data, S32 Length, ImageInfo& ImgInfo)=0;
+            virtual ConvertResult ToImage(U8* Data, S32 Length, ImageARGB& Img)=0;
+            virtual ConvertResult ToImage(U8* Data, S32 Length, ImageGray& Img)=0;
+            virtual ConvertResult ToBinary(ImageARGB& Img, U8* Data, S32& Length)=0;
+            virtual ConvertResult ToBinary(ImageGray& Img, U8* Data, S32& Length)=0;
     };
 
 } // namespace itr_image

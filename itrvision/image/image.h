@@ -39,20 +39,26 @@
 namespace itr_vision
 {
     /*
+     * Alpha,Red,Green,Blue
+     */
+    struct ARGB
+    {
+            U8 A, R, G, B;
+    };
+
+    /*
      * A,R,G,B 4 Channel
      * PixelSize=4
-     * PixelType=0
      */
     union ColorARGB
     {
             U32 Value;
-            U8 A, R, G, B;
+            ARGB Color;
     };
 
     /*
      * Gray 1 Channel
      * PixelSize=2
-     * PixelType=1
      */
     union ColorGray
     {
@@ -60,22 +66,45 @@ namespace itr_vision
             S16 Gray;
     };
 
-    class Image
+    class ImageARGB
     {
         public:
-            Image(S32 Width, S32 Height, S32 PixelSize, S32 PixelType);
-            Image(S32 Width, S32 Height, S32 PixelSize, S32 PixelType, void* Pixels);
-            virtual ~Image();
-            inline U8* GetPixels() const
+            ImageARGB(S32 Width, S32 Height);
+            ImageARGB(S32 Width, S32 Height, void* Pixels);
+            virtual ~ImageARGB();
+            inline ColorARGB* GetPixels()
             {
                 return pixels;
             }
-            inline U8* GetPixel(S32 Y, S32 X) const
+            inline ColorARGB* GetPixel(S32 Y, S32 X)
             {
-                S32 offset = Y * this->width + X;
-                offset *= this->pixelSize;
-                return (pixels + offset);
+                assert(X < this->width);
+                assert(Y < this->height);
+                return &this->pixels[Y * this->width + X];
             }
+            inline ColorARGB& operator[](int index)
+            {
+                assert(index < this->pixelsNumber);
+                return this->pixels[index];
+            }
+            inline ColorARGB operator[](int index) const
+            {
+                assert(index < this->pixelsNumber);
+                return this->pixels[index];
+            }
+            inline ColorARGB& operator()(int Y, int X)
+            {
+                assert(X < this->width);
+                assert(Y < this->height);
+                return this->pixels[Y * this->width + X];
+            }
+            inline ColorARGB operator()(int Y, int X) const
+            {
+                assert(X < this->width);
+                assert(Y < this->height);
+                return this->pixels[Y * this->width + X];
+            }
+
             inline S32 GetWidth() const
             {
                 return width;
@@ -83,14 +112,6 @@ namespace itr_vision
             inline S32 GetHeight() const
             {
                 return height;
-            }
-            inline S32 GetPixelSize() const
-            {
-                return pixelSize;
-            }
-            inline S32 GetPixelType() const
-            {
-                return pixelType;
             }
             inline S32 GetPixelsNumber() const
             {
@@ -100,7 +121,7 @@ namespace itr_vision
             {
                 return pixelsLength;
             }
-            inline BOOL MatchWidthHeight(const Image& Img) const
+            inline BOOL MatchWidthHeight(const ImageARGB& Img) const
             {
                 return (this->width == Img.GetWidth() && this->height == Img.GetHeight());
             }
@@ -108,18 +129,86 @@ namespace itr_vision
             {
                 return (this->width == Width && this->height == Height);
             }
-            BOOL CovertTypeTo(Image& ImgOutput) const;
 
         private:
-            U8* pixels;
+            ColorARGB* pixels;
             S32 width;
             S32 height;
-            S32 pixelSize;
-            S32 pixelType;
             S32 pixelsNumber;
             S32 pixelsLength;
             BOOL localData;
     };
+    class ImageGray
+        {
+            public:
+            ImageGray(S32 Width, S32 Height);
+            ImageGray(S32 Width, S32 Height, void* Pixels);
+                virtual ~ImageGray();
+                inline ColorGray* GetPixels()
+                {
+                    return pixels;
+                }
+                inline ColorGray* GetPixel(S32 Y, S32 X)
+                {
+                    assert(X < this->width);
+                    assert(Y < this->height);
+                    return &this->pixels[Y * this->width + X];
+                }
+                inline ColorGray& operator[](int index)
+                {
+                    assert(index < this->pixelsNumber);
+                    return this->pixels[index];
+                }
+                inline ColorGray operator[](int index) const
+                {
+                    assert(index < this->pixelsNumber);
+                    return this->pixels[index];
+                }
+                inline ColorGray& operator()(int Y, int X)
+                {
+                    assert(X < this->width);
+                    assert(Y < this->height);
+                    return this->pixels[Y * this->width + X];
+                }
+                inline ColorGray operator()(int Y, int X) const
+                {
+                    assert(X < this->width);
+                    assert(Y < this->height);
+                    return this->pixels[Y * this->width + X];
+                }
 
+                inline S32 GetWidth() const
+                {
+                    return width;
+                }
+                inline S32 GetHeight() const
+                {
+                    return height;
+                }
+                inline S32 GetPixelsNumber() const
+                {
+                    return pixelsNumber;
+                }
+                inline S32 GetPixelsLength() const
+                {
+                    return pixelsLength;
+                }
+                inline BOOL MatchWidthHeight(const ImageARGB& Img) const
+                {
+                    return (this->width == Img.GetWidth() && this->height == Img.GetHeight());
+                }
+                inline BOOL MatchWidthHeight(S32 Width, S32 Height) const
+                {
+                    return (this->width == Width && this->height == Height);
+                }
+
+            private:
+                ColorGray* pixels;
+                S32 width;
+                S32 height;
+                S32 pixelsNumber;
+                S32 pixelsLength;
+                BOOL localData;
+        };
 } // namespace itr_image
 #endif // IMAGE_H_
