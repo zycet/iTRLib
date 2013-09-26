@@ -35,11 +35,10 @@
 #define IFORMAT_H_
 
 #include "itrbase.h"
-#include "image.h"
+#include "../image/image.h"
 
-namespace itr_image
+namespace itr_vision
 {
-
     class IFormat
     {
         public:

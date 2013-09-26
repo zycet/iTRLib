@@ -34,7 +34,7 @@
 #include "itrbase.h"
 #include "image.h"
 
-namespace itr_image
+namespace itr_vision
 {
     Image::Image(S32 Width, S32 Height, S32 PixelSize, S32 PixelType)
     {

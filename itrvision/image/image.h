@@ -35,9 +35,8 @@
 #define IMAGE_H_
 
 #include "itrbase.h"
-#include "iformat.h"
 
-namespace itr_image
+namespace itr_vision
 {
     /*
      * A,R,G,B 4 Channel
