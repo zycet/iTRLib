@@ -43,10 +43,24 @@ namespace itr_image
     class IFormat
     {
         public:
+            enum ConvertResult
+            {
+                Success = 0,
+                LengthIllegal=1,
+                FormatIllegal=2
+            };
+            struct ImageInfo
+            {
+                    S32 Width;
+                    S32 Height;
+                    S32 PixelSize;
+                    S32 ColorChannel;
+            };
             IFormat();
             virtual ~IFormat();
-            virtual BOOL ToImage(const U8* Data, S32 Length, Image& Img)=0;
-            virtual BOOL ToBinary(const Image& Img, U8* Data, S32& Length)=0;
+            virtual ConvertResult GetInfo(const U8* Data, S32 Length, ImageInfo& ImgInfo)=0;
+            virtual ConvertResult ToImage(const U8* Data, S32 Length, Image& Img)=0;
+            virtual ConvertResult ToBinary(const Image& Img, U8* Data, S32& Length)=0;
     };
 
 } // namespace itr_image
