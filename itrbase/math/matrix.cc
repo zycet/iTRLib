@@ -146,7 +146,7 @@ namespace itr_math
     void Matrix::MulRow(F32 K, S32 RowNoResult)
     {
         assert(RowNoResult <= row);
-        CalculateObj->Scale(data + (RowNoResult - 1) * col,K,  col, data + (RowNoResult - 1) * col);
+        CalculateObj->Scale(data + (RowNoResult - 1) * col, K, col, data + (RowNoResult - 1) * col);
     }
     //Swap Row
     /*
@@ -321,18 +321,111 @@ namespace itr_math
         this->CopyTo(Mat.data);
     }
     /*
+     * 把Mat设为对角阵Mat[i][i] = value
+     */
+    BOOL Matrix::MatEye(F32 Value) const
+    {
+        if (this->row != this->col)
+            return false;
+        for (S32 i = 0; i < this->row; i++)
+            for (S32 j = 0; j < this->col; j++)
+            {
+                if (i == j)
+                    this->data[i * this->col + j] = Value;
+                else
+                    this->data[i * this->col + j] = 0;
+            }
+        return true;
+    }
+    /*
      * 求矩阵逆并将结果放至MatResult
      */
-    //void virtual Inv(Matrix& MatResult) const;
+    BOOL Matrix::Inv(Matrix& MatResult) const
+    {
+        S32 i, j, k;
+        Matrix MatTemp(this->row, this->col);
+        F32 lMax, temp;
+        S32 tempM, tempN;
+        tempM = MatTemp.row;
+        tempN = MatTemp.col;
+        MemoryCopy(MatTemp.data, this->data, this->row * this->col);
+        MatTemp.MatEye(1.0);
+        for (i = 0; i < this->row; i++)
+        {
+            //寻找主元
+            lMax = MatTemp.data[i * tempN + i];
+            k = i;
+            for (j = i + 1; j < this->row; j++)
+            {
+                if (GET_ABS(MatTemp.data[j*tempN+i]) > GET_ABS(lMax))
+                {
+                    lMax = MatTemp.data[j * tempN + i];
+                    k = j;
+                }
+            }
+            //如果主元所在行不是第i行，进行行变换
+            if (k != i)
+            {
+                for (j = 0; j < this->row; j++)
+                {
+                    temp = MatTemp.data[i * tempN + j];
+                    MatTemp.data[i * tempN + j] = MatTemp.data[k * tempN + j];
+                    MatTemp.data[k * tempN + j] = temp;
+                    temp = MatResult.data[i * MatResult.col + j];
+                    MatResult.data[i * MatResult.col + j] = MatResult.data[k * MatResult.col + j];
+                    MatResult.data[i * MatResult.col + j] = temp;
+                }
+            }
+            //判断主元是否是0，如果是，则矩阵不是满秩矩阵，不存在逆
+            if (MatTemp.data[i * tempN + i] == 0)
+            {
+                return false;
+            }
+            //消去第i列出去第i行以外到各行元素
+            temp = MatTemp.data[i * tempN + i];
+            for (j = 0; j < this->row; j++)
+            {
+                MatTemp.data[i * tempN + j] = MatTemp.data[i * tempN + j] / temp;
+                MatResult.data[i * tempN + j] = MatResult.data[i * tempN + j] / temp;
+            }
+
+            for (j = 0; j < this->row; j++)
+            {
+                if (j != i)
+                {
+                    temp = MatTemp.data[j * tempN + i];
+                    for (k = 0; k < this->col; k++)
+                    {
+                        MatTemp.data[j * tempN + k] = MatTemp.data[j * tempN + k]
+                                - MatTemp.data[i * tempN + k] * temp;
+                        MatResult.data[j * tempN + k] = MatResult.data[j * tempN + k]
+                                - MatResult.data[i * tempN + k] * temp;
+                    }
+                }
+            }
+        }
+        MatTemp.row = tempM;
+        MatTemp.col = tempN;
+        return true;
+    }
 
     /*
      * 求矩阵转置并将结果放至MatResult
      */
-    //void virtual Tran(Matrix& MatResult) const;
-
-    /*
-     * 求矩阵行列式值
-     */
-    //F32 virtual Det() const;
+    void Matrix::Tran(Matrix& MatResult) const
+    {
+        assert(this->row == this->col);
+        assert(MatResult.row == this->row && MatResult.col == this->col);
+        S32 i, j;
+        for (i = 0; i < this->row; i++)
+        {
+            for (j = 0; j < this->col; j++)
+                MatResult.data[j * MatResult.col + i] = MatResult.data[i * MatResult.col + j];
+        }
+    }
+/*
+ * 求矩阵行列式值
+ */
+//F32 virtual Det() const;
 }
 // namespace itr_math

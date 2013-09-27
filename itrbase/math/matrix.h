@@ -476,9 +476,13 @@ namespace itr_math
             Matrix virtual operator-(const Matrix& Mat) const;
             void virtual operator=(const Matrix& Mat);
             /*
+             * 把Mat设为对角阵Mat[i][i] = value
+             */
+            BOOL virtual MatEye(F32 Value) const;
+            /*
              * 求矩阵逆并将结果放至MatResult
              */
-            void virtual Inv(Matrix& MatResult) const;
+            BOOL virtual Inv(Matrix& MatResult) const;
 
             /*
              * 求矩阵转置并将结果放至MatResult
