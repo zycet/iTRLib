@@ -51,15 +51,31 @@ namespace itr_vision
             return IFormat::FormatIllegal;
         if (Length != (width * height + 4))
             return IFormat::LengthIllegal;
-        char data;
+        U8 data;
+        S16* img=Img.GetPixels();
         for (int j = 0; j < height; ++j)
         {
             for (int i = 0; i < width; ++i)
             {
                 str >> data;
-                Img(j, i) = data;
+                (*img) = data;
+                ++img;
             }
         }
         return IFormat::Success;
+    }
+
+    IFormat::ConvertResult FormatPPM::ToBinary(ImageGray& Img, U8* Data, S32& Length)
+    {
+        stringstream str;
+        str << "P6" << '\n';
+        str << Img.GetWidth() << ' ' << Img.GetHeight() << '\n';
+        S16* data = Img.GetPixels();
+        U8 p;
+        for (int i = 0; i < Img.GetPixelsNumber(); ++i)
+        {
+            p = *data++;
+            str << p;
+        }
     }
 } // namespace itr_vision

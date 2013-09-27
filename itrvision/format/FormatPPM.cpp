@@ -50,11 +50,14 @@ namespace itr_vision
         str >> head1 >> head2;
         str >> width >> height;
         str >> bit;
+        bit=9;
+        bit+=(width>1000)?4:((width>100)?3:(width>10?2:1));
+        bit+=(height>1000)?4:((height>100)?3:(height>10?2:1));
         if ((head1 != 'P') || (head2 != '6'))
             return IFormat::FormatIllegal;
-        if (Length != (width * height * 3 + 4))
+        if (Length != (width * height * 3 + bit))
             return IFormat::LengthIllegal;
-        char r, g, b;
+        U8 r, g, b;
         U32 data;
         for (int j = 0; j < height; ++j)
         {
@@ -78,20 +81,62 @@ namespace itr_vision
         str >> head1 >> head2;
         str >> width >> height;
         str >> bit;
+        bit=9;
+        bit+=(width>1000)?4:((width>100)?3:(width>10?2:1));
+        bit+=(height>1000)?4:((height>100)?3:(height>10?2:1));
         if ((head1 != 'P') || (head2 != '6'))
             return IFormat::FormatIllegal;
-        if (Length != (width * height * 3 + 4))
+        if (Length != (width * height * 3 + bit))
             return IFormat::LengthIllegal;
-        char r, g, b;
+        U8 r, g, b;
         S16 data;
         for (int j = 0; j < height; ++j)
         {
             for (int i = 0; i < width; ++i)
             {
-                str>>r>>g>>b;
-                data=floor(0.299*r+0.587*g+0.114*b);
+                str >> r >> g >> b;
+                data = floor(0.299 * r + 0.587 * g + 0.114 * b);
                 Img(j, i) = data;
             }
+        }
+        return IFormat::Success;
+    }
+
+    IFormat::ConvertResult FormatPPM::ToBinary(ImageARGB& Img, U8* Data, S32& Length)
+    {
+        if (Length < (Img.GetWidth() * Img.GetHeight() * 3 + 15))
+            return IFormat::LengthIllegal;
+        stringstream str;
+        str << "P6" << '\n';
+        str << Img.GetWidth() << ' ' << Img.GetHeight() << '\n';
+        str<<255<<'\n';
+        U32* data = Img.GetPixels();
+        U8 r, g, b;
+        for (int i = 0; i < Img.GetPixelsNumber(); ++i)
+        {
+            r = (*data) >> 16;
+            g = ((*data) & 0xFF00) >> 8;
+            b = (*data) & 0xFF;
+            str << r << g << b;
+            ++data;
+        }
+        return IFormat::Success;
+    }
+    IFormat::ConvertResult FormatPPM::ToBinary(ImageGray& Img, U8* Data, S32& Length)
+    {
+        if (Length < (Img.GetWidth() * Img.GetHeight() * 3 + 15))
+            return IFormat::LengthIllegal;
+        stringstream str;
+        str << "P6" << '\n';
+        str << Img.GetWidth() << ' ' << Img.GetHeight() << '\n';
+        str<<255<<'\n';
+        S16* data = Img.GetPixels();
+        U8 p;
+        for (int i = 0; i < Img.GetPixelsNumber(); ++i)
+        {
+            p = *data;
+            str << p << p << p;
+            ++data;
         }
         return IFormat::Success;
     }
