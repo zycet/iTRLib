@@ -26,28 +26,41 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * itrvision.h
- *  Created on: 2013-9-26
+ * iformat.h
+ *  Created on: 2013-9-25
  *      Author: buaa
  */
 
-#ifndef ITRVISION_H_
-#define ITRVISION_H_
+#ifndef IFORMAT_H_
+#define IFORMAT_H_
 
-#include "image/image.h"
-#include "format/format.h"
-#include "helper/helper.h"
-#include "operation/operation.h"
-#include "process/process.h"
-#include "feature/feature.h"
-
-/*
+#include "itrbase.h"
 #include "../image/image.h"
-#include "../format/format.h"
-#include "../helper/helper.h"
-#include "../operation/operation.h"
-#include "../process/process.h"
-#include "../feature/feature.h"
-*/
 
-#endif // ITRVISION_H_
+namespace itr_vision
+{
+    class IFormat
+    {
+        public:
+            enum ConvertResult
+            {
+                Success = 0, LengthIllegal = 1, FormatIllegal = 2
+            };
+            struct ImageInfo
+            {
+                    S32 Width;
+                    S32 Height;
+                    S32 PixelSize;
+                    S32 ColorChannel;
+            };
+            IFormat();
+            virtual ~IFormat();
+            virtual ConvertResult GetInfo(U8* Data, S32 Length, ImageInfo& ImgInfo)=0;
+            virtual ConvertResult ToImage(U8* Data, S32 Length, ImageARGB& Img)=0;
+            virtual ConvertResult ToImage(U8* Data, S32 Length, ImageGray& Img)=0;
+            virtual ConvertResult ToBinary(ImageARGB& Img, U8* Data, S32& Length)=0;
+            virtual ConvertResult ToBinary(ImageGray& Img, U8* Data, S32& Length)=0;
+    };
+
+} // namespace itr_image
+#endif // IFORMAT_H_

@@ -44,22 +44,24 @@ namespace itr_math
         public:
             Numerical();
             virtual ~Numerical();
-            virtual bool Sin(F32 Source, F32& Result) const;
-            virtual bool Cos(F32 Source, F32& Result) const;
-            virtual bool SinCos(F32 Source, F32& ResultSin, F32& ResultCos) const;
-            virtual bool Tan(F32 Source, F32& Result) const;
-            virtual bool Asin(F32 Source, F32& Result) const;
-            virtual bool Acos(F32 Source, F32& Result) const;
-            virtual bool Atan(F32 Source, F32& Result) const;
-            virtual bool Atan2(F32 SourceA, F32 SourceB, F32& Result) const;
-            virtual bool Sqrt(F32 Source, F32& Result) const;
-            virtual bool InvSqrt(F32 Source, F32& Result) const;
-            virtual bool Exp(F32 Source, F32& Result) const;
-            virtual bool Log(F32 Source, F32& Result) const;
-            virtual bool Log10(F32 Source, F32& Result) const;
-            virtual bool Pow(F32 SourceA, F32 SourceB, F32& Result) const;
-            virtual bool Floor(F32 Source, F32& Result) const;
-            virtual bool Mod(S32 SourceA, S32 SourceB, S32& Result) const;
+            virtual BOOL Sin(F32 Source, F32& Result) const;
+            virtual BOOL Cos(F32 Source, F32& Result) const;
+            virtual BOOL SinCos(F32 Source, F32& ResultSin, F32& ResultCos) const;
+            virtual BOOL Tan(F32 Source, F32& Result) const;
+            virtual BOOL Asin(F32 Source, F32& Result) const;
+            virtual BOOL Acos(F32 Source, F32& Result) const;
+            virtual BOOL Atan(F32 Source, F32& Result) const;
+            virtual BOOL Atan2(F32 SourceA, F32 SourceB, F32& Result) const;
+            virtual BOOL Sqrt(F32 Source, F32& Result) const;
+            virtual BOOL InvSqrt(F32 Source, F32& Result) const;
+            virtual BOOL Exp(F32 Source, F32& Result) const;
+            virtual BOOL Log(F32 Source, F32& Result) const;
+            virtual BOOL Log10(F32 Source, F32& Result) const;
+            virtual BOOL Pow(F32 SourceA, F32 SourceB, F32& Result) const;
+            virtual BOOL Floor(F32 Source, S32& Result) const;
+            virtual BOOL Ceil(F32 Source, S32& Result) const;
+            virtual BOOL Round(F32 Source, S32& Result) const;
+            virtual BOOL Mod(S32 SourceA, S32 SourceB, S32& Result) const;
     };
 }
 

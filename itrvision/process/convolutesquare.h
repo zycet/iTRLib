@@ -26,28 +26,35 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * itrvision.h
- *  Created on: 2013-9-26
+ * convolutesquare.h
+ *  Created on: 2013-9-27
  *      Author: buaa
  */
 
-#ifndef ITRVISION_H_
-#define ITRVISION_H_
+#ifndef CONVOLUTESQUARE_H_
+#define CONVOLUTESQUARE_H_
 
-#include "image/image.h"
-#include "format/format.h"
-#include "helper/helper.h"
-#include "operation/operation.h"
-#include "process/process.h"
-#include "feature/feature.h"
-
-/*
+#include "itrbase.h"
 #include "../image/image.h"
-#include "../format/format.h"
-#include "../helper/helper.h"
-#include "../operation/operation.h"
-#include "../process/process.h"
-#include "../feature/feature.h"
-*/
 
-#endif // ITRVISION_H_
+namespace itr_vision
+{
+
+    class ConvoluteSquare
+    {
+        public:
+            ConvoluteSquare(S32 FilterDim, S32 Width, S32 Height);
+            virtual ~ConvoluteSquare();
+            void Convolute(const ImageGray& Input, S16* Filter, S32 DivOrder,
+                    ImageGray& Output);
+        private:
+            S16* multBufferS16;
+            S16* imageBufferS16;
+            S32 width;
+            S32 height;
+            S32 filterDim;
+            S32 r;
+    };
+
+} // namespace itr_image
+#endif // CONVOLUTESQUARE_H_

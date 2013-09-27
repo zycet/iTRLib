@@ -26,28 +26,41 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * itrvision.h
- *  Created on: 2013-9-26
+ * gaussiangenerate.cc
+ *  Created on: 2013-9-27
  *      Author: buaa
  */
 
-#ifndef ITRVISION_H_
-#define ITRVISION_H_
+#include "gaussiangenerate.h"
+#include "itrbase.h"
 
-#include "image/image.h"
-#include "format/format.h"
-#include "helper/helper.h"
-#include "operation/operation.h"
-#include "process/process.h"
-#include "feature/feature.h"
+namespace itr_vision
+{
+    void GaussianGenerate::Generate(F32 Sigma, S32 Length, F32* Data)
+    {
+        assert(Sigma>0);
+        assert(IS_ODD(Length));
+        assert(Data!=NULL);
+        S32 r = Length >> 1;
+        F32 value = 0;
+        itr_math::NumericalObj->Sqrt(2 * PI, value);
+        F32 base = 1 / (value * Sigma);
+        F32 sigma2 = 1 / (GET_SQUARE(Sigma) * 2);
+        for (S32 i = 0; i <= r; i++)
+        {
+            itr_math::NumericalObj->Exp(-GET_SQUARE(r-i) * sigma2, value);
+            value *= base;
+            Data[i] = Data[Length - 1 - i] = value;
+        }
+    }
 
-/*
-#include "../image/image.h"
-#include "../format/format.h"
-#include "../helper/helper.h"
-#include "../operation/operation.h"
-#include "../process/process.h"
-#include "../feature/feature.h"
-*/
+    S32 GaussianGenerate::SuggestLength(F32 Sigma)
+    {
+        const F32 Sample = 3.5;
+        S32 r =0;
+        itr_math::NumericalObj->Round(Sample * Sigma,r);
+        return (r * 2 + 1);
+    }
 
-#endif // ITRVISION_H_
+} // namespace itr_image
+

@@ -26,10 +26,14 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * test.cc
- *  Created on: 2013-9-22
+ * helper.h
+ *  Created on: 2013-9-27
  *      Author: buaa
  */
 
-#include "itrvision.h"
+#ifndef HELPER_H_
+#define HELPER_H_
 
+#include "gaussiangenerate.h"
+
+#endif // HELPER_H_

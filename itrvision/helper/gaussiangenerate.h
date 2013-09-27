@@ -26,28 +26,24 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * itrvision.h
- *  Created on: 2013-9-26
+ * gaussiangenerate.h
+ *  Created on: 2013-9-27
  *      Author: buaa
  */
 
-#ifndef ITRVISION_H_
-#define ITRVISION_H_
+#ifndef GAUSSIANGENERATE_H_
+#define GAUSSIANGENERATE_H_
 
-#include "image/image.h"
-#include "format/format.h"
-#include "helper/helper.h"
-#include "operation/operation.h"
-#include "process/process.h"
-#include "feature/feature.h"
+#include "itrbase.h"
 
-/*
-#include "../image/image.h"
-#include "../format/format.h"
-#include "../helper/helper.h"
-#include "../operation/operation.h"
-#include "../process/process.h"
-#include "../feature/feature.h"
-*/
+namespace itr_vision
+{
+    class GaussianGenerate
+    {
+        public:
+            static void Generate(F32 Sigma, S32 Length, F32* Data);
+            static S32 SuggestLength(F32 Sigma);
+    };
 
-#endif // ITRVISION_H_
+} // namespace itr_image
+#endif // GAUSSIANGENERATE_H_

@@ -12,6 +12,9 @@
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
  *    distribution.
+ * 3. Neither the name PX4 nor the names of its contributors may be
+ *    used to endorse or promote products derived from this software
+ *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -26,28 +29,24 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * itrvision.h
- *  Created on: 2013-9-26
+ * main.cc
+ *  Created on: 2013-9-10
  *      Author: buaa
  */
 
-#ifndef ITRVISION_H_
-#define ITRVISION_H_
+#include "itrbase.h"
+#include "itrvision.h"
+#include "helpertest.h"
 
-#include "image/image.h"
-#include "format/format.h"
-#include "helper/helper.h"
-#include "operation/operation.h"
-#include "process/process.h"
-#include "feature/feature.h"
-
-/*
-#include "../image/image.h"
-#include "../format/format.h"
-#include "../helper/helper.h"
-#include "../operation/operation.h"
-#include "../process/process.h"
-#include "../feature/feature.h"
-*/
-
-#endif // ITRVISION_H_
+int main()
+{
+    //Init Math
+    itr_math::MathObjStandInit();
+    //Test Helper
+    TestGaussianGenerate();
+    //Finish
+    itr_math::MathObjStandDeinit();
+    //Deint Math
+    TRACE_INFO("OK All");
+    return 0;
+}

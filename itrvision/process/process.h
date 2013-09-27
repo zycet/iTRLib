@@ -26,29 +26,14 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * color.h
- *  Created on: 2013-9-22
+ * process.h
+ *  Created on: 2013-9-26
  *      Author: buaa
  */
 
-#ifndef COLOR_H_
-#define COLOR_H_
+#ifndef PROCESS_H_
+#define PROCESS_H_
 
-#include "itrbase.h"
+#include "convolutesquare.h"
 
-namespace itr_color
-{
-    union ColorARGB
-    {
-            U32 Value;
-            U8 A, R, G, B;
-    };
-
-    union ColorGray
-    {
-            U16 Value;
-            S16 Gray;
-    };
-}
-
-#endif // COLOR_H_
+#endif // PROCESS_H_

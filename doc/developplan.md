@@ -84,20 +84,22 @@
 			+ statistics:统计计算
 				- 定点/浮点Max
 				- 定点/浮点Min
-				- 定点/浮点Mean
+				- 定点/浮点Median
 				- 定点/浮点Average
 				- 定点/浮点RMS
 				- 定点/浮点STD
+			+ geometry:几何类型
+				- distance2D:二维距离
+				- point2D:二维点
+				- point3D:三维点
+				- rectangleF:浮点矩形
+				- rectangleS:定点矩形
 	* **itrvision**:视觉库项目
-		* **basictypes**:基础数据类型定义
-			+ colorARGB:彩色色彩类型(U8*4)
-			+ colorGray:灰度色彩类型(S16*1)
-			+ point2D:2D点类型
-			+ distance2D:2D距离类型
-			+ rectangle:矩形类型
 		* **image**:图像数据类型
-			+ imageARGB:彩色图像(colorARGB)
-			+ imageGray:单色图像(colorGray)
+			+ colorGray:灰度色彩类型(S16*1)
+			+ colorARGB:彩色色彩类型(U8*4)
+			+ image:通用图像容器
+			+ iformat:通用格式接口
 		* **format**:格式支持
 			+ formatyuv:YUV格式
 			+ formatbmp:BMP格式
@@ -113,9 +115,11 @@
 			+ convolute:卷积
 			+ split:二值化
 			+ infect:染色
+			+ gaussian:高斯分布生成
 		* **feature**:图像特征
 			+ surf:SURF加速稳健特征
 			+ fast:FAST加速区域特征
+			+ hessian:汉森特征值
 		* **match**:图像匹配
 			+ opticalflowlk:LK光流法
 		* **area**:图像区域

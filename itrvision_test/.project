@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>itrvision</name>
+	<name>itrvision_test</name>
 	<comment></comment>
 	<projects>
 		<project>itrbase</project>
+		<project>itrvision</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
@@ -25,10 +26,4 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
-	<variableList>
-		<variable>
-			<name>include</name>
-			<value>file:/usr/include</value>
-		</variable>
-	</variableList>
 </projectDescription>

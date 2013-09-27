@@ -26,28 +26,19 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * itrvision.h
- *  Created on: 2013-9-26
+ * testhelper.cc
+ *  Created on: 2013-9-27
  *      Author: buaa
  */
 
-#ifndef ITRVISION_H_
-#define ITRVISION_H_
+#include "helpertest.h"
+#include "itrvision.h"
 
-#include "image/image.h"
-#include "format/format.h"
-#include "helper/helper.h"
-#include "operation/operation.h"
-#include "process/process.h"
-#include "feature/feature.h"
-
-/*
-#include "../image/image.h"
-#include "../format/format.h"
-#include "../helper/helper.h"
-#include "../operation/operation.h"
-#include "../process/process.h"
-#include "../feature/feature.h"
-*/
-
-#endif // ITRVISION_H_
+void TestGaussianGenerate()
+{
+    F32 sigma = 1;
+    S32 n = itr_vision::GaussianGenerate::SuggestLength(sigma);
+    F32* filter = new F32[n];
+    itr_vision::GaussianGenerate::Generate(sigma, n, filter);
+    delete filter;
+}
