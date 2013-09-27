@@ -46,6 +46,7 @@ namespace itr_vision
         str >> head1 >> head2;
         str >> width >> height;
         str >> bit;
+
         if ((head1 != 'P') || (head2 != '5'))
             return IFormat::FormatIllegal;
         if (Length != (width * height + 4))
