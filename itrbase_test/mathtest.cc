@@ -51,9 +51,15 @@ void TestCalculate()
     S32 SourceS32A[50];
     S32 SourceS32B[50];
     S32 ResultS32[50];
+
     F32 SourceF32A[50];
     F32 SourceF32B[50];
     F32 ResultF32A[50];
+
+    F32 SourceF32C[50];
+    F32 SourceF32D[50];
+    F32 ResultF32B[50];
+
     F32 ResultF32;
     S32 Length = 50;
     S32 AddAns = 2450;
@@ -65,13 +71,33 @@ void TestCalculate()
         SourceS32B[i] = i;
         SourceF32A[i] = i;
         SourceF32A[i] = i;
+        SourceF32C[i] = 0;
+        SourceF32D[i] = i;;
     }
     //Add
     itr_math::CalculateObj->Add(SourceF32A, SourceF32B, Length, ResultF32A);
     itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
     assert(ResultF32 == 2450);
     //Sub...
-
+    itr_math::CalculateObj->Sub(SourceF32A, SourceF32B, Length, ResultF32A);
+    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
+    assert(ResultF32==0);
+    //MUlti
+    itr_math::CalculateObj->Multi(SourceF32A, SourceF32C, Length, ResultF32A);
+    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
+    assert(ResultF32==0);
+    //Div
+    itr_math::CalculateObj->Div(SourceF32C, SourceF32A, Length, ResultF32A);
+    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
+    assert(ResultF32==0);
+    //offset
+    itr_math::CalculateObj->Offset(SourceF32C, 2, Length, ResultF32A);
+    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
+    assert(ResultF32==100);
+    //Scale
+    itr_math::CalculateObj->Scale(SourceF32A, 2, Length, ResultF32A);
+    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
+    assert(ResultF32==2450);
     TRACE_INFO("OK TestCalculate()");
 }
 
