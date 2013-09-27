@@ -38,11 +38,6 @@
 
 void ConvoluteSquareTest()
 {
-    //Calc Gaussian Filter
-    F32 sigma = 1;
-    S32 n = itr_vision::GaussianGenerate::SuggestLength(sigma);
-    F32* filter = new F32[n];
-    itr_vision::GaussianGenerate::Generate(sigma, n, filter);
 
     //Read File
     FILE* file = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1.ppm", "rb+");
@@ -52,17 +47,42 @@ void ConvoluteSquareTest()
     assert(length>0);
     fseek(file, 0, SEEK_SET);
     U8* buffer = new U8[length];
-    U32 len=fread(buffer, 1, length, file);
+    U32 len = fread(buffer, 1, length, file);
     assert(len==length);
     fclose(file);
-    //Convert Image
+    //Read Image
     itr_vision::FormatPPM FormatPPMObj;
     itr_vision::IFormat::ImageInfo imageInfo;
     assert(FormatPPMObj.GetInfo(buffer, length, imageInfo)==itr_vision::IFormat::Success);
     itr_vision::ImageARGB imageARGB(imageInfo.Width, imageInfo.Height);
     assert(FormatPPMObj.ToImage(buffer,length,imageARGB)==itr_vision::IFormat::Success);
 
+    //Convert Gray
+    itr_vision::ImageGray imageGray(imageInfo.Width, imageInfo.Height);
+    itr_vision::ImageFormatComvert(imageARGB, imageGray);
+    //Calc Gaussian Filter
+    F32 sigma = 1;
+    S32 n = itr_vision::GaussianGenerate::SuggestLength(sigma);
+    F32* filter = new F32[n];
+    itr_vision::GaussianGenerate::Generate(sigma, n, filter);
+    S16* filterS16 = new S16[n];
+    for (S32 i = 0; i < n; i++)
+    {
+        filterS16[i] = filter[i] * 1024;
+    }
+    delete filter;
+    //Convolute
+    itr_vision::ImageGray imageGrayResult(imageInfo.Width, imageInfo.Height);
+    itr_vision::ConvoluteSquare ConvoluteSquareObj(n, imageARGB.GetWidth(), imageARGB.GetHeight());
+    ConvoluteSquareObj.Convolute(imageGray, filterS16, 10, imageGrayResult);
+    delete filterS16;
+    //Write Image
+    S32 length2 = length;
+    assert( FormatPPMObj.ToBinary(imageGrayResult, buffer, length2)==itr_vision::IFormat::Success);
+    //Write File
+    FILE* file2 = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1_.ppm", "wb+");
+    assert(file2!=NULL);
+    assert(fwrite(buffer,1,length2,file2)==(U32)length2);
+    fclose(file2);
     delete buffer;
-
-    //itr_vision::ConvoluteSquare ConvoluteSquareObj(n,);
 }
