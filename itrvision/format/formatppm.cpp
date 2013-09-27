@@ -5,11 +5,12 @@
  *      Author: ghdawn
  */
 
-#include "FormatPPM.h"
+#include "formatppm.h"
 #include <sstream>
 #include <math.h>
 #include <assert.h>
 using std::stringstream;
+#include "itrbase.h"
 
 namespace itr_vision
 {

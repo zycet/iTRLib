@@ -5,7 +5,8 @@
  *      Author: ghdawn
  */
 
-#include "FormatPGM.h"
+#include "itrbase.h"
+#include "formatpgm.h"
 
 namespace itr_vision
 {

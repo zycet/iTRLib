@@ -9,6 +9,7 @@
 #define FORMATPPM_H_
 
 #include "iformat.h"
+#include "itrbase.h"
 
 namespace itr_vision
 {

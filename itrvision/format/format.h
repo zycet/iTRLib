@@ -35,5 +35,7 @@
 #define FORMAT_H_
 
 #include "iformat.h"
+#include "formatppm.h"
+#include "formatpgm.h"
 
 #endif // FORMAT_H_

@@ -13,6 +13,7 @@
 #include <math.h>
 #include <assert.h>
 using std::stringstream;
+#include "itrbase.h"
 
 namespace itr_vision
 {
