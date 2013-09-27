@@ -12,9 +12,6 @@
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
  *    distribution.
- * 3. Neither the name PX4 nor the names of its contributors may be
- *    used to endorse or promote products derived from this software
- *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,17 +26,35 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * main.cc
- *  Created on: 2013-9-10
+ * convolutesquare.h
+ *  Created on: 2013-9-27
  *      Author: buaa
  */
 
-#include "itrbase.h"
-#include "itrvision.h"
+#ifndef CONVOLUTESQUARE_H_
+#define CONVOLUTESQUARE_H_
 
-int main()
+#include "itrbase.h"
+#include "../image/image.h"
+
+namespace itr_vision
 {
-    //Finish
-    TRACE_INFO("OK All");
-    return 0;
-}
+
+    class ConvoluteSquare
+    {
+        public:
+            ConvoluteSquare(S32 FilterDim, S32 Width, S32 Height);
+            virtual ~ConvoluteSquare();
+            void Convolute(const ImageGray& Input, S16* Filter, S32 DivOrder,
+                    ImageGray& Output);
+        private:
+            S16* multBufferS16;
+            S16* imageBufferS16;
+            S32 width;
+            S32 height;
+            S32 filterDim;
+            S32 r;
+    };
+
+} // namespace itr_image
+#endif // CONVOLUTESQUARE_H_
