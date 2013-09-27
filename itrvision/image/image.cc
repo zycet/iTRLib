@@ -118,7 +118,7 @@ namespace itr_vision
         }
     }
 
-    void ImageFormatComvert(const ImageGray& Input, ImageARGB& Output, S32 DivK)
+    void ImageFormatComvert(const ImageGray& Input, ImageARGB& Output, S32 DivOrder)
     {
         assert(Input.MatchWidthHeight(Output.GetWidth(),Output.GetHeight()));
         S32 pixelsNumber = Input.GetPixelsNumber();
@@ -128,7 +128,7 @@ namespace itr_vision
         U8 value;
         for (int i = 0; i < pixelsNumber; i++)
         {
-            value = GET_IN_RANGE(GET_ABS((input[i]>>DivK)),0,255);
+            value = GET_IN_RANGE(GET_ABS((input[i]>>DivOrder)),0,255);
             output[offset + 1] = output[offset + 2] = output[offset + 3] = value;
             offset += 4;
         }

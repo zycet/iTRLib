@@ -194,6 +194,6 @@
     };
 
     void ImageFormatComvert(const ImageARGB& Input,ImageGray& Output);
-    void ImageFormatComvert(const ImageGray& Input,ImageARGB& Output,S32 DivK);
+    void ImageFormatComvert(const ImageGray& Input,ImageARGB& Output,S32 DivOrder);
 } // namespace itr_image
 #endif // IMAGE_H_
