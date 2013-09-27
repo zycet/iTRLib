@@ -61,6 +61,8 @@ typedef S32 (*StandMessageSendFun)(const char*);
 #define GET_ABS(X) ((X)>=0?(X):(-(X)))//计算绝对值
 #define IS_SAME_SIGN(X1,X2) (((X1)>=0&&(X2)>=0)||((X1)<0&&(X2)<0))
 #define IS_LEGAL_FLOAT(X) ((X)==(X))
+#define IS_ODD(X) ((X&1)==1)
+#define IS_EVEN(X) ((X&1)==0)
 
 #define IS_IN_RANGE(X,MIN,MAX) ((X>=MIN)&&(X<=MAX))
 #define GET_IN_RANGE(X,MIN,MAX) ((((X)>=(MIN)?(X):(MIN))<=(MAX))?((X)>=(MIN)?(X):(MIN)):(MAX))

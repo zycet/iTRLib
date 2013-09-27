@@ -190,7 +190,7 @@ namespace itr_math
         }
     }
 
-    void Calculate::DivOrder(S16* SourceA, S16 DivOrder, S32 Length, S16* Result) const
+    void Calculate::DivOrder(S16* SourceA, S32 DivOrder, S32 Length, S16* Result) const
     {
         assert(SourceA!=NULL);
         assert(DivOrder>=0);

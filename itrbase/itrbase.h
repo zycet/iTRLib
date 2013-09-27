@@ -34,6 +34,8 @@
 #ifndef ITRBASE_H_
 #define ITRBASE_H_
 
+#include <stddef.h>
+#include <assert.h>
 #include "platform/platform.h"
 #include "math/math.h"
 #include "container/container.h"

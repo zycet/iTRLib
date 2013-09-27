@@ -60,7 +60,7 @@ namespace itr_math
             virtual void Div(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const;
             virtual void Div(F32* SourceA, F32* SourceB, S32 Length, F32* Result) const;
 
-            virtual void DivOrder(S16* SourceA, S16 DivOrder, S32 Length, S16* Result) const;
+            virtual void DivOrder(S16* SourceA, S32 DivOrder, S32 Length, S16* Result) const;
             virtual void DivOrder(S32* SourceA, S32 DivOrder, S32 Length, S32* Result) const;
 
             virtual void Offset(S16* SourceA, S16 Offset, S32 Length, S16* Result) const;
