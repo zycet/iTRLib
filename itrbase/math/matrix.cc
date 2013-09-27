@@ -238,6 +238,7 @@ namespace itr_math
      */
     void Matrix::Mul(F32 K)
     {
+
         for (S32 i = 0; i < col; i++)
         {
             CalculateObj->Scale(data + i * col, K, col, data + i * col);
@@ -310,7 +311,7 @@ namespace itr_math
         assert(col == Mat.col);
         Matrix Result(row, col);
         Result = *this;
-        Result.Add(Mat);
+        Result.Sub(Mat);
         return Result;
     }
     void Matrix::operator=(const Matrix& Mat)
@@ -319,5 +320,19 @@ namespace itr_math
         assert(col == Mat.col);
         this->CopyTo(Mat.data);
     }
+    /*
+     * 求矩阵逆并将结果放至MatResult
+     */
+    //void virtual Inv(Matrix& MatResult) const;
+
+    /*
+     * 求矩阵转置并将结果放至MatResult
+     */
+    //void virtual Tran(Matrix& MatResult) const;
+
+    /*
+     * 求矩阵行列式值
+     */
+    //F32 virtual Det() const;
 }
 // namespace itr_math
