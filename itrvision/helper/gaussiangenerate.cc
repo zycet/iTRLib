@@ -57,7 +57,8 @@ namespace itr_vision
     S32 GaussianGenerate::SuggestLength(F32 Sigma)
     {
         const F32 Sample = 3.5;
-        S32 r = Sample * Sigma;
+        S32 r =0;
+        itr_math::NumericalObj->Round(Sample * Sigma,r);
         return (r * 2 + 1);
     }
 

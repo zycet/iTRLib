@@ -36,10 +36,17 @@
 
 #include "itrbase.h"
 #include "itrvision.h"
+#include "helpertest.h"
 
 int main()
 {
+    //Init Math
+    itr_math::MathObjStandInit();
+    //Test Helper
+    TestGaussianGenerate();
     //Finish
+    itr_math::MathObjStandDeinit();
+    //Deint Math
     TRACE_INFO("OK All");
     return 0;
 }

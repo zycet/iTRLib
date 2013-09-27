@@ -26,14 +26,14 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * process.h
- *  Created on: 2013-9-26
+ * testhelper.h
+ *  Created on: 2013-9-27
  *      Author: buaa
  */
 
-#ifndef PROCESS_H_
-#define PROCESS_H_
+#ifndef HELPERTEST_H_
+#define HELPERTEST_H_
 
-#include "convolutesquare.h"
+void TestGaussianGenerate();
 
-#endif // PROCESS_H_
+#endif // TESTHELPER_H_
