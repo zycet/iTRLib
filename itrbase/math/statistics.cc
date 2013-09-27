@@ -55,7 +55,7 @@ namespace itr_math
         assert(Source!=NULL);
         assert(Length>0);
         Result = Source[0];
-        for (S32 i = 1; i < Length - 1; i++)
+        for (S32 i = 1; i < Length ; i++)
         {
             if (Result <= Source[i])
                 Result = Source[i];
@@ -68,7 +68,7 @@ namespace itr_math
         assert(Source!=NULL);
         assert(Length>0);
         Result = Source[0];
-        for (S32 i = 1; i < Length - 1; i++)
+        for (S32 i = 1; i < Length ; i++)
         {
             if (Result <= Source[i])
                 Result = Source[i];
