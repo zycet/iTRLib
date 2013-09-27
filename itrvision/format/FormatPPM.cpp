@@ -13,22 +13,18 @@ using std::stringstream;
 
 namespace itr_vision
 {
-
     FormatPPM::FormatPPM()
     {
-        // TODO Auto-generated constructor stub
-
     }
 
     FormatPPM::~FormatPPM()
     {
-        // TODO Auto-generated destructor stub
     }
 
     IFormat::ConvertResult FormatPPM::GetInfo(U8* Data, S32 Length, ImageInfo& ImgInfo)
     {
-        char head1, head2;
-        int width, height;
+        U8 head1, head2;
+        S32 width, height;
         stringstream str;
         str << Data;
         str >> head1 >> head2;
@@ -43,11 +39,12 @@ namespace itr_vision
         ImgInfo.PixelSize = 3;
         return IFormat::Success;
     }
+
     IFormat::ConvertResult FormatPPM::ToImage(U8* Data, S32 Length, ImageARGB& Img)
     {
-        char head1, head2;
-        int width, height;
-        int bit;
+        U8 head1, head2;
+        S32 width, height;
+        S32 bit;
         stringstream str;
         str << Data;
         str >> head1 >> head2;
@@ -98,5 +95,4 @@ namespace itr_vision
         }
         return IFormat::Success;
     }
-
-} /* namespace itr_vision */
+} // namespace itr_vision

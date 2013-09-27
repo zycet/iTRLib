@@ -16,7 +16,6 @@ using std::stringstream;
 
 namespace itr_vision
 {
-
     class FormatPGM: public itr_vision::IFormat
     {
         public:
@@ -28,6 +27,5 @@ namespace itr_vision
             virtual ConvertResult ToBinary(ImageARGB& Img, U8* Data, S32& Length)=0;
             virtual ConvertResult ToBinary(ImageGray& Img, U8* Data, S32& Length)=0;
     };
-
-} /* namespace itr_vision */
-#endif /* FORMATPGM_H_ */
+} // namespace itr_vision
+#endif // FORMATPGM_H_

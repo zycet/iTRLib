@@ -40,4 +40,12 @@
 #include "process/process.h"
 #include "feature/feature.h"
 
+/*
+#include "../image/image.h"
+#include "../format/format.h"
+#include "../operation/operation.h"
+#include "../process/process.h"
+#include "../feature/feature.h"
+*/
+
 #endif // ITRVISION_H_

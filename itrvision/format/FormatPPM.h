@@ -12,7 +12,6 @@
 
 namespace itr_vision
 {
-
     class FormatPPM: public itr_vision::IFormat
     {
         public:
@@ -24,6 +23,6 @@ namespace itr_vision
             virtual ConvertResult ToBinary(ImageARGB& Img, U8* Data, S32& Length)=0;
             virtual ConvertResult ToBinary(ImageGray& Img, U8* Data, S32& Length)=0;
     };
+} // namespace itr_vision
 
-} /* namespace itr_vision */
-#endif /* FORMATPPM_H_ */
+#endif // FORMATPPM_H_
