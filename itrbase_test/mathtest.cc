@@ -82,7 +82,26 @@ void TestNumerical()
 
 void TestStatistics()
 {
-
+    S32 SourceS32[50];
+    F32 SourceF32[50];
+    S32 ResultS32;
+    F32 ResultF32;
+    S32 Length = 50;
+    for (S32 i = 0; i < Length; i++)
+    {
+        SourceS32[i] = i;
+        SourceF32[i] = i;
+    }
+    itr_math::StatisticsObj->Max(SourceS32, Length, ResultS32);
+    assert(ResultS32 == 49);
+    itr_math::StatisticsObj->Min(SourceS32, Length, ResultS32);
+    assert(ResultS32 == 0);
+    itr_math::StatisticsObj->Mean(SourceS32, Length, ResultS32);
+    assert(ResultS32 == 24);
+    itr_math::StatisticsObj->RMS(SourceS32, Length, ResultS32);
+    assert(ResultS32 == 28);
+    itr_math::StatisticsObj->STD(SourceS32, Length, ResultS32);
+    assert(ResultS32 == 14);
 }
 
 void TestVector()
