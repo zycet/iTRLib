@@ -46,6 +46,18 @@ namespace itr_math
     {
     }
 
+    void Calculate::Add(S16* SourceA, S16* SourceB, S32 Length, S16* Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result[i] = SourceA[i] + SourceB[i];
+        }
+    }
+
     void Calculate::Add(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const
     {
         assert(SourceA!=NULL);
@@ -67,6 +79,18 @@ namespace itr_math
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] + SourceB[i];
+        }
+    }
+
+    void Calculate::Sub(S16* SourceA, S16* SourceB, S32 Length, S16* Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result[i] = SourceA[i] - SourceB[i];
         }
     }
 
@@ -94,6 +118,18 @@ namespace itr_math
         }
     }
 
+    void Calculate::Multi(S16* SourceA, S16* SourceB, S32 Length, S16* Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result[i] = SourceA[i] * SourceB[i];
+        }
+    }
+
     void Calculate::Multi(S32* SourceA, S32* SourceB, S32 Length, S32* Result) const
     {
         assert(SourceA!=NULL);
@@ -115,6 +151,18 @@ namespace itr_math
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] * SourceB[i];
+        }
+    }
+
+    void Calculate::Div(S16* SourceA, S16* SourceB, S32 Length, S16* Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result[i] = SourceA[i] / SourceB[i];
         }
     }
 
@@ -142,6 +190,41 @@ namespace itr_math
         }
     }
 
+    void Calculate::DivOrder(S16* SourceA, S16 DivOrder, S32 Length, S16* Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(DivOrder>=0);
+        assert(Result!=NULL);
+        assert(Length > 0);
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result[i] = SourceA[i] >> DivOrder;
+        }
+    }
+
+    void Calculate::DivOrder(S32* SourceA, S32 DivOrder, S32 Length, S32* Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(DivOrder>=0);
+        assert(Result!=NULL);
+        assert(Length > 0);
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result[i] = SourceA[i] >> DivOrder;
+        }
+    }
+
+    void Calculate::Offset(S16* SourceA, S16 Offset, S32 Length, S16* Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result[i] = SourceA[i] + Offset;
+        }
+    }
+
     void Calculate::Offset(S32* SourceA, S32 Offset, S32 Length, S32* Result) const
     {
         assert(SourceA!=NULL);
@@ -164,6 +247,17 @@ namespace itr_math
         }
     }
 
+    void Calculate::Scale(S16* SourceA, S16 Scale, S32 Length, S16* Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result[i] = SourceA[i] * Scale;
+        }
+    }
+
     void Calculate::Scale(S32* SourceA, S32 Scale, S32 Length, S32* Result) const
     {
         assert(SourceA!=NULL);
@@ -183,6 +277,23 @@ namespace itr_math
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = SourceA[i] * Scale;
+        }
+    }
+
+    void Calculate::Normalization(S16* SourceA, S32 Length, S16* Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
+        F32 temp = 0;
+        for (S32 i = 0; i < Length; i++)
+        {
+            temp += SourceA[i] * SourceA[i];
+        }
+        temp = 1 / NumericalObj->Sqrt(temp, temp);
+        for (int i = 0; i < Length; i++)
+        {
+            Result[i] = SourceA[i] * temp;
         }
     }
 
@@ -217,6 +328,17 @@ namespace itr_math
         Scale(SourceA, temp, Length, Result);
     }
 
+    void Calculate::Abs(S16* SourceA, S32 Length, S16* Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result[i] = GET_ABS(SourceA[i]);
+        }
+    }
+
     void Calculate::Abs(S32* SourceA, S32 Length, S32* Result) const
     {
         assert(SourceA!=NULL);
@@ -236,6 +358,17 @@ namespace itr_math
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = GET_ABS(SourceA[i]);
+        }
+    }
+
+    void Calculate::Opposite(S16* SourceA, S32 Length, S16* Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(Result!=NULL);
+        assert(Length > 0);
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result[i] = -SourceA[i];
         }
     }
 
@@ -261,6 +394,17 @@ namespace itr_math
         }
     }
 
+    void Calculate::AddSum(S16* SourceA, S32 Length, S16& Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(Length > 0);
+        Result = 0;
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result += SourceA[i];
+        }
+    }
+
     void Calculate::AddSum(S32* SourceA, S32 Length, S32& Result) const
     {
         assert(SourceA!=NULL);
@@ -280,6 +424,18 @@ namespace itr_math
         for (S32 i = 0; i < Length; i++)
         {
             Result += SourceA[i];
+        }
+    }
+
+    void Calculate::MultiSum(S16* SourceA, S16* SourceB, S32 Length, S16& Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Length > 0);
+        Result = 0;
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result += SourceA[i] * SourceB[i];
         }
     }
 
@@ -307,6 +463,17 @@ namespace itr_math
         }
     }
 
+    void Calculate::Product(S16* SourceA, S32 Length, S16& Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(Length > 0);
+        Result = 0;
+        for (S32 i = 0; i < Length; i++)
+        {
+            Result *= SourceA[i];
+        }
+    }
+
     void Calculate::Product(S32* SourceA, S32 Length, S32& Result) const
     {
         assert(SourceA!=NULL);
@@ -326,6 +493,16 @@ namespace itr_math
         for (S32 i = 0; i < Length; i++)
         {
             Result *= SourceA[i];
+        }
+    }
+
+    void Calculate::Set(S16* SourceA, S16 Value, S32 Length) const
+    {
+        assert(SourceA!=NULL);
+        assert(Length > 0);
+        for (S32 i = 0; i < Length; i++)
+        {
+            SourceA[i] = Value;
         }
     }
 
