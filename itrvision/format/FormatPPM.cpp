@@ -10,6 +10,7 @@
 #include <math.h>
 #include <assert.h>
 using std::stringstream;
+
 namespace itr_vision
 {
 
@@ -28,7 +29,6 @@ namespace itr_vision
     {
         char head1, head2;
         int width, height;
-        int bit;
         stringstream str;
         str << Data;
         str >> head1 >> head2;
