@@ -51,9 +51,9 @@ namespace itr_vision
         str >> head1 >> head2;
         str >> width >> height;
         str >> bit;
-        bit=9;
-        bit+=(width>1000)?4:((width>100)?3:(width>10?2:1));
-        bit+=(height>1000)?4:((height>100)?3:(height>10?2:1));
+        bit = 9;
+        bit += (width > 1000) ? 4 : ((width > 100) ? 3 : (width > 10 ? 2 : 1));
+        bit += (height > 1000) ? 4 : ((height > 100) ? 3 : (height > 10 ? 2 : 1));
         if ((head1 != 'P') || (head2 != '6'))
             return IFormat::FormatIllegal;
         if (Length != (width * height * 3 + bit))
@@ -82,9 +82,9 @@ namespace itr_vision
         str >> head1 >> head2;
         str >> width >> height;
         str >> bit;
-        bit=9;
-        bit+=(width>1000)?4:((width>100)?3:(width>10?2:1));
-        bit+=(height>1000)?4:((height>100)?3:(height>10?2:1));
+        bit = 9;
+        bit += (width > 1000) ? 4 : ((width > 100) ? 3 : (width > 10 ? 2 : 1));
+        bit += (height > 1000) ? 4 : ((height > 100) ? 3 : (height > 10 ? 2 : 1));
         if ((head1 != 'P') || (head2 != '6'))
             return IFormat::FormatIllegal;
         if (Length != (width * height * 3 + bit))
@@ -110,7 +110,7 @@ namespace itr_vision
         stringstream str;
         str << "P6" << '\n';
         str << Img.GetWidth() << ' ' << Img.GetHeight() << '\n';
-        str<<255<<'\n';
+        str << 255 << '\n';
         U32* data = Img.GetPixels();
         U8 r, g, b;
         for (int i = 0; i < Img.GetPixelsNumber(); ++i)
@@ -121,6 +121,11 @@ namespace itr_vision
             str << r << g << b;
             ++data;
         }
+        while (str >> r)
+        {
+            *Data = r;
+            ++Data;
+        }
         return IFormat::Success;
     }
     IFormat::ConvertResult FormatPPM::ToBinary(ImageGray& Img, U8* Data, S32& Length)
@@ -130,7 +135,7 @@ namespace itr_vision
         stringstream str;
         str << "P6" << '\n';
         str << Img.GetWidth() << ' ' << Img.GetHeight() << '\n';
-        str<<255<<'\n';
+        str << 255 << '\n';
         S16* data = Img.GetPixels();
         U8 p;
         for (int i = 0; i < Img.GetPixelsNumber(); ++i)
@@ -138,6 +143,11 @@ namespace itr_vision
             p = *data;
             str << p << p << p;
             ++data;
+        }
+        while (str >> p)
+        {
+            *Data = p;
+            ++Data;
         }
         return IFormat::Success;
     }

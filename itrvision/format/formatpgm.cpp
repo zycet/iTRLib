@@ -53,7 +53,7 @@ namespace itr_vision
         if (Length != (width * height + 4))
             return IFormat::LengthIllegal;
         U8 data;
-        S16* img=Img.GetPixels();
+        S16* img = Img.GetPixels();
         for (int j = 0; j < height; ++j)
         {
             for (int i = 0; i < width; ++i)
@@ -78,5 +78,11 @@ namespace itr_vision
             p = *data++;
             str << p;
         }
+        while (str >> p)
+        {
+            *Data = p;
+            ++Data;
+        }
+        return IFormat::Success;
     }
 } // namespace itr_vision
