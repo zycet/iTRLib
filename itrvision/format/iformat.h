@@ -53,8 +53,12 @@ namespace itr_vision
                     S32 PixelSize;
                     S32 ColorChannel;
             };
-            IFormat();
-            virtual ~IFormat();
+            inline IFormat()
+            {
+            }
+            inline virtual ~IFormat()
+            {
+            }
             virtual ConvertResult GetInfo(U8* Data, S32 Length, ImageInfo& ImgInfo)=0;
             virtual ConvertResult ToImage(U8* Data, S32 Length, ImageARGB& Img)=0;
             virtual ConvertResult ToImage(U8* Data, S32 Length, ImageGray& Img)=0;
