@@ -32,7 +32,11 @@ namespace itr_vision
         str >> width >> height;
         if ((head1 != 'P') || (head2 != '6'))
             return IFormat::FormatIllegal;
-        if (Length != (width * height * 3 + 4))
+
+        S32 bit = 9;
+        bit += (width > 1000) ? 4 : ((width > 100) ? 3 : (width > 10 ? 2 : 1));
+        bit += (height > 1000) ? 4 : ((height > 100) ? 3 : (height > 10 ? 2 : 1));
+        if (Length != (width * height * 3 + bit))
             return IFormat::LengthIllegal;
         ImgInfo.Width = width;
         ImgInfo.Height = height;

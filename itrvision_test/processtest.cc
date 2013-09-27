@@ -12,9 +12,6 @@
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
  *    distribution.
- * 3. Neither the name PX4 nor the names of its contributors may be
- *    used to endorse or promote products derived from this software
- *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,27 +26,43 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * main.cc
- *  Created on: 2013-9-10
+ * processtest.cc
+ *  Created on: 2013-9-27
  *      Author: buaa
  */
 
+#include "processtest.h"
+#include <stdio.h>
 #include "itrbase.h"
 #include "itrvision.h"
-#include "helpertest.h"
-#include "processtest.h"
 
-int main()
+void ConvoluteSquareTest()
 {
-    //Init Math
-    itr_math::MathObjStandInit();
-    //Test Helper
-    TestGaussianGenerate();
-    //Test Process
-    ConvoluteSquareTest();
-    //Finish
-    itr_math::MathObjStandDeinit();
-    //Deint Math
-    TRACE_INFO("OK All");
-    return 0;
+    //Calc Gaussian Filter
+    F32 sigma = 1;
+    S32 n = itr_vision::GaussianGenerate::SuggestLength(sigma);
+    F32* filter = new F32[n];
+    itr_vision::GaussianGenerate::Generate(sigma, n, filter);
+
+    //Read File
+    FILE* file = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1.ppm", "rb+");
+    assert(file!=NULL);
+    assert(fseek(file, 0, SEEK_END)==0);
+    U32 length = ftell(file);
+    assert(length>0);
+    fseek(file, 0, SEEK_SET);
+    U8* buffer = new U8[length];
+    U32 len=fread(buffer, 1, length, file);
+    assert(len==length);
+    fclose(file);
+    //Convert Image
+    itr_vision::FormatPPM FormatPPMObj;
+    itr_vision::IFormat::ImageInfo imageInfo;
+    assert(FormatPPMObj.GetInfo(buffer, length, imageInfo)==itr_vision::IFormat::Success);
+    itr_vision::ImageARGB imageARGB(imageInfo.Width, imageInfo.Height);
+    assert(FormatPPMObj.ToImage(buffer,length,imageARGB)==itr_vision::IFormat::Success);
+
+    delete buffer;
+
+    //itr_vision::ConvoluteSquare ConvoluteSquareObj(n,);
 }

@@ -29,7 +29,11 @@ namespace itr_vision
         str >> width >> height;
         if ((head1 != 'P') || (head2 != '5'))
             return IFormat::FormatIllegal;
-        if (Length != (width * height + 4))
+
+        S32 bit = 9;
+        bit += (width > 1000) ? 4 : ((width > 100) ? 3 : (width > 10 ? 2 : 1));
+        bit += (height > 1000) ? 4 : ((height > 100) ? 3 : (height > 10 ? 2 : 1));
+        if (Length != (width * height + bit))
             return IFormat::LengthIllegal;
         ImgInfo.Width = width;
         ImgInfo.Height = height;
@@ -49,9 +53,12 @@ namespace itr_vision
         str >> width >> height;
         str >> bit;
 
+        bit = 9;
+        bit += (width > 1000) ? 4 : ((width > 100) ? 3 : (width > 10 ? 2 : 1));
+        bit += (height > 1000) ? 4 : ((height > 100) ? 3 : (height > 10 ? 2 : 1));
         if ((head1 != 'P') || (head2 != '5'))
             return IFormat::FormatIllegal;
-        if (Length != (width * height + 4))
+        if (Length != (width * height + bit))
             return IFormat::LengthIllegal;
         U8 data;
         S16* img = Img.GetPixels();
@@ -79,7 +86,11 @@ namespace itr_vision
 
         if ((head1 != 'P') || (head2 != '5'))
             return IFormat::FormatIllegal;
-        if (Length != (width * height + 4))
+
+        bit = 9;
+        bit += (width > 1000) ? 4 : ((width > 100) ? 3 : (width > 10 ? 2 : 1));
+        bit += (height > 1000) ? 4 : ((height > 100) ? 3 : (height > 10 ? 2 : 1));
+        if (Length != (width * height + bit))
             return IFormat::LengthIllegal;
         U8 data;
         U32* img = Img.GetPixels();
@@ -96,6 +107,9 @@ namespace itr_vision
     }
     IFormat::ConvertResult FormatPGM::ToBinary(ImageARGB& Img, U8* Data, S32& Length)
     {
+
+        if (Length < (Img.GetWidth() * Img.GetHeight() * 3 + 15))
+            return IFormat::LengthIllegal;
         stringstream str;
         str << "P6" << '\n';
         str << Img.GetWidth() << ' ' << Img.GetHeight() << '\n';
@@ -118,6 +132,9 @@ namespace itr_vision
     }
     IFormat::ConvertResult FormatPGM::ToBinary(ImageGray& Img, U8* Data, S32& Length)
     {
+
+        if (Length < (Img.GetWidth() * Img.GetHeight() * 3 + 15))
+            return IFormat::LengthIllegal;
         stringstream str;
         str << "P6" << '\n';
         str << Img.GetWidth() << ' ' << Img.GetHeight() << '\n';
