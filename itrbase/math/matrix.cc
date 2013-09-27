@@ -291,7 +291,7 @@ namespace itr_math
     {
         assert(Mat.row == col);
         Matrix MatResult(row, Mat.col);
-        Mul(Mat,MatResult);
+        Mul(Mat, MatResult);
         return MatResult;
     }
 
@@ -307,11 +307,11 @@ namespace itr_math
     Matrix Matrix::operator-(const Matrix& Mat) const
     {
         assert(row == Mat.row);
-                assert(col == Mat.col);
-                Matrix Result(row, col);
-                Result = *this;
-                Result.Add(Mat);
-                return Result;
+        assert(col == Mat.col);
+        Matrix Result(row, col);
+        Result = *this;
+        Result.Sub(Mat);
+        return Result;
     }
     void Matrix::operator=(const Matrix& Mat)
     {
@@ -319,5 +319,19 @@ namespace itr_math
         assert(col == Mat.col);
         this->CopyTo(Mat.data);
     }
+    /*
+     * 求矩阵逆并将结果放至MatResult
+     */
+    //void virtual Inv(Matrix& MatResult) const;
+
+    /*
+     * 求矩阵转置并将结果放至MatResult
+     */
+    //void virtual Tran(Matrix& MatResult) const;
+
+    /*
+     * 求矩阵行列式值
+     */
+    //F32 virtual Det() const;
 }
 // namespace itr_math
