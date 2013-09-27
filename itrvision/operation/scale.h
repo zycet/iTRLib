@@ -8,8 +8,8 @@
 #ifndef SCALE_H_
 #define SCALE_H_
 
-#include "itrvision.h"
 #include "itrbase.h"
+#include "../itrvision.h"
 
 namespace itr_vision
 {

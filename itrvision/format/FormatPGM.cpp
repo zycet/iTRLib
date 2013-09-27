@@ -65,7 +65,7 @@ namespace itr_vision
         return IFormat::Success;
     }
 
-    IFormat::ConvertResult FormatPPM::ToBinary(ImageGray& Img, U8* Data, S32& Length)
+    IFormat::ConvertResult FormatPGM::ToBinary(ImageGray& Img, U8* Data, S32& Length)
     {
         stringstream str;
         str << "P6" << '\n';
