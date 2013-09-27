@@ -523,7 +523,7 @@ U8 BL_MatInv(MAT* MatDst, MAT MatSrc, MAT MatTemp)
 			if(j != i) //不是第i行
 			{
 				temp = MatTemp.Data[j][i];
-				for(k = 0; k < MatSrc.M; k++) // j行元素 - i行元素* j行i列元素
+				for(k = 0; k < MatSrc.N; k++) // j行元素 - i行元素* j行i列元素
 				{
 					MatTemp.Data[j][k] = MatTemp.Data[j][k] - MatTemp.Data[i][k] * temp;
 					MatDst->Data[j][k] = MatDst->Data[j][k] - MatDst->Data[i][k] * temp;
