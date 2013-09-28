@@ -67,10 +67,16 @@ namespace itr_vision
         U8 r, g, b;
         U32 data;
         U32* img = Img.GetPixels();
+        Data+=bit;
         int n = Img.GetPixelsNumber();
         for (int i = 0; i < n; ++i)
         {
-            str >> r >> g >> b;
+            r=*Data;
+            ++Data;
+            g=*Data;
+            ++Data;
+            b=*Data;
+            ++Data;
             data = (r << 16) | (g << 8) | b;
             *img = data;
             ++img;

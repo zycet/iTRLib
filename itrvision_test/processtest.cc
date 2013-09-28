@@ -120,7 +120,7 @@ void ConvoluteSquareTest2()
 void ConvoluteSquareTest3()
 {
     //Read File
-FILE* file = fopen("Debug/table1.pgm", "rb+");
+FILE* file = fopen("Debug/table1.ppm", "rb+");
     assert(file!=NULL);
     assert(fseek(file, 0, SEEK_END)==0);
     U32 length = ftell(file);
@@ -136,10 +136,10 @@ FILE* file = fopen("Debug/table1.pgm", "rb+");
     itr_vision::FormatPPM FormatPPMObj;
     itr_vision::FormatPGM FormatPGMObj;
     itr_vision::IFormat::ImageInfo imageInfo;
-assert(FormatPGMObj.GetInfo(bufferRead, length, imageInfo)==itr_vision::IFormat::Success);
+assert(FormatPPMObj.GetInfo(bufferRead, length, imageInfo)==itr_vision::IFormat::Success);
     itr_vision::ImageGray imageGray(imageInfo.Width, imageInfo.Height);
     itr_vision::ImageARGB imageARGB(imageInfo.Width, imageInfo.Height);
-assert(FormatPGMObj.ToImage(bufferRead,length,imageARGB)==itr_vision::IFormat::Success);
+assert(FormatPPMObj.ToImage(bufferRead,length,imageARGB)==itr_vision::IFormat::Success);
     MemoryClear(bufferRead, length);
     //Write Image
     S32 length2 = 1024*1024;

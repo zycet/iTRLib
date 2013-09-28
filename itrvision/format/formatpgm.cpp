@@ -63,14 +63,14 @@ namespace itr_vision
             return IFormat::FormatIllegal;
         if (Length != (width * height + bit))
             return IFormat::LengthIllegal;
-        U8 data;
         S16* img = Img.GetPixels();
+        Data+=bit;
         int n = Img.GetPixelsNumber();
         for (int j = 0; j < n; ++j)
         {
-            str >> data;
-            (*img) = data;
+            (*img) = (S16)(*Data);
             ++img;
+            ++Data;
         }
         return IFormat::Success;
     }
@@ -97,12 +97,14 @@ namespace itr_vision
             return IFormat::LengthIllegal;
         U8 data;
         U32* img = Img.GetPixels();
+        Data+=bit;
         int n = Img.GetPixelsNumber();
         for (int j = 0; j < n; ++j)
         {
-            str >> data;
+            data=(*Data);
             (*img) = (data) | (data << 8) | (data << 16);
             ++img;
+            ++Data;
         }
         return IFormat::Success;
     }
@@ -134,6 +136,7 @@ namespace itr_vision
             itr_math::NumericalObj->Floor(0.299 * r + 0.587 * g + 0.114 * b, temp);
             *Data = (U8) temp;
             ++Data;
+            ++data;
         }
         Length=Data-origin;
         return IFormat::Success;
