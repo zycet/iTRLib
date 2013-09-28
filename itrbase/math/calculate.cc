@@ -439,6 +439,20 @@ namespace itr_math
         }
     }
 
+    void Calculate::MultiSum(S16* SourceA, F32* SourceB, S32 Length, S16& Result) const
+    {
+        assert(SourceA!=NULL);
+        assert(SourceB!=NULL);
+        assert(Length > 0);
+        F32 value = 0;
+        Result = 0;
+        for (S32 i = 0; i < Length; i++)
+        {
+            value += SourceA[i] * SourceB[i];
+        }
+        Result = value;
+    }
+
     void Calculate::MultiSum(S32* SourceA, S32* SourceB, S32 Length, S32& Result) const
     {
         assert(SourceA!=NULL);

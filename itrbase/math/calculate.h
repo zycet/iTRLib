@@ -88,6 +88,7 @@ namespace itr_math
             virtual void AddSum(F32* SourceA, S32 Length, F32& Result) const;
 
             virtual void MultiSum(S16* SourceA, S16* SourceB, S32 Length, S16& Result) const;
+            virtual void MultiSum(S16* SourceA, F32* SourceB, S32 Length, S16& Result) const;
             virtual void MultiSum(S32* SourceA, S32* SourceB, S32 Length, S32& Result) const;
             virtual void MultiSum(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const;
 
