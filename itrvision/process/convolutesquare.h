@@ -45,8 +45,7 @@ namespace itr_vision
         public:
             ConvoluteSquare(S32 FilterDim, S32 Width, S32 Height);
             virtual ~ConvoluteSquare();
-            void Convolute(const ImageGray& Input, S16* Filter, S32 DivOrder,
-                    ImageGray& Output);
+            void Convolute(const ImageGray& Input, F32* Filter, ImageGray& Output);
         private:
             S16* multBufferS16;
             S16* imageBufferS16;
