@@ -120,7 +120,7 @@ void ConvoluteSquareTest2()
 void ConvoluteSquareTest3()
 {
     //Read File
-FILE* file = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1.pgm", "rb+");
+FILE* file = fopen("Debug/table1.pgm", "rb+");
     assert(file!=NULL);
     assert(fseek(file, 0, SEEK_END)==0);
     U32 length = ftell(file);
@@ -145,7 +145,7 @@ assert(FormatPGMObj.ToImage(bufferRead,length,imageARGB)==itr_vision::IFormat::S
     S32 length2 = 1024*1024;
 assert(FormatPGMObj.ToBinary(imageARGB, bufferWrite, length2)==itr_vision::IFormat::Success);
     //Write File
-FILE* file2 = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1_.pgm", "wb+");
+FILE* file2 = fopen("Debug/table1_.pgm", "wb+");
     assert(file2!=NULL);
     assert(fwrite(bufferWrite,1,length2,file2)==(U32)length2);
     fflush(file2);
