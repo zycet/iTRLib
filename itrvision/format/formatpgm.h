@@ -9,10 +9,6 @@
 #define FORMATPGM_H_
 
 #include "iformat.h"
-#include <sstream>
-#include <math.h>
-#include <assert.h>
-using std::stringstream;
 #include "itrbase.h"
 
 namespace itr_vision

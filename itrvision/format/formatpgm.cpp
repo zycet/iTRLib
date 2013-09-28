@@ -7,12 +7,14 @@
 
 #include "itrbase.h"
 #include "formatpgm.h"
-#include <math.h>
+#include <sstream>
+using std::stringstream;
 
 namespace itr_vision
 {
     FormatPGM::FormatPGM()
     {
+
     }
 
     FormatPGM::~FormatPGM()
@@ -113,21 +115,25 @@ namespace itr_vision
         stringstream str;
         str << "P6" << '\n';
         str << Img.GetWidth() << ' ' << Img.GetHeight() << '\n';
+        str << 255 << '\n';
         U32* data = Img.GetPixels();
+        S32 temp;
         U8 r, g, b;
+        while (str.get(r))
+        {
+            *Data = r;
+            ++Data;
+        }
         for (int i = 0; i < Img.GetPixelsNumber(); ++i)
         {
             r = (*data) >> 16;
             g = ((*data) & 0xFF00) >> 8;
             b = (*data) & 0xFF;
-            str << floor(0.299 * r + 0.587 * g + 0.114 * b);
-            ++data;
-        }
-        while (str >> r)
-        {
-            *Data = r;
+            itr_math::NumericalObj->Floor(0.299 * r + 0.587 * g + 0.114 * b, temp);
+            *Data = (U8) temp;
             ++Data;
         }
+
         return IFormat::Success;
     }
     IFormat::ConvertResult FormatPGM::ToBinary(ImageGray& Img, U8* Data, S32& Length)
@@ -138,16 +144,19 @@ namespace itr_vision
         stringstream str;
         str << "P6" << '\n';
         str << Img.GetWidth() << ' ' << Img.GetHeight() << '\n';
+        str << 255 << '\n';
         S16* data = Img.GetPixels();
         U8 p;
-        for (int i = 0; i < Img.GetPixelsNumber(); ++i)
-        {
-            p = *data++;
-            str << p;
-        }
-        while (str >> p)
+        while (str.get(p))
         {
             *Data = p;
+            ++Data;
+        }
+        for (int i = 0; i < Img.GetPixelsNumber(); ++i)
+        {
+            p = *data;
+            *Data=p;
+            ++data;
             ++Data;
         }
         return IFormat::Success;
