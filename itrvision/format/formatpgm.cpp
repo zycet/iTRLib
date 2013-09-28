@@ -133,6 +133,7 @@ namespace itr_vision
             itr_math::NumericalObj->Floor(0.299 * r + 0.587 * g + 0.114 * b, temp);
             *Data = (U8) temp;
             ++Data;
+            ++data;
         }
 
         return IFormat::Success;
@@ -151,12 +152,12 @@ namespace itr_vision
         S8 p;
         while (str.get(p))
         {
-            *Data = (U8)(p);
+            *Data = (U8) (p);
             ++Data;
         }
         for (int i = 0; i < Img.GetPixelsNumber(); ++i)
         {
-            *Data=(U8)(*data);
+            *Data = (U8) (*data);
             ++data;
             ++Data;
         }

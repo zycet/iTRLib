@@ -93,16 +93,20 @@ namespace itr_vision
             return IFormat::FormatIllegal;
         if (Length != (width * height * 3 + bit))
             return IFormat::LengthIllegal;
-        U8 r, g, b;
-        S16 data;
-        for (int j = 0; j < height; ++j)
+        S8 r, g, b;
+        S16* data = Img.GetPixels();
+        Data+=bit;
+        for (int i = 0; i < Img.GetPixelsNumber(); ++i)
         {
-            for (int i = 0; i < width; ++i)
-            {
-                str >> r >> g >> b;
-                data = floor(0.299 * r + 0.587 * g + 0.114 * b);
-                Img(j, i) = data;
-            }
+            r=*Data;
+            ++Data;
+            g=*Data;
+            ++Data;
+            b=*Data;
+            ++Data;
+            *data = (S16)floor(0.299 * r + 0.587 * g + 0.114 * b);
+            ++data;
+
         }
         return IFormat::Success;
     }
@@ -128,12 +132,13 @@ namespace itr_vision
             r = (*data) >> 16;
             g = ((*data) & 0xFF00) >> 8;
             b = (*data) & 0xFF;
-            str << r << g << b;
             *Data = r;
             ++Data;
             *Data = g;
             ++Data;
             *Data = b;
+            ++Data;
+            ++data;
         }
         return IFormat::Success;
     }
@@ -147,6 +152,7 @@ namespace itr_vision
         str << 255 << '\n';
         S16* data = Img.GetPixels();
         S8 p;
+        U8* origin = Data;
         while (str.get(p))
         {
             *Data = (U8) (p);
@@ -154,15 +160,15 @@ namespace itr_vision
         }
         for (int i = 0; i < Img.GetPixelsNumber(); ++i)
         {
-            p = *data;
-            *Data = p;
+            p = data[i];
+            *Data = (U8)p;
             ++Data;
-            *Data = p;
+            *Data = (U8)p;
             ++Data;
-            *Data = p;
+            *Data = (U8)p;
             ++Data;
         }
-
+        PRINT_DEBUG(Data-origin);
         return IFormat::Success;
     }
 } // namespace itr_vision
