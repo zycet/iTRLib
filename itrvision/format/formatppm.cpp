@@ -27,7 +27,8 @@ namespace itr_vision
         U8 head1, head2;
         S32 width, height;
         stringstream str;
-        str << Data;
+        for (int i = 0; i < 20; ++i)
+            str << Data[i];
         str >> head1 >> head2;
         str >> width >> height;
         if ((head1 != 'P') || (head2 != '6'))
@@ -51,7 +52,8 @@ namespace itr_vision
         S32 width, height;
         S32 bit;
         stringstream str;
-        str << Data;
+        for (int i = 0; i < 20; ++i)
+            str << Data[i];
         str >> head1 >> head2;
         str >> width >> height;
         str >> bit;
@@ -64,14 +66,14 @@ namespace itr_vision
             return IFormat::LengthIllegal;
         U8 r, g, b;
         U32 data;
-        for (int j = 0; j < height; ++j)
+        U32* img = Img.GetPixels();
+        int n = Img.GetPixelsNumber();
+        for (int i = 0; i < n; ++i)
         {
-            for (int i = 0; i < width; ++i)
-            {
-                str >> r >> g >> b;
-                data = (r << 16) | (g << 8) | b;
-                Img(j, i) = data;
-            }
+            str >> r >> g >> b;
+            data = (r << 16) | (g << 8) | b;
+            *img = data;
+            ++img;
         }
         return IFormat::Success;
     }
@@ -82,7 +84,8 @@ namespace itr_vision
         int width, height;
         int bit;
         stringstream str;
-        str << Data;
+        for (int i = 0; i < 20; ++i)
+            str << Data[i];
         str >> head1 >> head2;
         str >> width >> height;
         str >> bit;
@@ -96,7 +99,8 @@ namespace itr_vision
         U8 r, g, b;
         S16* data = Img.GetPixels();
         Data += bit;
-        for (int i = 0; i < Img.GetPixelsNumber(); ++i)
+        int n = Img.GetPixelsNumber();
+        for (int i = 0; i < n; ++i)
         {
             r = *Data;
             ++Data;
@@ -104,7 +108,7 @@ namespace itr_vision
             ++Data;
             b = *Data;
             ++Data;
-            *data = (S16)floor(0.299 * r + 0.587 * g + 0.114 * b);
+            *data = (S16) floor(0.299 * r + 0.587 * g + 0.114 * b);
             //*data = (S16) ((r + b + g) / 3);
             ++data;
 
@@ -128,7 +132,8 @@ namespace itr_vision
             *Data = (U8) (p);
             ++Data;
         }
-        for (int i = 0; i < Img.GetPixelsNumber(); ++i)
+        int n = Img.GetPixelsNumber();
+        for (int i = 0; i < n; ++i)
         {
             r = (*data) >> 16;
             g = ((*data) & 0xFF00) >> 8;
@@ -159,7 +164,8 @@ namespace itr_vision
             ++Data;
         }
         U8 p2;
-        for (int i = 0; i < Img.GetPixelsNumber(); ++i)
+        int n = Img.GetPixelsNumber();
+        for (int i = 0; i < n; ++i)
         {
             p2 = GET_IN_RANGE(data[i],0,255);
             *Data = p2;
