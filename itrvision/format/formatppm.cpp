@@ -117,18 +117,23 @@ namespace itr_vision
         str << 255 << '\n';
         U32* data = Img.GetPixels();
         U8 r, g, b;
+        S8 p;
+        while (str.get(p))
+        {
+            *Data = (U8) (p);
+            ++Data;
+        }
         for (int i = 0; i < Img.GetPixelsNumber(); ++i)
         {
             r = (*data) >> 16;
             g = ((*data) & 0xFF00) >> 8;
             b = (*data) & 0xFF;
             str << r << g << b;
-            ++data;
-        }
-        while (str >> r)
-        {
             *Data = r;
             ++Data;
+            *Data = g;
+            ++Data;
+            *Data = b;
         }
         return IFormat::Success;
     }
@@ -141,18 +146,23 @@ namespace itr_vision
         str << Img.GetWidth() << ' ' << Img.GetHeight() << '\n';
         str << 255 << '\n';
         S16* data = Img.GetPixels();
-        U8 p;
+        S8 p;
+        while (str.get(p))
+        {
+            *Data = (U8) (p);
+            ++Data;
+        }
         for (int i = 0; i < Img.GetPixelsNumber(); ++i)
         {
             p = *data;
-            str << p << p << p;
-            ++data;
-        }
-        while (str >> p)
-        {
+            *Data = p;
+            ++Data;
+            *Data = p;
+            ++Data;
             *Data = p;
             ++Data;
         }
+
         return IFormat::Success;
     }
 } // namespace itr_vision

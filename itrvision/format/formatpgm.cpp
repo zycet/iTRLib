@@ -119,9 +119,10 @@ namespace itr_vision
         U32* data = Img.GetPixels();
         S32 temp;
         U8 r, g, b;
-        while (str.get(r))
+        S8 p;
+        while (str.get(p))
         {
-            *Data = r;
+            *Data = p;
             ++Data;
         }
         for (int i = 0; i < Img.GetPixelsNumber(); ++i)
@@ -146,16 +147,16 @@ namespace itr_vision
         str << Img.GetWidth() << ' ' << Img.GetHeight() << '\n';
         str << 255 << '\n';
         S16* data = Img.GetPixels();
-        U8 p;
+
+        S8 p;
         while (str.get(p))
         {
-            *Data = p;
+            *Data = (U8)(p);
             ++Data;
         }
         for (int i = 0; i < Img.GetPixelsNumber(); ++i)
         {
-            p = *data;
-            *Data=p;
+            *Data=(U8)(*data);
             ++data;
             ++Data;
         }
