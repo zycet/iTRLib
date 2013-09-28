@@ -37,5 +37,6 @@
 #include "itrvision.h"
 
 void ConvoluteSquareTest();
+void ConvoluteSquareTest2();
 
 #endif // PROCESSTEST_H_

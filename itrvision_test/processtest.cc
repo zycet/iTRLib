@@ -33,12 +33,12 @@
 
 #include "processtest.h"
 #include <stdio.h>
+#include <time.h>
 #include "itrbase.h"
 #include "itrvision.h"
 
 void ConvoluteSquareTest()
 {
-
     //Read File
     FILE* file = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1.ppm", "rb+");
     assert(file!=NULL);
@@ -85,4 +85,39 @@ void ConvoluteSquareTest()
     assert(fwrite(buffer,1,length2,file2)==(U32)length2);
     fclose(file2);
     delete buffer;
+}
+
+void ConvoluteSquareTest2()
+{
+    //Calc Gaussian Filter
+    const S32 N = 9;
+    const F32 sigma = 1;
+    F32 filter[9];
+    itr_vision::GaussianGenerate::Generate(sigma, N, filter);
+    S16 filterS16[N];
+    for (S32 i = 0; i < N; i++)
+    {
+        filterS16[i] = filter[i] * 1024;
+    }
+    //Create Image
+    const S32 Width = 685;
+    const S32 Height = 494;
+    itr_vision::ImageGray imageGray1(Width, Height);
+    itr_vision::ImageGray imageGray2(Width, Height);
+    S16* p = imageGray1.GetPixels();
+    for (S32 i = 0; i < imageGray1.GetPixelsNumber(); i++)
+    {
+        p[i] = 7;
+    }
+    //Init ConvoluteSquare
+    itr_vision::ConvoluteSquare ConvoluteSquareObj(N, Width, Height);
+    //Calc Convolute
+    clock_t startClock = clock();
+    for (S32 i = 0; i < 10; i++)
+    {
+        ConvoluteSquareObj.Convolute(imageGray1, filterS16, 10, imageGray2);
+    }
+    clock_t endClock = clock();
+    double timeSpan = (double) (endClock - startClock) / CLOCKS_PER_SEC;
+    PRINT_INFO(timeSpan);
 }

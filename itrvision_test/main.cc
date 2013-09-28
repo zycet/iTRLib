@@ -46,7 +46,8 @@ int main()
     //Test Helper
     TestGaussianGenerate();
     //Test Process
-    ConvoluteSquareTest();
+    //ConvoluteSquareTest();
+    ConvoluteSquareTest2();
     //Finish
     itr_math::MathObjStandDeinit();
     //Deint Math
