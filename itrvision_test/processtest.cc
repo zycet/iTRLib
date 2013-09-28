@@ -84,10 +84,14 @@ void ConvoluteSquareTest()
 void ConvoluteSquareTest2()
 {
     //Calc Gaussian Filter
-    const S32 N = 9;
+    const S32 N = 21;
     const F32 sigma = 1;
-    F32 filter[9];
+    F32 filter[N];
     itr_vision::GaussianGenerate::Generate(sigma, N, filter);
+    for (S32 i = 0; i < N; i++)
+    {
+        filter[i] = 1;
+    }
     //Create Image
     //const S32 Width = 685;
     //const S32 Height = 494;
@@ -98,7 +102,7 @@ void ConvoluteSquareTest2()
     S16* p = imageGray1.GetPixels();
     for (S32 i = 0; i < imageGray1.GetPixelsNumber(); i++)
     {
-        p[i] = 0;
+        p[i] = 1;
     }
     //Init ConvoluteSquare
     itr_vision::ConvoluteSquare ConvoluteSquareObj(N, Width, Height);
@@ -109,7 +113,7 @@ void ConvoluteSquareTest2()
         ConvoluteSquareObj.Convolute(imageGray1, filter, imageGray2);
     }
     clock_t endClock = clock();
-    double timeSpan = (double) (endClock - startClock) / CLOCKS_PER_SEC * 1000;
+    double timeSpan = ((double) (endClock - startClock)) / CLOCKS_PER_SEC * 1000;
     PRINT_INFO(timeSpan);
 }
 

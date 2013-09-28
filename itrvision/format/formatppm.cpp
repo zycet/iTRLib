@@ -93,18 +93,19 @@ namespace itr_vision
             return IFormat::FormatIllegal;
         if (Length != (width * height * 3 + bit))
             return IFormat::LengthIllegal;
-        S8 r, g, b;
+        U8 r, g, b;
         S16* data = Img.GetPixels();
-        Data+=bit;
+        Data += bit;
         for (int i = 0; i < Img.GetPixelsNumber(); ++i)
         {
-            r=*Data;
+            r = *Data;
             ++Data;
-            g=*Data;
+            g = *Data;
             ++Data;
-            b=*Data;
+            b = *Data;
             ++Data;
             *data = (S16)floor(0.299 * r + 0.587 * g + 0.114 * b);
+            //*data = (S16) ((r + b + g) / 3);
             ++data;
 
         }
@@ -152,23 +153,22 @@ namespace itr_vision
         str << 255 << '\n';
         S16* data = Img.GetPixels();
         S8 p;
-        U8* origin = Data;
         while (str.get(p))
         {
             *Data = (U8) (p);
             ++Data;
         }
+        U8 p2;
         for (int i = 0; i < Img.GetPixelsNumber(); ++i)
         {
-            p = data[i];
-            *Data = (U8)p;
+            p2 = GET_IN_RANGE(data[i],0,255);
+            *Data = p2;
             ++Data;
-            *Data = (U8)p;
+            *Data = p2;
             ++Data;
-            *Data = (U8)p;
+            *Data = p2;
             ++Data;
         }
-        PRINT_DEBUG(Data-origin);
         return IFormat::Success;
     }
 } // namespace itr_vision
