@@ -65,20 +65,14 @@ void ConvoluteSquareTest()
     S32 n = itr_vision::GaussianGenerate::SuggestLength(sigma);
     F32* filter = new F32[n];
     itr_vision::GaussianGenerate::Generate(sigma, n, filter);
-    S16* filterS16 = new S16[n];
-    for (S32 i = 0; i < n; i++)
-    {
-        filterS16[i] = filter[i] * 1024;
-    }
-    delete filter;
     //Convolute
     itr_vision::ImageGray imageGrayResult(imageInfo.Width, imageInfo.Height);
     itr_vision::ConvoluteSquare ConvoluteSquareObj(n, imageARGB.GetWidth(), imageARGB.GetHeight());
-    ConvoluteSquareObj.Convolute(imageGray, filterS16, 10, imageGrayResult);
-    delete filterS16;
+    ConvoluteSquareObj.Convolute(imageGray, filter, imageGrayResult);
+    delete filter;
     //Write Image
     S32 length2 = length;
-    assert( FormatPPMObj.ToBinary(imageGrayResult, buffer, length2)==itr_vision::IFormat::Success);
+    assert( FormatPPMObj.ToBinary(imageGray, buffer, length2)==itr_vision::IFormat::Success);
     //Write File
     FILE* file2 = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1_.ppm", "wb+");
     assert(file2!=NULL);
@@ -94,20 +88,17 @@ void ConvoluteSquareTest2()
     const F32 sigma = 1;
     F32 filter[9];
     itr_vision::GaussianGenerate::Generate(sigma, N, filter);
-    S16 filterS16[N];
-    for (S32 i = 0; i < N; i++)
-    {
-        filterS16[i] = filter[i] * 1024;
-    }
     //Create Image
-    const S32 Width = 685;
-    const S32 Height = 494;
+    //const S32 Width = 685;
+    //const S32 Height = 494;
+    const S32 Width = 200;
+    const S32 Height = 200;
     itr_vision::ImageGray imageGray1(Width, Height);
     itr_vision::ImageGray imageGray2(Width, Height);
     S16* p = imageGray1.GetPixels();
     for (S32 i = 0; i < imageGray1.GetPixelsNumber(); i++)
     {
-        p[i] = 7;
+        p[i] = 0;
     }
     //Init ConvoluteSquare
     itr_vision::ConvoluteSquare ConvoluteSquareObj(N, Width, Height);
@@ -115,9 +106,43 @@ void ConvoluteSquareTest2()
     clock_t startClock = clock();
     for (S32 i = 0; i < 10; i++)
     {
-        ConvoluteSquareObj.Convolute(imageGray1, filterS16, 10, imageGray2);
+        ConvoluteSquareObj.Convolute(imageGray1, filter, imageGray2);
     }
     clock_t endClock = clock();
-    double timeSpan = (double) (endClock - startClock) / CLOCKS_PER_SEC;
+    double timeSpan = (double) (endClock - startClock) / CLOCKS_PER_SEC * 1000;
     PRINT_INFO(timeSpan);
+}
+
+void ConvoluteSquareTest3()
+{
+    //Read File
+    FILE* file = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1.ppm", "rb+");
+    assert(file!=NULL);
+    assert(fseek(file, 0, SEEK_END)==0);
+    U32 length = ftell(file);
+    assert(length>0);
+    fseek(file, 0, SEEK_SET);
+    U8* buffer = new U8[length];
+    MemoryClear(buffer, length);
+    U32 len = fread(buffer, 1, length, file);
+    assert(len==length);
+    fclose(file);
+    //Read Image
+    itr_vision::FormatPPM FormatPPMObj;
+    itr_vision::FormatPGM FormatPGMObj;
+    itr_vision::IFormat::ImageInfo imageInfo;
+    assert(FormatPPMObj.GetInfo(buffer, length, imageInfo)==itr_vision::IFormat::Success);
+    itr_vision::ImageGray imageGray(imageInfo.Width, imageInfo.Height);
+    assert(FormatPPMObj.ToImage(buffer,length,imageGray)==itr_vision::IFormat::Success);
+    MemoryClear(buffer, length);
+    //Write Image
+    S32 length2 = length;
+    assert(FormatPPMObj.ToBinary(imageGray, buffer, length2)==itr_vision::IFormat::Success);
+    //Write File
+    FILE* file2 = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1_.ppm", "wb+");
+    assert(file2!=NULL);
+    assert(fwrite(buffer,1,length2,file2)==(U32)length2);
+    fflush(file2);
+    fclose(file2);
+    delete[] buffer;
 }

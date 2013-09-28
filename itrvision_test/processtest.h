@@ -38,5 +38,6 @@
 
 void ConvoluteSquareTest();
 void ConvoluteSquareTest2();
+void ConvoluteSquareTest3();
 
 #endif // PROCESSTEST_H_
