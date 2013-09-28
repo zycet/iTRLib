@@ -119,6 +119,7 @@ namespace itr_vision
         S32 temp;
         U8 r, g, b;
         S8 p;
+        U8 *origin=Data;
         while (str.get(p))
         {
             *Data = (U8) p;
@@ -134,7 +135,7 @@ namespace itr_vision
             *Data = (U8) temp;
             ++Data;
         }
-
+        Length=Data-origin;
         return IFormat::Success;
     }
     IFormat::ConvertResult FormatPGM::ToBinary(ImageGray& Img, U8* Data, S32& Length)
@@ -147,7 +148,7 @@ namespace itr_vision
         str << Img.GetWidth() << ' ' << Img.GetHeight() << '\n';
         str << 255 << '\n';
         S16* data = Img.GetPixels();
-
+        U8 *origin=Data;
         S8 p;
         while (str.get(p))
         {
@@ -161,6 +162,7 @@ namespace itr_vision
             ++data;
             ++Data;
         }
+        Length=Data-origin;
         return IFormat::Success;
     }
 } // namespace itr_vision

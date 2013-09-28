@@ -120,33 +120,35 @@ void ConvoluteSquareTest2()
 void ConvoluteSquareTest3()
 {
     //Read File
-    FILE* file = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1.ppm", "rb+");
+FILE* file = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1.pgm", "rb+");
     assert(file!=NULL);
     assert(fseek(file, 0, SEEK_END)==0);
     U32 length = ftell(file);
     assert(length>0);
     fseek(file, 0, SEEK_SET);
-    U8* buffer = new U8[length];
-    MemoryClear(buffer, length);
-    U32 len = fread(buffer, 1, length, file);
+    U8* bufferRead = new U8[length];
+    U8* bufferWrite = new U8[1024*1024];
+    MemoryClear(bufferRead, length);
+    U32 len = fread(bufferRead, 1, length, file);
     assert(len==length);
     fclose(file);
     //Read Image
     itr_vision::FormatPPM FormatPPMObj;
     itr_vision::FormatPGM FormatPGMObj;
     itr_vision::IFormat::ImageInfo imageInfo;
-    assert(FormatPPMObj.GetInfo(buffer, length, imageInfo)==itr_vision::IFormat::Success);
+assert(FormatPGMObj.GetInfo(bufferRead, length, imageInfo)==itr_vision::IFormat::Success);
     itr_vision::ImageGray imageGray(imageInfo.Width, imageInfo.Height);
-    assert(FormatPPMObj.ToImage(buffer,length,imageGray)==itr_vision::IFormat::Success);
-    MemoryClear(buffer, length);
+    itr_vision::ImageARGB imageARGB(imageInfo.Width, imageInfo.Height);
+assert(FormatPGMObj.ToImage(bufferRead,length,imageARGB)==itr_vision::IFormat::Success);
+    MemoryClear(bufferRead, length);
     //Write Image
-    S32 length2 = length;
-    assert(FormatPPMObj.ToBinary(imageGray, buffer, length2)==itr_vision::IFormat::Success);
+    S32 length2 = 1024*1024;
+assert(FormatPGMObj.ToBinary(imageARGB, bufferWrite, length2)==itr_vision::IFormat::Success);
     //Write File
-    FILE* file2 = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1_.ppm", "wb+");
+FILE* file2 = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1_.pgm", "wb+");
     assert(file2!=NULL);
-    assert(fwrite(buffer,1,length2,file2)==(U32)length2);
+    assert(fwrite(bufferWrite,1,length2,file2)==(U32)length2);
     fflush(file2);
     fclose(file2);
-    delete[] buffer;
+    delete[] bufferRead;
 }

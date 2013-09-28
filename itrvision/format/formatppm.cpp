@@ -127,6 +127,7 @@ namespace itr_vision
         U32* data = Img.GetPixels();
         U8 r, g, b;
         S8 p;
+        U8 *origin=Data;
         while (str.get(p))
         {
             *Data = (U8) (p);
@@ -146,6 +147,7 @@ namespace itr_vision
             ++Data;
             ++data;
         }
+        Length=Data-origin;
         return IFormat::Success;
     }
     IFormat::ConvertResult FormatPPM::ToBinary(ImageGray& Img, U8* Data, S32& Length)
@@ -158,6 +160,7 @@ namespace itr_vision
         str << 255 << '\n';
         S16* data = Img.GetPixels();
         S8 p;
+        U8 *origin=Data;
         while (str.get(p))
         {
             *Data = (U8) (p);
@@ -175,6 +178,7 @@ namespace itr_vision
             *Data = p2;
             ++Data;
         }
+        Length=Data-origin;
         return IFormat::Success;
     }
 } // namespace itr_vision
