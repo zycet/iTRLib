@@ -40,7 +40,7 @@
 void ConvoluteSquareTest()
 {
     //Read File
-    FILE* file = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1.ppm", "rb+");
+    FILE* file = fopen("Debug/table1.ppm", "rb+");
     assert(file!=NULL);
     assert(fseek(file, 0, SEEK_END)==0);
     U32 length = ftell(file);
@@ -60,6 +60,8 @@ void ConvoluteSquareTest()
     //Convert Gray
     itr_vision::ImageGray imageGray(imageInfo.Width, imageInfo.Height);
     itr_vision::ImageFormatComvert(imageARGB, imageGray);
+    itr_vision::ImageFormatComvert(imageGray, imageARGB, 0);
+    itr_vision::ImageFormatComvert(imageARGB, imageGray);
     //Calc Gaussian Filter
     F32 sigma = 1;
     S32 n = itr_vision::GaussianGenerate::SuggestLength(sigma);
@@ -72,19 +74,19 @@ void ConvoluteSquareTest()
     delete filter;
     //Write Image
     S32 length2 = length;
-    assert( FormatPPMObj.ToBinary(imageGray, buffer, length2)==itr_vision::IFormat::Success);
+    assert(FormatPPMObj.ToBinary(imageGrayResult, buffer, length2)==itr_vision::IFormat::Success);
     //Write File
-    FILE* file2 = fopen("/home/buaa/itrvision/itrvision_test/Debug/table1_.ppm", "wb+");
+    FILE* file2 = fopen("Debug/table1_.ppm", "wb+");
     assert(file2!=NULL);
     assert(fwrite(buffer,1,length2,file2)==(U32)length2);
     fclose(file2);
     delete buffer;
 }
 
-void ConvoluteSquareTest2()
+void ConvoluteSquareTest4Pro()
 {
     //Calc Gaussian Filter
-    const S32 N = 21;
+    const S32 N = 9;
     const F32 sigma = 1;
     F32 filter[N];
     itr_vision::GaussianGenerate::Generate(sigma, N, filter);
@@ -117,17 +119,17 @@ void ConvoluteSquareTest2()
     PRINT_INFO(timeSpan);
 }
 
-void ConvoluteSquareTest3()
+void FormatPPMTestPGMTest3()
 {
     //Read File
-FILE* file = fopen("Debug/table1.ppm", "rb+");
+    FILE* file = fopen("Debug/table1.ppm", "rb+");
     assert(file!=NULL);
     assert(fseek(file, 0, SEEK_END)==0);
     U32 length = ftell(file);
     assert(length>0);
     fseek(file, 0, SEEK_SET);
     U8* bufferRead = new U8[length];
-    U8* bufferWrite = new U8[1024*1024];
+    U8* bufferWrite = new U8[1024 * 1024];
     MemoryClear(bufferRead, length);
     U32 len = fread(bufferRead, 1, length, file);
     assert(len==length);
@@ -136,16 +138,16 @@ FILE* file = fopen("Debug/table1.ppm", "rb+");
     itr_vision::FormatPPM FormatPPMObj;
     itr_vision::FormatPGM FormatPGMObj;
     itr_vision::IFormat::ImageInfo imageInfo;
-assert(FormatPPMObj.GetInfo(bufferRead, length, imageInfo)==itr_vision::IFormat::Success);
+    assert(FormatPPMObj.GetInfo(bufferRead, length, imageInfo)==itr_vision::IFormat::Success);
     itr_vision::ImageGray imageGray(imageInfo.Width, imageInfo.Height);
     itr_vision::ImageARGB imageARGB(imageInfo.Width, imageInfo.Height);
-assert(FormatPPMObj.ToImage(bufferRead,length,imageARGB)==itr_vision::IFormat::Success);
+    assert(FormatPPMObj.ToImage(bufferRead,length,imageARGB)==itr_vision::IFormat::Success);
     MemoryClear(bufferRead, length);
     //Write Image
-    S32 length2 = 1024*1024;
-assert(FormatPGMObj.ToBinary(imageARGB, bufferWrite, length2)==itr_vision::IFormat::Success);
+    S32 length2 = 1024 * 1024;
+    assert(FormatPGMObj.ToBinary(imageARGB, bufferWrite, length2)==itr_vision::IFormat::Success);
     //Write File
-FILE* file2 = fopen("Debug/table1_.pgm", "wb+");
+    FILE* file2 = fopen("Debug/table1_.pgm", "wb+");
     assert(file2!=NULL);
     assert(fwrite(bufferWrite,1,length2,file2)==(U32)length2);
     fflush(file2);

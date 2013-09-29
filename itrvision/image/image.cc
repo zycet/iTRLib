@@ -113,7 +113,8 @@ namespace itr_vision
         S32 offset = 0;
         for (int i = 0; i < pixelsNumber; i++)
         {
-            output[i] = input[offset + 1] + input[offset + 2] + input[offset + 3];
+            output[i] = (input[offset + 0] + input[offset + 1] + input[offset + 1]
+                    + input[offset + 2]) >> 2;
             offset += 4;
         }
     }

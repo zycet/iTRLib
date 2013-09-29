@@ -57,12 +57,6 @@ namespace itr_vision
         delete this->imageBufferS16;
     }
 
-    void FillMultBufferRow(S16* Data, S32 Width, S32 X, S32 Y, S32 R, S16* Buffer)
-    {
-        S32 offset = Y * Width + X - R;
-        MemoryCopy(Buffer, &Data[offset], sizeof(S16) * (R * 2 + 1));
-    }
-
     void FillMultBufferCol(S16* Data, S32 Width, S32 X, S32 Y, S32 R, S16* Buffer)
     {
         S32 offset = (Y - R) * Width + X;
@@ -89,16 +83,16 @@ namespace itr_vision
             for (S32 x = r; x < width - r; x++)
             {
                 tempP = Input.GetPixel(y, x - r);
-                //FillMultBufferRow(input, width, x, y, r, multBufferS16);
                 itr_math::CalculateObj->MultiSum(tempP, Filter, filterDim, value);
                 imageBufferS16[y * width + x] = value;
             }
         }
+
         for (S32 y = r; y < height - r; y++)
         {
             for (S32 x = r; x < width - r; x++)
             {
-                FillMultBufferCol(imageBufferS16, width, x, r, r, multBufferS16);
+                FillMultBufferCol(imageBufferS16, width, x, y, r, multBufferS16);
                 itr_math::CalculateObj->MultiSum(multBufferS16, Filter, filterDim, value);
                 output[y * width + x] = value;
             }
