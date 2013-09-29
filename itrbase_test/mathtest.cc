@@ -54,11 +54,13 @@ void TestCalculate()
 
     F32 SourceF32A[50];
     F32 SourceF32B[50];
-    F32 ResultF32A[50];
-
     F32 SourceF32C[50];
     F32 SourceF32D[50];
+    F32 SourceF32E[50];
+
+    F32 ResultF32A[50];
     F32 ResultF32B[50];
+
 
     F32 ResultF32;
     S32 Length = 50;
@@ -70,9 +72,9 @@ void TestCalculate()
         SourceS32A[i] = i;
         SourceS32B[i] = i;
         SourceF32A[i] = i;
-        SourceF32A[i] = i;
         SourceF32C[i] = 0;
-        SourceF32D[i] = i;;
+        SourceF32D[i] = i;
+        SourceF32E[i] = -i;
     }
     //Add
     itr_math::CalculateObj->Add(SourceF32A, SourceF32B, Length, ResultF32A);
@@ -98,6 +100,22 @@ void TestCalculate()
     itr_math::CalculateObj->Scale(SourceF32A, 2, Length, ResultF32A);
     itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
     assert(ResultF32==2450);
+    //Normalization
+    itr_math::CalculateObj->Normalization(SourceF32C, Length, ResultF32A);
+    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
+    assert(ResultF32==0);
+    //Abs
+    itr_math::CalculateObj->Abs(SourceF32E, Length, ResultF32A);
+    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
+    assert(ResultF32==-1250);
+    //Oppsite
+    itr_math::CalculateObj->Opposite(SourceF32E, Length, ResultF32A);
+    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
+    assert(ResultF32==1250);
+    //Addsum
+    itr_math::CalculateObj->AddSum(SourceF32D, Length, ResultF32);
+    assert(ResultF32==1250);
+    //
     TRACE_INFO("OK TestCalculate()");
 }
 
