@@ -57,6 +57,7 @@ void TestCalculate()
     F32 SourceF32C[50];
     F32 SourceF32D[50];
     F32 SourceF32E[50];
+    F32 SourceF32F[50];
 
     F32 ResultF32A[50];
     F32 ResultF32B[50];
@@ -75,6 +76,7 @@ void TestCalculate()
         SourceF32C[i] = 0;
         SourceF32D[i] = i;
         SourceF32E[i] = -i;
+        SourceF32F[i] = 1;
     }
     //Add
     itr_math::CalculateObj->Add(SourceF32A, SourceF32B, Length, ResultF32A);
@@ -115,7 +117,15 @@ void TestCalculate()
     //Addsum
     itr_math::CalculateObj->AddSum(SourceF32D, Length, ResultF32);
     assert(ResultF32==1250);
-    //
+    //MultiSum
+    itr_math::CalculateObj->MultiSum(SourceF32C, SourceF32D, Length, ResultF32);
+    assert(ResultF32==0);
+    //Product
+    itr_math::CalculateObj->Product(SourceF32F,  Length, ResultF32);
+    assert(ResultF32==1);
+    //Set
+    itr_math::CalculateObj->Set(SourceF32D,  1, Length);
+    assert(ResultF32==50);
     TRACE_INFO("OK TestCalculate()");
 }
 
