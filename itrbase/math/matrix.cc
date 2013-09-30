@@ -108,8 +108,7 @@ namespace itr_math
     void Matrix::AddRow(S32 RowNoAdd, S32 RowNoResult)
     {
         assert(RowNoAdd <= row && RowNoResult <= row);
-        CalculateObj->Add(data + (RowNoAdd - 1) * col, data + (RowNoResult - 1) * col, col,
-                data + (RowNoResult - 1) * col);
+        CalculateObj->Add(data + (RowNoAdd - 1) * col, data + (RowNoResult - 1) * col, col,data + (RowNoResult - 1) * col);
     }
     /*
      * 将Data加至RowNoResult行

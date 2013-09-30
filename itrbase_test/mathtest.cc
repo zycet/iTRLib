@@ -166,27 +166,34 @@ void TestVector()
 
 void TestMatrix()
 {
-    //F32 data[3 * 3];
-    F32 data1[3 * 3] =
-    { 5, 0, 0, 0, 5, 0, 0, 0, 5 };
-    //{ 1, 4, 9, 16, 25, 36, 49, 64, 81 };
-    //for (S32 i = 0; i < 3 * 3; i++)
-    //{
-    //data[i] = i*i;
-    //}
-    F32* Data = data1;
-    itr_math::Matrix Source(3, 3, Data);
-    itr_math::Matrix Result(3, 3, Data);
-    itr_math::Matrix Result2(3, 3, Data);
-
-    Source.Inv(Result);
-    Result.Mul(Source,Result2);
+    //测试数据
+    F32 data[3 * 3];
     for (S32 i = 0; i < 3 * 3; i++)
-        printf("%f ", Result2[i]);
+    {
+        data[i] = i * i;
+    }
+    F32* Data = data;
+    itr_math::Matrix Source1(3, 3, Data);
+    itr_math::Matrix Source2(3, 3, Data);
+    itr_math::Matrix Result1(3, 3, Data);
+    itr_math::Matrix Result2(3, 3, Data);
+    //初等变换
+    Source1.AddRow(1,2);
+    Source1.SubRow(1,2);
+    assert(MemoryCompare(Source1.GetData(),Source2.GetData(),sizeof(F32)*Source1.GetRow()*Source1.GetCol())==true);
+    Source1.AddRow(Source1.GetData(),2);
+    Source1.SubRow(Source1.GetData(),2);
+    assert(MemoryCompare(Source1.GetData(),Source2.GetData(),sizeof(F32)*Source1.GetRow()*Source1.GetCol())==true);
+    //求逆测试
 
-    //Result = Source*Result;
-    //for (S32 i = 0; i < 3 * 3; i++)
-        //printf("%f ", Result[i]);
+    Source1.Inv(Result1);
+    //Result.Mul(Source, Result2);
+    for (S32 i = 0; i < 3 * 3; i++)
+    {
+        if (i % 3 == 0)
+            printf("\n");
+        printf("%f ", Result1[i]);
+    }
 }
 void TestCalculateTest()
 {
