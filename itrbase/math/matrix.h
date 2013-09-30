@@ -437,19 +437,19 @@ namespace itr_math
             /*
              * 左乘行向量
              */
-            void virtual LeftMulRow(const Vector& Vec, Matrix& MatResult) const;
+            //void virtual LeftMulRow(const Vector& Vec, Matrix& MatResult) const;
             /*
              * 左乘列向量
              */
-            void virtual LeftMulCol(const Vector& Vec, Matrix& MatResult) const;
+            //void virtual LeftMulCol(const Vector& Vec, Matrix& MatResult) const;
             /*
              * 右乘行向量
              */
-            void virtual RightMulRow(const Vector& Vec, Matrix& MatResult) const;
+            //void virtual RightMulRow(const Vector& Vec, Matrix& MatResult) const;
             /*
              * 左乘行向量
              */
-            void virtual RightMulCol(const Vector& Vec, Matrix& MatResult) const;
+            //void virtual RightMulCol(const Vector& Vec, Matrix& MatResult) const;
 
             Vector virtual operator*(const Vector& vec) const;
 
@@ -492,7 +492,7 @@ namespace itr_math
             /*
              * 求矩阵行列式值
              */
-            F32 virtual Det() const;
+            //F32 virtual Det() const;
 
         private:
             S32 row, col;

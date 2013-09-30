@@ -288,6 +288,17 @@ namespace itr_math
         }
     }
     //**********矩阵运算符重载*********
+    Vector Matrix::operator*(const Vector& vec) const
+    {
+        assert(this->col==vec.GetDim());
+        Vector VecResult(vec.GetDim());
+        for (S32 i = 0; this->row; i++)
+        {
+            CalculateObj->MultiSum(this->data + i * this->col, vec.GetData(), vec.GetDim(),
+                    VecResult.GetData()[i]);
+        }
+        return VecResult;
+    }
     Matrix Matrix::operator*(const Matrix& Mat) const
     {
         assert(Mat.row == col);
@@ -348,8 +359,8 @@ namespace itr_math
         S32 tempM, tempN;
         tempM = MatTemp.row;
         tempN = MatTemp.col;
-        MemoryCopy(MatTemp.data, this->data, this->row * this->col);
-        MatTemp.MatEye(1.0);
+        MemoryCopy(MatTemp.data, this->data, this->row * this->col * sizeof(F32));
+        MatResult.MatEye(1.0);
         for (i = 0; i < this->row; i++)
         {
             //寻找主元
@@ -366,14 +377,14 @@ namespace itr_math
             //如果主元所在行不是第i行，进行行变换
             if (k != i)
             {
-                for (j = 0; j < this->row; j++)
+                for (j = 0; j < this->col; j++)
                 {
                     temp = MatTemp.data[i * tempN + j];
                     MatTemp.data[i * tempN + j] = MatTemp.data[k * tempN + j];
                     MatTemp.data[k * tempN + j] = temp;
                     temp = MatResult.data[i * MatResult.col + j];
                     MatResult.data[i * MatResult.col + j] = MatResult.data[k * MatResult.col + j];
-                    MatResult.data[i * MatResult.col + j] = temp;
+                    MatResult.data[k * MatResult.col + j] = temp;
                 }
             }
             //判断主元是否是0，如果是，则矩阵不是满秩矩阵，不存在逆
@@ -381,14 +392,13 @@ namespace itr_math
             {
                 return false;
             }
-            //消去第i列出去第i行以外到各行元素
+            //使对角线元素为1
             temp = MatTemp.data[i * tempN + i];
-            for (j = 0; j < this->row; j++)
+            for (j = 0; j < this->col; j++)
             {
                 MatTemp.data[i * tempN + j] = MatTemp.data[i * tempN + j] / temp;
                 MatResult.data[i * tempN + j] = MatResult.data[i * tempN + j] / temp;
             }
-
             for (j = 0; j < this->row; j++)
             {
                 if (j != i)
@@ -404,8 +414,6 @@ namespace itr_math
                 }
             }
         }
-        MatTemp.row = tempM;
-        MatTemp.col = tempN;
         return true;
     }
 

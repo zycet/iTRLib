@@ -51,13 +51,14 @@ int main()
     //Math
     TestMathInit();
     //TestCalculate();
-    TestNumerical();
+    //TestNumerical();
     TestStatistics();
     TestVector();
     TestCalculateTest();
     TestMathdeDeinit();
+    TestMatrix();
     //Finish
-    TRACE_INFO("OK All");
+    //TRACE_INFO("OK All");
     return 0;
 }
 

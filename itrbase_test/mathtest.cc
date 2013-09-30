@@ -34,6 +34,8 @@
 #include "mathtest.h"
 #include "calculatetest.h"
 #include "itrbase.h"
+#include "math.h"
+#include "stdio.h"
 
 void TestMathInit()
 {
@@ -61,7 +63,6 @@ void TestCalculate()
 
     F32 ResultF32A[50];
     F32 ResultF32B[50];
-
 
     F32 ResultF32;
     S32 Length = 50;
@@ -121,10 +122,10 @@ void TestCalculate()
     itr_math::CalculateObj->MultiSum(SourceF32C, SourceF32D, Length, ResultF32);
     assert(ResultF32==0);
     //Product
-    itr_math::CalculateObj->Product(SourceF32F,  Length, ResultF32);
+    itr_math::CalculateObj->Product(SourceF32F, Length, ResultF32);
     assert(ResultF32==1);
     //Set
-    itr_math::CalculateObj->Set(SourceF32D,  1, Length);
+    itr_math::CalculateObj->Set(SourceF32D, 1, Length);
     assert(ResultF32==50);
     TRACE_INFO("OK TestCalculate()");
 }
@@ -163,14 +164,41 @@ void TestVector()
     //itr_math::Vector v(3);
 }
 
+void TestMatrix()
+{
+    //F32 data[3 * 3];
+    F32 data1[3 * 3] =
+    { 5, 0, 0, 0, 5, 0, 0, 0, 5 };
+    //{ 1, 4, 9, 16, 25, 36, 49, 64, 81 };
+    //for (S32 i = 0; i < 3 * 3; i++)
+    //{
+    //data[i] = i*i;
+    //}
+    F32* Data = data1;
+    itr_math::Matrix Source(3, 3, Data);
+    itr_math::Matrix Result(3, 3, Data);
+    itr_math::Matrix Result2(3, 3, Data);
+
+    Source.Inv(Result);
+    Result.Mul(Source,Result2);
+    for (S32 i = 0; i < 3 * 3; i++)
+        printf("%f ", Result2[i]);
+
+    //Result = Source*Result;
+    //for (S32 i = 0; i < 3 * 3; i++)
+        //printf("%f ", Result[i]);
+}
 void TestCalculateTest()
 {
-    F32 A[]={1,1};
-    F32 B[]={2,2};
-    F32 C[]={0,0};
+    F32 A[] =
+    { 1, 1 };
+    F32 B[] =
+    { 2, 2 };
+    F32 C[] =
+    { 0, 0 };
     CalculateTest calcObjT;
-    itr_math::Calculate* calcObj=&calcObjT;
-    calcObj->Add(A,B,2,C);
+    itr_math::Calculate* calcObj = &calcObjT;
+    calcObj->Add(A, B, 2, C);
 
 //    itr_math::Calculate calcObj=CalculateTest();
 //    calcObj.Add(A,B,2,C);
