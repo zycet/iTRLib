@@ -74,6 +74,7 @@ void TestCalculate()
         SourceS32A[i] = i;
         SourceS32B[i] = i;
         SourceF32A[i] = i;
+        SourceF32B[i] = 0;
         SourceF32C[i] = 0;
         SourceF32D[i] = i;
         SourceF32E[i] = -i;
@@ -82,7 +83,7 @@ void TestCalculate()
     //Add
     itr_math::CalculateObj->Add(SourceF32A, SourceF32B, Length, ResultF32A);
     itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
-    assert(ResultF32 == 2450);
+    assert(ResultF32 == 1225);
     //Sub...
     itr_math::CalculateObj->Sub(SourceF32A, SourceF32B, Length, ResultF32A);
     itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);

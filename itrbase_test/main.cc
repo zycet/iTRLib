@@ -50,7 +50,7 @@ int main()
     TestCycleQueue();
     //Math
     TestMathInit();
-    //TestCalculate();
+    TestCalculate();
     //TestNumerical();
     TestStatistics();
     TestVector();
