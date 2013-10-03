@@ -39,6 +39,7 @@ namespace itr_math
     Numerical* NumericalObj;
     Calculate* CalculateObj;
     Statistics* StatisticsObj;
+    Vector* VectorObj;
 
     void MathObjStandInit()
     {

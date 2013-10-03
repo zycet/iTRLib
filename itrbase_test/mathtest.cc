@@ -163,6 +163,10 @@ void TestStatistics()
 void TestVector()
 {
     //itr_math::Vector v(3);
+	F32 vector(2, 0x1111, 1);
+	//CopyFrom
+
+
 }
 
 void TestMatrix()
