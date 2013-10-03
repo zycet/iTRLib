@@ -38,18 +38,20 @@
 #include "../itrvision.h"
 #include <vector>
 using std::vector;
-
+using itr_math::RectangleS;
 namespace itr_vision
 {
 
     class SelectFeature
     {
         public:
-            float _minEigenvalue(float gxx, float gxy, float gyy);
-            static void SelectGoodFeature(ImageGray img, vector<FeaturePoint> fl);
+            SelectFeature(const ImageGray& Img);
+            void SelectGoodFeature(const RectangleS& rect, vector<FeaturePoint>& fl);
         private:
-            SelectFeature();
+            float _minEigenvalue(float gxx, float gxy, float gyy);
+
             virtual ~SelectFeature();
+            const ImageGray& img;
     };
 
 } // namespace itr_vision

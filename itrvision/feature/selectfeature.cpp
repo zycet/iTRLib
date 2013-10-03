@@ -32,11 +32,14 @@
  */
 
 #include "selectseature.h"
+#include <vector>
+using std::vector;
 
 namespace itr_vision
 {
 
-    SelectFeature::SelectFeature()
+    SelectFeature::SelectFeature(const ImageGray& Img) :
+            img(Img)
     {
         // TODO Auto-generated constructor stub
 
@@ -52,8 +55,10 @@ namespace itr_vision
         itr_math::NumericalObj->Sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy, gxy);
         return (float) ((gxx + gyy - gxy) * 0.5f);
     }
-    void SelectFeature::SelectGoodFeature(ImageGray img, vector<FeaturePoint> fl)
+    void SelectFeature::SelectGoodFeature(const RectangleS& rect, vector<FeaturePoint>& fl)
     {
+
     }
 
-} // namespace itr_vision
+}
+// namespace itr_vision
