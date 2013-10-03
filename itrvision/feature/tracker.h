@@ -34,14 +34,23 @@
 #ifndef TRACKER_H_
 #define TRACKER_H_
 
+#include "itrbase.h"
+#include "../itrvision.h"
+
 namespace itr_vision
 {
 
     class Tracker
     {
         public:
-            Tracker();
+            Tracker(ImageGray img1, ImageGray img2);
             virtual ~Tracker();
+        private:
+            float _minEigenvalue(float gxx, float gxy, float gyy);
+            void GeneratePyramidal(ImageGray img,ImageGray py[],S32 length);
+            ImageGray I[3], J[3];
+            ImageGray p;
+
     };
 
 } // namespace itr_vision

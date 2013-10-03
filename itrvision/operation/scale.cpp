@@ -21,7 +21,7 @@ namespace itr_vision
         // TODO Auto-generated destructor stub
     }
 
-    S16 Scale::Interpolation(const ImageGray& src, F32 x, F32 y)
+    S16 Scale::Interpolation(const ImageGray& src, F32 y, F32 x)
     {
         const int FACTOR = 2048;
         const int BITS = 22;
@@ -50,12 +50,24 @@ namespace itr_vision
             {
                 x = i * fw;
                 y = j * fh;
-                dst(i, j) = Interpolation(src, x, y);
+                dst(j, i) = Interpolation(src, y, x);
             }
         }
     }
 
-    S32 Scale::Interpolation(const ImageARGB& src, F32 x, F32 y)
+    void Scale::DownSampling(const ImageGray& src, ImageGray& dst, U32 scale)
+    {
+        assert(dst.MatchWidthHeight(src.GetWidth() / scale, src.GetHeight() / scale));
+        for (int j = 0; j < dst.GetHeight(); ++j)
+        {
+            for (int i = 0; i < dst.GetWidth(); ++i)
+            {
+                dst(j, i) = src(j * scale, i * scale);
+            }
+        }
+    }
+
+    S32 Scale::Interpolation(const ImageARGB& src, F32 y, F32 x)
     {
         const int FACTOR = 2048;
         const int BITS = 22;
@@ -84,23 +96,10 @@ namespace itr_vision
             {
                 x = i * fw;
                 y = j * fh;
-                dst(i, j) = Interpolation(src, x, y);
+                dst(j, i) = Interpolation(src, y, x);
             }
         }
     }
-
-    void Scale::DownSampling(const ImageGray& src, ImageGray& dst, U32 scale)
-    {
-        assert(dst.MatchWidthHeight(src.GetWidth() / scale, src.GetHeight() / scale));
-        for (int j = 0; j < dst.GetHeight(); ++j)
-        {
-            for (int i = 0; i < dst.GetWidth(); ++i)
-            {
-                dst(i, j) = src(i * scale, j * scale);
-            }
-        }
-    }
-
     void Scale::DownSampling(const ImageARGB& src, ImageGray& dst, U32 scale)
     {
         assert(dst.MatchWidthHeight(src.GetWidth() / scale, src.GetHeight() / scale));
@@ -108,7 +107,7 @@ namespace itr_vision
         {
             for (int i = 0; i < dst.GetWidth(); ++i)
             {
-                dst(i, j) = src(i * scale, j * scale);
+                dst(j, i) = src(j * scale, i * scale);
             }
         }
     }

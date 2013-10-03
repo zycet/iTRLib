@@ -36,7 +36,15 @@
 namespace itr_vision
 {
 
-    Tracker::Tracker()
+    Tracker::Tracker(ImageGray img1, ImageGray img2):
+    p(img1),
+    (I[0])(img1),
+
+    I[1](img1.GetWidth()>>1,img1.GetHeight()>>1),
+    I[2](img1.GetWidth()>>1,img1.GetHeight()>>2),
+    J[0](img2),
+    J[1](img1.GetWidth()>>1,img1.GetHeight()>>1),
+    J[2](img1.GetWidth()>>1,img1.GetHeight()>>2)
     {
         // TODO Auto-generated constructor stub
 
@@ -45,6 +53,14 @@ namespace itr_vision
     Tracker::~Tracker()
     {
         // TODO Auto-generated destructor stub
+    }
+
+    float Tracker::_minEigenvalue(float gxx, float gxy, float gyy)
+    {
+    }
+
+    void Tracker::GeneratePyramidal(ImageGray img, ImageGray py[], S32 length)
+    {
     }
 
 } // namespace itr_vision
