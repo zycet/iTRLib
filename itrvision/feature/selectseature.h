@@ -26,14 +26,31 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * operation.h
- *  Created on: 2013-9-26
- *      Author: buaa
+ * selectseature.h
+ *  Created on: 2013-10-3
+ *      Author: ghdawn
  */
 
-#ifndef OPERATION_H_
-#define OPERATION_H_
+#ifndef SELECTSEATURE_H_
+#define SELECTSEATURE_H_
 
-#include "scale.h"
+#include "itrbase.h"
+#include "../itrvision.h"
+#include <vector>
+using std::vector;
 
-#endif // OPERATION_H_
+namespace itr_vision
+{
+
+    class SelectFeature
+    {
+        public:
+            float _minEigenvalue(float gxx, float gxy, float gyy);
+            static void SelectGoodFeature(ImageGray img, vector<FeaturePoint> fl);
+        private:
+            SelectFeature();
+            virtual ~SelectFeature();
+    };
+
+} // namespace itr_vision
+#endif // SELECTSEATURE_H_

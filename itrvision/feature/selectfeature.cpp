@@ -26,14 +26,34 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * operation.h
- *  Created on: 2013-9-26
- *      Author: buaa
+ * selectfeature.cpp
+ *  Created on: 2013-10-3
+ *      Author: ghdawn
  */
 
-#ifndef OPERATION_H_
-#define OPERATION_H_
+#include "selectseature.h"
 
-#include "scale.h"
+namespace itr_vision
+{
 
-#endif // OPERATION_H_
+    SelectFeature::SelectFeature()
+    {
+        // TODO Auto-generated constructor stub
+
+    }
+
+    SelectFeature::~SelectFeature()
+    {
+        // TODO Auto-generated destructor stub
+    }
+
+    float SelectFeature::_minEigenvalue(float gxx, float gxy, float gyy)
+    {
+        itr_math::NumericalObj->Sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy, gxy);
+        return (float) ((gxx + gyy - gxy) * 0.5f);
+    }
+    void SelectFeature::SelectGoodFeature(ImageGray img, vector<FeaturePoint> fl)
+    {
+    }
+
+} // namespace itr_vision

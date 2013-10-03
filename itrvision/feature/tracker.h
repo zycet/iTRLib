@@ -43,14 +43,12 @@ namespace itr_vision
     class Tracker
     {
         public:
-            Tracker(ImageGray img1, ImageGray img2);
+            Tracker(const ImageGray& img1,const ImageGray& img2);
             virtual ~Tracker();
         private:
-            float _minEigenvalue(float gxx, float gxy, float gyy);
-            void GeneratePyramidal(ImageGray img,ImageGray py[],S32 length);
-            ImageGray I[3], J[3];
-            ImageGray p;
 
+            void GeneratePyramidal(const ImageGray& img,ImageGray py[],S32 length);
+            ImageGray I[3], J[3];
     };
 
 } // namespace itr_vision

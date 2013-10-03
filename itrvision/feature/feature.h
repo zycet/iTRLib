@@ -34,6 +34,8 @@
 #ifndef FEATURE_H_
 #define FEATURE_H_
 
-
+#include "featurepoint.h"
+#include "selectseature.h"
+#include "tracker.h"
 
 #endif // FEATURE_H_

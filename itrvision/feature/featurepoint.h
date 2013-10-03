@@ -12,14 +12,14 @@ class FeaturePoint
 {
     public:
         int x, y;
-        float key;
+        int value;
         inline bool operator<(const FeaturePoint &b) const
         {
-            return key < b.key;
+            return value < b.value;
         }
         inline bool operator>(const FeaturePoint& b) const
         {
-            return key > b.key;
+            return value > b.value;
         }
 };
 
