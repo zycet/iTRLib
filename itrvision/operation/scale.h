@@ -19,9 +19,12 @@ namespace itr_vision
         public:
             Scale();
             virtual ~Scale();
-            static S32 Interpolation(const ImageGray& src, F32 x, F32 y);
+            static S16 Interpolation(const ImageGray& src, F32 x, F32 y);
+            static S32 Interpolation(const ImageARGB& src, F32 x, F32 y);
             static void Bilinear(const ImageGray& src, ImageGray& dst);
-            static void DownSampling(const ImageGray& src, ImageGray& dst,U32 scale);
+            static void Bilinear(const ImageARGB& src, ImageGray& dst);
+            static void DownSampling(const ImageGray& src, ImageGray& dst, U32 scale);
+            static void DownSampling(const ImageARGB& src, ImageGray& dst, U32 scale);
     };
 
 } /* namespace itr_vision */
