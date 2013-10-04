@@ -56,7 +56,7 @@ int main()
     TestVector();
     TestCalculateTest();
     TestMathdeDeinit();
-    TestMatrix();
+    //TestMatrix();
     //Finish
     //TRACE_INFO("OK All");
     return 0;
