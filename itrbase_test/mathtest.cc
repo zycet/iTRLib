@@ -211,36 +211,42 @@ void TestVector()
 
 void TestMatrix()
 {
+    //Init
+    itr_math::MathObjStandInit();
     //测试数据
-    F32 data[3 * 3];
+    /* 1   4  9
+     * 16 25 36
+     * 49 64 91
+     */
+    F32 data1[3 * 3];
+    F32 data2[3 * 3];
+    F32 data3[3 * 3] = {0,0,0,0,0,0,0,0,0};
+    F32 ExData[] = {1,1,1};
     for (S32 i = 0; i < 3 * 3; i++)
     {
-        data[i] = i * i;
+        data1[i] = (i + 1) * (i + 1);
+        data2[i] = (i + 1) * (i + 1);
     }
-    F32* Data = data;
-    itr_math::Matrix Source1(3, 3, Data);
-    itr_math::Matrix Source2(3, 3, Data);
-    itr_math::Matrix Result1(3, 3, Data);
-    itr_math::Matrix Result2(3, 3, Data);
+    F32* Data1 = data1;
+    F32* Data2 = data2;
+    F32* Data3 = data3;
+
+    itr_math::Matrix Source1(3, 3, Data1);
+    itr_math::Matrix Source2(3, 3, Data2);
+    itr_math::Matrix Result(3, 3, Data3);
     //初等变换
     Source1.AddRow(1, 2);
-    Source1.SubRow(1, 2);
-    assert(
-            MemoryCompare(Source1.GetData(),Source2.GetData(),sizeof(F32)*Source1.GetRow()*Source1.GetCol())==true);
-    Source1.AddRow(Source1.GetData(), 2);
-    Source1.SubRow(Source1.GetData(), 2);
-    assert(
-            MemoryCompare(Source1.GetData(),Source2.GetData(),sizeof(F32)*Source1.GetRow()*Source1.GetCol())==true);
-    //求逆测试
+    assert(Source1.GetData()[3] == 17 && Source1.GetData()[4] == 29 && Source1.GetData()[5] == 45);
+    Source1.SubRow(1,2);
+    assert(Source1.GetData()[3] == 16 && Source1.GetData()[4] == 25 && Source1.GetData()[5] == 36);
+    Source1.AddRow(ExData,1);
+    assert(Source1.GetData()[0] == 2 && Source1.GetData()[1] == 5 && Source1.GetData()[2] == 10);
+    Source1.SubRow(ExData,1);
+    assert(Source1.GetData()[0] == 1 && Source1.GetData()[1] == 4 && Source1.GetData()[2] == 9);
+    Source1.AddCol(1,2);
+    assert(Source1.GetData()[1] == 5 && Source1.GetData()[4] == 41 && Source1.GetData()[7] == 113);
 
-    Source1.Inv(Result1);
-    //Result.Mul(Source, Result2);
-    for (S32 i = 0; i < 3 * 3; i++)
-    {
-        if (i % 3 == 0)
-            printf("\n");
-        printf("%f ", Result1[i]);
-    }
+    TRACE_INFO("OK TestMatrix()");
 }
 void TestCalculateTest()
 {
@@ -251,15 +257,9 @@ void TestCalculateTest()
     F32 C[] =
     { 0, 0 };
 
-    S32 D[] =
-    { 1, 1 };
-    S32 E[] =
-    { 2, 2 };
-    S32 F[] =
-    { 0, 0 };
-
     CalculateTest calcObjT;
     itr_math::Calculate* calcObj = &calcObjT;
+    calcObj->Add(A, B, 2, C);
 
 //    itr_math::Calculate calcObj=CalculateTest();
 //    calcObj.Add(A,B,2,C);

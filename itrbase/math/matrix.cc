@@ -165,7 +165,7 @@ namespace itr_math
         assert(ColNoAdd<=col);
         assert(ColNoResult<=col);
         for (S32 i = 0; i < row; i++)
-            data[i * col + ColNoResult] = data[i * col + ColNoAdd] + data[i * col + ColNoResult];
+            data[i * col + ColNoResult - 1] = data[i * col + ColNoAdd - 1] + data[i * col + ColNoResult - 1];
     }
     /*
      * 将Data加至ColNoResult列
@@ -175,7 +175,7 @@ namespace itr_math
         assert(Data!=NULL);
         assert(ColNoResult<=col);
         for (S32 i = 0; i < row; i++)
-            data[i * col + ColNoResult] = Data[i] + data[i * col + ColNoResult];
+            data[i * col + ColNoResult - 1] = Data[i] + data[i * col + ColNoResult - 1];
     }
     /*
      * 将ColNoSub列减至ColNoResult列
@@ -185,7 +185,7 @@ namespace itr_math
         assert(ColNoSub<col);
         assert(ColNoResult<col);
         for (S32 i = 0; i < row; i++)
-            data[i * col + ColNoResult] = data[i * col + ColNoResult] - data[i * col + ColNoSub];
+            data[i * col + ColNoResult - 1] = data[i * col + ColNoResult - 1] - data[i * col + ColNoSub - 1];
     }
     /*
      * 将Data减至ColNoResult列
@@ -195,7 +195,7 @@ namespace itr_math
         assert(Data!=NULL);
         assert(ColNoResult<=col);
         for (S32 i = 0; i < row; i++)
-            data[i * col + ColNoResult] = data[i * col + ColNoResult] - Data[i];
+            data[i * col + ColNoResult - 1] = data[i * col + ColNoResult - 1] - Data[i];
     }
     /*
      * 将ColNoResult列乘以K
@@ -204,7 +204,7 @@ namespace itr_math
     {
         assert(ColNoResult < col);
         for (S32 i = 0; i < row; i++)
-            data[i * col + ColNoResult] = data[i * col + ColNoResult] * K;
+            data[i * col + ColNoResult - 1] = data[i * col + ColNoResult - 1] * K;
     }
     /*
      * 交换ColNoA列和ColNoB列
@@ -217,8 +217,8 @@ namespace itr_math
         for (S32 i = 0; i < row; i++)
         {
             temp = data[i * col + ColNoB];
-            data[i * col + ColNoB] = data[i * col + ColNoA];
-            data[i * col + ColNoA] = temp;
+            data[i * col + ColNoB - 1] = data[i * col + ColNoA - 1];
+            data[i * col + ColNoA - 1] = temp;
         }
     }
     //**********常量相关计算**********
