@@ -290,10 +290,10 @@ namespace itr_math
         {
             temp += SourceA[i] * SourceA[i];
         }
-        temp = 1 / NumericalObj->Sqrt(temp, temp);
+        NumericalObj->Sqrt(temp, temp);
         for (int i = 0; i < Length; i++)
         {
-            Result[i] = SourceA[i] * temp;
+            Result[i] = SourceA[i] / temp;
         }
     }
 
@@ -307,10 +307,10 @@ namespace itr_math
         {
             temp += SourceA[i] * SourceA[i];
         }
-        temp = 1 / NumericalObj->Sqrt(temp, temp);
+        NumericalObj->Sqrt(temp, temp);
         for (int i = 0; i < Length; i++)
         {
-            Result[i] = SourceA[i] * temp;
+            Result[i] = SourceA[i] / temp;
         }
     }
 
@@ -324,8 +324,11 @@ namespace itr_math
         {
             temp += SourceA[i] * SourceA[i];
         }
-        temp = 1 / NumericalObj->Sqrt(temp, temp);
-        Scale(SourceA, temp, Length, Result);
+        NumericalObj->Sqrt(temp, temp);
+        for (int i = 0; i < Length; i++)
+        {
+            Result[i] = SourceA[i] / temp;
+        }
     }
 
     void Calculate::Abs(S16* SourceA, S32 Length, S16* Result) const
@@ -481,7 +484,7 @@ namespace itr_math
     {
         assert(SourceA!=NULL);
         assert(Length > 0);
-        Result = 0;
+        Result = 1;
         for (S32 i = 0; i < Length; i++)
         {
             Result *= SourceA[i];
@@ -492,7 +495,7 @@ namespace itr_math
     {
         assert(SourceA!=NULL);
         assert(Length > 0);
-        Result = 0;
+        Result = 1;
         for (S32 i = 0; i < Length; i++)
         {
             Result *= SourceA[i];
@@ -503,7 +506,7 @@ namespace itr_math
     {
         assert(SourceA!=NULL);
         assert(Length > 0);
-        Result = 0;
+        Result = 1;
         for (S32 i = 0; i < Length; i++)
         {
             Result *= SourceA[i];

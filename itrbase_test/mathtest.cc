@@ -49,95 +49,128 @@ void TestMathdeDeinit()
 
 void TestCalculate()
 {
-    /*
-    //Data
-    S16 SourceS16Arr_A[50];
-    S16 SourceS16Arr_B[50];
-    S32 ResultS16Arr[50];
+    //Init
+    itr_math::MathObjStandInit();
+    //Test Data
+    S16 A_S16[] =
+    { 2, 2 };
+    S16 B_S16[] =
+    { 1, 1 };
+    S16 C_S16[] =
+    { 0, 0 };
 
-    S32 SourceS32Arr_A[50];
-    S32 SourceS32Arr_B[50];
-    S32 ResultS32Arr[50];
+    S32 A_S32[] =
+    { 2, 2 };
+    S32 B_S32[] =
+    { 1, 1 };
+    S32 C_S32[] =
+    { 0, 0 };
 
-    F32 SourceF32Arr_A[50];
-    F32 SourceF32Arr_B[50];
-    F32 SourceF32Arr_C[50];
-    F32 SourceF32Arr_D[50];
-    F32 SourceF32Arr_E[50];
-    F32 SourceF32Arr_F[50];
-    F32 ResultF32Arr_A[50];
-    F32 ResultF32Arr_B[50];
+    F32 A_F32[] =
+    { 2, 2 };
+    F32 B_F32[] =
+    { 1, 1 };
+    F32 C_F32[] =
+    { 0, 0 };
 
     F32 CalResultF32;
     S32 CalResultS32;
-    F32 CalResutlS16;
-    S32 Length = 50;
-    S32 AddAns = 2450;
-    F32 AddAnsF = 245.0;
-    //Init
-    for (S32 i = 0; i < Length; i++)
-    {
-        SourceS32Arr_A[i] = i;
-        SourceS32Arr_B[i] = i;
-        SourceF32Arr_A[i] = i;
-        SourceF32Arr_B[i] = 0;
-        SourceF32Arr_C[i] = 0;
-        SourceF32Arr_D[i] = i;
-        SourceF32Arr_E[i] = -i;
-        SourceF32Arr_F[i] = 1;
-    }
-    //Add
-    itr_math::CalculateObj->Add(SourceS16Arr_A,SourceS16Arr_B,Length,CalResutlS16);
-    itr_math::CalculateObj->Add(SourceS32Arr_A, SourceS32Arr_B, Length, CalResultS32);
-    itr_math::CalculateObj->Add(SourceF32Arr_A, SourceF32Arr_B, Length, ResultF32A);
-    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
-    assert(ResultF32 == 1225);
-    //Sub...
-    itr_math::CalculateObj->Sub(SourceF32A, SourceF32B, Length, ResultF32A);
-    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
-    assert(ResultF32==0);
-    //MUlti
-    itr_math::CalculateObj->Multi(SourceF32A, SourceF32C, Length, ResultF32A);
-    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
-    assert(ResultF32==0);
-    //Div
-    itr_math::CalculateObj->Div(SourceF32C, SourceF32A, Length, ResultF32A);
-    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
-    assert(ResultF32==0);
-    //offset
-    itr_math::CalculateObj->Offset(SourceF32C, 2, Length, ResultF32A);
-    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
-    assert(ResultF32==100);
-    //Scale
-    itr_math::CalculateObj->Scale(SourceF32A, 2, Length, ResultF32A);
-    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
-    assert(ResultF32==2450);
-    //Normalization
-    itr_math::CalculateObj->Normalization(SourceF32C, Length, ResultF32A);
-    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
-    assert(ResultF32==0);
-    //Abs
-    itr_math::CalculateObj->Abs(SourceF32E, Length, ResultF32A);
-    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
-    assert(ResultF32==-1250);
-    //Oppsite
-    itr_math::CalculateObj->Opposite(SourceF32E, Length, ResultF32A);
-    itr_math::CalculateObj->AddSum(ResultF32A, Length, ResultF32);
-    assert(ResultF32==1250);
-    //Addsum
-    itr_math::CalculateObj->AddSum(SourceF32D, Length, ResultF32);
-    assert(ResultF32==1250);
+    S16 CalResutlS16;
+
+    //AddTest
+    itr_math::CalculateObj->Add(A_S16, B_S16, 2, C_S16);
+    assert(C_S16[0] == A_S16[0] + B_S16[0] && C_S16[1] == A_S16[1] + B_S16[1]);
+    itr_math::CalculateObj->Add(A_S32, B_S32, 2, C_S32);
+    assert(C_S32[0] == A_S32[0] + B_S32[0] && C_S32[1] == A_S32[1] + B_S32[1]);
+    itr_math::CalculateObj->Add(A_F32, B_F32, 2, C_F32);
+    assert(C_F32[0] == A_F32[0] + B_F32[0] && C_F32[1] == A_F32[1] + B_S32[1]);
+    //SubTest
+    itr_math::CalculateObj->Sub(A_S16, B_S16, 2, C_S16);
+    assert(C_S16[0] == A_S16[0] - B_S16[0] && C_S16[1] == A_S16[1] - B_S16[1]);
+    itr_math::CalculateObj->Sub(A_S32, B_S32, 2, C_S32);
+    assert(C_S32[0] == A_S32[0] - B_S32[0] && C_S32[1] == A_S32[1] - B_S32[1]);
+    itr_math::CalculateObj->Sub(A_F32, B_F32, 2, C_F32);
+    assert(C_F32[0] == A_F32[0] - B_F32[0] && C_F32[1] == A_F32[1] - B_S32[1]);
+    //MultiTest
+    itr_math::CalculateObj->Multi(A_S16, B_S16, 2, C_S16);
+    assert(C_S16[0] == A_S16[0] * B_S16[0] && C_S16[1] == A_S16[1] * B_S16[1]);
+    itr_math::CalculateObj->Multi(A_S32, B_S32, 2, C_S32);
+    assert(C_S32[0] == A_S32[0] * B_S32[0] && C_S32[1] == A_S32[1] * B_S32[1]);
+    itr_math::CalculateObj->Multi(A_F32, B_F32, 2, C_F32);
+    assert(C_F32[0] == A_F32[0] * B_F32[0] && C_F32[1] == A_F32[1] * B_S32[1]);
+    //DivTest
+    itr_math::CalculateObj->Div(A_S16, B_S16, 2, C_S16);
+    assert(C_S16[0] == A_S16[0] / B_S16[0] && C_S16[1] == A_S16[1] / B_S16[1]);
+    itr_math::CalculateObj->Div(A_S32, B_S32, 2, C_S32);
+    assert(C_S32[0] == A_S32[0] / B_S32[0] && C_S32[1] == A_S32[1] / B_S32[1]);
+    itr_math::CalculateObj->Div(A_F32, B_F32, 2, C_F32);
+    assert(C_F32[0] == A_F32[0] / B_F32[0] && C_F32[1] == A_F32[1] / B_S32[1]);
+    //DivOrderTest
+    itr_math::CalculateObj->DivOrder(A_S16, 1, 2, C_S16);
+    assert(C_S16[0] == A_S16[0] / 2 && C_S16[1] == A_S16[1] / 2);
+    itr_math::CalculateObj->DivOrder(A_S32, 1, 2, C_S32);
+    assert(C_S32[0] == A_S32[0] / 2 && C_S32[1] == A_S32[1] / 2);
+    //OffsetTest
+    itr_math::CalculateObj->Offset(A_S16, 2, 2, C_S16);
+    assert(C_S16[0] == A_S16[0] + 2 && C_S16[1] == A_S16[1] + 2);
+    itr_math::CalculateObj->Offset(A_S32, 2, 2, C_S32);
+    assert(C_S32[0] == A_S32[0] + 2 && C_S32[1] == A_S32[1] + 2);
+    itr_math::CalculateObj->Offset(A_F32, 2, 2, C_F32);
+    assert(C_F32[0] == A_F32[0] + 2 && C_F32[1] == A_F32[1] + 2);
+    //ScaleTest
+    itr_math::CalculateObj->Scale(A_S16, 2, 2, C_S16);
+    assert(C_S16[0] == A_S16[0] * 2 && C_S16[1] == A_S16[1] * 2);
+    itr_math::CalculateObj->Scale(A_S32, 2, 2, C_S32);
+    assert(C_S32[0] == A_S32[0] * 2 && C_S32[1] == A_S32[1] * 2);
+    itr_math::CalculateObj->Scale(A_F32, 2, 2, C_F32);
+    assert(C_F32[0] == A_F32[0] * 2 && C_F32[1] == A_F32[1] * 2);
+    //NormalizationTest
+    itr_math::CalculateObj->Normalization(A_F32, 2, C_F32);
+    assert(C_F32[0]*C_F32[0] + C_F32[1]*C_F32[1] -1 < 0.0001);
+    //AbsTest
+    itr_math::CalculateObj->Abs(A_S16, 2, C_S16);
+    assert(fabs(A_S16[0])==C_S16[0] && fabs(A_S16[1])==C_S16[1]);
+    itr_math::CalculateObj->Abs(A_S32, 2, C_S32);
+    assert(fabs(A_S32[0])==C_S32[0] && fabs(A_S32[1])==C_S32[1]);
+    itr_math::CalculateObj->Abs(A_F32, 2, C_F32);
+    assert(fabs(A_F32[0])==C_F32[0] && fabs(A_F32[1])==C_F32[1]);
+    //OppositeTest
+    itr_math::CalculateObj->Opposite(A_S16, 2, C_S16);
+    assert(A_S16[0] * (-1) == C_S16[0] && A_S16[1] * (-1) == C_S16[1]);
+    itr_math::CalculateObj->Opposite(A_S32, 2, C_S32);
+    assert(A_S32[0] * (-1) == C_S32[0] && A_S32[1] * (-1) == C_S32[1]);
+    itr_math::CalculateObj->Opposite(A_F32, 2, C_F32);
+    assert(A_F32[0] * (-1) == C_F32[0] && A_F32[1] * (-1) == C_F32[1]);
+    //AddSumTest
+    itr_math::CalculateObj->AddSum(A_S16, 2, CalResutlS16);
+    assert(CalResutlS16 == A_S16[0] + A_S16[1]);
+    itr_math::CalculateObj->AddSum(A_S32, 2, CalResultS32);
+    assert(CalResultS32 == A_S32[0] + A_S32[1]);
+    itr_math::CalculateObj->AddSum(A_F32, 2, CalResultF32);
+    assert(CalResutlS16 == A_S16[0] + A_S16[1]);
     //MultiSum
-    itr_math::CalculateObj->MultiSum(SourceF32C, SourceF32D, Length, ResultF32);
-    assert(ResultF32==0);
-    //Product
-    itr_math::CalculateObj->Product(SourceF32F, Length, ResultF32);
-    assert(ResultF32==1);
-    //Set
-    itr_math::CalculateObj->Set(SourceF32D, 1, Length);
-    assert(ResultF32==50);
+    itr_math::CalculateObj->MultiSum(A_S16, B_S16, 2, CalResutlS16);
+    assert(CalResutlS16 == A_S16[0]*B_S16[0] + A_S16[1]*B_S16[1]);
+    itr_math::CalculateObj->MultiSum(A_S16, B_F32, 2, CalResutlS16);
+    assert(CalResutlS16 == A_S16[0] *B_F32[0] + A_S16[1]*B_F32[1]);
+    itr_math::CalculateObj->MultiSum(A_S32,B_S32,2,CalResultS32);
+    assert(CalResultS32 == A_S32[0]*B_S32[0] + A_S32[1] * B_S32[1]);
+    itr_math::CalculateObj->MultiSum(A_F32,B_F32,2,CalResultF32);
+    //ProductTest
+    itr_math::CalculateObj->Product(A_S16,2,CalResutlS16);
+    assert(CalResutlS16 = A_S16[0]*A_S16[1]);
+    itr_math::CalculateObj->Product(A_S32,2,CalResultS32);
+    assert(CalResultS32 == A_S32[0]*A_S32[1]);
+    itr_math::CalculateObj->Product(A_F32,2,CalResultF32);
+    assert(CalResultF32 == A_F32[0]*A_F32[1]);
+    //SetTest
+    itr_math::CalculateObj->Set(C_S16,2,2);
+    assert(C_S16[0] == 2 && C_S16[1] == 2);
+    itr_math::CalculateObj->Set(C_S32,2,2);
+    assert(C_S32[0] == 2 && C_S32[1] == 2);
+    itr_math::CalculateObj->Set(C_F32,2,2);
+    assert(C_F32[0] == 2 && C_F32[1] == 2);
     TRACE_INFO("OK TestCalculate()");
-    */
 }
 
 void TestNumerical()
@@ -171,14 +204,14 @@ void TestStatistics()
 
 void TestVector()
 {
-    //itr_math::Vector v(3);
-    //F32 vector(2, 0x1111, 1);
-    //CopyFrom
+//itr_math::Vector v(3);
+//F32 vector(2, 0x1111, 1);
+//CopyFrom
 }
 
 void TestMatrix()
 {
-    //测试数据
+//测试数据
     F32 data[3 * 3];
     for (S32 i = 0; i < 3 * 3; i++)
     {
@@ -189,7 +222,7 @@ void TestMatrix()
     itr_math::Matrix Source2(3, 3, Data);
     itr_math::Matrix Result1(3, 3, Data);
     itr_math::Matrix Result2(3, 3, Data);
-    //初等变换
+//初等变换
     Source1.AddRow(1, 2);
     Source1.SubRow(1, 2);
     assert(
@@ -198,10 +231,10 @@ void TestMatrix()
     Source1.SubRow(Source1.GetData(), 2);
     assert(
             MemoryCompare(Source1.GetData(),Source2.GetData(),sizeof(F32)*Source1.GetRow()*Source1.GetCol())==true);
-    //求逆测试
+//求逆测试
 
     Source1.Inv(Result1);
-    //Result.Mul(Source, Result2);
+//Result.Mul(Source, Result2);
     for (S32 i = 0; i < 3 * 3; i++)
     {
         if (i % 3 == 0)
@@ -217,9 +250,36 @@ void TestCalculateTest()
     { 2, 2 };
     F32 C[] =
     { 0, 0 };
+
+    S32 D[] =
+    { 1, 1 };
+    S32 E[] =
+    { 2, 2 };
+    S32 F[] =
+    { 0, 0 };
+
     CalculateTest calcObjT;
     itr_math::Calculate* calcObj = &calcObjT;
+//AddTest
     calcObj->Add(A, B, 2, C);
+    assert(C[0] == A[0] + B[0] && C[1] == A[1] + B[1]);
+    calcObj->Add(D, E, 2, F);
+    assert(F[0] == D[0] + E[0] && F[1] == D[1] + E[1]);
+//SubTest
+    calcObj->Sub(A, B, 2, C);
+    assert(C[0] == A[0] - B[0] && C[1] == A[1] - B[1]);
+    calcObj->Sub(D, E, 2, F);
+    assert(F[0] == D[0] - E[0] && F[1] == D[1] - E[1]);
+//MultiTest
+    calcObj->Multi(A, B, 2, C);
+    assert(C[0] == A[0] * B[0] && C[1] == A[1] * B[1]);
+    calcObj->Multi(D, E, 2, F);
+    assert(F[0] == D[0] * E[0] && F[1] == D[1] * E[1]);
+//DivTest
+    calcObj->Div(B, A, 2, C);
+    assert(C[0] == B[0] / A[0] && C[1] == B[1] / A[1]);
+    calcObj->Div(E, D, 2, F);
+    assert(F[0] == E[0] / D[0] && F[1] == E[1] / D[1]);
 
 //    itr_math::Calculate calcObj=CalculateTest();
 //    calcObj.Add(A,B,2,C);
