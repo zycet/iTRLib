@@ -291,9 +291,10 @@ namespace itr_math
             temp += SourceA[i] * SourceA[i];
         }
         NumericalObj->Sqrt(temp, temp);
+        temp = 1 / temp;
         for (int i = 0; i < Length; i++)
         {
-            Result[i] = SourceA[i] / temp;
+            Result[i] = SourceA[i] * temp;
         }
     }
 
@@ -308,9 +309,10 @@ namespace itr_math
             temp += SourceA[i] * SourceA[i];
         }
         NumericalObj->Sqrt(temp, temp);
+        temp = 1 / temp;
         for (int i = 0; i < Length; i++)
         {
-            Result[i] = SourceA[i] / temp;
+            Result[i] = SourceA[i] * temp;
         }
     }
 
@@ -325,9 +327,10 @@ namespace itr_math
             temp += SourceA[i] * SourceA[i];
         }
         NumericalObj->Sqrt(temp, temp);
+        temp = 1 / temp;
         for (int i = 0; i < Length; i++)
         {
-            Result[i] = SourceA[i] / temp;
+            Result[i] = SourceA[i] * temp;
         }
     }
 
