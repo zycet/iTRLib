@@ -153,22 +153,22 @@ void TestCalculate()
     assert(CalResutlS16 == A_S16[0]*B_S16[0] + A_S16[1]*B_S16[1]);
     itr_math::CalculateObj->MultiSum(A_S16, B_F32, 2, CalResutlS16);
     assert(CalResutlS16 == A_S16[0] *B_F32[0] + A_S16[1]*B_F32[1]);
-    itr_math::CalculateObj->MultiSum(A_S32,B_S32,2,CalResultS32);
+    itr_math::CalculateObj->MultiSum(A_S32, B_S32, 2, CalResultS32);
     assert(CalResultS32 == A_S32[0]*B_S32[0] + A_S32[1] * B_S32[1]);
-    itr_math::CalculateObj->MultiSum(A_F32,B_F32,2,CalResultF32);
+    itr_math::CalculateObj->MultiSum(A_F32, B_F32, 2, CalResultF32);
     //ProductTest
-    itr_math::CalculateObj->Product(A_S16,2,CalResutlS16);
+    itr_math::CalculateObj->Product(A_S16, 2, CalResutlS16);
     assert(CalResutlS16 = A_S16[0]*A_S16[1]);
-    itr_math::CalculateObj->Product(A_S32,2,CalResultS32);
+    itr_math::CalculateObj->Product(A_S32, 2, CalResultS32);
     assert(CalResultS32 == A_S32[0]*A_S32[1]);
-    itr_math::CalculateObj->Product(A_F32,2,CalResultF32);
+    itr_math::CalculateObj->Product(A_F32, 2, CalResultF32);
     assert(CalResultF32 == A_F32[0]*A_F32[1]);
     //SetTest
-    itr_math::CalculateObj->Set(C_S16,2,2);
+    itr_math::CalculateObj->Set(C_S16, 2, 2);
     assert(C_S16[0] == 2 && C_S16[1] == 2);
-    itr_math::CalculateObj->Set(C_S32,2,2);
+    itr_math::CalculateObj->Set(C_S32, 2, 2);
     assert(C_S32[0] == 2 && C_S32[1] == 2);
-    itr_math::CalculateObj->Set(C_F32,2,2);
+    itr_math::CalculateObj->Set(C_F32, 2, 2);
     assert(C_F32[0] == 2 && C_F32[1] == 2);
     TRACE_INFO("OK TestCalculate()");
 }
@@ -211,7 +211,7 @@ void TestVector()
 
 void TestMatrix()
 {
-//测试数据
+    //测试数据
     F32 data[3 * 3];
     for (S32 i = 0; i < 3 * 3; i++)
     {
@@ -222,7 +222,7 @@ void TestMatrix()
     itr_math::Matrix Source2(3, 3, Data);
     itr_math::Matrix Result1(3, 3, Data);
     itr_math::Matrix Result2(3, 3, Data);
-//初等变换
+    //初等变换
     Source1.AddRow(1, 2);
     Source1.SubRow(1, 2);
     assert(
@@ -231,10 +231,10 @@ void TestMatrix()
     Source1.SubRow(Source1.GetData(), 2);
     assert(
             MemoryCompare(Source1.GetData(),Source2.GetData(),sizeof(F32)*Source1.GetRow()*Source1.GetCol())==true);
-//求逆测试
+    //求逆测试
 
     Source1.Inv(Result1);
-//Result.Mul(Source, Result2);
+    //Result.Mul(Source, Result2);
     for (S32 i = 0; i < 3 * 3; i++)
     {
         if (i % 3 == 0)
@@ -260,26 +260,6 @@ void TestCalculateTest()
 
     CalculateTest calcObjT;
     itr_math::Calculate* calcObj = &calcObjT;
-//AddTest
-    calcObj->Add(A, B, 2, C);
-    assert(C[0] == A[0] + B[0] && C[1] == A[1] + B[1]);
-    calcObj->Add(D, E, 2, F);
-    assert(F[0] == D[0] + E[0] && F[1] == D[1] + E[1]);
-//SubTest
-    calcObj->Sub(A, B, 2, C);
-    assert(C[0] == A[0] - B[0] && C[1] == A[1] - B[1]);
-    calcObj->Sub(D, E, 2, F);
-    assert(F[0] == D[0] - E[0] && F[1] == D[1] - E[1]);
-//MultiTest
-    calcObj->Multi(A, B, 2, C);
-    assert(C[0] == A[0] * B[0] && C[1] == A[1] * B[1]);
-    calcObj->Multi(D, E, 2, F);
-    assert(F[0] == D[0] * E[0] && F[1] == D[1] * E[1]);
-//DivTest
-    calcObj->Div(B, A, 2, C);
-    assert(C[0] == B[0] / A[0] && C[1] == B[1] / A[1]);
-    calcObj->Div(E, D, 2, F);
-    assert(F[0] == E[0] / D[0] && F[1] == E[1] / D[1]);
 
 //    itr_math::Calculate calcObj=CalculateTest();
 //    calcObj.Add(A,B,2,C);
