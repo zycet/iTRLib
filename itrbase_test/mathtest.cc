@@ -220,8 +220,14 @@ void TestMatrix()
      */
     F32 data1[3 * 3];
     F32 data2[3 * 3];
-    F32 data3[3 * 3] = {0,0,0,0,0,0,0,0,0};
-    F32 ExData[] = {1,1,1};
+    F32 data3[3 * 3] =
+    { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+    F32 data4[3 * 3] =
+    { 1, 1, 1, 1, 1, 1, 1, 1, 1 };
+    F32 data5[3 * 3] =
+    { -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+    F32 ExData[] =
+    { 1, 1, 1 };
     for (S32 i = 0; i < 3 * 3; i++)
     {
         data1[i] = (i + 1) * (i + 1);
@@ -230,21 +236,62 @@ void TestMatrix()
     F32* Data1 = data1;
     F32* Data2 = data2;
     F32* Data3 = data3;
+    F32* Data4 = data4;
+    F32* Data5 = data5;
 
     itr_math::Matrix Source1(3, 3, Data1);
     itr_math::Matrix Source2(3, 3, Data2);
+    itr_math::Matrix Source3(3, 3, Data4);
+    itr_math::Matrix Source4(3, 3, Data5);
     itr_math::Matrix Result(3, 3, Data3);
     //初等变换
     Source1.AddRow(1, 2);
     assert(Source1.GetData()[3] == 17 && Source1.GetData()[4] == 29 && Source1.GetData()[5] == 45);
-    Source1.SubRow(1,2);
+    Source1.SubRow(1, 2);
     assert(Source1.GetData()[3] == 16 && Source1.GetData()[4] == 25 && Source1.GetData()[5] == 36);
-    Source1.AddRow(ExData,1);
+
+    Source1.AddRow(ExData, 1);
     assert(Source1.GetData()[0] == 2 && Source1.GetData()[1] == 5 && Source1.GetData()[2] == 10);
-    Source1.SubRow(ExData,1);
+    Source1.SubRow(ExData, 1);
     assert(Source1.GetData()[0] == 1 && Source1.GetData()[1] == 4 && Source1.GetData()[2] == 9);
-    Source1.AddCol(1,2);
+
+    Source1.AddCol(1, 2);
     assert(Source1.GetData()[1] == 5 && Source1.GetData()[4] == 41 && Source1.GetData()[7] == 113);
+    Source1.SubCol(1, 2);
+    assert(Source1.GetData()[1] == 4 && Source1.GetData()[4] == 25 && Source1.GetData()[7] == 64);
+
+    Source1.AddCol(ExData, 1);
+    assert(Source1.GetData()[0] == 2 && Source1.GetData()[3] == 17 && Source1.GetData()[6] == 50);
+    Source1.SubCol(ExData, 1);
+    assert(Source1.GetData()[0] == 1 && Source1.GetData()[3] == 16 && Source1.GetData()[6] == 49);
+
+    Source1.Add(1);
+    assert(Source1.GetData()[0] == 2 && Source1.GetData()[4] == 26 && Source1.GetData()[8] == 82);
+    Source1.Add(-1);
+    assert(Source1.GetData()[0] == 1 && Source1.GetData()[4] == 25 && Source1.GetData()[8] == 81);
+
+    Result.Add(Source3);
+    assert(Result.GetData()[0] == 1 && Result.GetData()[4] == 1 && Result.GetData()[8] == 1);
+    Result.Add(Source4);
+    assert(Result.GetData()[0] == 0 && Result.GetData()[4] == 0 && Result.GetData()[8] == 0);
+
+    Source3.Mul(2);
+    assert(Source3.GetData()[0] == 2 && Source3.GetData()[4] == 2 && Source3.GetData()[8] == 2);
+    Source3.Mul(0.5);
+    assert(Source3.GetData()[0] == 1 && Source3.GetData()[4] == 1 && Source3.GetData()[8] == 1);
+
+    Source3.MulRow(2, 1);
+    assert(Source3.GetData()[0] == 2 && Source3.GetData()[1] == 2 && Source3.GetData()[2] == 2);
+    Source3.MulRow(0.5, 1);
+    assert(Source3.GetData()[0] == 1 && Source3.GetData()[1] == 1 && Source3.GetData()[2] == 1);
+
+    Source3.MulCol(2, 1);
+    assert(Source3.GetData()[0] == 2 && Source3.GetData()[3] == 2 && Source3.GetData()[6] == 2);
+    Source3.MulCol(0.5, 1);
+    assert(Source3.GetData()[0] == 1 && Source3.GetData()[3] == 1 && Source3.GetData()[6] == 1);
+
+    Source3.Mul(Result,Result);
+    assert(Result.GetData()[0] == 0 && Result.GetData()[4] == 0 && Result.GetData()[8] == 0);
 
     TRACE_INFO("OK TestMatrix()");
 }
