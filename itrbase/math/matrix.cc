@@ -155,7 +155,7 @@ namespace itr_math
     {
         assert(RowNoA <= row);
         assert(RowNoB <= row);
-        MemorySwap(data + (RowNoA - 1) * col, data + (RowNoB - 1) * col, col);
+        MemorySwap(data + (RowNoA - 1) * col, data + (RowNoB - 1) * col, col*sizeof(F32));
     }
     /*
      * 将ColNoAdd列加至ColNoResult列
@@ -216,7 +216,7 @@ namespace itr_math
         F32 temp;
         for (S32 i = 0; i < row; i++)
         {
-            temp = data[i * col + ColNoB];
+            temp = data[i * col + ColNoB - 1];
             data[i * col + ColNoB - 1] = data[i * col + ColNoA - 1];
             data[i * col + ColNoA - 1] = temp;
         }

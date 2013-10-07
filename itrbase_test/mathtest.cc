@@ -290,8 +290,18 @@ void TestMatrix()
     Source3.MulCol(0.5, 1);
     assert(Source3.GetData()[0] == 1 && Source3.GetData()[3] == 1 && Source3.GetData()[6] == 1);
 
-    Source3.Mul(Result,Result);
+    Source3.Mul(Result, Result);
     assert(Result.GetData()[0] == 0 && Result.GetData()[4] == 0 && Result.GetData()[8] == 0);
+
+    Source1.SwapRow(1, 2);
+    assert(Source1.GetData()[0] == 16 && Source1.GetData()[1] == 25 && Source1.GetData()[2] == 36);
+    Source1.SwapRow(2, 1);
+    assert(Source1.GetData()[0] == 1 && Source1.GetData()[1] == 4 && Source1.GetData()[2] == 9);
+
+    Source1.SwapCol(1, 2);
+    assert(Source1.GetData()[0] == 4 && Source1.GetData()[3] == 25 && Source1.GetData()[6] == 64);
+    Source1.SwapCol(2, 1);
+    assert(Source1.GetData()[0] == 1 && Source1.GetData()[3] == 16 && Source1.GetData()[6] == 49);
 
     TRACE_INFO("OK TestMatrix()");
 }
