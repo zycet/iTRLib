@@ -226,25 +226,35 @@ void TestMatrix()
     { 1, 1, 1, 1, 1, 1, 1, 1, 1 };
     F32 data5[3 * 3] =
     { -1, -1, -1, -1, -1, -1, -1, -1, -1 };
+    F32 data6[3 * 3] =
+    { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
     F32 ExData[] =
+    { 1, 1, 1 };
+    F32 ExTemp[] =
+    { 0, 0, 0 };
+    F32 VecData[] =
     { 1, 1, 1 };
     for (S32 i = 0; i < 3 * 3; i++)
     {
         data1[i] = (i + 1) * (i + 1);
         data2[i] = (i + 1) * (i + 1);
     }
-    F32* Data1 = data1;
-    F32* Data2 = data2;
-    F32* Data3 = data3;
-    F32* Data4 = data4;
-    F32* Data5 = data5;
+    //F32* Data1 = data1;
+    //F32* Data2 = data2;
+    //F32* Data3 = data3;
+    //F32* Data4 = data4;
+    //F32* Data5 = data5;
 
-    itr_math::Matrix Source1(3, 3, Data1);
-    itr_math::Matrix Source2(3, 3, Data2);
-    itr_math::Matrix Source3(3, 3, Data4);
-    itr_math::Matrix Source4(3, 3, Data5);
-    itr_math::Matrix Result(3, 3, Data3);
-    //初等变换
+    itr_math::Matrix Source1(3, 3, data1);
+    itr_math::Matrix Source2(3, 3, data2);
+    itr_math::Matrix Result(3, 3, data3);
+    itr_math::Matrix Source3(3, 3, data4);
+    itr_math::Matrix Source4(3, 3, data5);
+    itr_math::Matrix SourceEye(3, 3, data6);
+
+    itr_math::Vector VecSource(3, VecData);
+
+    //初等变换测试
     Source1.AddRow(1, 2);
     assert(Source1.GetData()[3] == 17 && Source1.GetData()[4] == 29 && Source1.GetData()[5] == 45);
     Source1.SubRow(1, 2);
@@ -265,20 +275,10 @@ void TestMatrix()
     Source1.SubCol(ExData, 1);
     assert(Source1.GetData()[0] == 1 && Source1.GetData()[3] == 16 && Source1.GetData()[6] == 49);
 
-    Source1.Add(1);
-    assert(Source1.GetData()[0] == 2 && Source1.GetData()[4] == 26 && Source1.GetData()[8] == 82);
-    Source1.Add(-1);
-    assert(Source1.GetData()[0] == 1 && Source1.GetData()[4] == 25 && Source1.GetData()[8] == 81);
-
     Result.Add(Source3);
     assert(Result.GetData()[0] == 1 && Result.GetData()[4] == 1 && Result.GetData()[8] == 1);
     Result.Add(Source4);
     assert(Result.GetData()[0] == 0 && Result.GetData()[4] == 0 && Result.GetData()[8] == 0);
-
-    Source3.Mul(2);
-    assert(Source3.GetData()[0] == 2 && Source3.GetData()[4] == 2 && Source3.GetData()[8] == 2);
-    Source3.Mul(0.5);
-    assert(Source3.GetData()[0] == 1 && Source3.GetData()[4] == 1 && Source3.GetData()[8] == 1);
 
     Source3.MulRow(2, 1);
     assert(Source3.GetData()[0] == 2 && Source3.GetData()[1] == 2 && Source3.GetData()[2] == 2);
@@ -302,6 +302,37 @@ void TestMatrix()
     assert(Source1.GetData()[0] == 4 && Source1.GetData()[3] == 25 && Source1.GetData()[6] == 64);
     Source1.SwapCol(2, 1);
     assert(Source1.GetData()[0] == 1 && Source1.GetData()[3] == 16 && Source1.GetData()[6] == 49);
+
+    //常量相关运算测试
+    Source1.Add(1);
+    assert(Source1.GetData()[0] == 2 && Source1.GetData()[4] == 26 && Source1.GetData()[8] == 82);
+    Source1.Add(-1);
+    assert(Source1.GetData()[0] == 1 && Source1.GetData()[4] == 25 && Source1.GetData()[8] == 81);
+
+    Source3.Mul(2);
+    assert(Source3.GetData()[0] == 2 && Source3.GetData()[4] == 2 && Source3.GetData()[8] == 2);
+    Source3.Mul(0.5);
+    assert(Source3.GetData()[0] == 1 && Source3.GetData()[4] == 1 && Source3.GetData()[8] == 1);
+
+    //常用操作测试
+    Source3.ColExtract(Source3.GetData(), 0, Source3.GetCol(), 3, ExTemp);
+    assert(ExTemp[0] == 1 && ExTemp[1] == 1 && ExTemp[2] == 1);
+    Result.ColExtract(Result.GetData(), 0, Result.GetCol(), 3, ExTemp);
+    assert(ExTemp[0] == 0 && ExTemp[1] == 0 && ExTemp[2] == 0);
+
+    //矩阵相关运算
+    VecSource = Source3 * VecSource;
+    assert(VecSource[0] == 3 && VecSource[1] == 3 && VecSource[2] == 3);
+    VecSource.Set(1);
+    assert(VecSource[0] == 1 && VecSource[1] == 1 && VecSource[2] == 1);
+
+    Result = Source1 * SourceEye;//乘单位阵
+    assert(Result.GetData()[0] == 1 && Result.GetData()[4] == 25);// && Result.GetData()[8] == 81);
+
+    //Result = Result + Source3;
+    //assert(Result.GetData()[0] == 1);// && Result.GetData()[4] == 1 && Result.GetData()[8] == 1);
+    //Result = Source4 + Result;
+    //assert(Result.GetData()[0] == 0 && Result.GetData()[4] == 0 && Result.GetData()[8] == 0);
 
     TRACE_INFO("OK TestMatrix()");
 }

@@ -243,17 +243,18 @@ namespace itr_math
             CalculateObj->Scale(data + i * col, K, col, data + i * col);
         }
     }
-    //**********矩阵相关计算**********
+    //**********常用操作**********
     /*
      * 用于抽取矩阵中的某列
      */
-    void Matrix::ColFill(F32* Data, S32 Offset, S32 Interval, S32 Length, F32* Result)
+    void Matrix::ColExtract(F32* Data, S32 Offset, S32 Interval, S32 Length, F32* Result)
     {
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = Data[Offset + Interval * i];
         }
     }
+    //**********矩阵相关计算**********
     /*
      * 加上矩阵MatrixAdd
      */
@@ -280,7 +281,7 @@ namespace itr_math
         F32* tempVectAns = new F32[MatResult.row];
         for (S32 i = 0; i < Mat.col; i++)
         {
-            MatResult.ColFill(Mat.GetData(), i, Mat.col, Mat.row, tempVect);
+            MatResult.ColExtract(Mat.GetData(), i, Mat.col, Mat.row, tempVect);
             for (S32 k = 0; k < MatResult.row; k++)
                 CalculateObj->MultiSum(data + k * row, tempVect, Mat.row, tempVectAns[k]);
             MatResult.CopyColFrom(i, tempVectAns);
@@ -291,7 +292,7 @@ namespace itr_math
     {
         assert(this->col==vec.GetDim());
         Vector VecResult(vec.GetDim());
-        for (S32 i = 0; this->row; i++)
+        for (S32 i = 0; i < this->row; i++)
         {
             CalculateObj->MultiSum(this->data + i * this->col, vec.GetData(), vec.GetDim(),
                     VecResult.GetData()[i]);
@@ -328,7 +329,7 @@ namespace itr_math
     {
         assert(row == Mat.row);
         assert(col == Mat.col);
-        this->CopyTo(Mat.data);
+        this->CopyFrom(Mat.data);
     }
     /*
      * 把Mat设为对角阵Mat[i][i] = value
