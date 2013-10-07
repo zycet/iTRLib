@@ -195,7 +195,7 @@ namespace itr_math
                 assert(ColNo <= col);
                 assert(Data!=NULL);
                 for (S32 i = 0; i < row; i++)
-                    MemoryCopy(data + ColNo + i * row, Data, sizeof(F32));
+                    MemoryCopy(data + ColNo - 1 + i * row, Data + i, sizeof(F32));
             }
             //Copy Col To
             /*

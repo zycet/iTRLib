@@ -326,13 +326,29 @@ void TestMatrix()
     VecSource.Set(1);
     assert(VecSource[0] == 1 && VecSource[1] == 1 && VecSource[2] == 1);
 
-    Result = Source1 * SourceEye;//乘单位阵
-    assert(Result.GetData()[0] == 1 && Result.GetData()[4] == 25);// && Result.GetData()[8] == 81);
+    Result = Source1 * SourceEye;    //乘单位阵
+    assert(Result.GetData()[0] == 1 && Result.GetData()[4] == 25 && Result.GetData()[8] == 81);
+    Result.Set(0);
 
-    //Result = Result + Source3;
-    //assert(Result.GetData()[0] == 1);// && Result.GetData()[4] == 1 && Result.GetData()[8] == 1);
-    //Result = Source4 + Result;
-    //assert(Result.GetData()[0] == 0 && Result.GetData()[4] == 0 && Result.GetData()[8] == 0);
+    Result = Result + Source3;
+    assert(Result.GetData()[0] == 1 && Result.GetData()[4] == 1 && Result.GetData()[8] == 1);
+    Result.Set(0);
+
+    Result = Source1 - Source2;
+    assert(Result.GetData()[0] == 0 && Result.GetData()[4] == 0 && Result.GetData()[8] == 0);
+    Result.Set(0);
+
+    Result.MatEye(2);
+    assert(Result.GetData()[0] == 2 && Result.GetData()[4] == 2 && Result.GetData()[8] == 2);
+    Result.Set(0);
+
+    Source1.Inv(Result);
+    Result = Source1 * Result;
+    assert(fabs(Result.GetData()[0] - 1) < 0.001 && fabs(Result.GetData()[4] - 1) < 0.001 && fabs(Result.GetData()[8] - 1) < 0.001);
+    Result.Set(0);
+
+    Source1.Tran(Result);
+    assert(Source1.GetData()[0] == Result.GetData()[0]);// && Source1.GetData()[1] == Result.GetData()[3] && Source1.GetData()[2] == Result.GetData()[6]);
 
     TRACE_INFO("OK TestMatrix()");
 }
