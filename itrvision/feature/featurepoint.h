@@ -7,12 +7,12 @@
 
 #ifndef FEATUREPOINT_H_
 #define FEATUREPOINT_H_
-
+#include "itrbase.h"
 class FeaturePoint
 {
     public:
-        int x, y;
-        int value;
+        S32 x, y;
+        S32 value;
         inline bool operator<(const FeaturePoint &b) const
         {
             return value < b.value;

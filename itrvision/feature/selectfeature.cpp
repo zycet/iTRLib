@@ -32,7 +32,8 @@
  */
 
 #include "selectseature.h"
-
+#include <algorithm>
+#include <string.h>
 namespace itr_vision
 {
 
@@ -41,6 +42,20 @@ namespace itr_vision
     {
         // TODO Auto-generated constructor stub
         windowWidth = WindowWidth;
+        mindist = 10;
+        mineigen = 1;
+        width = img.GetWidth();
+        height = img.GetHeight();
+    }
+
+    void SelectFeature::fillMap(S32 x, S32 y, BOOL* featuremap)
+    {
+        int ix, iy;
+
+        for (iy = y - mindist; iy <= y + mindist; iy++)
+            for (ix = x - mindist; ix <= x + mindist; ix++)
+                if (ix >= 0 && ix < width && iy >= 0 && iy < height)
+                    featuremap[iy * width + ix] = 1;
     }
 
     SelectFeature::~SelectFeature()
@@ -48,28 +63,70 @@ namespace itr_vision
         // TODO Auto-generated destructor stub
     }
 
-    float SelectFeature::_minEigenvalue(float gxx, float gxy, float gyy)
+    float SelectFeature::MinEigenvalue(float gxx, float gxy, float gyy)
     {
         itr_math::NumericalObj->Sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy, gxy);
         return (float) ((gxx + gyy - gxy) * 0.5f);
     }
     void SelectFeature::SelectGoodFeature(const RectangleS& rect, vector<FeaturePoint>& fl)
     {
-        ImageGray gxx(rect.Width, rect.Height), gxy(rect.Width, rect.Height), gyy(rect.Width,
-                rect.Height);
         vector<FeaturePoint> featurelist(rect.Width * rect.Height);
-        int bordy = rect.Y + rect.Height;
-        int bordx = rect.X + rect.Width;
-        int x,y,xx,yy;
-        for( y=rect.Y;y<bordy;++y)
-        for( x=rect.X;x<bordx;++x)
-        {
-            for(yy=y-windowWidth;yy<=y+windowWidth;++yy)
-                for(xx=x-windowWidth;xx<=x+windowWidth;++xx)
-                {
 
-                }
+        S32 bordy = rect.Y + rect.Height;
+        S32 bordx = rect.X + rect.Width;
+        S32 beginy = (rect.Y < windowWidth) ? windowWidth : rect.Y;
+        S32 beginx = (rect.X < windowWidth) ? windowWidth : rect.X;
+        if (bordy >= img.GetHeight() - windowWidth)
+            bordy = img.GetHeight() - windowWidth - 1;
+        if (bordx >= img.GetWidth() - windowWidth)
+            bordx = img.GetWidth() - windowWidth - 1;
+        S32 x, y, xx, yy;
+        S32 gxx, gxy, gyy, gx, gy;
+        vector<FeaturePoint>::iterator featptr = featurelist.begin();
+        // 初始化特征列表
+        for (y = beginy; y < bordy; ++y)
+            for (x = beginx; x < bordx; ++x)
+            {
+                gxx = gxy = gyy = 0;
+                for (yy = y - windowWidth; yy <= y + windowWidth; ++yy)
+                    for (xx = x - windowWidth; xx <= x + windowWidth; ++xx)
+                    {
+                        // TODO 改成指针形式的访问
+                        gx = dx(yy, xx);
+                        gy = dy(yy, xx);
+                        gxx += gx * gx;
+                        gxy += gx * gy;
+                        gyy += gy * gy;
+                    }
+                featptr->x = x;
+                featptr->y = y;
+                featptr->value = MinEigenvalue(gxx, gxy, gyy);
+                ++featptr;
+            }
+        std::sort(featurelist.begin(), featurelist.end(), std::greater<FeaturePoint>());
+        featptr = featurelist.begin();
+        vector<FeaturePoint>::iterator flindex = fl.begin();
+        BOOL *featuremap = new BOOL[img.GetHeight() * width]();
+        memset(featuremap, 0, sizeof(featuremap));
+        S32 value;
+        while (featptr != featurelist.end())
+        {
+            x = featptr->x;
+            y = featptr->y;
+            value = featptr->value;
+            if (!featuremap[y * width + x] && value > mineigen)
+            {
+                flindex->x = x;
+                flindex->y = y;
+                flindex->value = value;
+                fillMap(x, y, featuremap);
+                ++flindex;
+            }
+            if (flindex == fl.end())
+                break;
+            ++featptr;
         }
+        delete[] featuremap;
     }
 
 }
