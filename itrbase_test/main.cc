@@ -44,7 +44,7 @@ int main()
     //Platform
     TestAssistMacro();
     TestDebugSupport();
-    TestMemoryOperation();
+    //TestMemoryOperation();
     TestTypedef();
     //Container
     TestCycleQueue();
