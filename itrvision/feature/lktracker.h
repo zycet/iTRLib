@@ -36,6 +36,8 @@
 
 #include "itrbase.h"
 #include "../itrvision.h"
+#include <vector>
+using std::vector;
 using itr_math::Point2D;
 namespace itr_vision
 {
@@ -49,13 +51,22 @@ namespace itr_vision
             };
             LKTracker(const ImageGray& img1, const ImageGray& img2);
             virtual ~LKTracker();
-            TrackResult Compute(Point2D& U, Point2D& V, int L, bool Forward);
-            int windowWidth;
+            TrackResult Compute(Point2D& U, Point2D& V, S32 L, bool Forward);
+            void Compute(vector<FeaturePoint>& fl, bool Forward);
+            S32 windowWidth;
+            S32 minDet;
+
         private:
-            void _ComputeDt(Point2D& U, Point2D& V, int L,int hw,S32* dt);
+            void _ComputeDt(Point2D& U, Point2D& V, S32 L,S32 hw,S32* dt);
+            void _ComputeGrad(Point2D& U, Point2D& V, S32 L,S32 hw,S32* dx,S32* dy);
+            S32 _ComputeSum(S32* a,S32* b,S32* sum,S32 length);
             void GeneratePyramidal(const ImageGray& img, ImageGray py[], S32 length);
             ImageGray I[3], J[3];
+            ImageGray gradx1[3],grady1[3];
+            ImageGray gradx2[3],grady2[3];
             S32 width[3],height[3];
+            F32 stopth;
+            S32 level;
     };
 
 } // namespace itr_vision
