@@ -36,19 +36,26 @@
 
 #include "itrbase.h"
 #include "../itrvision.h"
-
+using itr_math::Point2D;
 namespace itr_vision
 {
 
     class LKTracker
     {
         public:
-            LKTracker(const ImageGray& img1,const ImageGray& img2);
+            enum TrackResult
+            {
+                Tracked, OOB, SmallDet
+            };
+            LKTracker(const ImageGray& img1, const ImageGray& img2);
             virtual ~LKTracker();
+            TrackResult Compute(Point2D& U, Point2D& V, int L, bool Forward);
+            int windowWidth;
         private:
-
-            void GeneratePyramidal(const ImageGray& img,ImageGray py[],S32 length);
+            void _ComputeDt(Point2D& U, Point2D& V, int L,int hw,S32* dt);
+            void GeneratePyramidal(const ImageGray& img, ImageGray py[], S32 length);
             ImageGray I[3], J[3];
+            S32 width[3],height[3];
     };
 
 } // namespace itr_vision

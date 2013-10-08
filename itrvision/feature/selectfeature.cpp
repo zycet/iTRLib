@@ -40,12 +40,12 @@ namespace itr_vision
     SelectFeature::SelectFeature(const ImageGray& Img, int WindowWidth) :
             img(Img)
     {
-        // TODO Auto-generated constructor stub
         windowWidth = WindowWidth;
         mindist = 10;
         mineigen = 1;
         width = img.GetWidth();
         height = img.GetHeight();
+        // TODO 求微分
     }
 
     void SelectFeature::fillMap(S32 x, S32 y, BOOL* featuremap)
@@ -60,7 +60,6 @@ namespace itr_vision
 
     SelectFeature::~SelectFeature()
     {
-        // TODO Auto-generated destructor stub
     }
 
     float SelectFeature::MinEigenvalue(float gxx, float gxy, float gyy)

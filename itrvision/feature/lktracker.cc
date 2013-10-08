@@ -35,19 +35,22 @@
 
 namespace itr_vision
 {
-
     LKTracker::LKTracker(const ImageGray& img1, const ImageGray& img2)
     {
-        int width = img1.GetWidth();
-        int height=img1.GetHeight();
-        I[0].Allocate(width, height);
-        I[1](width >> 1, height >> 1);
-        I[2](width >> 2, height >> 2);
-        J[0].Allocate(width, height);
-        J[1](width >> 1, height >> 1);
-        J[2](width >> 2, height >> 2);
+        width[0] = img1.GetWidth();
+        height[0] = img1.GetHeight();
+        I[0].Allocate(width[0], height[0]);
+        J[0].Allocate(width[0], height[0]);
+        for (int L = 1; L < 3; ++L)
+        {
+            width[L] = width[L - 1] >> 1;
+            height[L] = height[L - 1] >> 1;
+            I[L].Allocate(width[L], height[L]);
+            J[L].Allocate(width[L], height[L]);
+        }
         GeneratePyramidal(img1, I, 3);
         GeneratePyramidal(img2, J, 3);
+        windowWidth = 9;
     }
 
     LKTracker::~LKTracker()
@@ -55,10 +58,42 @@ namespace itr_vision
         // TODO Auto-generated destructor stub
     }
 
+    void LKTracker::_ComputeDt(Point2D& U, Point2D& V, int L, int hw, S32* dt)
+    {
+        S32 y, x, g1, g2;
+        for (y = -hw; y <= hw; ++y)
+            for (x = -hw; y <= hw; ++x)
+            {
+                g1 = Scale::Interpolation(I[L], U.Y + y, U.X + x);
+                g2 = Scale::Interpolation(J[L], V.Y + y, V.X + x);
+                *dt=g1-g2;
+                ++dt;
+            }
+    }
+    LKTracker::TrackResult LKTracker::Compute(Point2D& U, Point2D& V, int L, bool Forward)
+    {
+        S32 hw = windowWidth >> 1;
+        S32 *dt = new S32[width[L] * height[L]]();
+        S32 *dx = new S32[width[L] * height[L]]();
+        S32 *dy = new S32[width[L] * height[L]]();
+
+        for (int i = 0; i < 10; ++i)
+        {
+            if (U.X - hw < 0 || U.Y - hw < 0 || V.X - hw < 0 || V.Y - hw < 0 || U.X + hw >= width[L]
+                    || U.Y + hw >= height[L] || V.X + hw >= width[L] || V.Y + hw >= height[L])
+            {
+                return OOB;
+            }
+            _ComputeDt(U, V, L, hw, dt);
+
+        }
+        return Tracked;
+    }
+
     void LKTracker::GeneratePyramidal(const ImageGray& img, ImageGray py[], S32 length)
     {
         --length;
-        MemoryCopy(py[0].GetPixels(),img.GetPixels(),img.GetPixelsNumber());
+        MemoryCopy(py[0].GetPixels(), img.GetPixels(), img.GetPixelsNumber());
         for (; length > 0; --length)
             Scale::Bilinear(img, py[length]);
     }
