@@ -36,6 +36,6 @@
 
 #include "featurepoint.h"
 #include "selectseature.h"
-#include "tracker.h"
+#include "lktracker.h"
 
 #endif // FEATURE_H_

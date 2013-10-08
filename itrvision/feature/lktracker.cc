@@ -31,32 +31,34 @@
  *      Author: ghdawn
  */
 
-#include "tracker.h"
+#include "lktracker.h"
 
 namespace itr_vision
 {
 
-    Tracker::Tracker(const ImageGray& img1,const ImageGray& img2)
-//    : I[0](img1),
-//    I[1](img1.GetWidth()>>1,img1.GetHeight()>>1),
-//    I[2](img1.GetWidth()>>1,img1.GetHeight()>>2),
-//    J[0](img2),
-//    J[1](img1.GetWidth()>>1,img1.GetHeight()>>1),
-//    J[2](img1.GetWidth()>>1,img1.GetHeight()>>2)
+    LKTracker::LKTracker(const ImageGray& img1, const ImageGray& img2)
     {
-        GeneratePyramidal(img1,I,3);
-        GeneratePyramidal(img2,J,3);
+        int width = img1.GetWidth();
+        int height=img1.GetHeight();
+        I[0].Allocate(width, height);
+        I[1](width >> 1, height >> 1);
+        I[2](width >> 2, height >> 2);
+        J[0].Allocate(width, height);
+        J[1](width >> 1, height >> 1);
+        J[2](width >> 2, height >> 2);
+        GeneratePyramidal(img1, I, 3);
+        GeneratePyramidal(img2, J, 3);
     }
 
-    Tracker::~Tracker()
+    LKTracker::~LKTracker()
     {
         // TODO Auto-generated destructor stub
     }
 
-
-    void Tracker::GeneratePyramidal(const ImageGray& img, ImageGray py[], S32 length)
+    void LKTracker::GeneratePyramidal(const ImageGray& img, ImageGray py[], S32 length)
     {
         --length;
+        MemoryCopy(py[0].GetPixels(),img.GetPixels(),img.GetPixelsNumber());
         for (; length > 0; --length)
             Scale::Bilinear(img, py[length]);
     }

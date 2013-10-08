@@ -24,7 +24,7 @@ namespace itr_vision
             static void Bilinear(const ImageGray& src, ImageGray& dst);
             static void Bilinear(const ImageARGB& src, ImageGray& dst);
             static void DownSampling(const ImageGray& src, ImageGray& dst, U32 scale);
-            static void DownSampling(const ImageARGB& src, ImageGray& dst, U32 scale);
+            static void SubSampling(const ImageARGB& src, ImageGray& dst, U32 scale);
     };
 
 } /* namespace itr_vision */

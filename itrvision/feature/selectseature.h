@@ -45,13 +45,15 @@ namespace itr_vision
     class SelectFeature
     {
         public:
-            SelectFeature(const ImageGray& Img);
+            SelectFeature(const ImageGray& Img, int WindowWidth);
             void SelectGoodFeature(const RectangleS& rect, vector<FeaturePoint>& fl);
         private:
             float _minEigenvalue(float gxx, float gxy, float gyy);
 
             virtual ~SelectFeature();
-            const ImageGray& img;
+            ImageGray img;
+            ImageGray dx, dy;
+            int windowWidth;
     };
 
 } // namespace itr_vision

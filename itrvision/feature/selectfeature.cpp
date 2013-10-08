@@ -32,17 +32,15 @@
  */
 
 #include "selectseature.h"
-#include <vector>
-using std::vector;
 
 namespace itr_vision
 {
 
-    SelectFeature::SelectFeature(const ImageGray& Img) :
+    SelectFeature::SelectFeature(const ImageGray& Img, int WindowWidth) :
             img(Img)
     {
         // TODO Auto-generated constructor stub
-
+        windowWidth = WindowWidth;
     }
 
     SelectFeature::~SelectFeature()
@@ -57,7 +55,21 @@ namespace itr_vision
     }
     void SelectFeature::SelectGoodFeature(const RectangleS& rect, vector<FeaturePoint>& fl)
     {
+        ImageGray gxx(rect.Width, rect.Height), gxy(rect.Width, rect.Height), gyy(rect.Width,
+                rect.Height);
+        vector<FeaturePoint> featurelist(rect.Width * rect.Height);
+        int bordy = rect.Y + rect.Height;
+        int bordx = rect.X + rect.Width;
+        int x,y,xx,yy;
+        for( y=rect.Y;y<bordy;++y)
+        for( x=rect.X;x<bordx;++x)
+        {
+            for(yy=y-windowWidth;yy<=y+windowWidth;++yy)
+                for(xx=x-windowWidth;xx<=x+windowWidth;++xx)
+                {
 
+                }
+        }
     }
 
 }

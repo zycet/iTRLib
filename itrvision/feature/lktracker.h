@@ -31,8 +31,8 @@
  *      Author: ghdawn
  */
 
-#ifndef TRACKER_H_
-#define TRACKER_H_
+#ifndef LKTRACKER_H_
+#define LKTRACKER_H_
 
 #include "itrbase.h"
 #include "../itrvision.h"
@@ -40,11 +40,11 @@
 namespace itr_vision
 {
 
-    class Tracker
+    class LKTracker
     {
         public:
-            Tracker(const ImageGray& img1,const ImageGray& img2);
-            virtual ~Tracker();
+            LKTracker(const ImageGray& img1,const ImageGray& img2);
+            virtual ~LKTracker();
         private:
 
             void GeneratePyramidal(const ImageGray& img,ImageGray py[],S32 length);
