@@ -36,11 +36,17 @@
 
 namespace itr_vision
 {
+    ImageARGB::ImageARGB()
+    {
+        pixels=NULL;
+        width=0;
+        height=0;
+    }
     ImageARGB::ImageARGB(S32 Width, S32 Height)
     {
         assert(Width>0);
         assert(Height>0);
-        this->pixels = new U32[Width * Height];
+        this->pixels = new U32[Width * Height]();
         assert(this->pixels!=NULL);
         this->width = Width;
         this->height = Height;
@@ -66,15 +72,21 @@ namespace itr_vision
     {
         if (this->localData == true)
         {
-            delete this->pixels;
+            delete[] this->pixels;
         }
     }
 
+    ImageGray::ImageGray()
+    {
+        width=0;
+        height=0;
+        pixels=NULL;
+    }
     ImageGray::ImageGray(S32 Width, S32 Height)
     {
         assert(Width>0);
         assert(Height>0);
-        this->pixels = new S16[Width * Height];
+        this->pixels = new S16[Width * Height]();
         assert(this->pixels!=NULL);
         this->width = Width;
         this->height = Height;
@@ -100,7 +112,7 @@ namespace itr_vision
     {
         if (this->localData == true)
         {
-            delete this->pixels;
+            delete[] this->pixels;
         }
     }
 
