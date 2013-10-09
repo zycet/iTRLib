@@ -158,7 +158,7 @@ void TestCalculate()
     itr_math::CalculateObj->MultiSum(A_F32, B_F32, 2, CalResultF32);
     //ProductTest
     itr_math::CalculateObj->Product(A_S16, 2, CalResutlS16);
-    assert(CalResutlS16 = A_S16[0]*A_S16[1]);
+    assert(CalResutlS16 == A_S16[0]*A_S16[1]);
     itr_math::CalculateObj->Product(A_S32, 2, CalResultS32);
     assert(CalResultS32 == A_S32[0]*A_S32[1]);
     itr_math::CalculateObj->Product(A_F32, 2, CalResultF32);
