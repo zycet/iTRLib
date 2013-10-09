@@ -35,5 +35,6 @@
 #define OPERATION_H_
 
 #include "scale.h"
+#include "draw.h"
 
 #endif // OPERATION_H_

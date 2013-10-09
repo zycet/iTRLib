@@ -176,6 +176,8 @@ namespace itr_vision
             {
                 feat->value = -1;
             }
+            feat->x=V.X;
+            feat->y=V.Y;
             ++feat;
         }
     }
