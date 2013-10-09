@@ -344,11 +344,11 @@ void TestMatrix()
 
     Source1.Inv(Result);
     Result = Source1 * Result;
-    assert(fabs(Result.GetData()[0] - 1) < 0.001 && fabs(Result.GetData()[4] - 1) < 0.001 && fabs(Result.GetData()[8] - 1) < 0.001);
+    assert(fabs(Result.GetData()[0] - 1) < 0.0001 && fabs(Result.GetData()[4] - 1) < 0.0001 && fabs(Result.GetData()[8] - 1) < 0.0001);
     Result.Set(0);
 
     Source1.Tran(Result);
-    assert(Source1.GetData()[0] == Result.GetData()[0]);// && Source1.GetData()[1] == Result.GetData()[3] && Source1.GetData()[2] == Result.GetData()[6]);
+    assert(Source1.GetData()[0] == Result.GetData()[0] && Source1.GetData()[1] == Result.GetData()[3] && Source1.GetData()[2] == Result.GetData()[6]);
 
     TRACE_INFO("OK TestMatrix()");
 }
