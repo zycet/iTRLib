@@ -41,8 +41,11 @@ namespace itr_vision
         height[0] = img1.GetHeight();
         I[0].Allocate(width[0], height[0]);
         J[0].Allocate(width[0], height[0]);
+        gradx1[0].Allocate(width[0], height[0]);
+        gradx2[0].Allocate(width[0], height[0]);
+        int L;
         // TODO 增加求微分的部分
-        for (int L = 1; L < 3; ++L)
+        for (L = 1; L < 3; ++L)
         {
             width[L] = width[L - 1] >> 1;
             height[L] = height[L - 1] >> 1;
@@ -52,6 +55,13 @@ namespace itr_vision
             gradx2[L].Allocate(width[L], height[L]);
             grady1[L].Allocate(width[L], height[L]);
             grady2[L].Allocate(width[L], height[L]);
+        }
+        for(L=0;L<3;++L)
+        {
+            Gradient::Gradientx(I[L],gradx1[L]);
+            Gradient::Gradienty(I[L],grady1[L]);
+            Gradient::Gradientx(J[L],gradx2[L]);
+            Gradient::Gradienty(J[L],grady2[L]);
         }
         GeneratePyramidal(img1, I, 3);
         GeneratePyramidal(img2, J, 3);

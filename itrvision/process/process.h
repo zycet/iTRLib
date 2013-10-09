@@ -35,5 +35,6 @@
 #define PROCESS_H_
 
 #include "convolutesquare.h"
+#include "gradient.h"
 
 #endif // PROCESS_H_

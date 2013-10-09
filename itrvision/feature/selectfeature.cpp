@@ -45,7 +45,11 @@ namespace itr_vision
         mineigen = 1;
         width = img.GetWidth();
         height = img.GetHeight();
+        dx.Allocate(img.GetWidth(),img.GetHeight());
+        dy.Allocate(img.GetWidth(),img.GetHeight());
         // TODO 求微分
+        Gradient::Gradientx(img,dx);
+        Gradient::Gradientx(img,dy);
     }
 
     void SelectFeature::fillMap(S32 x, S32 y, BOOL* featuremap)

@@ -38,11 +38,13 @@
 #include "itrvision.h"
 #include "helpertest.h"
 #include "processtest.h"
-
+#include "lktrackertest.h"
 int main()
 {
     //Init Math
     itr_math::MathObjStandInit();
+    //Test LKTracker
+    lktest();
     //Test Helper
     TestGaussianGenerate();
     //Test Process
