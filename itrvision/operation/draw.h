@@ -26,51 +26,38 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * tracker.h
- *  Created on: 2013-9-29
+ * draw.h
+ *  Created on: 2013-10-9
  *      Author: ghdawn
  */
 
-#ifndef LKTRACKER_H_
-#define LKTRACKER_H_
-
+#ifndef DRAW_H_
+#define DRAW_H_
 #include "itrbase.h"
 #include "../itrvision.h"
-#include <vector>
-using std::vector;
-using itr_math::Point2D;
+#include "math.h"
 namespace itr_vision
 {
 
-    class LKTracker
+    class Draw
     {
         public:
-            enum TrackResult
+            static void Circle(ImageGray& bmp, int x, int y, int r, int color)
             {
-                Tracked, OOB, SmallDet
-            };
-            LKTracker(const ImageGray& Img1, const ImageGray& Img2);
-            virtual ~LKTracker();
-            TrackResult Compute(Point2D& U, Point2D& V, S32 L, bool Forward);
-            void Compute(vector<FeaturePoint>& fl, bool Forward);
-            S32 windowWidth;
-            S32 minDet;
-            ImageGray img1[3], img2[3];
-            ImageGray gradx1[3], grady1[3];
-            ImageGray gradx2[3], grady2[3];
-        private:
-            void _ComputeDt(Point2D& U, Point2D& V, S32 L, S32 hw, S32* dt);
-            void _ComputeGrad(Point2D& U, Point2D& V, S32 L, S32 hw, S32* dx, S32* dy);
-            S32 _ComputeSum(S32* a, S32* b, S32* sum, S32 length);
-            void GeneratePyramidal(const ImageGray& img, ImageGray py[], S32 length);
-            S32 *Dt;
-            S32 *Dx;
-            S32 *Dy;
-            S32 *Sum;
-            S32 width[3], height[3];
-            F32 stopth;
-            S32 level;
+                int i, j;
+                int width = bmp.GetWidth();
+                int height = bmp.GetHeight();
+                for (i = -r; i < r; i++)
+                {
+                    j = sqrt(r * r - i * i);
+                    bmp((j + y + height) % height, (i + x + width) % width) = color;
+                    bmp((-j + y + height) % height, (i + x + width) % width) = color;
+                    bmp((i + y + height) % height, (j + x + width) % width) = color;
+                    bmp((i + y + height) % height, (-j + x + width) % width) = color;
+                }
+            }
+
     };
 
 } // namespace itr_vision
-#endif // TRACKER_H_
+#endif // DRAW_H_

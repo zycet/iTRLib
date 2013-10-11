@@ -1,0 +1,11 @@
+eclipse.preferences.version=1
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.lib.debug.1559948874.1373195595/CPATH/delimiter=\:
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.lib.debug.1559948874.1373195595/CPATH/operation=remove
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.lib.debug.1559948874.1373195595/CPLUS_INCLUDE_PATH/delimiter=\:
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.lib.debug.1559948874.1373195595/CPLUS_INCLUDE_PATH/operation=replace
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.lib.debug.1559948874.1373195595/CPLUS_INCLUDE_PATH/value=/usr/include/c++/4.7\:/usr/include/x86_64-linux-gnu/c++/4.7/.\:/usr/include/c++/4.7/backward\:/usr/lib/gcc/x86_64-linux-gnu/4.7/include\:/usr/local/include\:/usr/lib/gcc/x86_64-linux-gnu/4.7/include-fixed\:/usr/include/x86_64-linux-gnu\:/usr/include
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.lib.debug.1559948874.1373195595/C_INCLUDE_PATH/delimiter=\:
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.lib.debug.1559948874.1373195595/C_INCLUDE_PATH/operation=replace
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.lib.debug.1559948874.1373195595/C_INCLUDE_PATH/value=/usr/include\:/usr/lib/gcc/x86_64-linux-gnu/4.7/include\:/usr/local/include\:/usr/lib/gcc/x86_64-linux-gnu/4.7/include-fixed\:/usr/include/x86_64-linux-gnu
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.lib.debug.1559948874.1373195595/append=true
+environment/buildEnvironmentInclude/cdt.managedbuild.config.gnu.lib.debug.1559948874.1373195595/appendContributed=true

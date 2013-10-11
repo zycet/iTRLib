@@ -26,51 +26,50 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * tracker.h
- *  Created on: 2013-9-29
+ * iohelper.cpp
+ *  Created on: 2013-10-9
  *      Author: ghdawn
  */
 
-#ifndef LKTRACKER_H_
-#define LKTRACKER_H_
-
+#include "iohelper.h"
 #include "itrbase.h"
-#include "../itrvision.h"
-#include <vector>
-using std::vector;
-using itr_math::Point2D;
-namespace itr_vision
+#include "stdio.h"
+
+void IOHelper::ReadFromFile(char* filename, ImageGray& img)
 {
+    //Read File
+    FILE* file = fopen(filename, "rb+");
+    assert(file!=NULL);
+    assert(fseek(file, 0, SEEK_END)==0);
+    U32 length = ftell(file);
+    assert(length>0);
+    fseek(file, 0, SEEK_SET);
+    U8* bufferRead = new U8[length];
+    MemoryClear(bufferRead, length);
+    U32 len = fread(bufferRead, 1, length, file);
+    assert(len==length);
+    fclose(file);
+    //Read Image
+    itr_vision::FormatPPM FormatPPMObj;
+    itr_vision::IFormat::ImageInfo imageInfo;
+    assert(FormatPPMObj.GetInfo(bufferRead, length, imageInfo)==itr_vision::IFormat::Success);
+    img.Allocate(imageInfo.Width, imageInfo.Height);
+    assert(FormatPPMObj.ToImage(bufferRead,length,img)==itr_vision::IFormat::Success);
+    delete[] bufferRead;
+}
 
-    class LKTracker
-    {
-        public:
-            enum TrackResult
-            {
-                Tracked, OOB, SmallDet
-            };
-            LKTracker(const ImageGray& Img1, const ImageGray& Img2);
-            virtual ~LKTracker();
-            TrackResult Compute(Point2D& U, Point2D& V, S32 L, bool Forward);
-            void Compute(vector<FeaturePoint>& fl, bool Forward);
-            S32 windowWidth;
-            S32 minDet;
-            ImageGray img1[3], img2[3];
-            ImageGray gradx1[3], grady1[3];
-            ImageGray gradx2[3], grady2[3];
-        private:
-            void _ComputeDt(Point2D& U, Point2D& V, S32 L, S32 hw, S32* dt);
-            void _ComputeGrad(Point2D& U, Point2D& V, S32 L, S32 hw, S32* dx, S32* dy);
-            S32 _ComputeSum(S32* a, S32* b, S32* sum, S32 length);
-            void GeneratePyramidal(const ImageGray& img, ImageGray py[], S32 length);
-            S32 *Dt;
-            S32 *Dx;
-            S32 *Dy;
-            S32 *Sum;
-            S32 width[3], height[3];
-            F32 stopth;
-            S32 level;
-    };
-
-} // namespace itr_vision
-#endif // TRACKER_H_
+void IOHelper::WriteToFile(char* filename, ImageGray& img)
+{
+    U8* bufferWrite = new U8[1024 * 1024];
+    //Write Image
+    S32 length2 = 1024 * 1024;
+    itr_vision::FormatPPM FormatPPMObj;
+    assert(FormatPPMObj.ToBinary(img, bufferWrite, length2)==itr_vision::IFormat::Success);
+    //Write File
+    FILE* file2 = fopen(filename, "wb+");
+    assert(file2!=NULL);
+    assert(fwrite(bufferWrite,1,length2,file2)==(U32)length2);
+    fflush(file2);
+    fclose(file2);
+    delete[] bufferWrite;
+}

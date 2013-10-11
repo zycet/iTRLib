@@ -34,6 +34,7 @@
 #include "selectseature.h"
 #include <algorithm>
 #include <string.h>
+#include <math.h>
 namespace itr_vision
 {
 
@@ -45,11 +46,11 @@ namespace itr_vision
         mineigen = 1;
         width = img.GetWidth();
         height = img.GetHeight();
-        dx.Allocate(img.GetWidth(),img.GetHeight());
-        dy.Allocate(img.GetWidth(),img.GetHeight());
+        dx.Allocate(img.GetWidth(), img.GetHeight());
+        dy.Allocate(img.GetWidth(), img.GetHeight());
         // TODO 求微分
-        Gradient::Gradientx(img,dx);
-        Gradient::Gradientx(img,dy);
+        Gradient::Gradientx(img, dx);
+        Gradient::Gradienty(img, dy);
     }
 
     void SelectFeature::fillMap(S32 x, S32 y, BOOL* featuremap)
@@ -70,6 +71,7 @@ namespace itr_vision
     {
         itr_math::NumericalObj->Sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy, gxy);
         return (float) ((gxx + gyy - gxy) * 0.5f);
+//        return (float) ((gxx + gyy - sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy)) *0.5f);/// 2.0f);
     }
     void SelectFeature::SelectGoodFeature(const RectangleS& rect, vector<FeaturePoint>& fl)
     {
@@ -80,56 +82,64 @@ namespace itr_vision
         S32 beginy = (rect.Y < windowWidth) ? windowWidth : rect.Y;
         S32 beginx = (rect.X < windowWidth) ? windowWidth : rect.X;
         if (bordy >= img.GetHeight() - windowWidth)
-            bordy = img.GetHeight() - windowWidth - 1;
+            bordy = img.GetHeight() - windowWidth;
         if (bordx >= img.GetWidth() - windowWidth)
-            bordx = img.GetWidth() - windowWidth - 1;
+            bordx = img.GetWidth() - windowWidth;
         S32 x, y, xx, yy;
         S32 gxx, gxy, gyy, gx, gy;
         vector<FeaturePoint>::iterator featptr = featurelist.begin();
         // 初始化特征列表
-        for (y = beginy; y < bordy; ++y)
-            for (x = beginx; x < bordx; ++x)
+        {
+            for (y = beginy; y < bordy; ++y)
+                for (x = beginx; x < bordx; ++x)
+                {
+                    gxx = gxy = gyy = 0;
+                    for (yy = y - windowWidth; yy <= y + windowWidth; ++yy)
+                        for (xx = x - windowWidth; xx <= x + windowWidth; ++xx)
+                        {
+                            // TODO 改成指针形式的访问
+                            gx = dx(yy, xx);
+                            gy = dy(yy, xx);
+                            gxx += gx * gx;
+                            gxy += gx * gy;
+                            gyy += gy * gy;
+                        }
+                    featptr->x = x;
+                    featptr->y = y;
+                    featptr->value = MinEigenvalue(gxx, gxy, gyy);
+                    ++featptr;
+                }
+        }
+
+        std::sort(featurelist.begin(), featurelist.end(), std::greater<FeaturePoint>());
+
+        //增大最小间距
+        {
+            featptr = featurelist.begin();
+            vector<FeaturePoint>::iterator flindex = fl.begin();
+            BOOL *featuremap = new BOOL[img.GetHeight() * width]();
+            memset(featuremap, 0, sizeof(featuremap));
+            S32 value;
+            while (featptr != featurelist.end())
             {
-                gxx = gxy = gyy = 0;
-                for (yy = y - windowWidth; yy <= y + windowWidth; ++yy)
-                    for (xx = x - windowWidth; xx <= x + windowWidth; ++xx)
-                    {
-                        // TODO 改成指针形式的访问
-                        gx = dx(yy, xx);
-                        gy = dy(yy, xx);
-                        gxx += gx * gx;
-                        gxy += gx * gy;
-                        gyy += gy * gy;
-                    }
-                featptr->x = x;
-                featptr->y = y;
-                featptr->value = MinEigenvalue(gxx, gxy, gyy);
+                x = featptr->x;
+                y = featptr->y;
+                value = featptr->value;
+                if (featuremap[y * width + x] == 0 && value > mineigen)
+                {
+                    flindex->x = x;
+                    flindex->y = y;
+                    flindex->value = value;
+                    fillMap(x, y, featuremap);
+                    ++flindex;
+                }
+                if (flindex == fl.end())
+                    break;
                 ++featptr;
             }
-        std::sort(featurelist.begin(), featurelist.end(), std::greater<FeaturePoint>());
-        featptr = featurelist.begin();
-        vector<FeaturePoint>::iterator flindex = fl.begin();
-        BOOL *featuremap = new BOOL[img.GetHeight() * width]();
-        memset(featuremap, 0, sizeof(featuremap));
-        S32 value;
-        while (featptr != featurelist.end())
-        {
-            x = featptr->x;
-            y = featptr->y;
-            value = featptr->value;
-            if (!featuremap[y * width + x] && value > mineigen)
-            {
-                flindex->x = x;
-                flindex->y = y;
-                flindex->value = value;
-                fillMap(x, y, featuremap);
-                ++flindex;
-            }
-            if (flindex == fl.end())
-                break;
-            ++featptr;
+            delete[] featuremap;
         }
-        delete[] featuremap;
+
     }
 
 }

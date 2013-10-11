@@ -184,12 +184,30 @@ namespace itr_vision
             }
             inline S16& operator()(int Y, int X)
             {
+                // TODO 待商议
+                if (X < 0)
+                    X = 0;
+                if (Y < 0)
+                    Y = 0;
+                if (Y >= height)
+                    Y = height - 1;
+                if (X >= width)
+                    X = width - 1;
                 assert(X < this->width);
                 assert(Y < this->height);
                 return this->pixels[Y * this->width + X];
             }
             inline S16 operator()(int Y, int X) const
             {
+                // TODO 待商议
+                if (X < 0)
+                    X = 0;
+                if (Y < 0)
+                    Y = 0;
+                if (Y >= height)
+                    Y = height - 1;
+                if (X >= width)
+                    X = width - 1;
                 assert(X < this->width);
                 assert(Y < this->height);
                 return this->pixels[Y * this->width + X];

@@ -52,7 +52,6 @@ namespace itr_vision
         private:
             F32 MinEigenvalue(F32 gxx, F32 gxy, F32 gyy);
             void fillMap(S32 x, S32 y, BOOL* featuremap);
-
             ImageGray img;
             ImageGray dx, dy;
             S32 windowWidth;

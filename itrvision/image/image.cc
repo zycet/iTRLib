@@ -110,12 +110,7 @@ namespace itr_vision
 
     ImageGray::ImageGray(const ImageGray& Img)
     {
-        MemoryCopy(this->pixels, Img.GetPixels(), Img.pixelsNumber);
-        this->width = Img.GetWidth();
-        this->height = Img.GetHeight();
-        this->pixelsNumber = Img.GetWidth() * Img.GetHeight();
-        this->pixelsLength = Img.GetWidth() * Img.GetHeight() * sizeof(S16);
-        this->localData = false;
+        new(this)ImageGray(Img.GetWidth(),Img.GetHeight(),Img.GetPixels());
     }
 
     ImageGray::~ImageGray()
