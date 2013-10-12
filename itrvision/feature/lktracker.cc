@@ -33,14 +33,16 @@
 
 #include "lktracker.h"
 #include <math.h>
+#include <stdio.h>
 namespace itr_vision
 {
     LKTracker::LKTracker(const ImageGray& Img1, const ImageGray& Img2)
     {
         windowWidth = 7;
-        minDet = 1;
+        minDet = 10;
         level = 3;
-        stopth = 0.1f;
+        stopth = 0.01f;
+        max_residue = 10;
         width[0] = Img1.GetWidth();
         height[0] = Img1.GetHeight();
 
@@ -67,14 +69,17 @@ namespace itr_vision
 
         GeneratePyramidal(Img2, img2, level);
         GeneratePyramidal(Img1, img1, level);
-
+        ConvoluteSquare conv;
         // TODO 增加求微分的部分
         for (L = 0; L < level; ++L)
         {
-            Gradient::Gradientx(img1[L], gradx1[L]);
-            Gradient::Gradienty(img1[L], grady1[L]);
-            Gradient::Gradientx(img2[L], gradx2[L]);
-            Gradient::Gradienty(img2[L], grady2[L]);
+
+            conv._KLTComputeGradients(img1[L], 1, gradx1[L], grady1[L]);
+            conv._KLTComputeGradients(img2[L], 1, gradx2[L], grady2[L]);
+//            Gradient::Gradientx(img1[L], gradx1[L]);
+//            Gradient::Gradienty(img1[L], grady1[L]);
+//            Gradient::Gradientx(img2[L], gradx2[L]);
+//            Gradient::Gradienty(img2[L], grady2[L]);
         }
         S32 length = width[0] * height[0];
 
@@ -115,12 +120,18 @@ namespace itr_vision
                 g1 = Scale::Interpolation(grady1[L], U.Y + y, U.X + x);
                 g2 = Scale::Interpolation(grady2[L], V.Y + y, V.X + x);
                 *dy++ = g1 + g2;
-//                *dx++=Scale::Interpolation(gradx1[L], U.Y + y, U.X + x);
-//                *dy++=Scale::Interpolation(grady1[L], U.Y + y, U.X + x);
-                // TODO 计算两幅图的微分和
             }
     }
-
+    void LKTracker::_ComputeGrad2(Point2D& U, S32 L, S32 hw, S32* dx, S32* dy)
+    {
+        S32 y, x;
+        for (y = -hw; y <= hw; ++y)
+            for (x = -hw; x <= hw; ++x)
+            {
+                *dx++ = Scale::Interpolation(gradx1[L], U.Y + y, U.X + x);
+                *dy++ = Scale::Interpolation(grady1[L], U.Y + y, U.X + x);
+            }
+    }
     S32 LKTracker::_ComputeSum(S32* a, S32* b, S32* sum, S32 length)
     {
         S32 result;
@@ -128,16 +139,23 @@ namespace itr_vision
         itr_math::CalculateObj->AddSum(sum, length, result);
         return result;
     }
-
+    S32 LKTracker::_SumDiff(S32 *a, S32 length)
+    {
+        int ans = 0;
+        while (length--)
+            ans += *a++;
+        return ans;
+    }
     LKTracker::TrackResult LKTracker::Compute(Point2D& U, Point2D& V, int L, bool Forward)
     {
         S32 hw = windowWidth >> 1;
-        S32 length = windowWidth*windowWidth;
+        S32 length = windowWidth * windowWidth;
 
         F32 det, speedx = 1, speedy = 1;
         S32 gxx, gxy, gyy, ex, ey;
         LKTracker::TrackResult result = Tracked;
-        for (int i = 0; i < 1 && (fabs(speedx) > stopth || fabs(speedy) > stopth); ++i)
+//        _ComputeGrad2(U, L, hw, Dx, Dy);
+        for (int i = 0; i < 10 && (fabs(speedx) > stopth || fabs(speedy) > stopth); ++i)
         {
             if (U.X - hw < 0 || U.Y - hw < 0 || V.X - hw < 0 || V.Y - hw < 0 || U.X + hw >= width[L]
                     || U.Y + hw >= height[L] || V.X + hw >= width[L] || V.Y + hw >= height[L])
@@ -165,8 +183,10 @@ namespace itr_vision
             V.X += speedx;
             V.Y += speedy;
         }
+        _ComputeDt(U, V, L, hw, Dt);
+        if (_SumDiff(Dt, length) / (length) > max_residue)
+            result = LARGE_RESIDUE;
         // TODO  大残差的解决
-
         return result;
     }
 

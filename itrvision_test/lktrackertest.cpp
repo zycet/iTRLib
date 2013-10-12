@@ -43,19 +43,13 @@ void lktest()
     ImageGray  gray1, gray2;
     IOHelper::ReadFromFile("Debug/table1.ppm", gray1);
     IOHelper::ReadFromFile("Debug/table2.ppm", gray2);
-    //ImageGray gray1(img1.GetWidth(), img1.GetHeight()), gray2(img1.GetWidth(), img1.GetHeight());
-//    //Calc Gaussian Filter
-//    F32 sigma = 1;
-//    S32 n = itr_vision::GaussianGenerate::SuggestLength(sigma);
-//    F32* filter = new F32[n];
-//    itr_vision::GaussianGenerate::Generate(sigma, n, filter);
-//    //Convolute
-//    itr_vision::ConvoluteSquare ConvoluteSquareObj(n, img1.GetWidth(), img1.GetHeight());
-//    ConvoluteSquareObj.Convolute(img1, filter, gray1);
-//    ConvoluteSquareObj.Convolute(img2, filter, gray2);
-    SelectFeature select(gray1, 7);
-    vector<FeaturePoint> fl(100);
-    RectangleS rect(0, 0, gray1.GetWidth(), gray1.GetHeight());
+//    int t[] =
+//       { 1, 4, 6, 4, 1 };
+//    ConvoluteSquare::ConvApplyto(gray1,t,5);
+//    ConvoluteSquare::ConvApplyto(gray2,t,5);
+    SelectFeature select(gray1, 3);
+    vector<FeaturePoint> fl(10);
+    RectangleS rect(10, 10, gray1.GetWidth()-20, gray1.GetHeight()-20);
     select.SelectGoodFeature(rect, fl);
     LKTracker tracker(gray1, gray2);
     vector<FeaturePoint>::iterator feat = fl.begin();

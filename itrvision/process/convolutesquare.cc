@@ -33,10 +33,25 @@
 
 #include "convolutesquare.h"
 #include "itrbase.h"
+#include <math.h>
 #include "../image/image.h"
 
 namespace itr_vision
 {
+
+    ConvoluteSquare::ConvoluteSquare()
+    {
+        sigma_last = -10.0f;
+        S32 FilterDim=1;
+        S32 Width=1;
+        S32 Height=1;
+        this->multBufferS16 = new S16[FilterDim];
+        this->imageBufferS16 = new S16[Width * Height];
+        this->width = Width;
+        this->height = Height;
+        this->filterDim = FilterDim;
+        this->r = FilterDim >> 1;
+    }
     ConvoluteSquare::ConvoluteSquare(S32 FilterDim, S32 Width, S32 Height)
     {
         assert(FilterDim>0);
@@ -98,4 +113,189 @@ namespace itr_vision
             }
         }
     }
+
+    void ConvoluteSquare::_computeKernels(float sigma, ConvolutionKernel *gauss,
+            ConvolutionKernel *gaussderiv)
+    {
+        const float factor = 0.01f; /* for truncating tail */
+        int i;
+
+        assert(MAX_KERNEL_WIDTH % 2 == 1);
+        assert(sigma >= 0.0);
+
+        /* Compute kernels, and automatically determine widths */
+        {
+            const int hw = MAX_KERNEL_WIDTH / 2;
+            float max_gauss = 1.0f, max_gaussderiv = (float) (sigma * exp(-0.5f));
+
+            /* Compute gauss and deriv */
+            for (i = -hw; i <= hw; i++)
+            {
+                gauss->data[i + hw] = (float) exp(-i * i / (2 * sigma * sigma));
+                gaussderiv->data[i + hw] = -i * gauss->data[i + hw];
+            }
+
+            /* Compute widths */
+            gauss->width = MAX_KERNEL_WIDTH;
+            for (i = -hw; fabs(gauss->data[i + hw] / max_gauss) < factor; i++, gauss->width -= 2)
+                ;
+            gaussderiv->width = MAX_KERNEL_WIDTH;
+            for (i = -hw; fabs(gaussderiv->data[i + hw] / max_gaussderiv) < factor;
+                    i++, gaussderiv->width -= 2)
+                ;
+//if (gauss->width == MAX_KERNEL_WIDTH || gaussderiv->width == MAX_KERNEL_WIDTH)
+//                                                                                                    PRINT_ERROR(
+//                    "(_computeKernels) MAX_KERNEL_WIDTH %d is too small for a sigma of %f", MAX_KERNEL_WIDTH, sigma);
+        }
+
+        /* Shift if width less than MAX_KERNEL_WIDTH */
+        for (i = 0; i < gauss->width; i++)
+            gauss->data[i] = gauss->data[i + (MAX_KERNEL_WIDTH - gauss->width) / 2];
+        for (i = 0; i < gaussderiv->width; i++)
+            gaussderiv->data[i] = gaussderiv->data[i + (MAX_KERNEL_WIDTH - gaussderiv->width) / 2];
+        /* Normalize gauss and deriv */
+        {
+            const int hw = gaussderiv->width / 2;
+            float den;
+
+            den = 0.0;
+            for (i = 0; i < gauss->width; i++)
+                den += gauss->data[i];
+            for (i = 0; i < gauss->width; i++)
+                gauss->data[i] /= den;
+            den = 0.0;
+            for (i = -hw; i <= hw; i++)
+                den -= i * gaussderiv->data[i + hw];
+            for (i = -hw; i <= hw; i++)
+                gaussderiv->data[i + hw] /= den;
+        }
+
+        sigma_last = sigma;
+    }
+
+    void ConvoluteSquare::_convolveImageHoriz(ImageGray &imgin, ConvolutionKernel kernel,
+            ImageGray &imgout)
+    {
+        S16 *ptrrow = imgin.GetPixels(); /* Points to row's first pixel */
+        S16 *ptrout = imgout.GetPixels(), /* Points to next output pixel */
+        *ppp;
+        float sum;
+        S32 radius = kernel.width / 2;
+        S32 ncols = imgin.GetWidth(), nrows = imgin.GetHeight();
+        S32 i, j, k;
+
+        /* Kernel width must be odd */
+        assert(kernel.width % 2 == 1);
+
+        /* Must read from and write to different images */
+//        assert(imgin != imgout);
+        /* Output image must be large enough to hold result */
+        assert(imgout.GetWidth() >= imgin.GetWidth());
+        assert(imgout.GetHeight() >= imgin.GetHeight());
+
+        /* For each row, do ... */
+        for (j = 0; j < nrows; j++)
+        {
+
+            /* Zero leftmost columns */
+            for (i = 0; i < radius; i++)
+                *ptrout++ = 0.0;
+
+            /* Convolve middle columns with kernel */
+            for (; i < ncols - radius; i++)
+            {
+                ppp = ptrrow + i - radius;
+                sum = 0.0;
+                for (k = kernel.width - 1; k >= 0; k--)
+                    sum += *ppp++ * kernel.data[k];
+                *ptrout++ = sum;
+            }
+
+            /* Zero rightmost columns */
+            for (; i < ncols; i++)
+                *ptrout++ = 0.0;
+
+            ptrrow += ncols;
+        }
+    }
+
+    /*********************************************************************
+     * _convolveImageVert
+     */
+
+    void ConvoluteSquare::_convolveImageVert(ImageGray& imgin, ConvolutionKernel kernel,
+            ImageGray &imgout)
+    {
+        S16 *ptrcol = imgin.GetPixels(); /* Points to row's first pixel */
+        S16 *ptrout = imgout.GetPixels(), /* Points to next output pixel */
+        *ppp;
+        S32 sum;
+        S32 radius = kernel.width / 2;
+        S32 ncols = imgin.GetWidth(), nrows = imgin.GetHeight();
+        S32 i, j, k;
+
+        /* Kernel width must be odd */
+        assert(kernel.width % 2 == 1);
+
+        /* Must read from and write to different images */
+//        assert(imgin != imgout);
+        /* Output image must be large enough to hold result */
+        assert(imgout.GetWidth() >= imgin.GetWidth());
+        assert(imgout.GetHeight() >= imgin.GetHeight());
+
+        /* For each column, do ... */
+        for (i = 0; i < ncols; i++)
+        {
+
+            /* Zero topmost rows */
+            for (j = 0; j < radius; j++)
+            {
+                *ptrout = 0.0;
+                ptrout += ncols;
+            }
+
+            /* Convolve middle rows with kernel */
+            for (; j < nrows - radius; j++)
+            {
+                ppp = ptrcol + ncols * (j - radius);
+                sum = 0.0;
+                for (k = kernel.width - 1; k >= 0; k--)
+                {
+                    sum += *ppp * kernel.data[k];
+                    ppp += ncols;
+                }
+                *ptrout = sum;
+                ptrout += ncols;
+            }
+
+            /* Zero bottommost rows */
+            for (; j < nrows; j++)
+            {
+                *ptrout = 0.0;
+                ptrout += ncols;
+            }
+
+            ptrcol++;
+            ptrout -= nrows * ncols - 1;
+        }
+    }
+
+    void ConvoluteSquare::_KLTComputeGradients(ImageGray& img, float sigma, ImageGray& gradx,
+            ImageGray& grady)
+    {
+        if (fabs(sigma - sigma_last) > 0.05)
+            _computeKernels(sigma, &gauss_kernel, &gaussderiv_kernel);
+
+        _convolveSeparate(img, gaussderiv_kernel, gauss_kernel, gradx);
+        _convolveSeparate(img, gauss_kernel, gaussderiv_kernel, grady);
+    }
+
+    void ConvoluteSquare::_convolveSeparate(ImageGray& imgin, ConvolutionKernel horiz_kernel,
+            ConvolutionKernel vert_kernel, ImageGray& imgout)
+    {
+        ImageGray tmpimg(imgin.GetWidth(), imgin.GetHeight());
+        _convolveImageHoriz(imgin, horiz_kernel, tmpimg);
+        _convolveImageVert(tmpimg, vert_kernel, imgout);
+    }
 } // namespace itr_image
+

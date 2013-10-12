@@ -43,10 +43,36 @@ namespace itr_vision
     class ConvoluteSquare
     {
         public:
+            static const int MAX_KERNEL_WIDTH = 71;
+            typedef struct
+            {
+                    int width;
+                    float data[MAX_KERNEL_WIDTH];
+            } ConvolutionKernel;
+
+            ConvoluteSquare();
             ConvoluteSquare(S32 FilterDim, S32 Width, S32 Height);
             virtual ~ConvoluteSquare();
             void Convolute(const ImageGray& Input, F32* Filter, ImageGray& Output);
+
+            void _computeKernels(float sigma, ConvolutionKernel *gauss,
+                    ConvolutionKernel *gaussderiv);
+
+            void _convolveImageHoriz(ImageGray &imgin, ConvolutionKernel kernel,
+                    ImageGray &imgout);
+
+            void _convolveImageVert(ImageGray &imgin, ConvolutionKernel kernel,
+                    ImageGray &imgout);
+
+            void _KLTComputeGradients(ImageGray &img, float sigma, ImageGray &gradx,
+                    ImageGray &grady);
+
+            void _convolveSeparate(ImageGray &imgin, ConvolutionKernel horiz_kernel,
+                    ConvolutionKernel vert_kernel, ImageGray &imgout);
         private:
+            ConvolutionKernel gauss_kernel;
+            ConvolutionKernel gaussderiv_kernel;
+            float sigma_last;
             S16* multBufferS16;
             S16* imageBufferS16;
             S32 width;

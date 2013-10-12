@@ -54,7 +54,7 @@ namespace itr_vision
             void fillMap(S32 x, S32 y, BOOL* featuremap);
             ImageGray img;
             ImageGray dx, dy;
-            S32 windowWidth;
+            S32 bw;
             S32 width, height;
     };
 

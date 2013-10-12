@@ -41,7 +41,7 @@ namespace itr_vision
     SelectFeature::SelectFeature(const ImageGray& Img, int WindowWidth) :
             img(Img)
     {
-        windowWidth = WindowWidth;
+        bw = WindowWidth>>1;
         mindist = 10;
         mineigen = 1;
         width = img.GetWidth();
@@ -79,12 +79,12 @@ namespace itr_vision
 
         S32 bordy = rect.Y + rect.Height;
         S32 bordx = rect.X + rect.Width;
-        S32 beginy = (rect.Y < windowWidth) ? windowWidth : rect.Y;
-        S32 beginx = (rect.X < windowWidth) ? windowWidth : rect.X;
-        if (bordy >= img.GetHeight() - windowWidth)
-            bordy = img.GetHeight() - windowWidth;
-        if (bordx >= img.GetWidth() - windowWidth)
-            bordx = img.GetWidth() - windowWidth;
+        S32 beginy = (rect.Y < bw) ? bw : rect.Y;
+        S32 beginx = (rect.X < bw) ? bw : rect.X;
+        if (bordy >= img.GetHeight() - bw)
+            bordy = img.GetHeight() - bw;
+        if (bordx >= img.GetWidth() - bw)
+            bordx = img.GetWidth() - bw;
         S32 x, y, xx, yy;
         S32 gxx, gxy, gyy, gx, gy;
         vector<FeaturePoint>::iterator featptr = featurelist.begin();
@@ -94,8 +94,8 @@ namespace itr_vision
                 for (x = beginx; x < bordx; ++x)
                 {
                     gxx = gxy = gyy = 0;
-                    for (yy = y - windowWidth; yy <= y + windowWidth; ++yy)
-                        for (xx = x - windowWidth; xx <= x + windowWidth; ++xx)
+                    for (yy = y - bw; yy <= y + bw; ++yy)
+                        for (xx = x - bw; xx <= x + bw; ++xx)
                         {
                             // TODO 改成指针形式的访问
                             gx = dx(yy, xx);
