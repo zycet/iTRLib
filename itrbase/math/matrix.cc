@@ -249,12 +249,9 @@ namespace itr_math
      */
     void Matrix::ColExtract(F32* Data, S32 Offset, S32 Interval, S32 Length, F32* Result)
     {
-        F32 aaa[] = {Data[0],Data[1],Data[2],Data[3],Data[4],Data[5],Data[6],Data[7],Data[8]};
-        F32 a = Data[6];
         for (S32 i = 0; i < Length; i++)
         {
             Result[i] = Data[Offset + Interval * i];
-            a = Data[Offset + Interval * i];
         }
     }
     //**********矩阵相关计算**********
@@ -287,10 +284,7 @@ namespace itr_math
             MatResult.ColExtract(Mat.GetData(), i, Mat.col, Mat.row, tempVect);
             for (S32 k = 0; k < MatResult.row; k++)
                 CalculateObj->MultiSum(data + k * col, tempVect, Mat.row, tempVectAns[k]);
-            F32 a[] = {tempVectAns[0],tempVectAns[1],tempVectAns[2]};
             MatResult.CopyColFrom(i + 1, tempVectAns);
-            F32 b[] = {MatResult.GetData()[i],MatResult.GetData()[i+3],MatResult.GetData()[i+6]};
-            F32 c = 1;
         }
     }
     //**********矩阵运算符重载*********
@@ -310,8 +304,6 @@ namespace itr_math
         assert(Mat.row == col);
         Matrix MatResult(row, Mat.col);
         Mul(Mat, MatResult);
-        F32 aaa[] = {MatResult.GetData()[0],MatResult.GetData()[1],MatResult.GetData()[2],MatResult.GetData()[3],MatResult.GetData()[4],MatResult.GetData()[5],MatResult.GetData()[6],MatResult.GetData()[7],MatResult.GetData()[8]};
-        aaa[0] = 1;
         return MatResult;
     }
 
