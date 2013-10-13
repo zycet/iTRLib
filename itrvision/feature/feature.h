@@ -34,6 +34,7 @@
 #ifndef FEATURE_H_
 #define FEATURE_H_
 
+#include "pyramid.h"
 #include "featurepoint.h"
 #include "selectseature.h"
 #include "lktracker.h"

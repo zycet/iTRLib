@@ -50,7 +50,7 @@ void IOHelper::ReadFromFile(char* filename, ImageGray& img)
     assert(len==length);
     fclose(file);
     //Read Image
-    itr_vision::FormatPPM FormatPPMObj;
+    itr_vision::FormatPGM FormatPPMObj;
     itr_vision::IFormat::ImageInfo imageInfo;
     assert(FormatPPMObj.GetInfo(bufferRead, length, imageInfo)==itr_vision::IFormat::Success);
     img.Allocate(imageInfo.Width, imageInfo.Height);

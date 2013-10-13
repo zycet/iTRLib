@@ -41,16 +41,17 @@ namespace itr_vision
     SelectFeature::SelectFeature(const ImageGray& Img, int WindowWidth) :
             img(Img)
     {
-        bw = WindowWidth>>1;
+        bw = WindowWidth >> 1;
         mindist = 10;
-        mineigen = 1;
+        mineigen = 10;
         width = img.GetWidth();
         height = img.GetHeight();
         dx.Allocate(img.GetWidth(), img.GetHeight());
         dy.Allocate(img.GetWidth(), img.GetHeight());
+        ConvoluteSquare conv;
+        conv._KLTComputeSmoothedImage(Img, 0.7, img);
         // TODO 求微分
-        Gradient::Gradientx(img, dx);
-        Gradient::Gradienty(img, dy);
+        conv._KLTComputeGradients(img,1,dx,dy);
     }
 
     void SelectFeature::fillMap(S32 x, S32 y, BOOL* featuremap)

@@ -42,9 +42,9 @@ namespace itr_vision
     ConvoluteSquare::ConvoluteSquare()
     {
         sigma_last = -10.0f;
-        S32 FilterDim=1;
-        S32 Width=1;
-        S32 Height=1;
+        S32 FilterDim = 1;
+        S32 Width = 1;
+        S32 Height = 1;
         this->multBufferS16 = new S16[FilterDim];
         this->imageBufferS16 = new S16[Width * Height];
         this->width = Width;
@@ -173,7 +173,7 @@ namespace itr_vision
         sigma_last = sigma;
     }
 
-    void ConvoluteSquare::_convolveImageHoriz(ImageGray &imgin, ConvolutionKernel kernel,
+    void ConvoluteSquare::_convolveImageHoriz(const ImageGray &imgin, ConvolutionKernel kernel,
             ImageGray &imgout)
     {
         S16 *ptrrow = imgin.GetPixels(); /* Points to row's first pixel */
@@ -223,7 +223,7 @@ namespace itr_vision
      * _convolveImageVert
      */
 
-    void ConvoluteSquare::_convolveImageVert(ImageGray& imgin, ConvolutionKernel kernel,
+    void ConvoluteSquare::_convolveImageVert(const ImageGray& imgin, ConvolutionKernel kernel,
             ImageGray &imgout)
     {
         S16 *ptrcol = imgin.GetPixels(); /* Points to row's first pixel */
@@ -280,7 +280,20 @@ namespace itr_vision
         }
     }
 
-    void ConvoluteSquare::_KLTComputeGradients(ImageGray& img, float sigma, ImageGray& gradx,
+    void ConvoluteSquare::_KLTComputeSmoothedImage(const ImageGray& img, float sigma, ImageGray& smooth)
+    {
+        /* Output image must be large enough to hold result */
+        assert(smooth.GetWidth() >= img.GetWidth());
+        assert(smooth.GetHeight() >= img.GetHeight());
+
+        /* Compute kernel, if necessary; gauss_deriv is not used */
+        if (fabs(sigma - sigma_last) > 0.05)
+            _computeKernels(sigma, &gauss_kernel, &gaussderiv_kernel);
+
+        _convolveSeparate(img, gauss_kernel, gauss_kernel, smooth);
+    }
+
+    void ConvoluteSquare::_KLTComputeGradients(const ImageGray& img, float sigma, ImageGray& gradx,
             ImageGray& grady)
     {
         if (fabs(sigma - sigma_last) > 0.05)
@@ -290,7 +303,7 @@ namespace itr_vision
         _convolveSeparate(img, gauss_kernel, gaussderiv_kernel, grady);
     }
 
-    void ConvoluteSquare::_convolveSeparate(ImageGray& imgin, ConvolutionKernel horiz_kernel,
+    void ConvoluteSquare::_convolveSeparate(const ImageGray& imgin, ConvolutionKernel horiz_kernel,
             ConvolutionKernel vert_kernel, ImageGray& imgout)
     {
         ImageGray tmpimg(imgin.GetWidth(), imgin.GetHeight());

@@ -55,7 +55,7 @@ namespace itr_vision
         }
     }
 
-    void Scale::DownSampling(const ImageGray& src, ImageGray& dst, U32 scale)
+    void Scale::SubSampling(const ImageGray& src, ImageGray& dst, S32 scale)
     {
         assert(dst.MatchWidthHeight(src.GetWidth() / scale, src.GetHeight() / scale));
         for (int j = 0; j < dst.GetHeight(); ++j)
@@ -100,7 +100,7 @@ namespace itr_vision
             }
         }
     }
-    void Scale::SubSampling(const ImageARGB& src, ImageGray& dst, U32 scale)
+    void Scale::SubSampling(const ImageARGB& src, ImageARGB& dst, S32 scale)
     {
         assert(dst.MatchWidthHeight(src.GetWidth() / scale, src.GetHeight() / scale));
         for (int j = 0; j < dst.GetHeight(); ++j)

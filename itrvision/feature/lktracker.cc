@@ -40,48 +40,12 @@ namespace itr_vision
     {
         windowWidth = 7;
         minDet = 10;
-        level = 3;
-        stopth = 0.01f;
+        level = 2;
+        stopth = 0.1f;
         max_residue = 10;
-        width[0] = Img1.GetWidth();
-        height[0] = Img1.GetHeight();
-
-        //分配空间
-        img1[0].Allocate(width[0], height[0]);
-        img2[0].Allocate(width[0], height[0]);
-        gradx1[0].Allocate(width[0], height[0]);
-        gradx2[0].Allocate(width[0], height[0]);
-        grady1[0].Allocate(width[0], height[0]);
-        grady2[0].Allocate(width[0], height[0]);
-        int L;
-
-        for (L = 1; L < level; ++L)
-        {
-            width[L] = width[L - 1] >> 1;
-            height[L] = height[L - 1] >> 1;
-            img1[L].Allocate(width[L], height[L]);
-            img2[L].Allocate(width[L], height[L]);
-            gradx1[L].Allocate(width[L], height[L]);
-            gradx2[L].Allocate(width[L], height[L]);
-            grady1[L].Allocate(width[L], height[L]);
-            grady2[L].Allocate(width[L], height[L]);
-        }
-
-        GeneratePyramidal(Img2, img2, level);
-        GeneratePyramidal(Img1, img1, level);
-        ConvoluteSquare conv;
-        // TODO 增加求微分的部分
-        for (L = 0; L < level; ++L)
-        {
-
-            conv._KLTComputeGradients(img1[L], 1, gradx1[L], grady1[L]);
-            conv._KLTComputeGradients(img2[L], 1, gradx2[L], grady2[L]);
-//            Gradient::Gradientx(img1[L], gradx1[L]);
-//            Gradient::Gradienty(img1[L], grady1[L]);
-//            Gradient::Gradientx(img2[L], gradx2[L]);
-//            Gradient::Gradienty(img2[L], grady2[L]);
-        }
-        S32 length = width[0] * height[0];
+        pyramid1.Init(Img1, 4, 2);
+        pyramid2.Init(Img2, 4, 2);
+        S32 length = windowWidth * windowWidth;
 
         Dx = new S32[length]();
         Dy = new S32[length]();
@@ -103,8 +67,8 @@ namespace itr_vision
         for (y = -hw; y <= hw; ++y)
             for (x = -hw; x <= hw; ++x)
             {
-                g1 = Scale::Interpolation(img1[L], U.Y + y, U.X + x);
-                g2 = Scale::Interpolation(img2[L], V.Y + y, V.X + x);
+                g1 = Scale::Interpolation(pyramid1.img[L], U.Y + y, U.X + x);
+                g2 = Scale::Interpolation(pyramid2.img[L], V.Y + y, V.X + x);
                 *dt++ = g1 - g2;
             }
     }
@@ -114,11 +78,11 @@ namespace itr_vision
         for (y = -hw; y <= hw; ++y)
             for (x = -hw; x <= hw; ++x)
             {
-                g1 = Scale::Interpolation(gradx1[L], U.Y + y, U.X + x);
-                g2 = Scale::Interpolation(gradx2[L], V.Y + y, V.X + x);
+                g1 = Scale::Interpolation(pyramid1.gradx[L], U.Y + y, U.X + x);
+                g2 = Scale::Interpolation(pyramid2.gradx[L], V.Y + y, V.X + x);
                 *dx++ = g1 + g2;
-                g1 = Scale::Interpolation(grady1[L], U.Y + y, U.X + x);
-                g2 = Scale::Interpolation(grady2[L], V.Y + y, V.X + x);
+                g1 = Scale::Interpolation(pyramid1.grady[L], U.Y + y, U.X + x);
+                g2 = Scale::Interpolation(pyramid2.grady[L], V.Y + y, V.X + x);
                 *dy++ = g1 + g2;
             }
     }
@@ -128,8 +92,8 @@ namespace itr_vision
         for (y = -hw; y <= hw; ++y)
             for (x = -hw; x <= hw; ++x)
             {
-                *dx++ = Scale::Interpolation(gradx1[L], U.Y + y, U.X + x);
-                *dy++ = Scale::Interpolation(grady1[L], U.Y + y, U.X + x);
+                *dx++ = Scale::Interpolation(pyramid1.gradx[L], U.Y + y, U.X + x);
+                *dy++ = Scale::Interpolation(pyramid1.grady[L], U.Y + y, U.X + x);
             }
     }
     S32 LKTracker::_ComputeSum(S32* a, S32* b, S32* sum, S32 length)
@@ -157,8 +121,9 @@ namespace itr_vision
 //        _ComputeGrad2(U, L, hw, Dx, Dy);
         for (int i = 0; i < 10 && (fabs(speedx) > stopth || fabs(speedy) > stopth); ++i)
         {
-            if (U.X - hw < 0 || U.Y - hw < 0 || V.X - hw < 0 || V.Y - hw < 0 || U.X + hw >= width[L]
-                    || U.Y + hw >= height[L] || V.X + hw >= width[L] || V.Y + hw >= height[L])
+            if (U.X - hw < 0 || U.Y - hw < 0 || V.X - hw < 0 || V.Y - hw < 0
+                    || U.X + hw >= pyramid1.width[L] || U.Y + hw >= pyramid1.height[L]
+                    || V.X + hw >= pyramid1.width[L] || V.Y + hw >= pyramid1.height[L])
             {
                 result = OOB;
                 break;
@@ -194,20 +159,24 @@ namespace itr_vision
     {
         vector<FeaturePoint>::iterator feat = fl.begin();
         Point2D U, V;
-        S32 l;
+        S32 l, i;
         LKTracker::TrackResult result;
+        int subsampling = pyramid1.GetSubsampling();
         while (feat != fl.end())
         {
-            U.X = (feat->x) >> level;
-            U.Y = (feat->y) >> level;
+            for (i = 0; i < level; ++i)
+            {
+                U.X = (feat->x) / subsampling;
+                U.Y = (feat->y) / subsampling;
+            }
             V.X = U.X;
             V.Y = U.Y;
             for (l = level - 1; l >= 0; --l)
             {
-                U.X *= 2;
-                U.Y *= 2;
-                V.X *= 2;
-                V.Y *= 2;
+                U.X *= subsampling;
+                U.Y *= subsampling;
+                V.X *= subsampling;
+                V.Y *= subsampling;
                 result = Compute(U, V, l, Forward);
                 if (result != Tracked)
                     break;
@@ -220,14 +189,6 @@ namespace itr_vision
             feat->y = V.Y;
             ++feat;
         }
-    }
-
-    void LKTracker::GeneratePyramidal(const ImageGray& img, ImageGray py[], S32 length)
-    {
-        --length;
-        MemoryCopy(py[0].GetPixels(), img.GetPixels(), img.GetPixelsLength());
-        for (; length > 0; --length)
-            Scale::Bilinear(img, py[length]);
     }
 
 } // namespace itr_vision

@@ -58,17 +58,16 @@ namespace itr_vision
             void _computeKernels(float sigma, ConvolutionKernel *gauss,
                     ConvolutionKernel *gaussderiv);
 
-            void _convolveImageHoriz(ImageGray &imgin, ConvolutionKernel kernel,
-                    ImageGray &imgout);
+            void _convolveImageHoriz(const ImageGray &imgin, ConvolutionKernel kernel, ImageGray &imgout);
 
-            void _convolveImageVert(ImageGray &imgin, ConvolutionKernel kernel,
-                    ImageGray &imgout);
+            void _convolveImageVert(const ImageGray &imgin, ConvolutionKernel kernel, ImageGray &imgout);
 
-            void _KLTComputeGradients(ImageGray &img, float sigma, ImageGray &gradx,
+            void _KLTComputeGradients(const ImageGray &img, float sigma, ImageGray &gradx,
                     ImageGray &grady);
 
-            void _convolveSeparate(ImageGray &imgin, ConvolutionKernel horiz_kernel,
+            void _convolveSeparate(const ImageGray &imgin, ConvolutionKernel horiz_kernel,
                     ConvolutionKernel vert_kernel, ImageGray &imgout);
+            void _KLTComputeSmoothedImage(const ImageGray& img, float sigma, ImageGray& smooth);
         private:
             ConvolutionKernel gauss_kernel;
             ConvolutionKernel gaussderiv_kernel;

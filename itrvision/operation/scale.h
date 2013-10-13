@@ -9,7 +9,7 @@
 #define SCALE_H_
 
 #include "itrbase.h"
-#include "../itrvision.h"
+#include "../image/image.h"
 
 namespace itr_vision
 {
@@ -23,8 +23,8 @@ namespace itr_vision
             static S32 Interpolation(const ImageARGB& src, F32 x, F32 y);
             static void Bilinear(const ImageGray& src, ImageGray& dst);
             static void Bilinear(const ImageARGB& src, ImageGray& dst);
-            static void DownSampling(const ImageGray& src, ImageGray& dst, U32 scale);
-            static void SubSampling(const ImageARGB& src, ImageGray& dst, U32 scale);
+            static void SubSampling(const ImageGray& src, ImageGray& dst, S32 scale);
+            static void SubSampling(const ImageARGB& src, ImageARGB& dst, S32 scale);
     };
 
 } /* namespace itr_vision */

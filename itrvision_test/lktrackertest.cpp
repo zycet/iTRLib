@@ -41,14 +41,10 @@ using std::vector;
 void lktest()
 {
     ImageGray  gray1, gray2;
-    IOHelper::ReadFromFile("Debug/table1.ppm", gray1);
-    IOHelper::ReadFromFile("Debug/table2.ppm", gray2);
-//    int t[] =
-//       { 1, 4, 6, 4, 1 };
-//    ConvoluteSquare::ConvApplyto(gray1,t,5);
-//    ConvoluteSquare::ConvApplyto(gray2,t,5);
-    SelectFeature select(gray1, 3);
-    vector<FeaturePoint> fl(10);
+    IOHelper::ReadFromFile("Debug/img0.pgm", gray1);
+    IOHelper::ReadFromFile("Debug/img1.pgm", gray2);
+    SelectFeature select(gray1, 7);
+    vector<FeaturePoint> fl(50);
     RectangleS rect(10, 10, gray1.GetWidth()-20, gray1.GetHeight()-20);
     select.SelectGoodFeature(rect, fl);
     LKTracker tracker(gray1, gray2);

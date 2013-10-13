@@ -26,37 +26,42 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * draw.h
- *  Created on: 2013-10-9
+ * pyramid.h
+ *  Created on: 2013-10-13
  *      Author: ghdawn
  */
 
-#ifndef DRAW_H_
-#define DRAW_H_
+#ifndef PYRAMID_H_
+#define PYRAMID_H_
+#include "itrbase.h"
 #include "../image/image.h"
-#include "math.h"
+
 namespace itr_vision
 {
-
-    class Draw
+    class Pyramid
     {
         public:
-            static void Circle(ImageGray& bmp, int x, int y, int r, int color)
+            Pyramid();
+            virtual ~Pyramid();
+            void Init(const ImageGray& Img, int Subsampling, int Level);
+            inline int GetLevel() const
             {
-                int i, j;
-                int width = bmp.GetWidth();
-                int height = bmp.GetHeight();
-                for (i = -r; i < r; i++)
-                {
-                    j = sqrt(r * r - i * i);
-                    bmp((j + y + height) % height, (i + x + width) % width) = color;
-                    bmp((-j + y + height) % height, (i + x + width) % width) = color;
-                    bmp((i + y + height) % height, (j + x + width) % width) = color;
-                    bmp((i + y + height) % height, (-j + x + width) % width) = color;
-                }
+                return level;
             }
 
+            inline int GetSubsampling() const
+            {
+                return subsampling;
+            }
+
+            S32 width[3], height[3];
+            ImageGray img[3];
+            ImageGray gradx[3], grady[3];
+        private:
+            int level;
+            int subsampling;
+            float sigma;
     };
 
 } // namespace itr_vision
-#endif // DRAW_H_
+#endif // PYRAMID_H_

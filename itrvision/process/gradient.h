@@ -35,7 +35,7 @@
 #define GRADIENT_H_
 
 #include "itrbase.h"
-#include "../itrvision.h"
+#include "../image/image.h"
 
 namespace itr_vision
 {
