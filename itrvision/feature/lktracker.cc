@@ -34,6 +34,7 @@
 #include "lktracker.h"
 #include <math.h>
 #include <stdio.h>
+
 namespace itr_vision
 {
     LKTracker::LKTracker(const ImageGray& Img1, const ImageGray& Img2)
@@ -192,3 +193,4 @@ namespace itr_vision
     }
 
 } // namespace itr_vision
+

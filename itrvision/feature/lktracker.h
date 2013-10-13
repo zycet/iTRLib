@@ -56,7 +56,7 @@ namespace itr_vision
             S32 windowWidth;
             S32 minDet;
             S32 max_residue;
-            PyramidImg pyramid1, pyramid2;
+            Pyramid pyramid1, pyramid2;
         private:
             void _ComputeDt(Point2D& U, Point2D& V, S32 L, S32 hw, S32* dt);
             void _ComputeGrad(Point2D& U, Point2D& V, S32 L, S32 hw, S32* dx, S32* dy);
