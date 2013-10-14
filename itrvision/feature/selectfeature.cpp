@@ -41,7 +41,7 @@ namespace itr_vision
     SelectFeature::SelectFeature(const ImageGray& Img, int WindowWidth)
     {
         bw = WindowWidth >> 1;
-        mindist = 5;
+        mindist = 3;
         mineigen = 10;
         width = Img.GetWidth();
         height = Img.GetHeight();
@@ -118,7 +118,7 @@ namespace itr_vision
         {
             featptr = featurelist.begin();
             vector<FeaturePoint>::iterator flindex = fl.begin();
-            BOOL *featuremap = new BOOL[img.GetHeight() * width]();
+            BOOL *featuremap = new BOOL[height* width]();
             memset(featuremap, 0, sizeof(featuremap));
             S32 value;
             while (featptr != featurelist.end())

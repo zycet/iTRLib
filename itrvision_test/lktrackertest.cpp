@@ -35,39 +35,114 @@
 #include "iohelper.h"
 #include "itrvision.h"
 #include "itrbase.h"
+#include <math.h>
 #include <stdio.h>
 #include <vector>
+#include <time.h>
+#include <iostream>
+using std::endl;
+using std::cout;
 using std::vector;
 void lktest()
 {
-    ImageGray  gray1, gray2;
-    IOHelper::ReadFromFile("Debug/img0.pgm", gray1);
-    IOHelper::ReadFromFile("Debug/img1.pgm", gray2);
-    SelectFeature select(gray1, 7);
-    vector<FeaturePoint> fl(100);
-    RectangleS rect(0, 0, gray1.GetWidth(), gray1.GetHeight());
-    select.SelectGoodFeature(rect, fl);
-    LKTracker tracker(gray1, gray2);
-    vector<FeaturePoint>::iterator feat = fl.begin();
-    int i = 0;
-    while (feat != fl.end())
+//    lktest2Img();
+    lkseq();
+}
+void lkseq()
+{
+    char file[25];
+    ImageGray gray;
+    IOHelper::ReadPGMFile("Debug/car/00001.pgm", gray);
+    SelectFeature select(gray, 7);
+    vector<FeaturePoint> flU(10), flV(10), flU2(10);
+    RectangleS rect(135, 100, 60, 20);
+    select.SelectGoodFeature(rect, flU);
+    LKTracker tracker(gray);
+
+    for (int k = 2; k < 200; ++k)
     {
-        Draw::Circle(gray1, feat->x, feat->y, 2, 255);
+        sprintf(file, "Debug/car/%05d.pgm", k);
+        IOHelper::ReadPGMFile(file, gray);
+        int start = clock() / 1000;
+        tracker.AddNext(gray);
+        tracker.Compute(flU, flV, true);
+        tracker.Compute(flV, flU2, false);
+        for (int i = 0; i < flU.size(); ++i)
+        {
+            if (fabs(flU[i] - flU2[i]) > 3)
+                flV[i].value = -1;
+//            printf("%d,%d\n", flU[i] - flU2[i], flV[i].value);
+        }
+        F32 x = 0, y = 0;
+        S32 count = 0;
+        for (int i = 0; i < flV.size(); ++i)
+        {
+            if (flV[i].value >= 0)
+            {
+                x += flV[i].x - flU[i].x;
+                y += flV[i].y - flU[i].y;
+                ++count;
+            }
+            flU[i].value = -1;
+        }
+        //cout<<count<<endl;
+        cout << (clock() / 1000 - start) << endl;
+        rect.X += (x / count);
+        rect.Y += (y / count);
+//        printf("%d,%d\n", rect.X, rect.Y);
+        SelectFeature select(gray, 7);
+        select.SelectGoodFeature(rect, flU);
+        sprintf(file, "Debug/output/%05d.pgm", k);
+        for (int i = 0; i < flV.size(); ++i)
+        {
+            if (flV[i].value >= 0)
+            {
+                Draw::Circle(gray, flV[i].x, flV[i].y, 2, 255);
+            }
+        }
+        Draw::Circle(gray, rect.X, rect.Y, 10, 255);
+        IOHelper::WritePGMFile(file, gray);
+
+    }
+
+}
+void lktest2Img()
+{
+    ImageGray gray1, gray2;
+    IOHelper::ReadPGMFile("Debug/car/00001.pgm", gray1);
+    IOHelper::ReadPGMFile("Debug/car/00002.pgm", gray2);
+    SelectFeature select(gray1, 7);
+    vector<FeaturePoint> flU(100), flV(100), flU2(100);
+    RectangleS rect(0, 0, gray1.GetWidth(), gray1.GetHeight());
+    select.SelectGoodFeature(rect, flU);
+    LKTracker tracker(gray1, gray2);
+    vector<FeaturePoint>::iterator feat = flU.begin();
+    int i = 0;
+    while (feat != flU.end())
+    {
+        Draw::Circle(gray1, feat->x, feat->y, 3, 255);
         printf("Feature:%d at(%d,%d) with %d\n", i++, feat->x, feat->y, feat->value);
         ++feat;
     }
-    tracker.Compute(fl, true);
-    feat = fl.begin();
-    i = 0;
-    while (feat != fl.end())
+    tracker.Compute(flU, flV, true);
+    tracker.Compute(flV, flU2, false);
+    for (int i = 0; i < flU.size(); ++i)
     {
-        if (feat->value > 0)
+        if (fabs(flU[i] - flU2[i]) > 5)
+            flV[i].value = -1;
+        printf("%d,%d\n", flU[i] - flU2[i], flV[i].value);
+    }
+    feat = flV.begin();
+    i = 0;
+    while (feat != flV.end())
+    {
+        if (feat->value >= 0)
         {
-            Draw::Circle(gray2, feat->x, feat->y, 2, 255);
+            Draw::Circle(gray2, feat->x, feat->y, 3, 255);
             printf("Feature:%d at(%d,%d) with %d\n", i++, feat->x, feat->y, feat->value);
         }
         ++feat;
     }
-    IOHelper::WriteToFile("Debug/gray1.ppm", gray1);
-    IOHelper::WriteToFile("Debug/gray2.ppm", gray2);
+    IOHelper::WritePPMFile("Debug/gray1.ppm", gray1);
+    IOHelper::WritePPMFile("Debug/gray2.ppm", gray2);
 }

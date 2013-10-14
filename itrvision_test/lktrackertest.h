@@ -35,4 +35,6 @@
 #define LKTRACKERTEST_H_
 
 void lktest();
+void lktest2Img();
+void lkseq();
 #endif // LKTRACKERTEST_H_

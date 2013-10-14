@@ -34,7 +34,6 @@
 #include "lktracker.h"
 #include <math.h>
 #include <stdio.h>
-
 namespace itr_vision
 {
     LKTracker::LKTracker(const ImageGray& Img1, const ImageGray& Img2)
@@ -44,16 +43,32 @@ namespace itr_vision
         level = 2;
         stopth = 0.1f;
         max_residue = 10;
-        pyramid1.Init(Img1, 4, 2);
-        pyramid2.Init(Img2, 4, 2);
         S32 length = windowWidth * windowWidth;
-
+        last = new Pyramid();
+        current = new Pyramid();
+        last->Init(Img1, 4, 2);
+        current->Init(Img2, 4, 2);
         Dx = new S32[length]();
         Dy = new S32[length]();
         Dt = new S32[length]();
         Sum = new S32[length]();
     }
-
+    LKTracker::LKTracker(const ImageGray& Img)
+    {
+        windowWidth = 11;
+        minDet = 100;
+        level = 2;
+        stopth = 0.1f;
+        max_residue = 10;
+        S32 length = windowWidth * windowWidth;
+        last =NULL;
+        current = new Pyramid();
+        current->Init(Img, 4, 2);
+        Dx = new S32[length]();
+        Dy = new S32[length]();
+        Dt = new S32[length]();
+        Sum = new S32[length]();
+    }
     LKTracker::~LKTracker()
     {
         delete[] Dt;
@@ -62,14 +77,21 @@ namespace itr_vision
         delete[] Sum;
     }
 
+    void itr_vision::LKTracker::AddNext(const ImageGray& Img)
+    {
+        last = current;
+        current = new Pyramid();
+        current->Init(Img, 4, 2);
+    }
+
     void LKTracker::_ComputeDt(Point2D& U, Point2D& V, S32 L, S32 hw, S32* dt)
     {
         S32 y, x, g1, g2;
         for (y = -hw; y <= hw; ++y)
             for (x = -hw; x <= hw; ++x)
             {
-                g1 = Scale::Interpolation(pyramid1.img[L], U.Y + y, U.X + x);
-                g2 = Scale::Interpolation(pyramid2.img[L], V.Y + y, V.X + x);
+                g1 = Scale::Interpolation(last->img[L], U.Y + y, U.X + x);
+                g2 = Scale::Interpolation(current->img[L], V.Y + y, V.X + x);
                 *dt++ = g1 - g2;
             }
     }
@@ -79,11 +101,11 @@ namespace itr_vision
         for (y = -hw; y <= hw; ++y)
             for (x = -hw; x <= hw; ++x)
             {
-                g1 = Scale::Interpolation(pyramid1.gradx[L], U.Y + y, U.X + x);
-                g2 = Scale::Interpolation(pyramid2.gradx[L], V.Y + y, V.X + x);
+                g1 = Scale::Interpolation(last->gradx[L], U.Y + y, U.X + x);
+                g2 = Scale::Interpolation(current->gradx[L], V.Y + y, V.X + x);
                 *dx++ = g1 + g2;
-                g1 = Scale::Interpolation(pyramid1.grady[L], U.Y + y, U.X + x);
-                g2 = Scale::Interpolation(pyramid2.grady[L], V.Y + y, V.X + x);
+                g1 = Scale::Interpolation(last->grady[L], U.Y + y, U.X + x);
+                g2 = Scale::Interpolation(current->grady[L], V.Y + y, V.X + x);
                 *dy++ = g1 + g2;
             }
     }
@@ -93,13 +115,13 @@ namespace itr_vision
         for (y = -hw; y <= hw; ++y)
             for (x = -hw; x <= hw; ++x)
             {
-                *dx++ = Scale::Interpolation(pyramid1.gradx[L], U.Y + y, U.X + x);
-                *dy++ = Scale::Interpolation(pyramid1.grady[L], U.Y + y, U.X + x);
+                *dx++ = Scale::Interpolation(last->gradx[L], U.Y + y, U.X + x);
+                *dy++ = Scale::Interpolation(last->grady[L], U.Y + y, U.X + x);
             }
     }
     S32 LKTracker::_ComputeSum(S32* a, S32* b, S32* sum, S32 length)
     {
-        S32 result=0;
+        S32 result = 0;
         itr_math::CalculateObj->Multi(a, b, length, sum);
         itr_math::CalculateObj->AddSum(sum, length, result);
         return result;
@@ -111,7 +133,7 @@ namespace itr_vision
             ans += *a++;
         return ans;
     }
-    LKTracker::TrackResult LKTracker::Compute(Point2D& U, Point2D& V, int L, bool Forward)
+    LKTracker::TrackResult LKTracker::Compute(Point2D& U, Point2D& V, int L)
     {
         S32 hw = windowWidth >> 1;
         S32 length = windowWidth * windowWidth;
@@ -123,8 +145,8 @@ namespace itr_vision
         for (int i = 0; i < 10 && (fabs(speedx) > stopth || fabs(speedy) > stopth); ++i)
         {
             if (U.X - hw < 0 || U.Y - hw < 0 || V.X - hw < 0 || V.Y - hw < 0
-                    || U.X + hw >= pyramid1.width[L] || U.Y + hw >= pyramid1.height[L]
-                    || V.X + hw >= pyramid1.width[L] || V.Y + hw >= pyramid1.height[L])
+                    || U.X + hw >= last->width[L] || U.Y + hw >= last->height[L]
+                    || V.X + hw >= last->width[L] || V.Y + hw >= last->height[L])
             {
                 result = OOB;
                 break;
@@ -156,15 +178,28 @@ namespace itr_vision
         return result;
     }
 
-    void LKTracker::Compute(vector<FeaturePoint>& fl, bool Forward)
+    void LKTracker::Compute(const vector<FeaturePoint>& fl, vector<FeaturePoint>& flresult,
+            bool Forward)
     {
-        vector<FeaturePoint>::iterator feat = fl.begin();
+        vector<FeaturePoint>::const_iterator feat = fl.begin();
+        vector<FeaturePoint>::iterator featr = flresult.begin();
         Point2D U, V;
         S32 l, i;
         LKTracker::TrackResult result;
-        int subsampling = pyramid1.GetSubsampling();
+        int subsampling = last->GetSubsampling();
+        if (!Forward)
+        {
+            Pyramid* temp = last;
+            last = current;
+            current = temp;
+        }
         while (feat != fl.end())
         {
+            if (feat->value < 0)
+            {
+                ++feat;
+                continue;
+            }
             U.X = (feat->x);
             U.Y = (feat->y);
             for (i = 0; i < level; ++i)
@@ -180,20 +215,23 @@ namespace itr_vision
                 U.Y *= subsampling;
                 V.X *= subsampling;
                 V.Y *= subsampling;
-                result = Compute(U, V, l, Forward);
+                result = Compute(U, V, l);
                 if (result != Tracked)
                     break;
             }
 
-            if (result != Tracked)
-            {
-                feat->value = -1;
-            }
-            feat->x = V.X;
-            feat->y = V.Y;
+            featr->x = V.X;
+            featr->y = V.Y;
+            featr->value = -result;
+            ++featr;
             ++feat;
+        }
+        if (!Forward)
+        {
+            Pyramid* temp = last;
+            last = current;
+            current = temp;
         }
     }
 
 } // namespace itr_vision
-

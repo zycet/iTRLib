@@ -38,8 +38,10 @@ using namespace itr_vision;
 class IOHelper
 {
     public:
-        static void ReadFromFile(char* filename, ImageGray& img);
-        static void WriteToFile(char* filename, ImageGray& img);
+        static void ReadPPMFile(char* filename, ImageGray& img);
+        static void WritePPMFile(char* filename, ImageGray& img);
+        static void ReadPGMFile(char* filename, ImageGray& img);
+        static void WritePGMFile(char* filename, ImageGray& img);
 };
 
 #endif // IOHELPER_H_
