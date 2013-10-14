@@ -39,8 +39,8 @@ namespace itr_vision
 {
     LKTracker::LKTracker(const ImageGray& Img1, const ImageGray& Img2)
     {
-        windowWidth = 7;
-        minDet = 10;
+        windowWidth = 11;
+        minDet = 100;
         level = 2;
         stopth = 0.1f;
         max_residue = 10;
@@ -99,7 +99,7 @@ namespace itr_vision
     }
     S32 LKTracker::_ComputeSum(S32* a, S32* b, S32* sum, S32 length)
     {
-        S32 result;
+        S32 result=0;
         itr_math::CalculateObj->Multi(a, b, length, sum);
         itr_math::CalculateObj->AddSum(sum, length, result);
         return result;
@@ -119,7 +119,7 @@ namespace itr_vision
         F32 det, speedx = 1, speedy = 1;
         S32 gxx, gxy, gyy, ex, ey;
         LKTracker::TrackResult result = Tracked;
-//        _ComputeGrad2(U, L, hw, Dx, Dy);
+        _ComputeGrad2(U, L, hw, Dx, Dy);
         for (int i = 0; i < 10 && (fabs(speedx) > stopth || fabs(speedy) > stopth); ++i)
         {
             if (U.X - hw < 0 || U.Y - hw < 0 || V.X - hw < 0 || V.Y - hw < 0
@@ -130,7 +130,7 @@ namespace itr_vision
                 break;
             }
 
-            _ComputeGrad(U, V, L, hw, Dx, Dy);
+//            _ComputeGrad(U, V, L, hw, Dx, Dy);
             _ComputeDt(U, V, L, hw, Dt);
             gxx = _ComputeSum(Dx, Dx, Sum, length);
             gxy = _ComputeSum(Dx, Dy, Sum, length);
@@ -165,10 +165,12 @@ namespace itr_vision
         int subsampling = pyramid1.GetSubsampling();
         while (feat != fl.end())
         {
+            U.X = (feat->x);
+            U.Y = (feat->y);
             for (i = 0; i < level; ++i)
             {
-                U.X = (feat->x) / subsampling;
-                U.Y = (feat->y) / subsampling;
+                U.X = U.X / subsampling;
+                U.Y = U.Y / subsampling;
             }
             V.X = U.X;
             V.Y = U.Y;
@@ -182,6 +184,7 @@ namespace itr_vision
                 if (result != Tracked)
                     break;
             }
+
             if (result != Tracked)
             {
                 feat->value = -1;

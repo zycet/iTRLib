@@ -38,20 +38,20 @@
 namespace itr_vision
 {
 
-    SelectFeature::SelectFeature(const ImageGray& Img, int WindowWidth) :
-            img(Img)
+    SelectFeature::SelectFeature(const ImageGray& Img, int WindowWidth)
     {
         bw = WindowWidth >> 1;
-        mindist = 10;
+        mindist = 5;
         mineigen = 10;
-        width = img.GetWidth();
-        height = img.GetHeight();
-        dx.Allocate(img.GetWidth(), img.GetHeight());
-        dy.Allocate(img.GetWidth(), img.GetHeight());
+        width = Img.GetWidth();
+        height = Img.GetHeight();
+        img.Allocate(Img.GetWidth(), Img.GetHeight());
+        dx.Allocate(Img.GetWidth(), Img.GetHeight());
+        dy.Allocate(Img.GetWidth(), Img.GetHeight());
         ConvoluteSquare conv;
-        conv._KLTComputeSmoothedImage(Img, 0.7, img);
+        conv._KLTComputeSmoothedImage(Img, 0.1 * WindowWidth, img);
         // TODO 求微分
-        conv._KLTComputeGradients(img,1,dx,dy);
+        conv._KLTComputeGradients(img, 1, dx, dy);
     }
 
     void SelectFeature::fillMap(S32 x, S32 y, BOOL* featuremap)
@@ -77,15 +77,15 @@ namespace itr_vision
     void SelectFeature::SelectGoodFeature(const RectangleS& rect, vector<FeaturePoint>& fl)
     {
         vector<FeaturePoint> featurelist(rect.Width * rect.Height);
-
+        S32 bord = 24;
         S32 bordy = rect.Y + rect.Height;
         S32 bordx = rect.X + rect.Width;
-        S32 beginy = (rect.Y < bw) ? bw : rect.Y;
-        S32 beginx = (rect.X < bw) ? bw : rect.X;
-        if (bordy >= img.GetHeight() - bw)
-            bordy = img.GetHeight() - bw;
-        if (bordx >= img.GetWidth() - bw)
-            bordx = img.GetWidth() - bw;
+        S32 beginy = (rect.Y < bord) ? bord : rect.Y;
+        S32 beginx = (rect.X < bord) ? bord : rect.X;
+        if (bordy >= img.GetHeight() - bord)
+            bordy = img.GetHeight() - bord;
+        if (bordx >= img.GetWidth() - bord)
+            bordx = img.GetWidth() - bord;
         S32 x, y, xx, yy;
         S32 gxx, gxy, gyy, gx, gy;
         vector<FeaturePoint>::iterator featptr = featurelist.begin();

@@ -44,8 +44,8 @@ void lktest()
     IOHelper::ReadFromFile("Debug/img0.pgm", gray1);
     IOHelper::ReadFromFile("Debug/img1.pgm", gray2);
     SelectFeature select(gray1, 7);
-    vector<FeaturePoint> fl(50);
-    RectangleS rect(10, 10, gray1.GetWidth()-20, gray1.GetHeight()-20);
+    vector<FeaturePoint> fl(100);
+    RectangleS rect(0, 0, gray1.GetWidth(), gray1.GetHeight());
     select.SelectGoodFeature(rect, fl);
     LKTracker tracker(gray1, gray2);
     vector<FeaturePoint>::iterator feat = fl.begin();
