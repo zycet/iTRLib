@@ -60,6 +60,7 @@ namespace itr_vision
 
             static void LineOffset(ImageGray& Img,S32 x, S32 y, S32 offsetx ,S32 offsety,S16 color);
             static void Line(ImageGray& Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,S16 color);
+            static void Cross(ImageGray &bmp, S32 x, S32 y, S32 scale, S16 color);
             static void Rectangle(ImageGray& Img,RectangleS rect,S16 color);
 
     };
