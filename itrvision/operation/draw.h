@@ -34,27 +34,33 @@
 #ifndef DRAW_H_
 #define DRAW_H_
 #include "../image/image.h"
+#include "itrbase.h"
 #include "math.h"
+using itr_math::RectangleS;
 namespace itr_vision
 {
 
     class Draw
     {
         public:
-            static void Circle(ImageGray& bmp, int x, int y, int r, int color)
+            static void Circle(ImageGray& Img, S32 x, S32 y, S32 r, S16 color)
             {
                 int i, j;
-                int width = bmp.GetWidth();
-                int height = bmp.GetHeight();
+                int width = Img.GetWidth();
+                int height = Img.GetHeight();
                 for (i = -r; i < r; i++)
                 {
                     j = sqrt(r * r - i * i);
-                    bmp((j + y + height) % height, (i + x + width) % width) = color;
-                    bmp((-j + y + height) % height, (i + x + width) % width) = color;
-                    bmp((i + y + height) % height, (j + x + width) % width) = color;
-                    bmp((i + y + height) % height, (-j + x + width) % width) = color;
+                    Img((j + y + height) % height, (i + x + width) % width) = color;
+                    Img((-j + y + height) % height, (i + x + width) % width) = color;
+                    Img((i + y + height) % height, (j + x + width) % width) = color;
+                    Img((i + y + height) % height, (-j + x + width) % width) = color;
                 }
             }
+
+            static void LineOffset(ImageGray& Img,S32 x, S32 y, S32 offsetx ,S32 offsety,S16 color);
+            static void Line(ImageGray& Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,S16 color);
+            static void Rectangle(ImageGray& Img,RectangleS rect,S16 color);
 
     };
 

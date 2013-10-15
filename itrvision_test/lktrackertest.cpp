@@ -45,7 +45,7 @@ using std::cout;
 using std::vector;
 void lktest()
 {
-//    lktest2Img();
+    lktest2Img();
     lkseq();
 }
 void lkseq()
@@ -54,8 +54,8 @@ void lkseq()
     ImageGray gray;
     IOHelper::ReadPGMFile("Debug/car/00001.pgm", gray);
     SelectFeature select(gray, 7);
-    vector<FeaturePoint> flU(10), flV(10), flU2(10);
-    RectangleS rect(135, 100, 60, 20);
+    vector<FeaturePoint> flU(100), flV(100), flU2(100);
+    RectangleS rect(0, 0, gray.GetWidth(), gray.GetHeight());
     select.SelectGoodFeature(rect, flU);
     LKTracker tracker(gray);
 
@@ -100,6 +100,7 @@ void lkseq()
                 Draw::Circle(gray, flV[i].x, flV[i].y, 2, 255);
             }
         }
+        rect.X=rect.Y=0;
         Draw::Circle(gray, rect.X, rect.Y, 10, 255);
         IOHelper::WritePGMFile(file, gray);
 
@@ -109,8 +110,8 @@ void lkseq()
 void lktest2Img()
 {
     ImageGray gray1, gray2;
-    IOHelper::ReadPGMFile("Debug/car/00001.pgm", gray1);
-    IOHelper::ReadPGMFile("Debug/car/00002.pgm", gray2);
+    IOHelper::ReadPGMFile("Debug/img0.pgm", gray1);
+    IOHelper::ReadPGMFile("Debug/img1.pgm", gray2);
     SelectFeature select(gray1, 7);
     vector<FeaturePoint> flU(100), flV(100), flU2(100);
     RectangleS rect(0, 0, gray1.GetWidth(), gray1.GetHeight());
