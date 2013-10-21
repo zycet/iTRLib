@@ -368,3 +368,7 @@ void TestCalculateTest()
 //    itr_math::Calculate calcObj=CalculateTest();
 //    calcObj.Add(A,B,2,C);
 }
+void TestTransform()
+{
+
+}
