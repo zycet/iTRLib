@@ -198,6 +198,7 @@ namespace itr_vision
             if (feat->value < 0)
             {
                 ++feat;
+                ++featr;
                 continue;
             }
             U.X = (feat->x);

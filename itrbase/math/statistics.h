@@ -57,8 +57,8 @@ namespace itr_math
             virtual bool Median(F32* Source, S32 Length, F32& Result) const;
             virtual bool RMS(S32* Source, S32 Length, S32& Result) const;
             virtual bool RMS(F32* Source, S32 Length, F32& Result) const;
-            virtual bool STD(S32* Source, S32 Length, S32& Result) const;
-            virtual bool STD(F32* Source, S32 Length, F32& Result) const;
+            virtual bool Variance(S32* Source, S32 Length, S32& Result) const;
+            virtual bool Variance(F32* Source, S32 Length, F32& Result) const;
     };
 
 } // namespace itr_math

@@ -75,25 +75,25 @@ void lkseq()
 //        }
         F32 x = 0, y = 0;
         S32 count = 0;
-        for (int i = 0; i < flV.size(); ++i)
+        for (unsigned int i = 0; i < flV.size(); ++i)
         {
             if (flV[i].value >= 0)
             {
-                x += flV[i].x;// - flU[i].x;
-                y += flV[i].y;// - flU[i].y;
+                x += flV[i].x - flU[i].x;
+                y += flV[i].y - flU[i].y;
                 ++count;
             }
             flU[i].value = -1;
         }
         //cout<<count<<endl;
         cout << (clock() / 1000 - start) << endl;
-        rect.X = (x / count);
-        rect.Y = (y / count);
+        rect.X += (x / count);
+        rect.Y += (y / count);
         printf("%d,%d\n", rect.X, rect.Y);
         SelectFeature select(gray, 7);
         select.SelectGoodFeature(rect, flU);
         sprintf(file, "Debug/output/%05d.pgm", k);
-        for (int i = 0; i < flV.size(); ++i)
+        for (unsigned int i = 0; i < flV.size(); ++i)
         {
             if (flV[i].value >= 0)
             {

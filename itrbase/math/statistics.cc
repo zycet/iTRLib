@@ -159,7 +159,7 @@ namespace itr_math
         return true;
     }
 
-    bool Statistics::STD(S32* Source, S32 Length, S32& Result) const
+    bool Statistics::Variance(S32* Source, S32 Length, S32& Result) const
     {
         assert(Source!=NULL);
         assert(Length>0);
@@ -177,7 +177,7 @@ namespace itr_math
         return true;
     }
 
-    bool Statistics::STD(F32* Source, S32 Length, F32& Result) const
+    bool Statistics::Variance(F32* Source, S32 Length, F32& Result) const
     {
         assert(Source!=NULL);
         assert(Length>0);

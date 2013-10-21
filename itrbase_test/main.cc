@@ -51,7 +51,7 @@ int main()
     //Math
     TestMathInit();
     TestCalculate();
-    //TestNumerical();
+    TestNumerical();
     TestStatistics();
     TestVector();
     TestCalculateTest();

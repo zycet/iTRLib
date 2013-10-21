@@ -198,7 +198,7 @@ void TestStatistics()
     assert(ResultS32 == 24);
     itr_math::StatisticsObj->RMS(SourceS32, Length, ResultS32);
     assert(ResultS32 == 28);
-    itr_math::StatisticsObj->STD(SourceS32, Length, ResultS32);
+    itr_math::StatisticsObj->Variance(SourceS32, Length, ResultS32);
     assert(ResultS32 == 14);
 }
 
@@ -367,4 +367,8 @@ void TestCalculateTest()
 
 //    itr_math::Calculate calcObj=CalculateTest();
 //    calcObj.Add(A,B,2,C);
+}
+void TestTransform()
+{
+
 }

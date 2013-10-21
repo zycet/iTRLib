@@ -26,29 +26,22 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * draw.h
- *  Created on: 2013-10-9
+ * pick.cpp
+ *  Created on: 2013-10-21
  *      Author: ghdawn
  */
 
-#ifndef DRAW_H_
-#define DRAW_H_
-#include "../itrvision.h"
-#include "itrbase.h"
-using itr_math::RectangleS;
+#include "pick.h"
+
 namespace itr_vision
 {
 
-    class Draw
-    {
-        public:
-            static void Circle(ImageARGB& Img, S32 x, S32 y, S32 r, U32 color);
-            static void Circle(ImageGray& Img, S32 x, S32 y, S32 r, S16 color);
-            static void LineOffset(ImageGray& Img,S32 x, S32 y, S32 offsetx ,S32 offsety,S16 color);
-            static void Line(ImageGray& Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,S16 color);
-            static void Cross(ImageGray &bmp, S32 x, S32 y, S32 scale, S16 color);
-            static void Rectangle(ImageGray& Img,RectangleS rect,S16 color);
-    };
-
 } // namespace itr_vision
-#endif // DRAW_H_
+
+void itr_vision::Pick::Rectangle(const ImageARGB& ImgInput, RectangleS& rect, ImageARGB& ImgOutput)
+{
+}
+
+void itr_vision::Pick::Rectangle(const ImageGray& ImgInput, RectangleS& rect, ImageGray& ImgOutput)
+{
+}
