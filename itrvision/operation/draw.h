@@ -43,6 +43,7 @@ namespace itr_vision
     class Draw
     {
         public:
+            static void Circle(ImageARGB& Img, S32 x, S32 y, S32 r, U32 color);
             static void Circle(ImageGray& Img, S32 x, S32 y, S32 r, S16 color)
             {
                 int i, j;
