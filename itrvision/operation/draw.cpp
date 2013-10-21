@@ -132,11 +132,17 @@ namespace itr_vision
     }
     void Draw::Rectangle(ImageGray& Img,RectangleS rect,S16 color)
     {
-        LineOffset(Img, rect.X, rect.Y, rect.Width, rect.Height, color);
+        LineOffset(Img, rect.X, rect.Y, rect.Width, 0, color);
+        LineOffset(Img, rect.X, rect.Y, 0, rect.Height, color);
+        LineOffset(Img, rect.X + rect.Width, rect.Y, 0, rect.Height, color);
+        LineOffset(Img, rect.X, rect.Y + rect.Height, rect.Width, 0, color);
     }
     void Draw::Rectangle(ImageARGB& Img,RectangleS rect,U32 color)
     {
-        LineOffset(Img, rect.X, rect.Y, rect.Width, rect.Height, color);
+        LineOffset(Img, rect.X, rect.Y, rect.Width, 0, color);
+        LineOffset(Img, rect.X, rect.Y, 0, rect.Height, color);
+        LineOffset(Img, rect.X + rect.Width, rect.Y, 0, rect.Height, color);
+        LineOffset(Img, rect.X, rect.Y + rect.Height, rect.Width, 0, color);
     }
 
 } // namespace itr_vision
