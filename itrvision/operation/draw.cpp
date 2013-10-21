@@ -49,22 +49,94 @@ namespace itr_vision
             Img((i + y + height) % height, (-j + x + width) % width) = color;
         }
     }
-
-    void LineOffset(ImageGray& Img,S32 x, S32 y, S32 offsetx ,S32 offsety,S16 color)
+    void Draw::Circle(ImageARGB& Img, S32 x, S32 y, S32 r, U32 color)
     {
-
+        int i, j;
+        int width = Img.GetWidth();
+        int height = Img.GetHeight();
+        for (i = -r; i < r; i++)
+        {
+            j = sqrt(r * r - i * i);
+            Img((j + y + height) % height, (i + x + width) % width) = color;
+            Img((-j + y + height) % height, (i + x + width) % width) = color;
+            Img((i + y + height) % height, (j + x + width) % width) = color;
+            Img((i + y + height) % height, (-j + x + width) % width) = color;
+        }
     }
-    void Line(ImageGray& Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,S16 color)
-    {
 
+    void Draw::LineOffset(ImageGray& Img,S32 x, S32 y, S32 offsetx ,S32 offsety,S16 color)
+    {
+        int i, j;
+        j = offsety / offsetx;
+        if (offsetx == 0)
+        {
+            for(i = 0;i <= offsety; i++)
+            {
+                Img(y + i, x) = color;
+            }
+        }
+        else
+        {
+            for(i = 0; i <= offsetx; i++)
+            {
+                Img(y + i * j, x) = color;
+            }
+        }
     }
-    void Cross(ImageGray &bmp, S32 x, S32 y, S32 scale, S16 color)
+    void Draw::LineOffset(ImageARGB& Img,S32 x, S32 y, S32 offsetx ,S32 offsety,U32 color)
     {
-
+        int i, j;
+        j = offsety / offsetx;
+        if (offsetx == 0)
+        {
+            for(i = 0;i <= offsety; i++)
+            {
+                Img(y + i, x) = color;
+            }
+        }
+        else
+        {
+            for(i = 0; i <= offsetx; i++)
+            {
+                Img(y + i * j, x) = color;
+            }
+        }
     }
-    void Rectangle(ImageGray& Img,RectangleS rect,S16 color)
+    void Draw::Line(ImageGray& Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,S16 color)
     {
-
+        int i,j;
+        i = endx - beginx;
+        j = endy - beginy;
+        LineOffset(Img, beginx, beginy, i, j, color);
+    }
+    void Draw::Line(ImageARGB& Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,U32 color)
+   {
+       int i,j;
+       i = endx - beginx;
+       j = endy - beginy;
+       LineOffset(Img, beginx, beginy, i, j, color);
+   }
+    void Draw::Cross(ImageGray &bmp, S32 x, S32 y, S32 scale, S16 color)
+    {
+        LineOffset(bmp, x, y, 0, scale, color);
+        LineOffset(bmp, x, y - scale, 0, scale, color);
+        LineOffset(bmp, x - scale, y, scale, 0, color);
+        LineOffset(bmp, x, y, scale, 0, color);
+    }
+    void Draw::Cross(ImageARGB &bmp, S32 x, S32 y, S32 scale, U32 color)
+    {
+        LineOffset(bmp, x, y, 0, scale, color);
+        LineOffset(bmp, x, y - scale, 0, scale, color);
+        LineOffset(bmp, x - scale, y, scale, 0, color);
+        LineOffset(bmp, x, y, scale, 0, color);
+    }
+    void Draw::Rectangle(ImageGray& Img,RectangleS rect,S16 color)
+    {
+        LineOffset(Img, rect.X, rect.Y, rect.Width, rect.Height, color);
+    }
+    void Draw::Rectangle(ImageARGB& Img,RectangleS rect,U32 color)
+    {
+        LineOffset(Img, rect.X, rect.Y, rect.Width, rect.Height, color);
     }
 
 } // namespace itr_vision
