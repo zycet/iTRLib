@@ -37,6 +37,7 @@
 #include "math.h"
 #include "stdio.h"
 
+
 void TestMathInit()
 {
     itr_math::MathObjStandInit();
@@ -204,9 +205,39 @@ void TestStatistics()
 
 void TestVector()
 {
-//itr_math::Vector v(3);
-//F32 vector(2, 0x1111, 1);
-//CopyFrom
+    S32 i;
+    F32 *Data1,*Data2,ve1[3],ve2[3];
+    itr_math::Vector v(3);
+    itr_math::Vector v2(3);
+    for(i=0;i<3;i++)
+    {
+      ve1[i]= i*1.0;
+      ve2[i]= 5.0;
+    }
+    Data1 = ve1;
+    Data2 = ve2;
+    v.CopyFrom(Data1);
+    v.CopyTo(Data2);
+    //test CopyTo and CopyFrom
+    assert(*(Data2)==0);
+    assert(*(Data2+1)==1);
+    assert(*(Data2+2)==2);
+ //   F32 vector(2, 0x1111, 1);
+    //test CopyTo and CopyFrom with offset
+    v.CopyFrom(1,2,Data1);
+    v.CopyTo(1,2,Data2);
+    assert(*(Data2)==0);
+    assert(*(Data2+1)==1);
+    assert(*(Data2+2)==2);
+
+    //test clone method
+  /*  v2.Vector(& v);
+    v2.CopyTo(0,3,Data3);
+    assert(*(Data3)==0);
+    assert(*(Data3+1)==1);
+    assert(*(Data3+2)==2);*/
+    v.Product(const Vector& v1);
+
 }
 
 void TestMatrix()
