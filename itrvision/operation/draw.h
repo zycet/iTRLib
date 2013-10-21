@@ -33,9 +33,8 @@
 
 #ifndef DRAW_H_
 #define DRAW_H_
-#include "../image/image.h"
+#include "../itrvision.h"
 #include "itrbase.h"
-#include "math.h"
 using itr_math::RectangleS;
 namespace itr_vision
 {
@@ -43,97 +42,11 @@ namespace itr_vision
     class Draw
     {
         public:
-            static void Circle(ImageGray& Img, S32 x, S32 y, S32 r, S16 color)
-            {
-                int i, j;
-                int width = Img.GetWidth();
-                int height = Img.GetHeight();
-                for (i = -r; i < r; i++)
-                {
-                    j = sqrt(r * r - i * i);
-                    Img((j + y + height) % height, (i + x + width) % width) = color;
-                    Img((-j + y + height) % height, (i + x + width) % width) = color;
-                    Img((i + y + height) % height, (j + x + width) % width) = color;
-                    Img((i + y + height) % height, (-j + x + width) % width) = color;
-                }
-            }
-
+            static void Circle(ImageGray& Img, S32 x, S32 y, S32 r, S16 color);
             static void LineOffset(ImageGray& Img,S32 x, S32 y, S32 offsetx ,S32 offsety,S16 color);
-            {
-                int i,j,k;
-                if (offsetx == 0)
-                {
-                    for(i = 0; i <=y; i++)
-                    {
-                        Img(x, y + i) = color;
-                    }
-                }
-                else
-                {
-                    k = offsety / offsetx;
-                    for (j = 0; j <=offsetx; j++)
-                    {
-                        Img((x + j),(y + j * k)) = color;
-                    }
-                }
-            }
             static void Line(ImageGray& Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,S16 color);
-            {
-                int i,j;
-                if (beginx == endx)
-                {
-                    for(i = 0; i <=y; i++)
-                    {
-                        Img(x, y + i) = color;
-                    }
-                }
-                k = (endy - beginy) / (endx - beginx);
-                for (j = 0; j < (endx - beginx); j++)
-                {
-                    Img((x + j),(y + j * k)) = color;
-                }
-            }
             static void Cross(ImageGray &bmp, S32 x, S32 y, S32 scale, S16 color);
-            {
-                int i;
-                for (i = 0; i <= scale; i++)
-                {
-                    Img(x, y + i) = color;
-                }
-                for (i = 0; i >= -scale; i--)
-                {
-                    Img(x, y + i) = color;
-                }
-                for (i = 0; i >= scale; i++)
-                {
-                    Img(x + i; y) = color;
-                }
-                for (i = 0; i >= -scale; i--)
-                {
-                    Img(x + i, y) = color;
-                }
-            }
             static void Rectangle(ImageGray& Img,RectangleS rect,S16 color);
-            {
-                int i;
-                for (i = 0; i <= Width; i++)
-                {
-                   Img(x + i, y) = color;
-                }
-                for (i = 0; i <= Width; i++)
-                {
-                   Img(x + i, y + Height) = color;
-                }
-                for (i = 0; i <= Width; i++)
-                {
-                    Img(x, y + i) = color;
-                }
-                for (i = 0; i <= Height; i++)
-                {
-                    Img(x + Width; y + i) = color;
-                }
-            }
-
     };
 
 } // namespace itr_vision
