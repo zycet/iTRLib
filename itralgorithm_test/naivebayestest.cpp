@@ -26,23 +26,25 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * naivebayes.h
- *  Created on: 2013-10-18
+ * naivebayestest.cpp
+ *  Created on: 2013-10-22
  *      Author: ghdawn
  */
 
-#ifndef NAIVEBAYES_H_
-#define NAIVEBAYES_H_
-
-namespace itr_vision
+#include "naivebayestest.h"
+#include <stdio.h>
+#include "itralgorithm.h"
+#include <vector>
+using std::vector;
+using itr_algorithm;
+void NGCtest()
 {
+    FILE* fin=fopen("data","r");
+    int n,m,i,j;
+    int a,b,c;
+    fscanf(fin,"%d %d",&n,&m);
+    vector<TrainingData> data(20,TrainingData(2));
+    for(i=0;i<n+m;++i)
+        {fscanf(fin,"%d %d %d",&a,&b,&c);
 
-    class NaiveBayes
-    {
-        public:
-            NaiveBayes();
-            virtual ~NaiveBayes();
-    };
-
-} // namespace itr_vision
-#endif // NAIVEBAYES_H_
+}

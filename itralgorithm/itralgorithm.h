@@ -26,25 +26,14 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * naivebayes.cpp
- *  Created on: 2013-10-18
+ * itralgorithm.h
+ *  Created on: 2013-10-22
  *      Author: ghdawn
  */
 
-#include "naivebayes.h"
+#ifndef ITRALGORITHM_H_
+#define ITRALGORITHM_H_
 
-namespace itr_vision
-{
+#include "classifier/classifier.h"
 
-    NaiveBayes::NaiveBayes()
-    {
-        // TODO Auto-generated constructor stub
-
-    }
-
-    NaiveBayes::~NaiveBayes()
-    {
-        // TODO Auto-generated destructor stub
-    }
-
-} // namespace itr_vision
+#endif // ITRALGORITHM_H_

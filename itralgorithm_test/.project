@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>itraltorithm</name>
+	<name>itralgorithm_test</name>
 	<comment></comment>
 	<projects>
+		<project>itralgorithm</project>
 		<project>itrbase</project>
 	</projects>
 	<buildSpec>
