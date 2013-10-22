@@ -33,14 +33,17 @@
 
 #include "domain.h"
 
-namespace itr_vision
+namespace itr_algorithm
 {
-    Domain::Domain(S32 Min, S32 Max, S32 Count)
+    Domain::Domain()
     {
-        min=Min;
-        max=Max;
-        count=Count;
-        factor=1.0f/(max-min);
+    }
+    void Domain::Init(S32 Min, S32 Max, S32 Count)
+    {
+        min = Min;
+        max = Max;
+        count = Count;
+        factor = 1.0f / (max - min);
     }
 
     Domain::~Domain()
@@ -48,9 +51,17 @@ namespace itr_vision
         // TODO Auto-generated destructor stub
     }
 
-    S32 Domain::Calc(float number)
+    Domain::Domain(const Domain& domain)
     {
-        return (number-min)*count*factor;
+        min = domain.min;
+        max = domain.max;
+        count = domain.count;
+        factor=domain.factor;
     }
 
-} // namespace itr_vision
+    S32 Domain::Calc(float number) const
+    {
+        return (number - min) * count * factor - min;
+    }
+
+} // namespace itr_algorithm

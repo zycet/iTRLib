@@ -31,6 +31,7 @@
  *      Author: ghdawn
  */
 
+#include "itrbase.h"
 #include "trainingdata.h"
 
 namespace itr_algorithm
@@ -49,7 +50,9 @@ namespace itr_algorithm
 
     void TrainingData::SetData(F32* X, S32 Label)
     {
-        MemoryCopy(this->x,X,dim);
+        //MemoryCopy(this->x,X,dim);
+        for(int i=0;i<dim;++i)
+            x[i]=X[i];
         this->label=label;
     }
 

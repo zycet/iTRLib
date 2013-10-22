@@ -32,12 +32,39 @@
  */
 
 #include "bayestest.h"
+#include "itrbase.h"
 #include "itralgorithm.h"
+#include <stdio.h>
+#include <fstream>
 #include <vector>
 using std::vector;
+using std::ofstream;
+using namespace itr_math;
+using namespace itr_algorithm;
 void NBCtest()
 {
-
+    FILE* fin = fopen("Debug/data", "r");
+    int n, m;
+    fscanf(fin, "%d %d", &m, &n);
+    vector<TrainingData> data(m, 2);
+    float temp[3];
+    for (int i = 0; i < m; ++i)
+    {
+        fscanf(fin, "%f %f %f", temp, temp + 1, temp + 2);
+        data[i].SetData(temp, 1);
+    }
+    vector<Domain> domain(2);
+    domain[0].Init(1, 2, 2);
+    domain[1].Init(-3, 3, 7);
+    NaiveBayes nb(domain);
+    nb.Train(data, true);
+    for (int i = 0; i < m; ++i)
+    {
+        fscanf(fin, "%f %f %f", temp, temp + 1, temp + 2);
+        data[i].SetData(temp, 1);
+    }
+    nb.Train(data,false);
+    int test[3]={1,-1,1};
+    printf("%d\n",nb.Classify(test,2));
 }
-
 

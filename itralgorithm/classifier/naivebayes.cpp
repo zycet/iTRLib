@@ -32,27 +32,74 @@
  */
 
 #include "naivebayes.h"
-
+#include <iostream>
+#include <stdio.h>
+using std::cout;
+using std::endl;
 namespace itr_algorithm
 {
-    NaiveBayes::NaiveBayes(const vector<Domain>& domain)
+    NaiveBayes::NaiveBayes(vector<Domain>& domain)
+    {
+        this->domain=domain;
+        cout<<domain.size()<<endl;
+        pTrue=new int*[domain.size()];
+        pFalse=new int*[domain.size()];
+        for (int i = 0; i < domain.size(); ++i)
         {
+            vector<int> a(domain[i].count);
+            pTrue[i]=new int[domain[i].count];
+            pFalse[i]=new int[domain[i].count];
         }
+    }
 
     NaiveBayes::~NaiveBayes()
     {
         // TODO Auto-generated destructor stub
     }
-    void itr_algorithm::NaiveBayes::Train(const vector<TrainingData>& Data)
+    void itr_algorithm::NaiveBayes::Train(vector<TrainingData>& Data, bool Flag)
     {
-
+        if (Flag)
+        {
+            for (int i = 0; i < Data.size(); ++i)
+            {
+                F32 *p = (Data[i]).GetData();
+                S32 dim = Data[i].GetDim();
+                for (int j = 0; j < dim; ++j)
+                {
+                    pTrue[j][(domain[j].Calc(*p))]++;
+                    ++p;
+                }
+            }
+            m=Data.size();
+        }
+        else
+        {
+            for (int i = 0; i < Data.size(); ++i)
+            {
+                F32 *p = (Data[i]).GetData();
+                S32 dim = Data[i].GetDim();
+                for (int j = 0; j < dim; ++j)
+                {
+                    pFalse[j][(domain[j].Calc(*p))]++;
+                    ++p;
+                }
+            }
+            n=Data.size();
+        }
     }
 
     S32 NaiveBayes::Classify(S32* Data, S32 length)
     {
+        float rTrue=1,rFalse=1;
+        for(int i=0;i<length;++i)
+        {
+            rTrue*=(pTrue[i][(domain[i].Calc(Data[i]))]+1)/(float)(m+domain[i].count);
+            rFalse*=(pFalse[i][(domain[i].Calc(Data[i]))]+1)/(float)(m+domain[i].count);
+        }
+        if(rTrue>rFalse)
+            return 1;
+        else return 0;
     }
 
-
-
-} // namespace itr_vision
+} // namespace itr_algorithm
 

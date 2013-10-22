@@ -35,20 +35,22 @@
 #define DOMAIN_H_
 #include "itrbase.h"
 
-namespace itr_vision
+namespace itr_algorithm
 {
 
     class Domain
     {
         public:
-            Domain(S32 Min,S32 Max,S32 Count);
+            Domain();
+            Domain(const Domain& domain);
+            void Init(S32 Min,S32 Max,S32 Count);
             virtual ~Domain();
-            S32 Calc(float number);
-        private:
+            S32 Calc(float number) const;
+
             S32 min,max;
             S32 count;
             F32 factor;
     };
 
-} // namespace itr_vision
+} // namespace itr_algorithm
 #endif // DOMAIN_H_

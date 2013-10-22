@@ -34,7 +34,8 @@
 #ifndef CLASSIFIER_H_
 #define CLASSIFIER_H_
 
-#include "naivebayes.h"
-#include "trainingdata.h"
 #include "domain.h"
+#include "trainingdata.h"
+#include "naivebayes.h"
+
 #endif // CLASSIFIER_H_

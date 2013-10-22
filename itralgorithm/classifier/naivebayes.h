@@ -35,21 +35,26 @@
 #define NAIVEBAYES_H_
 
 #include "itrbase.h"
-#include "../itralgorithm.h"
+#include "./classifier.h"
 
 #include <vector>
 using std::vector;
+
 namespace itr_algorithm
 {
-
     class NaiveBayes
     {
         public:
-            NaiveBayes(const vector<Domain> &domain);
-            void Train(const vector<TrainingData>& Data);
+            NaiveBayes(vector<Domain> &Domain);
+            void Train(vector<TrainingData>& Data,bool Flag);
             S32 Classify(S32* Data,S32 length);
             virtual ~NaiveBayes();
+        private:
+            int **pTrue;
+            int **pFalse;
+            vector<Domain> domain;
+            S32 m,n;
     };
 
-} // namespace itr_vision
+} // namespace itr_algorithm
 #endif // NAIVEBAYES_H_
