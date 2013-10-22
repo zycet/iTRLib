@@ -26,30 +26,31 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * naivebayes.h
- *  Created on: 2013-10-18
+ * domain.cpp
+ *  Created on: 2013-10-22
  *      Author: ghdawn
  */
 
-#ifndef NAIVEBAYES_H_
-#define NAIVEBAYES_H_
+#include "domain.h"
 
-#include "itrbase.h"
-#include "../itralgorithm.h"
-
-#include <vector>
-using std::vector;
-namespace itr_algorithm
+namespace itr_vision
 {
-
-    class NaiveBayes
+    Domain::Domain(S32 Min, S32 Max, S32 Count)
     {
-        public:
-            NaiveBayes(const vector<Domain> &domain);
-            void Train(const vector<TrainingData>& Data);
-            S32 Classify(S32* Data,S32 length);
-            virtual ~NaiveBayes();
-    };
+        min=Min;
+        max=Max;
+        count=Count;
+        factor=1.0f/(max-min);
+    }
+
+    Domain::~Domain()
+    {
+        // TODO Auto-generated destructor stub
+    }
+
+    S32 Domain::Calc(float number)
+    {
+        return (number-min)*count*factor;
+    }
 
 } // namespace itr_vision
-#endif // NAIVEBAYES_H_

@@ -32,9 +32,10 @@
  */
 #include "itrbase.h"
 #include "itralgorithm.h"
-
+#include "bayestest.h"
 int main()
 {
+    NBCtest();
     return 0;
 }
 

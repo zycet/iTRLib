@@ -26,30 +26,18 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * naivebayes.h
- *  Created on: 2013-10-18
+ * bayestest.cpp
+ *  Created on: 2013-10-22
  *      Author: ghdawn
  */
 
-#ifndef NAIVEBAYES_H_
-#define NAIVEBAYES_H_
-
-#include "itrbase.h"
-#include "../itralgorithm.h"
-
+#include "bayestest.h"
+#include "itralgorithm.h"
 #include <vector>
 using std::vector;
-namespace itr_algorithm
+void NBCtest()
 {
 
-    class NaiveBayes
-    {
-        public:
-            NaiveBayes(const vector<Domain> &domain);
-            void Train(const vector<TrainingData>& Data);
-            S32 Classify(S32* Data,S32 length);
-            virtual ~NaiveBayes();
-    };
+}
 
-} // namespace itr_vision
-#endif // NAIVEBAYES_H_
+

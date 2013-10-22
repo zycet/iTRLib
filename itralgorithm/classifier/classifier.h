@@ -36,5 +36,5 @@
 
 #include "naivebayes.h"
 #include "trainingdata.h"
-
+#include "domain.h"
 #endif // CLASSIFIER_H_

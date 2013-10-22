@@ -35,16 +35,24 @@
 
 namespace itr_algorithm
 {
-
-    NaiveBayes::NaiveBayes()
-    {
-        // TODO Auto-generated constructor stub
-
-    }
+    NaiveBayes::NaiveBayes(const vector<Domain>& domain)
+        {
+        }
 
     NaiveBayes::~NaiveBayes()
     {
         // TODO Auto-generated destructor stub
     }
+    void itr_algorithm::NaiveBayes::Train(const vector<TrainingData>& Data)
+    {
+
+    }
+
+    S32 NaiveBayes::Classify(S32* Data, S32 length)
+    {
+    }
+
+
 
 } // namespace itr_vision
+
