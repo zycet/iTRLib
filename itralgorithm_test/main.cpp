@@ -30,12 +30,12 @@
  *  Created on: 2013-10-22
  *      Author: ghdawn
  */
-#include <stdio.h>
-#include "naivebayestest.h"
+#include "itrbase.h"
+#include "itralgorithm.h"
+
 int main()
 {
-    // Naive Bayes Classifier
-    NGCtest();
+    return 0;
 }
 
 
