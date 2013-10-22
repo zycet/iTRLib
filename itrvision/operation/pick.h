@@ -36,6 +36,8 @@
 
 #include "itrbase.h"
 #include "../itrvision.h"
+using itr_math::RectangleS;
+
 namespace itr_vision
 {
 
