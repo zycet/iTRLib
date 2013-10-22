@@ -36,12 +36,29 @@
 namespace itr_vision
 {
 
-} // namespace itr_vision
+ // namespace itr_vision
 
-void itr_vision::Pick::Rectangle(const ImageARGB& ImgInput, RectangleS& rect, ImageARGB& ImgOutput)
-{
-}
+    void itr_vision::Pick::Rectangle(const ImageARGB& ImgInput,RectangleS& rect,ImageARGB& ImgOutput)
+    {
+        int i ,j;
+        for(i = 0; i <= rect.Height; i ++)
+        {
+            for(j = 0; i <= rect.Width; j ++)
+            {
+                ImgOutput(i,j) = ImgInput(rect.Y, rect.X);
+            }
+        }
+    }
 
-void itr_vision::Pick::Rectangle(const ImageGray& ImgInput, RectangleS& rect, ImageGray& ImgOutput)
-{
+    void itr_vision::Pick::Rectangle(const ImageGray& ImgInput, RectangleS& rect, ImageGray& ImgOutput)
+    {
+        int i ,j;
+        for(i = 0; i <= rect.Height; i ++)
+        {
+            for(j = 0; i <= rect.Width; j ++)
+            {
+                ImgOutput(i,j) = ImgInput(rect.Y, rect.X);
+            }
+        }
+    }
 }
