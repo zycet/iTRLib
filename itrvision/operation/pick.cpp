@@ -45,7 +45,7 @@ namespace itr_vision
         {
             for(j = 0; i <= rect.Width; j ++)
             {
-                ImgOutput(i,j) = ImgInput(rect.Y, rect.X);
+                ImgOutput(i,j) = ImgInput(rect.Y + i, rect.X + j);
             }
         }
     }
@@ -57,7 +57,7 @@ namespace itr_vision
         {
             for(j = 0; i <= rect.Width; j ++)
             {
-                ImgOutput(i,j) = ImgInput(rect.Y, rect.X);
+                ImgOutput(i,j) = ImgInput(rect.Y + i, rect.X + j);
             }
         }
     }
