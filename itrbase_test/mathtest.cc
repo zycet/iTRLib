@@ -206,13 +206,13 @@ void TestStatistics()
 void TestVector()
 {
     S32 i;
-    F32 *Data1,*Data2,ve1[3],ve2[3];
+    F32 *Data1,*Data2,ve1[3],ve2[3],resultF32;
     itr_math::Vector v(3);
-    itr_math::Vector v2(3);
+    itr_math::Vector v2(3,ve2);
     for(i=0;i<3;i++)
     {
       ve1[i]= i*1.0;
-      ve2[i]= 5.0;
+      ve2[i]= 5.0+i;
     }
     Data1 = ve1;
     Data2 = ve2;
@@ -224,19 +224,35 @@ void TestVector()
     assert(*(Data2+2)==2);
  //   F32 vector(2, 0x1111, 1);
     //test CopyTo and CopyFrom with offset
-    v.CopyFrom(1,2,Data1);
-    v.CopyTo(1,2,Data2);
+    ve2[0]=5,ve2[1]=6,ve2[2]=7;
+    v.CopyFrom(1,2,ve2);
+    v.CopyTo(1,2,ve2);
+    v.CopyTo(Data2);
     assert(*(Data2)==0);
-    assert(*(Data2+1)==1);
-    assert(*(Data2+2)==2);
+    assert(*(Data2+1)==5);
+    assert(*(Data2+2)==6);
 
-    //test clone method
-  /*  v2.Vector(& v);
-    v2.CopyTo(0,3,Data3);
-    assert(*(Data3)==0);
-    assert(*(Data3+1)==1);
-    assert(*(Data3+2)==2);*/
-    v.Product(const Vector& v1);
+    v.Product(v);                   //test product;
+    v.CopyTo(Data2);
+    assert(*(Data2)==0);
+    assert(*(Data2+1) ==25 );
+    assert(*(Data2+2)==36);
+
+    resultF32=v.ProductInner(v2);
+    assert(1921==resultF32);
+
+    ve2[0]=5,ve2[1]=6,ve2[2]=7;
+    ve1[0]=1,ve2[1]=2,ve2[2]=3;
+    v.CopyFrom(ve1);
+    v2.CopyFrom(ve2);
+    F32 ve3[3];
+    Data2=ve3;
+    itr_math::Vector v3(3);
+    v.ProductOuter(v2,v3);          //function "ProductOuter" err:unsigned type conflicted
+    v3.CopyTo(Data2);
+    assert(*(Data2)==(-4));             //
+    assert(*(Data2+1) == 8 );
+    assert(*(Data2+2)==4);
 
 }
 
