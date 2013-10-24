@@ -248,11 +248,11 @@ void TestVector()
     F32 ve3[3];
     Data2=ve3;
     itr_math::Vector v3(3);
-    v.ProductOuter(v2,v3);          //function "ProductOuter" err:unsigned type conflicted
+    v.ProductOuter(v2,v3);          //function "ProductOuter" err
     v3.CopyTo(Data2);
-    assert(*(Data2)==(-4));             //
+    assert(*(Data2)==(-4));             //计算结果出错，找不到问题所在
     assert(*(Data2+1) == 8 );
-    assert(*(Data2+2)==4);
+    assert(*(Data2+2)==-4);
 
 }
 
