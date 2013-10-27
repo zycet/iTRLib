@@ -1,11 +1,13 @@
-#include "lktrackertest.h"
+#include "drawtest.h"
 #include "iohelper.h"
 #include "itrvision.h"
 #include "itrbase.h"
 #include <math.h>
+
+
 void drawtest()
 {
-    void drawImgGraytestCircle();
+    drawImgGraytestCircle();
     void drawImgARGBtestCircle();
     void drawImgGraytestLineOffset();
     void drawImgARGBtestLineOffset();
@@ -21,7 +23,7 @@ void drawImgGraytestCircle()
     ImageGray gray;
     IOHelper::ReadPGMFile("Debug/img0.pgm", gray);
     Draw::Circle(gray, 100, 80, 10, 255);
-    IOHelper::WritePGMFile("Debug/gray1.ppm", gray);
+    IOHelper::WritePGMFile("Debug/gray1.pgm", gray);
 }
 /*
 void drawImgARGBtestCircle()

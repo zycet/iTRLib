@@ -45,14 +45,14 @@ namespace itr_algorithm
     class NaiveBayes
     {
         public:
-            NaiveBayes(vector<Domain> &Domain);
+            NaiveBayes(const vector<Domain> &Domain);
             void Train(vector<TrainingData>& Data,bool Flag);
             S32 Classify(S32* Data,S32 length);
             virtual ~NaiveBayes();
         private:
             int **pTrue;
             int **pFalse;
-            vector<Domain> domain;
+            const vector<Domain>& _domain;
             S32 m,n;
     };
 

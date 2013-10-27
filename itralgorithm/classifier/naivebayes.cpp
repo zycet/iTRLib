@@ -38,17 +38,20 @@ using std::cout;
 using std::endl;
 namespace itr_algorithm
 {
-    NaiveBayes::NaiveBayes(vector<Domain>& domain)
+    NaiveBayes::NaiveBayes(const vector<Domain>& domain):_domain(domain)
     {
-        this->domain=domain;
-        cout<<domain.size()<<endl;
-        pTrue=new int*[domain.size()];
-        pFalse=new int*[domain.size()];
+//        this->_domain = domain;
+        m = n = 0;
+        pTrue = new int*[domain.size()];
+
         for (int i = 0; i < domain.size(); ++i)
         {
-            vector<int> a(domain[i].count);
-            pTrue[i]=new int[domain[i].count];
-            pFalse[i]=new int[domain[i].count];
+            pTrue[i] = new int[domain[i].count];
+        }
+        pFalse = new int*[domain.size()];
+        for (int i = 0; i < domain.size(); ++i)
+        {
+            pFalse[i] = new int[domain[i].count];
         }
     }
 
@@ -66,11 +69,11 @@ namespace itr_algorithm
                 S32 dim = Data[i].GetDim();
                 for (int j = 0; j < dim; ++j)
                 {
-                    pTrue[j][(domain[j].Calc(*p))]++;
+                    pTrue[j][(_domain[j].Calc(*p))]++;
                     ++p;
                 }
             }
-            m=Data.size();
+            m = Data.size();
         }
         else
         {
@@ -80,25 +83,26 @@ namespace itr_algorithm
                 S32 dim = Data[i].GetDim();
                 for (int j = 0; j < dim; ++j)
                 {
-                    pFalse[j][(domain[j].Calc(*p))]++;
+                    pFalse[j][(_domain[j].Calc(*p))]++;
                     ++p;
                 }
             }
-            n=Data.size();
+            n = Data.size();
         }
     }
 
     S32 NaiveBayes::Classify(S32* Data, S32 length)
     {
-        float rTrue=1,rFalse=1;
-        for(int i=0;i<length;++i)
+        float rTrue = 1, rFalse = 1;
+        for (int i = 0; i < length; ++i)
         {
-            rTrue*=(pTrue[i][(domain[i].Calc(Data[i]))]+1)/(float)(m+domain[i].count);
-            rFalse*=(pFalse[i][(domain[i].Calc(Data[i]))]+1)/(float)(m+domain[i].count);
+            rTrue *= (pTrue[i][(_domain[i].Calc(Data[i]))] + 1) / (float) (m + _domain[i].count);
+            rFalse *= (pFalse[i][(_domain[i].Calc(Data[i]))] + 1) / (float) (m + _domain[i].count);
         }
-        if(rTrue>rFalse)
+        if (rTrue > rFalse)
             return 1;
-        else return 0;
+        else
+            return 0;
     }
 
 } // namespace itr_algorithm
