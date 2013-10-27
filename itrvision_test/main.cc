@@ -39,6 +39,7 @@
 #include "helpertest.h"
 #include "processtest.h"
 #include "lktrackertest.h"
+#include "drawtest.h"
 int main()
 {
     //Init Math
@@ -51,6 +52,8 @@ int main()
     //ConvoluteSquareTest();
     ConvoluteSquareTest4Pro();
     //FormatPPMTestPGMTest3();
+    drawtest();
+    //Test Draw
     //Finish
     itr_math::MathObjStandDeinit();
     //Deint Math

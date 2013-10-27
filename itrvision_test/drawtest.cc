@@ -1,12 +1,8 @@
-#include "helpertest.h"
-#include "itrvision.h"
+#include "lktrackertest.h"
 #include "iohelper.h"
 #include "itrvision.h"
 #include "itrbase.h"
 #include <math.h>
-using std::endl;
-using std::cout;
-using std::vector;
 void drawtest()
 {
     void drawImgGraytestCircle();
@@ -23,14 +19,15 @@ void drawtest()
 void drawImgGraytestCircle()
 {
     ImageGray gray;
-    IOHelper::ReadPGMFile("Debug/green/cap000.pgm", gray);
+    IOHelper::ReadPGMFile("Debug/img0.pgm", gray);
     Draw::Circle(gray, 100, 80, 10, 255);
-    IOHelper::WritePGMFile(file, gray);
+    IOHelper::WritePGMFile("Debug/gray1.ppm", gray);
 }
+/*
 void drawImgARGBtestCircle()
 {
     ImageGray ARGB;
-    IOHelper::ReadPGMFile("Debug/green/cap000.pgm", gray);
+    IOHelper::ReadPGMFile("Debug/draw/cap000.pgm", ARGB);
     Draw::Circle(ARGB, 100, 80, 10, 255);
     IOHelper::WritePGMFile(file, ARGB);
 }
@@ -77,4 +74,4 @@ void drawImgARGBtestRectangle()
     IOHelper::ReadPGMFile("Debug/green/cap000.pgm", gray);
     Draw::Rectangle(ARGB, rect, 255);
     IOHelper::WritePGMFile(file, ARGB);
-}
+}*/
