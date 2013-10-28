@@ -33,7 +33,6 @@
 
 #ifndef PICK_H_
 #define PICK_H_
-
 #include "itrbase.h"
 #include "../itrvision.h"
 using itr_math::RectangleS;

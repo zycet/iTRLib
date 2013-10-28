@@ -47,7 +47,8 @@ int main()
 
     //Test Draw
     drawtest();
-
+    //Test Draw
+    picktest();
     //Test LKTracker
     lktest();
     //Test Helper
@@ -56,7 +57,6 @@ int main()
     //ConvoluteSquareTest();
     ConvoluteSquareTest4Pro();
     //FormatPPMTestPGMTest3();
-
     //Finish
     itr_math::MathObjStandDeinit();
     //Deint Math
