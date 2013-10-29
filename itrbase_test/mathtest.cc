@@ -549,3 +549,8 @@ void TestTransform()
     assert(outy==1);
 
 }
+
+void TestGeometry()
+{
+    /**/
+}
