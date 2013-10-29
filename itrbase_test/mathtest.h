@@ -43,4 +43,5 @@ void TestVector();
 void TestCalculateTest();
 void TestMatrix();
 void TestTransform();
+void TestGeometry();
 #endif // MATH_TEST_H_

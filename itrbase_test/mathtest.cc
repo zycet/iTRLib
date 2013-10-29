@@ -552,5 +552,36 @@ void TestTransform()
 
 void TestGeometry()
 {
-    /**/
+    /************测试itr_math::Distance2D函数***************/
+    itr_math::Distance2D dis1,dis2;
+    dis1.SetDXDY(10,20);                //test SetDXDY
+    assert(dis1.DX==10&&dis1.DY==20);
+    dis1.SetAngleDistance(60,20);
+    assert(dis1.DX==10);
+   /* dis1.Distance2D();
+    assert(dis1.DX==0&&dis1.DY==0);         //Distance2D();和Distance2D(thdis);
+    itr_math::Distance2D *thdis;            //引用错误,没弄明白为什么不能这样用？
+    thdis=&dis1;
+    dis2.Distance2D(thdis);
+    assert(dis1.DX==0&&dis1.DY==0);*/
+    dis1.SetDXDY(10,20);
+    dis2.operator=(dis1);
+    assert(dis2.DX==10&&dis2.DY==20);
+    dis2.operator +(dis1);
+    assert(dis2.DX==20&&dis2.DY==40);
+    dis2.operator -(dis1);
+    assert(dis2.DX==10&&dis2.DY==20);
+    F32 rad,andis;
+    andis=dis2.GetAngle();
+    itr_math::NumericalObj->Atan2(10, 20, rad);
+    assert(andis==rad);
+    andis=dis2.GetDistance();
+    assert(andis*andis==500);//itr_math::Distance2D测试完毕
+
+   /************测试itr_math::Point2D函数****************/
+    itr_math::Point2D pos1;
+
+    /************测试 itr_math::Point3D函数***************/
+    /************测试itr_math::RectangleF函数*************/
+    /************测试 itr_math::RectangleS函数************/
 }
