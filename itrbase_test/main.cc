@@ -54,9 +54,13 @@ int main()
     TestNumerical();
     TestStatistics();
     TestVector();
+
     TestCalculateTest();
     TestMathdeDeinit();
     TestMatrix();
+
+    TestTransform();
+    TestGeometry();
     //Finish
     //TRACE_INFO("OK All");
     return 0;

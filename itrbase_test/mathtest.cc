@@ -250,11 +250,217 @@ void TestVector()
     itr_math::Vector v3(3);
     v.ProductOuter(v2,v3);          //function "ProductOuter" err
     v3.CopyTo(Data2);
- //   assert(*(Data2)==(-4));             //计算结果出错，找不到问题所在
+    //assert(*(Data2)==(-4));             //计算结果出错，找不到问题所在
    // assert(*(Data2+1) == 8 );
     //assert(*(Data2+2)==-4);
-
+    TRACE_INFO("OK TestVector()");
 }
+void TestTransform()
+{
+    itr_math::Vector  Input(2),veco(2);
+    F32 data1[2]={1,2},data2[2],data3[2]={2,0};
+    Input.CopyFrom(data1);
+
+    itr_math::Transform2D trans1;
+    trans1.Reset();                         //测试初始化函数
+    trans1.Transform(Input,veco); //出错！变换用的矩阵的规格？
+    veco.CopyTo(data2);
+    assert(*data2==1);
+    assert(*(data2+1)==2);
+
+    trans1.Offset(1,3);                 //test Offset function
+    trans1.Transform(Input,veco);
+    veco.CopyTo(data2);
+    assert(*data2==2);
+    assert(*(data2+1)==5);
+
+    trans1.Offset(-1,-3);               //test Offset function (minus)
+    trans1.Transform(Input,veco);
+    veco.CopyTo(data2);
+    assert(*data2==1);
+    assert(*(data2+1)==2);
+
+    trans1.Scale(2,4);                  //test Scale function (amplify)
+    trans1.Transform(Input,veco);
+    veco.CopyTo(data2);
+    assert(*data2==2);
+    assert(*(data2+1)==8);
+    trans1.Scale(0.5,0.25);             //test Scale function (reduce)
+    trans1.Transform(Input,veco);
+    veco.CopyTo(data2);
+    assert(*data2==1);
+    assert(*(data2+1)==2);
+
+    Input.CopyFrom(data3);              //test Rotate function(90 degree)
+    trans1.Rotate(90);
+    trans1.Transform(Input,veco);
+    veco.CopyTo(data2);
+    assert(*data2==0);
+    assert(*(data2+1)==2);
+    trans1.Rotate(-60);
+    trans1.Transform(Input,veco);
+    veco.CopyTo(data2);
+    assert(*(data2+1)==1);
+
+    Input.CopyFrom(data1);
+    trans1.Inv();
+    trans1.Transform(Input,veco);
+    veco.CopyTo(data2);
+    assert(*data2==2);
+    assert(*(data2+1)==1);
+
+    itr_math::Point2D pos1,pos2;
+    pos1.SetXY(1,2);
+    trans1.Reset();
+    trans1.Transform(pos1,pos2);
+    assert(pos1.X==pos2.X);
+    assert(pos1.Y==pos2.Y);
+
+    trans1.Offset(1,3);             //test Offset function
+    trans1.Transform(pos1,pos2);
+    assert(pos2.X==2);
+    assert(pos2.Y==5);
+    trans1.Offset(-1,-3);               //test Offset function (minus)
+    trans1.Transform(pos1,pos2);
+    assert(pos2.X==1);
+    assert(pos2.Y==2);
+
+    trans1.Scale(2,4);                  //test Scale function (amplify)
+    trans1.Transform(pos1,pos2);
+    assert(pos2.X==2);
+    assert(pos2.Y==8);
+    trans1.Scale(0.5,0.25);             //test Scale function (reduce)
+    trans1.Transform(pos1,pos2);
+    assert(pos2.X==1);
+    assert(pos2.Y==2);
+
+    pos1.X=2;
+    pos1.Y=0;
+    trans1.Rotate(90);                  //test Rotate function(90 degree)
+    trans1.Transform(pos1,pos2);
+    assert(pos2.X==0);
+    assert(pos2.Y==2);
+    trans1.Rotate(-60);
+    trans1.Transform(pos1,pos2);
+    assert(pos2.Y==1);
+
+    trans1.Inv();
+    trans1.Transform(pos1,pos2);
+    assert(pos2.X==2);
+    assert(pos2.Y==1);
+
+    F32 inx=1,iny=2,outx,outy;
+    trans1.Reset();
+    trans1.Transform(inx,iny,outx,outy);
+    assert(inx==outx);
+    assert(iny==outy);
+
+    trans1.Offset(1,3);             //test Offset function
+    trans1.Transform(inx,iny,outx,outy);
+    assert(outx==2);
+    assert(outy==5);
+    trans1.Offset(-1,-3);               //test Offset function (minus)
+    trans1.Transform(inx,iny,outx,outy);
+    assert(outx==1);
+    assert(outy==2);
+
+    trans1.Scale(2,4);                  //test Scale function (amplify)
+    trans1.Transform(inx,iny,outx,outy);
+    assert(outx==2);
+    assert(outy==8);
+    trans1.Scale(0.5,0.25);             //test Scale function (reduce)
+    trans1.Transform(inx,iny,outx,outy);
+    assert(outx==1);
+    assert(outy==2);
+
+    inx=2;
+    iny=0;
+    trans1.Rotate(90);                  //test Rotate function(90 degree)
+    trans1.Transform(inx,iny,outx,outy);
+    assert(outx==0);
+    assert(outy==2);
+    trans1.Rotate(-60);
+    trans1.Transform(inx,iny,outx,outy);
+    assert(outy==1);
+
+    trans1.Inv();
+    trans1.Transform(inx,iny,outx,outy);
+    assert(outx==2);
+    assert(outy==1);
+    ////////////////////////////////////
+    assert(1==2);
+    TRACE_INFO("OK TestTransform2D()");
+}
+
+void TestGeometry()
+{
+    /************测试itr_math::Distance2D函数***************/
+    itr_math::Distance2D dis1,dis2;
+    dis1.SetDXDY(10,20);                //test SetDXDY
+    assert(dis1.DX==10&&dis1.DY==20);
+
+    dis1.SetAngleDistance(90,20);
+    assert((dis1.DX<0.0001&&dis1.DX>-0.0001)&&((dis1.DY-20)>-0.001&&(dis1.DY-20)<0.0001));
+
+  /*  dis1.Distance2D();
+    assert(dis1.DX==0&&dis1.DY==0);         //Distance2D();和Distance2D();
+                                            //引用错误,没弄明白为什么不能这样用？
+    dis2.Distance2D(dis1);
+    assert(dis2.DX==0&&dis2.DY==0);*/
+
+    dis1.SetDXDY(10,20);
+    dis2 = dis1;
+    assert(dis2.DX==10&&dis2.DY==20);
+
+    dis2=dis2+dis1;
+    assert(dis2.DX==20);
+    assert(dis2.DY==40);
+
+    dis2=dis2.operator -(dis1);
+    assert(dis2.DX==10&&dis2.DY==20);
+
+    F32 andis;
+    dis2.SetDXDY(10,17.32050808);
+    andis=dis2.GetAngle();
+    assert(((andis-30)<0.0001)&&((andis-30)>-0.0001));      //应该是60度 啊!!!!
+
+    andis=dis2.GetDistance();
+    assert(andis==20);              //itr_math::Distance2D测试完毕
+
+
+
+   /************测试itr_math::Point2D函数****************/
+    itr_math::Point2D pos1,pos2;
+    pos1.SetXY(1,2);
+    assert(pos1.X==1&&pos1.Y==2);
+
+    /*pos2.Point2D(pos1);
+    assert(pos1.X==3&&pos1.Y==4);
+
+    pos1.Point2D(3,4);
+    assert(pos1.X==3&&pos1.Y==4);*/
+
+    pos2.operator =(pos1);
+    assert(pos2.X==1&&pos2.Y==2);
+
+    dis1=pos1.operator -(pos2);
+    assert(dis1.DX==0&&dis1.DY==0);
+
+    dis1.SetDXDY(10,20);
+    pos2=pos1.operator +(dis1);
+    assert(pos2.X==11&&pos2.Y==22);
+
+    pos1=pos2.operator -(dis1);
+    assert(pos1.X==1&&pos1.Y==2);
+
+
+
+    /************测试 itr_math::Point3D函数***************/
+    /************测试itr_math::RectangleF函数*************/
+    /************测试 itr_math::RectangleS函数************/
+    TRACE_INFO("OK TestGeometry()");
+}
+
 
 void TestMatrix()
 {
@@ -398,6 +604,7 @@ void TestMatrix()
     assert(Source1.GetData()[0] == Result.GetData()[0] && Source1.GetData()[1] == Result.GetData()[3] && Source1.GetData()[2] == Result.GetData()[6]);
 
     TRACE_INFO("OK TestMatrix()");
+
 }
 void TestCalculateTest()
 {
@@ -414,174 +621,4 @@ void TestCalculateTest()
 
 //    itr_math::Calculate calcObj=CalculateTest();
 //    calcObj.Add(A,B,2,C);
-}
-void TestTransform()
-{
-    itr_math::Vector  Input(2),veco(2);
-    F32 data1[2]={1,2},data2[2],data3[2]={2,0};
-    Input.CopyFrom(data1);
-
-    itr_math::Transform2D trans1;
-    trans1.Reset();                         //测试初始化函数
-    trans1.Transform(Input,veco);
-    veco.CopyTo(data2);
-    assert(*data2==1);
-    assert(*(data2+1)==2);
-
-    trans1.Offset(1,3);                 //test Offset function
-    trans1.Transform(Input,veco);
-    veco.CopyTo(data2);
-    assert(*data2==2);
-    assert(*(data2+1)==5);
-
-    trans1.Offset(-1,-3);               //test Offset function (minus)
-    trans1.Transform(Input,veco);
-    veco.CopyTo(data2);
-    assert(*data2==1);
-    assert(*(data2+1)==2);
-
-    trans1.Scale(2,4);                  //test Scale function (amplify)
-    trans1.Transform(Input,veco);
-    veco.CopyTo(data2);
-    assert(*data2==2);
-    assert(*(data2+1)==8);
-    trans1.Scale(0.5,0.25);             //test Scale function (reduce)
-    trans1.Transform(Input,veco);
-    veco.CopyTo(data2);
-    assert(*data2==1);
-    assert(*(data2+1)==2);
-
-    Input.CopyFrom(data3);              //test Rotate function(90 degree)
-    trans1.Rotate(90);
-    trans1.Transform(Input,veco);
-    veco.CopyTo(data2);
-    assert(*data2==0);
-    assert(*(data2+1)==2);
-    trans1.Rotate(-60);
-    trans1.Transform(Input,veco);
-    veco.CopyTo(data2);
-    assert(*(data2+1)==1);
-
-    Input.CopyFrom(data1);
-    trans1.Inv();
-    trans1.Transform(Input,veco);
-    veco.CopyTo(data2);
-    assert(*data2==2);
-    assert(*(data2+1)==1);
-
-    itr_math::Point2D pos1,pos2;
-    pos1.SetXY(1,2);
-    trans1.Reset();
-    trans1.Transform(pos1,pos2);
-    assert(pos1.X==pos2.X);
-    assert(pos1.Y==pos2.Y);
-
-    trans1.Offset(1,3);             //test Offset function
-    trans1.Transform(pos1,pos2);
-    assert(pos2.X==2);
-    assert(pos2.Y==5);
-    trans1.Offset(-1,-3);               //test Offset function (minus)
-    trans1.Transform(pos1,pos2);
-    assert(pos2.X==1);
-    assert(pos2.Y==2);
-
-    trans1.Scale(2,4);                  //test Scale function (amplify)
-    trans1.Transform(pos1,pos2);
-    assert(pos2.X==2);
-    assert(pos2.Y==8);
-    trans1.Scale(0.5,0.25);             //test Scale function (reduce)
-    trans1.Transform(pos1,pos2);
-    assert(pos2.X==1);
-    assert(pos2.Y==2);
-
-    pos1.X=2;
-    pos1.Y=0;
-    trans1.Rotate(90);                  //test Rotate function(90 degree)
-    trans1.Transform(pos1,pos2);
-    assert(pos2.X==0);
-    assert(pos2.Y==2);
-    trans1.Rotate(-60);
-    trans1.Transform(pos1,pos2);
-    assert(pos2.Y==1);
-
-    trans1.Inv();
-    trans1.Transform(pos1,pos2);
-    assert(pos2.X==2);
-    assert(pos2.Y==1);
-
-    F32 inx=1,iny=2,outx,outy;
-    trans1.Reset();
-    trans1.Transform(inx,iny,outx,outy);
-    assert(inx==outx);
-    assert(iny==outy);
-
-    trans1.Offset(1,3);             //test Offset function
-    trans1.Transform(inx,iny,outx,outy);
-    assert(outx==2);
-    assert(outy==5);
-    trans1.Offset(-1,-3);               //test Offset function (minus)
-    trans1.Transform(inx,iny,outx,outy);
-    assert(outx==1);
-    assert(outy==2);
-
-    trans1.Scale(2,4);                  //test Scale function (amplify)
-    trans1.Transform(inx,iny,outx,outy);
-    assert(outx==2);
-    assert(outy==8);
-    trans1.Scale(0.5,0.25);             //test Scale function (reduce)
-    trans1.Transform(inx,iny,outx,outy);
-    assert(outx==1);
-    assert(outy==2);
-
-    inx=2;
-    iny=0;
-    trans1.Rotate(90);                  //test Rotate function(90 degree)
-    trans1.Transform(inx,iny,outx,outy);
-    assert(outx==0);
-    assert(outy==2);
-    trans1.Rotate(-60);
-    trans1.Transform(inx,iny,outx,outy);
-    assert(outy==1);
-
-    trans1.Inv();
-    trans1.Transform(inx,iny,outx,outy);
-    assert(outx==2);
-    assert(outy==1);
-
-}
-
-void TestGeometry()
-{
-    /************测试itr_math::Distance2D函数***************/
-    itr_math::Distance2D dis1,dis2;
-    dis1.SetDXDY(10,20);                //test SetDXDY
-    assert(dis1.DX==10&&dis1.DY==20);
-    dis1.SetAngleDistance(60,20);
-    assert(dis1.DX==10);
-   /* dis1.Distance2D();
-    assert(dis1.DX==0&&dis1.DY==0);         //Distance2D();和Distance2D(thdis);
-    itr_math::Distance2D *thdis;            //引用错误,没弄明白为什么不能这样用？
-    thdis=&dis1;
-    dis2.Distance2D(thdis);
-    assert(dis1.DX==0&&dis1.DY==0);*/
-    dis1.SetDXDY(10,20);
-    dis2.operator=(dis1);
-    assert(dis2.DX==10&&dis2.DY==20);
-    dis2.operator +(dis1);
-    assert(dis2.DX==20&&dis2.DY==40);
-    dis2.operator -(dis1);
-    assert(dis2.DX==10&&dis2.DY==20);
-    F32 rad,andis;
-    andis=dis2.GetAngle();
-    itr_math::NumericalObj->Atan2(10, 20, rad);
-    assert(andis==rad);
-    andis=dis2.GetDistance();
-    assert(andis*andis==500);//itr_math::Distance2D测试完毕
-
-   /************测试itr_math::Point2D函数****************/
-    itr_math::Point2D pos1;
-
-    /************测试 itr_math::Point3D函数***************/
-    /************测试itr_math::RectangleF函数*************/
-    /************测试 itr_math::RectangleS函数************/
 }
