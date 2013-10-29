@@ -40,15 +40,16 @@
 #include "processtest.h"
 #include "lktrackertest.h"
 #include "drawtest.h"
+#include "picktest.h"
 int main()
 {
     //Init Math
     itr_math::MathObjStandInit();
 
     //Test Draw
-    drawtest();
+    //drawtest();
     //Test Draw
-    picktest();
+    //picktest();
     //Test LKTracker
     lktest();
     //Test Helper

@@ -3,7 +3,7 @@
 #include "itrvision.h"
 #include "itrbase.h"
 #include <math.h>
-
+/*
 void picktest()
 {
     pickImgGraytest();
@@ -25,3 +25,4 @@ void pickImgARGBtest()
     IOHelper::ReadPGMFile("Debug/img0.pgm", ARGBI);
     Pick::Rectangle(ARGBI, rect, ARGBO);
 }
+*/

@@ -4,7 +4,7 @@
 #include "itrbase.h"
 #include <math.h>
 
-
+/*
 void drawtest()
 {
     drawImgGraytestCircle();
@@ -77,3 +77,4 @@ void drawImgARGBtestRectangle()
     Draw::Rectangle(ARGB, rect, 255);
     IOHelper::WritePGMFile("Debug/gray8.pgm", ARGB);
 }
+*/
