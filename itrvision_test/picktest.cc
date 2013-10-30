@@ -7,24 +7,24 @@
 void picktest()
 {
     pickImgGraytest();
-    /*pickImgARGBtest();*/
+    pickImgARGBtest();
 }
 void pickImgGraytest()
 {
     ImageGray grayI;
-    ImageGray grayO;
-    RectangleS rect(10, 40, 100, 150);
-    IOHelper::ReadPGMFile("Debug/img0.pgm", grayI);
+    ImageGray grayO(100, 150);
+    RectangleS rect(100, 40, 100, 150);
+    IOHelper::ReadPGMFile("Debug/table1.pgm", grayI);
     Pick::Rectangle(grayI, rect, grayO);
     IOHelper::WritePGMFile("Debug/grayO.pgm", grayO);
 }
-/*void pickImgARGBtest()
+void pickImgARGBtest()
 {
     ImageARGB ARGBI;
     ImageARGB ARGBO;
     RectangleS rect(10, 40, 100, 150);
-    IOHelper::ReadPGMFile("Debug/img0.pgm", ARGBI);
+    IOHelper::ReadPPMFile("Debug/table1.ppm", ARGBI);
     Pick::Rectangle(ARGBI, rect, ARGBO);
-    IOHelper::WritePGMFile("Debug/ARGBO.pgm", ARGBO);
-}*/
+    IOHelper::WritePPMFile("Debug/ta.ppm", ARGBO);
+}
 
