@@ -45,11 +45,10 @@ int main()
 {
     //Init Math
     itr_math::MathObjStandInit();
-
+    //Test Pick
+    picktest();
     //Test Draw
     drawtest();
-    //Test Draw
-    //picktest();
     //Test LKTracker
     lktest();
     //Test Helper

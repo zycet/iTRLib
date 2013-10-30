@@ -1,8 +1,10 @@
 #ifndef PICKTEST_H_
 #define PICKTEST_H_
+#include "itrbase.h"
+using itr_math::RectangleS;
 
 void picktest();
-void pickImgGray();
-void pickImgARGB();
+void pickImgGraytest();
+void pickImgARGBtest();
 
 #endif// PICKTEST_H_

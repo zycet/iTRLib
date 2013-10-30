@@ -36,5 +36,6 @@
 
 #include "scale.h"
 #include "draw.h"
+#include "pick.h"
 
 #endif // OPERATION_H_
