@@ -47,7 +47,7 @@ int main()
     itr_math::MathObjStandInit();
 
     //Test Draw
-    //drawtest();
+    drawtest();
     //Test Draw
     //picktest();
     //Test LKTracker

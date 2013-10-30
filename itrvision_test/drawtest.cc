@@ -4,7 +4,6 @@
 #include "itrbase.h"
 #include <math.h>
 
-/*
 void drawtest()
 {
     drawImgGraytestCircle();
@@ -22,10 +21,9 @@ void drawImgGraytestCircle()
 {
     ImageGray gray;
     IOHelper::ReadPGMFile("Debug/img0.pgm", gray);
-    Draw::Circle(gray, 100, 80, 10, 255);
+    Draw::Circle(gray, 200, 100, 50, 255);
     IOHelper::WritePGMFile("Debug/gray1.pgm", gray);
 }
-
 void drawImgARGBtestCircle()
 {
     ImageGray ARGB;
@@ -37,29 +35,43 @@ void drawImgGraytestLineOffset()
 {
     ImageGray gray;
     IOHelper::ReadPGMFile("Debug/img0.pgm", gray);
-    Draw::LineOffset(gray, 100, 80, 200, 160, 255);
+    Draw::LineOffset(gray, 100, 80, -50, 200, 255);
     IOHelper::WritePGMFile("Debug/gray3.pgm", gray);
 }
 void drawImgARGBtestLineOffset()
 {
     ImageGray ARGB;
     IOHelper::ReadPGMFile("Debug/img0.pgm", ARGB);
-    Draw::LineOffset(ARGB, 100, 80, 200, 160, 255);
+    Draw::LineOffset(ARGB, 100, 200, 200, 200, 255);
     IOHelper::WritePGMFile("Debug/gray4.pgm", ARGB);
 }
 void drawImgGraytestLine()
 {
     ImageGray gray;
     IOHelper::ReadPGMFile("Debug/img0.pgm", gray);
-    Draw::Line(gray, 1600, 1800, 100, 120, 255);
+    Draw::Line(gray, 3, 3, 50, 60, 255);
     IOHelper::WritePGMFile("Debug/gray5.pgm", gray);
+}
+void drawImgARGBtestLine()
+{
+    ImageGray ARGB;
+    IOHelper::ReadPGMFile("Debug/img0.pgm", ARGB);
+    Draw::Line(ARGB, 3, 3, 50, 60, 255);
+    IOHelper::WritePGMFile("Debug/gray6.pgm", ARGB);
+}
+void drawImgGraytestCross()
+{
+    ImageGray gray;
+    IOHelper::ReadPGMFile("Debug/img0.pgm", gray);
+    Draw::Cross(gray, 200, 200, 100, 255);
+    IOHelper::WritePGMFile("Debug/gray7.pgm", gray);
 }
 void drawImgARGBtestCross()
 {
     ImageGray ARGB;
     IOHelper::ReadPGMFile("Debug/img0.pgm", ARGB);
-    Draw::Line(ARGB, 800, 600, 100, 120, 255);
-    IOHelper::WritePGMFile("Debug/gray6.pgm", ARGB);
+    Draw::Cross(ARGB, 200, 200, 100, 255);
+    IOHelper::WritePGMFile("Debug/gray8.pgm", ARGB);
 }
 void drawImgGraytestRectangle()
 {
@@ -67,7 +79,7 @@ void drawImgGraytestRectangle()
     ImageGray gray;
     IOHelper::ReadPGMFile("Debug/img0.pgm", gray);
     Draw::Rectangle(gray, rect, 255);
-    IOHelper::WritePGMFile("Debug/gray7.pgm", gray);
+    IOHelper::WritePGMFile("Debug/gray9.pgm", gray);
 }
 void drawImgARGBtestRectangle()
 {
@@ -75,6 +87,6 @@ void drawImgARGBtestRectangle()
     ImageGray ARGB;
     IOHelper::ReadPGMFile("Debug/img0.pgm", ARGB);
     Draw::Rectangle(ARGB, rect, 255);
-    IOHelper::WritePGMFile("Debug/gray8.pgm", ARGB);
+    IOHelper::WritePGMFile("Debug/gray10.pgm", ARGB);
 }
-*/
+

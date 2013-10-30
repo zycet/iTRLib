@@ -67,39 +67,81 @@ namespace itr_vision
     void Draw::LineOffset(ImageGray& Img,S32 x, S32 y, S32 offsetx ,S32 offsety,S16 color)
     {
         int i, j;
-        j = offsety / offsetx;
         if (offsetx == 0)
         {
-            for(i = 0;i <= offsety; i++)
+            if(offsety >=0 )
             {
-                Img(y + i, x) = color;
+                for(i = 0;i <= offsety; i++)
+                {
+                    Img(y + i, x) = color;
+                }
+            }
+            else
+            {
+                for(i = 0;i >= offsety; i--)
+                {
+                    Img(y + i, x) = color;
+                }
             }
         }
         else
         {
-            for(i = 0; i <= offsetx; i++)
+            j = offsety / offsetx;
+            if(offsetx >= 0)
             {
-                Img(y + i * j, x) = color;
+                for(i = 0; i <= offsetx; i++)
+                {
+                    Img(y + i * j, x + i) = color;
+                }
             }
+            else
+            {
+                for(i = 0; i >= offsetx; i--)
+                {
+                    Img(y + i * j, x + i) = color;
+                }
+            }
+
         }
     }
     void Draw::LineOffset(ImageARGB& Img,S32 x, S32 y, S32 offsetx ,S32 offsety,U32 color)
     {
         int i, j;
-        j = offsety / offsetx;
         if (offsetx == 0)
         {
-            for(i = 0;i <= offsety; i++)
+            if(offsety >=0 )
             {
-                Img(y + i, x) = color;
+                for(i = 0;i <= offsety; i++)
+                {
+                    Img(y + i, x) = color;
+                }
+            }
+            else
+            {
+                for(i = 0;i >= offsety; i--)
+                {
+                    Img(y + i, x) = color;
+                }
             }
         }
         else
         {
-            for(i = 0; i <= offsetx; i++)
+            j = offsety / offsetx;
+            if(offsetx >= 0)
             {
-                Img(y + i * j, x) = color;
+                for(i = 0; i <= offsetx; i++)
+                {
+                    Img(y + i * j, x + i) = color;
+                }
             }
+            else
+            {
+                for(i = 0; i >= offsetx; i--)
+                {
+                    Img(y + i * j, x + i) = color;
+                }
+            }
+
         }
     }
     void Draw::Line(ImageGray& Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,S16 color)
@@ -119,16 +161,16 @@ namespace itr_vision
     void Draw::Cross(ImageGray &bmp, S32 x, S32 y, S32 scale, S16 color)
     {
         LineOffset(bmp, x, y, 0, scale, color);
-        LineOffset(bmp, x, y - scale, 0, scale, color);
-        LineOffset(bmp, x - scale, y, scale, 0, color);
+        LineOffset(bmp, x, y, 0, -scale, color);
         LineOffset(bmp, x, y, scale, 0, color);
+        LineOffset(bmp, x, y, -scale, 0, color);
     }
     void Draw::Cross(ImageARGB &bmp, S32 x, S32 y, S32 scale, U32 color)
     {
         LineOffset(bmp, x, y, 0, scale, color);
-        LineOffset(bmp, x, y - scale, 0, scale, color);
-        LineOffset(bmp, x - scale, y, scale, 0, color);
+        LineOffset(bmp, x, y, 0, -scale, color);
         LineOffset(bmp, x, y, scale, 0, color);
+        LineOffset(bmp, x, y, -scale, 0, color);
     }
     void Draw::Rectangle(ImageGray& Img,RectangleS rect,S16 color)
     {
