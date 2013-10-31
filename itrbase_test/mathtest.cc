@@ -425,8 +425,8 @@ void TestTransform()
     Input.CopyFrom(data1);
 
     itr_math::Transform2D trans1;
-    trans1.Reset();                         //测试初始化函数
-    trans1.Transform(Input,veco); //question 1 :出错！变换用的矩阵的规格3*3？
+    trans1.Reset();                             //测试初始化函数
+    trans1.Transform(Input,veco);       //question 1 :出错！变换用的矩阵的规格3*3？
     veco.CopyTo(data2);
     assert(*data2==1);
     assert(*(data2+1)==2);
