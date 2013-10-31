@@ -426,7 +426,7 @@ void TestTransform()
 
     itr_math::Transform2D trans1;
     trans1.Reset();                         //测试初始化函数
-    trans1.Transform(Input,veco); //出错！变换用的矩阵的规格3*3？
+    trans1.Transform(Input,veco); //question 1 :出错！变换用的矩阵的规格3*3？
     veco.CopyTo(data2);
     assert(*data2==1);
     assert(*(data2+1)==2);
@@ -558,18 +558,14 @@ void TestTransform()
 void TestGeometry()
 {
     /************测试itr_math::Distance2D函数***************/
-    itr_math::Distance2D dis1,dis2;
+    itr_math::Distance2D dis1,dis2(dis1);
+    assert(dis1.DX==0&&dis1.DY==0);
+    assert(dis2.DX==0&&dis2.DY==0);
     dis1.SetDXDY(10,20);                //test SetDXDY
     assert(dis1.DX==10&&dis1.DY==20);
 
-    dis1.SetAngleDistance(90,20);
+    dis1.SetAngleDistance(90,20);       //question 2 :为什呢么不是整数？？？？？？？？？
     assert((dis1.DX<0.0001&&dis1.DX>-0.0001)&&((dis1.DY-20)>-0.001&&(dis1.DY-20)<0.0001));
-
-    dis1.Distance2D();
-    assert(dis1.DX==0&&dis1.DY==0);         //Distance2D();和Distance2D();
-                                            //引用错误,没弄明白为什么不能这样用？
-    dis2(dis1);
-    assert(dis2.DX==0&&dis2.DY==0);
 
     dis1.SetDXDY(10,20);
     dis2 = dis1;
@@ -585,7 +581,7 @@ void TestGeometry()
     F32 andis;
     dis2.SetDXDY(10,17.32050808);
     andis=dis2.GetAngle();
-    assert(((andis-30)<0.0001)&&((andis-30)>-0.0001));      //应该是60度 啊!!!!
+    assert(((andis-30)<0.0001)&&((andis-30)>-0.0001));      //question 3 :应该是60度 啊!!!!
 
     andis=dis2.GetDistance();
     assert(andis==20);              //itr_math::Distance2D测试完毕
@@ -593,18 +589,16 @@ void TestGeometry()
 
 
    /************测试itr_math::Point2D函数****************/
-    itr_math::Point2D pos1,pos2;
-    pos1.SetXY(1,2);
-    assert(pos1.X==1&&pos1.Y==2);
+    itr_math::Point2D pos1,pos2(1,2),pos3(pos2);
+    assert(pos1.X==0&&pos1.Y==0);
+    assert(pos2.X==1&&pos2.Y==2);
+    assert(pos3.X==1&&pos3.Y==2);
 
-    /*pos2.Point2D(pos1);
+    pos1.SetXY(3,4);
     assert(pos1.X==3&&pos1.Y==4);
 
-    pos1.Point2D(3,4);
-    assert(pos1.X==3&&pos1.Y==4);*/
-
-    pos2=(pos1);
-    assert(pos2.X==1&&pos2.Y==2);
+    pos1=pos2;
+    assert(pos1.X==1&&pos1.Y==2);
 
     dis1=pos1-(pos2);
     assert(dis1.DX==0&&dis1.DY==0);
@@ -616,10 +610,40 @@ void TestGeometry()
     pos1=pos2-(dis1);
     assert(pos1.X==1&&pos1.Y==2);
 
-
-
     /************测试 itr_math::Point3D函数***************/
+    itr_math::Point3D pos3d1(1,2,3);
+    assert(pos3d1.X==1&&pos3d1.Y==2&&pos3d1.Z==3);       //question 4 :我把的成员改为公用的了！
+
     /************测试itr_math::RectangleF函数*************/
+    itr_math::RectangleF rect1(1,2,10,20);
+    assert(rect1.X==1&&rect1.Y==2&&rect1.Width==10&&rect1.Height==20);
+    pos1.SetXY(3,4);
+    rect1.SetPoint(pos1);
+    assert(rect1.X==3&&rect1.Y==4);
+    pos2=rect1.GetPoint();
+    assert(pos2.X==3&&pos2.Y==4);
+    pos2=rect1.GetCenter();
+    assert(pos2.X==(3+5)&&pos2.Y==(4+10));
+
+    assert(rect1.IsInRectangle(pos2));
+    pos3.SetXY(14,10);
+    assert(!rect1.IsInRectangle(pos3));
+    pos3.SetXY(0,0);
+    assert(!rect1.IsInRectangle(pos3));
+    pos3.SetXY(3,4);
+    assert(rect1.IsInRectangle(pos3));      //含边缘。。。
+
     /************测试 itr_math::RectangleS函数************/
+    itr_math::RectangleS recS(1,2,10,20);
+    assert(recS.X==1&&recS.Y==2&&recS.Width==10&&recS.Height==20);
+    assert(recS.IsInRectangle(3,5));
+    assert(recS.IsInRectangle(1,2));
+    assert(!recS.IsInRectangle(12,5));
+    assert(!recS.IsInRectangle(4,23));
+
+    recS.Reset();
+    //assert(recS.X==0&&recS.Y==0&&recS.Width==0&&recS.Height==0);
+                                                                    //question 5 :最后一个函数不理解是什么意思。。。。。
+
     TRACE_INFO("OK TestGeometry()");
 }

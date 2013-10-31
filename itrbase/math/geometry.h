@@ -73,6 +73,7 @@ namespace itr_math
 
     class Point3D
     {
+        public:
             F32 X, Y, Z;
             Point3D(F32 X, F32 Y, F32 Z);
     };
