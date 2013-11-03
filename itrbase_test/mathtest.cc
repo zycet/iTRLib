@@ -426,7 +426,7 @@ void TestTransform()
 
     itr_math::Transform2D trans1;
     trans1.Reset();                             //测试初始化函数
-    trans1.Transform(Input,veco);       //question 1 :出错！变换用的矩阵的规格3*3？
+    trans1.Transform(Input,veco);       //question 1 :出错！变换用的矩阵的规格3*3
     veco.CopyTo(data2);
     assert(*data2==1);
     assert(*(data2+1)==2);
@@ -564,7 +564,7 @@ void TestGeometry()
     dis1.SetDXDY(10,20);                //test SetDXDY
     assert(dis1.DX==10&&dis1.DY==20);
 
-    dis1.SetAngleDistance(90,20);       //question 2 :为什呢么不是整数？？？？？？？？？
+    dis1.SetAngleDistance(90,20);       //
     assert((dis1.DX<0.0001&&dis1.DX>-0.0001)&&((dis1.DY-20)>-0.001&&(dis1.DY-20)<0.0001));
 
     dis1.SetDXDY(10,20);
@@ -581,7 +581,8 @@ void TestGeometry()
     F32 andis;
     dis2.SetDXDY(10,17.32050808);
     andis=dis2.GetAngle();
-    assert(((andis-30)<0.0001)&&((andis-30)>-0.0001));      //question 3 :应该是60度 啊!!!!
+    assert(((andis-60)<0.0001)&&((andis-60)>-0.0001));      //question 3 :应该是60度 啊!!!!
+
 
     andis=dis2.GetDistance();
     assert(andis==20);              //itr_math::Distance2D测试完毕

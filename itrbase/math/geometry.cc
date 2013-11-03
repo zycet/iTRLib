@@ -84,7 +84,7 @@ namespace itr_math
     F32 Distance2D::GetAngle() const
     {
         F32 rad;
-        NumericalObj->Atan2(DX, DY, rad);
+        NumericalObj->Atan2(DY, DX, rad);
         return RAD2ANG(rad);
     }
 
