@@ -434,16 +434,16 @@ void TestTransform()
     trans1.Offset(1,3);                 //test Offset function:没有变化
     trans1.Transform(Input,veco);
     veco.CopyTo(data2);
-    //printf("%f,%f,%f\n",*data2,*(data2+1),*(data2+2));
-   // assert(*data2==2);
-    //assert(*(data2+1)==5);
+    assert(*data2==2);
+    assert(*(data2+1)==5);
 
     trans1.Offset(-1,-3);               //test Offset function (minus)
     trans1.Transform(Input,veco);
     veco.CopyTo(data2);
    // printf("%f,%f,%f\n",*data2,*(data2+1),*(data2+2));
-   // assert(*data2==1);
-   // assert(*(data2+1)==2);
+    assert(*data2==1);
+    assert(*(data2+1)==2);
+
     trans1.Reset();
     trans1.Scale(2,4);                  //test Scale function (amplify)
     trans1.Transform(Input,veco);
@@ -451,12 +451,12 @@ void TestTransform()
     assert(*data2==2);
     assert(*(data2+1)==8);
 
-   /*     trans1.Inv();
-        trans1.Transform(veco,veco);
-        veco.CopyTo(data2);
-        printf("%f,%f,%f\n",*data2,*(data2+1),*(data2+2));*/
+    trans1.Inv();
+    trans1.Transform(veco,veco);
+    veco.CopyTo(data2);
+    printf("%f,%f,%f\n",*data2,*(data2+1),*(data2+2));//出错，源于matrix.Inv出错。
 
-
+    trans1.Reset();
     trans1.Scale(0.5,0.25);             //test Scale function (reduce)
     trans1.Transform(Input,veco);
     veco.CopyTo(data2);
@@ -490,12 +490,12 @@ void TestTransform()
     trans1.Offset(1,3);             //test Offset function
     trans1.Transform(pos1,pos2);
     //printf("%f,%f\n",pos2.X,pos2.Y);
-    //assert(pos2.X==2);
-    //assert(pos2.Y==5);
+    assert(pos2.X==2);
+    assert(pos2.Y==5);
     trans1.Offset(-1,-3);               //test Offset function (minus)
     trans1.Transform(pos1,pos2);
-    //assert(pos2.X==1);
-    //assert(pos2.Y==2);
+    assert(pos2.X==1);
+    assert(pos2.Y==2);
 
     trans1.Scale(2,4);                  //test Scale function (amplify)
     trans1.Transform(pos1,pos2);
@@ -527,15 +527,14 @@ void TestTransform()
     assert(inx==outx);
     assert(iny==outy);
 
-   /* trans1.Offset(1,3);             //test Offset function
+    trans1.Offset(1,3);             //test Offset function
     trans1.Transform(inx,iny,outx,outy);
-    printf("%f,%f",outx,outy);
     assert(outx==2);
     assert(outy==5);
     trans1.Offset(-1,-3);               //test Offset function (minus)
     trans1.Transform(inx,iny,outx,outy);
     assert(outx==1);
-    assert(outy==2);*/
+    assert(outy==2);
 
     trans1.Scale(2,4);                  //test Scale function (amplify)
     trans1.Transform(inx,iny,outx,outy);
@@ -591,7 +590,7 @@ void TestGeometry()
     F32 andis;
     dis2.SetDXDY(10,17.32050808);
     andis=dis2.GetAngle();
-    assert(((andis-60)<0.0001)&&((andis-60)>-0.0001));      //question 3 :应该是60度 啊!!!!
+    assert(((andis-60)<0.0001)&&((andis-60)>-0.0001));
 
 
     andis=dis2.GetDistance();
