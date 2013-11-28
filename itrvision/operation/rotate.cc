@@ -37,9 +37,10 @@ namespace itr_vision
 
     ImageARGB Rotate::rotate(const ImageARGB& src, RectangleS &rect ,  F32 ang)
     {
+        assert(rect.Width>0&&rect.Height>0);
         ImageARGB ta(rect.Width,rect.Height);
         Point2D  center(rect.X+rect.Width/2,rect.Y+rect.Height/2);
-
+        assert(center.X>0&&center.Y>0);         //需要判断吗？？？？？
         Transform2D trans;      //旋转矩阵，旋转中心为原点
         trans.Rotate(ang);
 
