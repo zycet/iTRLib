@@ -35,10 +35,10 @@
 namespace itr_vision
 {
 
-    ImageARGB Rotate::rotate(const ImageARGB& src, RectangleS &rect ,  F32 ang)
+    ImageGray Rotate::rotate(const ImageGray& src, RectangleS &rect ,  F32 ang)
     {
         assert(rect.Width>0&&rect.Height>0);
-        ImageARGB ta(rect.Width,rect.Height);
+        ImageGray ta(rect.Width,rect.Height);
         Point2D  center(rect.X+rect.Width/2,rect.Y+rect.Height/2);
         assert(center.X>0&&center.Y>0);         //需要判断吗？？？？？
         Transform2D trans;      //旋转矩阵，旋转中心为原点
@@ -50,22 +50,22 @@ namespace itr_vision
 
         Point2D pin,pout;
         S32 x0,y0;
-        for(int i=0;i<=rect.Width;i++)
+        for(int i=0;i<rect.Height;i++)
         {
-            for(int j=0;i<=rect.Height;j++)
+            for(int j=0;j<rect.Width;j++)
             {
               pin.X=i-center.X;
               pin.Y=j-center.Y;
               trans.Transform(pin,pout);        //旋转坐标
               x0=pout.X+center.X;
               y0=pout.Y+center.Y;               //还原坐标
-              if((x0>=0&&x0<=srcw)&&(y0<=srch&&y0>=0))
+              if((x0>=0&&x0<srcw)&&(y0<srch&&y0>=0))
               {
-                  ta[i,j]=src[x0+y0*srcw];      //出错了？重载运算符不是很明白。。。。。
+                  ta(i,j)=src[x0+y0*srcw];      //出错了？重载运算符不是很明白。。。。。
               }
               else
               {
-                  ta[i,j]=0;        //超出图片范围赋值0;
+                  ta(i,j)=0;        //超出图片范围赋值0;
               }
             }
         }

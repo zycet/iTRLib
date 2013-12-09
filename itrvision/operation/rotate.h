@@ -47,7 +47,7 @@ namespace itr_vision
             Rotate();
             virtual ~Rotate();
 
-            static ImageARGB rotate(const ImageARGB& src, RectangleS &rect ,  F32 ang);
+            static ImageGray rotate(const ImageGray& src, RectangleS &rect ,  F32 ang);
 
     };
 
