@@ -37,7 +37,6 @@
 #include "math.h"
 #include "stdio.h"
 
-
 void TestMathInit()
 {
     itr_math::MathObjStandInit();
@@ -127,14 +126,14 @@ void TestCalculate()
     assert(C_F32[0] == A_F32[0] * 2 && C_F32[1] == A_F32[1] * 2);
     //NormalizationTest
     itr_math::CalculateObj->Normalization(A_F32, 2, C_F32);
-    assert(C_F32[0]*C_F32[0] + C_F32[1]*C_F32[1] -1 < 0.0001);
+    assert(C_F32[0] * C_F32[0] + C_F32[1] * C_F32[1] - 1 < 0.0001);
     //AbsTest
     itr_math::CalculateObj->Abs(A_S16, 2, C_S16);
-    assert(fabs(A_S16[0])==C_S16[0] && fabs(A_S16[1])==C_S16[1]);
+    assert(fabs(A_S16[0]) == C_S16[0] && fabs(A_S16[1]) == C_S16[1]);
     itr_math::CalculateObj->Abs(A_S32, 2, C_S32);
-    assert(fabs(A_S32[0])==C_S32[0] && fabs(A_S32[1])==C_S32[1]);
+    assert(fabs(A_S32[0]) == C_S32[0] && fabs(A_S32[1]) == C_S32[1]);
     itr_math::CalculateObj->Abs(A_F32, 2, C_F32);
-    assert(fabs(A_F32[0])==C_F32[0] && fabs(A_F32[1])==C_F32[1]);
+    assert(fabs(A_F32[0]) == C_F32[0] && fabs(A_F32[1]) == C_F32[1]);
     //OppositeTest
     itr_math::CalculateObj->Opposite(A_S16, 2, C_S16);
     assert(A_S16[0] * (-1) == C_S16[0] && A_S16[1] * (-1) == C_S16[1]);
@@ -151,19 +150,19 @@ void TestCalculate()
     assert(CalResutlS16 == A_S16[0] + A_S16[1]);
     //MultiSum
     itr_math::CalculateObj->MultiSum(A_S16, B_S16, 2, CalResutlS16);
-    assert(CalResutlS16 == A_S16[0]*B_S16[0] + A_S16[1]*B_S16[1]);
+    assert(CalResutlS16 == A_S16[0] * B_S16[0] + A_S16[1] * B_S16[1]);
     itr_math::CalculateObj->MultiSum(A_S16, B_F32, 2, CalResutlS16);
-    assert(CalResutlS16 == A_S16[0] *B_F32[0] + A_S16[1]*B_F32[1]);
+    assert(CalResutlS16 == A_S16[0] * B_F32[0] + A_S16[1] * B_F32[1]);
     itr_math::CalculateObj->MultiSum(A_S32, B_S32, 2, CalResultS32);
-    assert(CalResultS32 == A_S32[0]*B_S32[0] + A_S32[1] * B_S32[1]);
+    assert(CalResultS32 == A_S32[0] * B_S32[0] + A_S32[1] * B_S32[1]);
     itr_math::CalculateObj->MultiSum(A_F32, B_F32, 2, CalResultF32);
     //ProductTest
     itr_math::CalculateObj->Product(A_S16, 2, CalResutlS16);
-    assert(CalResutlS16 == A_S16[0]*A_S16[1]);
+    assert(CalResutlS16 == A_S16[0] * A_S16[1]);
     itr_math::CalculateObj->Product(A_S32, 2, CalResultS32);
-    assert(CalResultS32 == A_S32[0]*A_S32[1]);
+    assert(CalResultS32 == A_S32[0] * A_S32[1]);
     itr_math::CalculateObj->Product(A_F32, 2, CalResultF32);
-    assert(CalResultF32 == A_F32[0]*A_F32[1]);
+    assert(CalResultF32 == A_F32[0] * A_F32[1]);
     //SetTest
     itr_math::CalculateObj->Set(C_S16, 2, 2);
     assert(C_S16[0] == 2 && C_S16[1] == 2);
@@ -206,57 +205,55 @@ void TestStatistics()
 void TestVector()
 {
     S32 i;
-    F32 *Data1,*Data2,ve1[3],ve2[3],resultF32;
+    F32 *Data1, *Data2, ve1[3], ve2[3], resultF32;
     itr_math::Vector v(3);
-    itr_math::Vector v2(3,ve2);
-    for(i=0;i<3;i++)
+    itr_math::Vector v2(3, ve2);
+    for (i = 0; i < 3; i++)
     {
-      ve1[i]= i*1.0;
-      ve2[i]= 5.0+i;
+        ve1[i] = i * 1.0;
+        ve2[i] = 5.0 + i;
     }
     Data1 = ve1;
     Data2 = ve2;
     v.CopyFrom(Data1);
     v.CopyTo(Data2);
     //test CopyTo and CopyFrom
-    assert(*(Data2)==0);
-    assert(*(Data2+1)==1);
-    assert(*(Data2+2)==2);
- //   F32 vector(2, 0x1111, 1);
+    assert(*(Data2) == 0);
+    assert(*(Data2 + 1) == 1);
+    assert(*(Data2 + 2) == 2);
+    //   F32 vector(2, 0x1111, 1);
     //test CopyTo and CopyFrom with offset
-    ve2[0]=5,ve2[1]=6,ve2[2]=7;
-    v.CopyFrom(1,2,ve2);
-    v.CopyTo(1,2,ve2);
+    ve2[0] = 5, ve2[1] = 6, ve2[2] = 7;
+    v.CopyFrom(1, 2, ve2);
+    v.CopyTo(1, 2, ve2);
     v.CopyTo(Data2);
-    assert(*(Data2)==0);
-    assert(*(Data2+1)==5);
-    assert(*(Data2+2)==6);
+    assert(*(Data2) == 0);
+    assert(*(Data2 + 1) == 5);
+    assert(*(Data2 + 2) == 6);
 
     v.Product(v);                   //test product;
     v.CopyTo(Data2);
-    assert(*(Data2)==0);
-    assert(*(Data2+1) ==25 );
-    assert(*(Data2+2)==36);
+    assert(*(Data2) == 0);
+    assert(*(Data2 + 1) == 25);
+    assert(*(Data2 + 2) == 36);
 
-    resultF32=v.ProductInner(v2);
-    assert(1921==resultF32);
+    resultF32 = v.ProductInner(v2);
+    assert(1921 == resultF32);
 
-    ve2[0]=5,ve2[1]=6,ve2[2]=7;
-    ve1[0]=1,ve2[1]=2,ve2[2]=3;
+    ve2[0] = 5, ve2[1] = 6, ve2[2] = 7;
+    ve1[0] = 1, ve2[1] = 2, ve2[2] = 3;
     v.CopyFrom(ve1);
     v2.CopyFrom(ve2);
     F32 ve3[3];
-    Data2=ve3;
+    Data2 = ve3;
     itr_math::Vector v3(3);
-    v.ProductOuter(v2,v3);          //function "ProductOuter" err
+    v.ProductOuter(v2, v3);          //function "ProductOuter" err
     v3.CopyTo(Data2);
     //assert(*(Data2)==(-4));             //计算结果出错，找不到问题所在
-   // assert(*(Data2+1) == 8 );
+    // assert(*(Data2+1) == 8 );
     //assert(*(Data2+2)==-4);
     TRACE_INFO("OK TestVector()");
 }
-
-
 
 void TestMatrix()
 {
@@ -277,6 +274,8 @@ void TestMatrix()
     { -1, -1, -1, -1, -1, -1, -1, -1, -1 };
     F32 data6[3 * 3] =
     { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
+    F32 data7[3 * 3] =
+    { 1, 0, 0, 0, 2, 0, 0, 0, 2 };
     F32 ExData[] =
     { 1, 1, 1 };
     F32 ExTemp[] =
@@ -300,6 +299,7 @@ void TestMatrix()
     itr_math::Matrix Source3(3, 3, data4);
     itr_math::Matrix Source4(3, 3, data5);
     itr_math::Matrix SourceEye(3, 3, data6);
+    itr_math::Matrix Source5(3, 3, data7);
 
     itr_math::Vector VecSource(3, VecData);
 
@@ -391,13 +391,19 @@ void TestMatrix()
     assert(Result.GetData()[0] == 2 && Result.GetData()[4] == 2 && Result.GetData()[8] == 2);
     Result.Set(0);
 
-    Source1.Inv(Result);
-    Result = Source1 * Result;
-    assert(fabs(Result.GetData()[0] - 1) < 0.0001 && fabs(Result.GetData()[4] - 1) < 0.0001 && fabs(Result.GetData()[8] - 1) < 0.0001);
+    //此处测试啦，没有问题啊！！！
+    Source5.Inv(Result);
+    Result = Source5 * Result;
+    assert(
+            fabs(Result.GetData()[0] - 1) < 0.0001 && fabs(Result.GetData()[4] - 1) < 0.0001
+                    && fabs(Result.GetData()[8] - 1) < 0.0001);
     Result.Set(0);
 
     Source1.Tran(Result);
-    assert(Source1.GetData()[0] == Result.GetData()[0] && Source1.GetData()[1] == Result.GetData()[3] && Source1.GetData()[2] == Result.GetData()[6]);
+    assert(
+            Source1.GetData()[0] == Result.GetData()[0]
+                    && Source1.GetData()[1] == Result.GetData()[3]
+                    && Source1.GetData()[2] == Result.GetData()[6]);
 
     TRACE_INFO("OK TestMatrix()");
 
@@ -420,146 +426,144 @@ void TestCalculateTest()
 }
 void TestTransform()
 {
-    itr_math::Vector  Input(3),veco(3);
-    F32 data1[3]={1,2,0},data2[3],data3[3]={2,0,0};
+    itr_math::Vector Input(3), veco(3);
+    F32 data1[3] =
+    { 1, 2, 0 }, data2[3], data3[3] =
+    { 2, 0, 0 };
     Input.CopyFrom(data1);
 
     itr_math::Transform2D trans1;
     trans1.Reset();                             //测试初始化函数
-    trans1.Transform(Input,veco);
+    trans1.Transform(Input, veco);
     veco.CopyTo(data2);
-    assert(*data2==1);
-    assert(*(data2+1)==2);
+    assert(*data2 == 1);
+    assert(*(data2 + 1) == 2);
 
-    trans1.Offset(1,3);                 //test Offset function:没有变化
-    trans1.Transform(Input,veco);
+    trans1.Offset(1, 3);                 //test Offset function:没有变化
+    trans1.Transform(Input, veco);
     veco.CopyTo(data2);
-    assert(*data2==2);
-    assert(*(data2+1)==5);
+    assert(*data2 == 2);
+    assert(*(data2 + 1) == 5);
 
-    trans1.Offset(-1,-3);               //test Offset function (minus)
-    trans1.Transform(Input,veco);
+    trans1.Offset(-1, -3);               //test Offset function (minus)
+    trans1.Transform(Input, veco);
     veco.CopyTo(data2);
-   // printf("%f,%f,%f\n",*data2,*(data2+1),*(data2+2));
-    assert(*data2==1);
-    assert(*(data2+1)==2);
+    // printf("%f,%f,%f\n",*data2,*(data2+1),*(data2+2));
+    assert(*data2 == 1);
+    assert(*(data2 + 1) == 2);
 
     trans1.Reset();
-    trans1.Scale(2,4);                  //test Scale function (amplify)
-    trans1.Transform(Input,veco);
+    trans1.Scale(2, 4);                  //test Scale function (amplify)
+    trans1.Transform(Input, veco);
     veco.CopyTo(data2);
-    assert(*data2==2);
-    assert(*(data2+1)==8);
+    assert(*data2 == 2);
+    assert(*(data2 + 1) == 8);
 
     trans1.Inv();
-    trans1.Transform(veco,veco);
+    trans1.Transform(veco, veco);
     veco.CopyTo(data2);
-   // printf("%f,%f,%f\n",*data2,*(data2+1),*(data2+2));//出错，源于matrix.Inv出错。
+
+    printf("%f,%f,%f\n", *data2, *(data2 + 1), *(data2 + 2));                  //出错，源于matrix.Inv出错。
 
     trans1.Reset();
-    trans1.Scale(0.5,0.25);             //test Scale function (reduce)
-    trans1.Transform(Input,veco);
+    trans1.Scale(0.5, 0.25);             //test Scale function (reduce)
+    trans1.Transform(Input, veco);
     veco.CopyTo(data2);
-    assert(*data2==1);
-    assert(*(data2+1)==2);
-
-
-
+    assert(*data2 == 1);
+    assert(*(data2 + 1) == 2);
 
     Input.CopyFrom(data3);              //test Rotate function(90 degree)
     trans1.Rotate(90);
-    trans1.Transform(Input,veco);
+    trans1.Transform(Input, veco);
     veco.CopyTo(data2);
-    assert((*data2)<0.0001&&(*data2)>-0.0001);
-    assert(*(data2+1)==2);
+    assert((*data2) < 0.0001 && (*data2) > -0.0001);
+    assert(*(data2 + 1) == 2);
     trans1.Rotate(-60);
-    trans1.Transform(Input,veco);
+    trans1.Transform(Input, veco);
     veco.CopyTo(data2);
-    assert(*(data2+1)==1);
+    assert(*(data2 + 1) == 1);
 
-
-
-    itr_math::Point2D pos1,pos2;
-    pos1.SetXY(1,2);
+    itr_math::Point2D pos1, pos2;
+    pos1.SetXY(1, 2);
     trans1.Reset();
-    trans1.Transform(pos1,pos2);
-    assert(pos1.X==pos2.X);
-    assert(pos1.Y==pos2.Y);
+    trans1.Transform(pos1, pos2);
+    assert(pos1.X == pos2.X);
+    assert(pos1.Y == pos2.Y);
 
     trans1.Reset();
-    trans1.Offset(1,3);             //test Offset function
-    trans1.Transform(pos1,pos2);
+    trans1.Offset(1, 3);             //test Offset function
+    trans1.Transform(pos1, pos2);
     //printf("%f,%f\n",pos2.X,pos2.Y);
-    assert(pos2.X==2);
-    assert(pos2.Y==5);
-    trans1.Offset(-1,-3);               //test Offset function (minus)
-    trans1.Transform(pos1,pos2);
-    assert(pos2.X==1);
-    assert(pos2.Y==2);
+    assert(pos2.X == 2);
+    assert(pos2.Y == 5);
+    trans1.Offset(-1, -3);               //test Offset function (minus)
+    trans1.Transform(pos1, pos2);
+    assert(pos2.X == 1);
+    assert(pos2.Y == 2);
 
-    trans1.Scale(2,4);                  //test Scale function (amplify)
-    trans1.Transform(pos1,pos2);
-    assert(pos2.X==2);
-    assert(pos2.Y==8);
-    trans1.Scale(0.5,0.25);             //test Scale function (reduce)
-    trans1.Transform(pos1,pos2);
-    assert(pos2.X==1);
-    assert(pos2.Y==2);
+    trans1.Scale(2, 4);                  //test Scale function (amplify)
+    trans1.Transform(pos1, pos2);
+    assert(pos2.X == 2);
+    assert(pos2.Y == 8);
+    trans1.Scale(0.5, 0.25);             //test Scale function (reduce)
+    trans1.Transform(pos1, pos2);
+    assert(pos2.X == 1);
+    assert(pos2.Y == 2);
 
-    pos1.X=2;
-    pos1.Y=0;
+    pos1.X = 2;
+    pos1.Y = 0;
     trans1.Rotate(90);                  //test Rotate function(90 degree)
-    trans1.Transform(pos1,pos2);
-    assert(fabs(pos2.X-0)<0.001);
-    assert(pos2.Y==2);
+    trans1.Transform(pos1, pos2);
+    assert(fabs(pos2.X - 0) < 0.001);
+    assert(pos2.Y == 2);
     trans1.Rotate(-60);
-    trans1.Transform(pos1,pos2);
-    assert(pos2.Y==1);
+    trans1.Transform(pos1, pos2);
+    assert(pos2.Y == 1);
 
     /*trans1.Inv();
-    trans1.Transform(pos1,pos2);
-    assert(pos2.X==2);
-    assert(pos2.Y==1);*/
+     trans1.Transform(pos1,pos2);
+     assert(pos2.X==2);
+     assert(pos2.Y==1);*/
 
-    F32 inx=1,iny=2,outx,outy;
+    F32 inx = 1, iny = 2, outx, outy;
     trans1.Reset();
-    trans1.Transform(inx,iny,outx,outy);
-    assert(inx==outx);
-    assert(iny==outy);
+    trans1.Transform(inx, iny, outx, outy);
+    assert(inx == outx);
+    assert(iny == outy);
 
-    trans1.Offset(1,3);             //test Offset function
-    trans1.Transform(inx,iny,outx,outy);
-    assert(outx==2);
-    assert(outy==5);
-    trans1.Offset(-1,-3);               //test Offset function (minus)
-    trans1.Transform(inx,iny,outx,outy);
-    assert(outx==1);
-    assert(outy==2);
+    trans1.Offset(1, 3);             //test Offset function
+    trans1.Transform(inx, iny, outx, outy);
+    assert(outx == 2);
+    assert(outy == 5);
+    trans1.Offset(-1, -3);               //test Offset function (minus)
+    trans1.Transform(inx, iny, outx, outy);
+    assert(outx == 1);
+    assert(outy == 2);
 
-    trans1.Scale(2,4);                  //test Scale function (amplify)
-    trans1.Transform(inx,iny,outx,outy);
-    assert(outx==2);
-    assert(outy==8);
-    trans1.Scale(0.5,0.25);             //test Scale function (reduce)
-    trans1.Transform(inx,iny,outx,outy);
-    assert(outx==1);
-    assert(outy==2);
+    trans1.Scale(2, 4);                  //test Scale function (amplify)
+    trans1.Transform(inx, iny, outx, outy);
+    assert(outx == 2);
+    assert(outy == 8);
+    trans1.Scale(0.5, 0.25);             //test Scale function (reduce)
+    trans1.Transform(inx, iny, outx, outy);
+    assert(outx == 1);
+    assert(outy == 2);
 
-    inx=2;
-    iny=0;
+    inx = 2;
+    iny = 0;
     trans1.Reset();
     trans1.Rotate(90);                  //test Rotate function(90 degree)
-    trans1.Transform(inx,iny,outx,outy);
-    assert(fabs(outx-0)<0.001);
-    assert(outy==2);
+    trans1.Transform(inx, iny, outx, outy);
+    assert(fabs(outx - 0) < 0.001);
+    assert(outy == 2);
     trans1.Rotate(-60);
-    trans1.Transform(inx,iny,outx,outy);
-    assert(outy==1);
+    trans1.Transform(inx, iny, outx, outy);
+    assert(outy == 1);
 
     /*trans1.Inv();
-    trans1.Transform(inx,iny,outx,outy);
-    assert(outx==2);
-    assert(outy==1);*/
+     trans1.Transform(inx,iny,outx,outy);
+     assert(outx==2);
+     assert(outy==1);*/
 
     TRACE_INFO("OK TestTransform2D()");
 }
@@ -567,98 +571,97 @@ void TestTransform()
 void TestGeometry()
 {
     /************测试itr_math::Distance2D函数***************/
-    itr_math::Distance2D dis1,dis2(dis1);
-    assert(dis1.DX==0&&dis1.DY==0);
-    assert(dis2.DX==0&&dis2.DY==0);
-    dis1.SetDXDY(10,20);                //test SetDXDY
-    assert(dis1.DX==10&&dis1.DY==20);
+    itr_math::Distance2D dis1, dis2(dis1);
+    assert(dis1.DX == 0 && dis1.DY == 0);
+    assert(dis2.DX == 0 && dis2.DY == 0);
+    dis1.SetDXDY(10, 20);                //test SetDXDY
+    assert(dis1.DX == 10 && dis1.DY == 20);
 
-    dis1.SetAngleDistance(90,20);       //
-    assert((dis1.DX<0.0001&&dis1.DX>-0.0001)&&((dis1.DY-20)>-0.001&&(dis1.DY-20)<0.0001));
+    dis1.SetAngleDistance(90, 20);       //
+    assert(
+            (dis1.DX < 0.0001 && dis1.DX > -0.0001)
+                    && ((dis1.DY - 20) > -0.001 && (dis1.DY - 20) < 0.0001));
 
-    dis1.SetDXDY(10,20);
+    dis1.SetDXDY(10, 20);
     dis2 = dis1;
-    assert(dis2.DX==10&&dis2.DY==20);
+    assert(dis2.DX == 10 && dis2.DY == 20);
 
-    dis2=dis2+dis1;
-    assert(dis2.DX==20);
-    assert(dis2.DY==40);
+    dis2 = dis2 + dis1;
+    assert(dis2.DX == 20);
+    assert(dis2.DY == 40);
 
-    dis2=dis2-(dis1);
-    assert(dis2.DX==10&&dis2.DY==20);
+    dis2 = dis2 - (dis1);
+    assert(dis2.DX == 10 && dis2.DY == 20);
 
     F32 andis;
-    dis2.SetDXDY(10,17.32050808);
-    andis=dis2.GetAngle();
-    assert(((andis-60)<0.0001)&&((andis-60)>-0.0001));
+    dis2.SetDXDY(10, 17.32050808);
+    andis = dis2.GetAngle();
+    assert(((andis - 60) < 0.0001) && ((andis - 60) > -0.0001));
 
+    andis = dis2.GetDistance();
+    assert(andis == 20);              //itr_math::Distance2D测试完毕
 
-    andis=dis2.GetDistance();
-    assert(andis==20);              //itr_math::Distance2D测试完毕
+    /************测试itr_math::Point2D函数****************/
+    itr_math::Point2D pos1, pos2(1, 2), pos3(pos2);
+    assert(pos1.X == 0 && pos1.Y == 0);
+    assert(pos2.X == 1 && pos2.Y == 2);
+    assert(pos3.X == 1 && pos3.Y == 2);
 
+    pos1.SetXY(3, 4);
+    assert(pos1.X == 3 && pos1.Y == 4);
 
+    pos1 = pos2;
+    assert(pos1.X == 1 && pos1.Y == 2);
 
-   /************测试itr_math::Point2D函数****************/
-    itr_math::Point2D pos1,pos2(1,2),pos3(pos2);
-    assert(pos1.X==0&&pos1.Y==0);
-    assert(pos2.X==1&&pos2.Y==2);
-    assert(pos3.X==1&&pos3.Y==2);
+    dis1 = pos1 - (pos2);
+    assert(dis1.DX == 0 && dis1.DY == 0);
 
-    pos1.SetXY(3,4);
-    assert(pos1.X==3&&pos1.Y==4);
+    dis1.SetDXDY(10, 20);
+    pos2 = pos1 + (dis1);
+    assert(pos2.X == 11 && pos2.Y == 22);
 
-    pos1=pos2;
-    assert(pos1.X==1&&pos1.Y==2);
-
-    dis1=pos1-(pos2);
-    assert(dis1.DX==0&&dis1.DY==0);
-
-    dis1.SetDXDY(10,20);
-    pos2=pos1+(dis1);
-    assert(pos2.X==11&&pos2.Y==22);
-
-    pos1=pos2-(dis1);
-    assert(pos1.X==1&&pos1.Y==2);
+    pos1 = pos2 - (dis1);
+    assert(pos1.X == 1 && pos1.Y == 2);
 
     /************测试 itr_math::Point3D函数***************/
-    itr_math::Point3D pos3d1(1,2,3);
-    assert(pos3d1.X==1&&pos3d1.Y==2&&pos3d1.Z==3);       //question 4 :我把的成员改为公用的了！
+    itr_math::Point3D pos3d1(1, 2, 3);
+    assert(pos3d1.X == 1 && pos3d1.Y == 2 && pos3d1.Z == 3);       //question 4 :我把的成员改为公用的了！
 
     /************测试itr_math::RectangleF函数*************/
-    itr_math::RectangleF rect1(1,2,10,20);
-    assert(rect1.X==1&&rect1.Y==2&&rect1.Width==10&&rect1.Height==20);
-    pos1.SetXY(3,4);
+    itr_math::RectangleF rect1(1, 2, 10, 20);
+    assert(rect1.X == 1 && rect1.Y == 2 && rect1.Width == 10 && rect1.Height == 20);
+    pos1.SetXY(3, 4);
     rect1.SetPoint(pos1);
-    assert(rect1.X==3&&rect1.Y==4);
-    pos2=rect1.GetPoint();
-    assert(pos2.X==3&&pos2.Y==4);
-    pos2=rect1.GetCenter();
-    assert(pos2.X==(3+5)&&pos2.Y==(4+10));
+    assert(rect1.X == 3 && rect1.Y == 4);
+    pos2 = rect1.GetPoint();
+    assert(pos2.X == 3 && pos2.Y == 4);
+    pos2 = rect1.GetCenter();
+    assert(pos2.X == (3 + 5) && pos2.Y == (4 + 10));
 
     assert(rect1.IsInRectangle(pos2));
-    pos3.SetXY(14,10);
+    pos3.SetXY(14, 10);
     assert(!rect1.IsInRectangle(pos3));
-    pos3.SetXY(0,0);
+    pos3.SetXY(0, 0);
     assert(!rect1.IsInRectangle(pos3));
-    pos3.SetXY(3,4);
+    pos3.SetXY(3, 4);
     assert(rect1.IsInRectangle(pos3));      //含边缘。。。
 
     /************测试 itr_math::RectangleS函数************/
-    itr_math::RectangleS recS(1,2,10,20);
-    assert(recS.X==1&&recS.Y==2&&recS.Width==10&&recS.Height==20);
-    assert(recS.IsInRectangle(3,5));
-    assert(recS.IsInRectangle(1,2));
-    assert(!recS.IsInRectangle(12,5));
-    assert(!recS.IsInRectangle(4,23));
+    itr_math::RectangleS recS(1, 2, 10, 20);
+    assert(recS.X == 1 && recS.Y == 2 && recS.Width == 10 && recS.Height == 20);
+    assert(recS.IsInRectangle(3, 5));
+    assert(recS.IsInRectangle(1, 2));
+    assert(!recS.IsInRectangle(12, 5));
+    assert(!recS.IsInRectangle(4, 23));
 
-    S32 X=1,Y=2;
+    S32 X = 1, Y = 2;
     recS.Reset();
-    while(recS.Next(X,Y))
+    while (recS.Next(X, Y))
     {
-        assert(recS.IsInRectangle(X,Y));
+        assert(recS.IsInRectangle(X, Y));
     }
-    assert(X==10&&Y==22);
-                                                                       //
+    assert(X == 10 && Y == 22);
+    //
 
     TRACE_INFO("OK TestGeometry()");
 }
