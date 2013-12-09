@@ -26,17 +26,30 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * operation.h
- *  Created on: 2013-9-26
+ * rotate.h
+ *  Created on: 2013-11-27
  *      Author: buaa
  */
 
-#ifndef OPERATION_H_
-#define OPERATION_H_
+#ifndef ROTATE_H_
+#define ROTATE_H_
+#include "itrbase.h"
+#include "../image/image.h"
+using itr_math::RectangleS;
+using itr_math::Transform2D;        //void Rotate(F32 Angle)；坐标旋转（原点为中心），逆时针正，角度
+using itr_math::Point2D;
+namespace itr_vision
+{
 
-#include "scale.h"
-#include "draw.h"
-#include "pick.h"
-#include "rotate.h"
+    class Rotate
+    {
+        public:
+            Rotate();
+            virtual ~Rotate();
 
-#endif // OPERATION_H_
+            static ImageARGB rotate(const ImageARGB& src, RectangleS &rect ,  F32 ang);
+
+    };
+
+} // namespace itr_vision
+#endif // ROTATE_H_

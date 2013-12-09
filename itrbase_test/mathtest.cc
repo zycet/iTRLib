@@ -462,6 +462,7 @@ void TestTransform()
     trans1.Inv();
     trans1.Transform(veco, veco);
     veco.CopyTo(data2);
+
     printf("%f,%f,%f\n", *data2, *(data2 + 1), *(data2 + 2));                  //出错，源于matrix.Inv出错。
 
     trans1.Reset();

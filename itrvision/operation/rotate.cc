@@ -26,17 +26,49 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * operation.h
- *  Created on: 2013-9-26
+ * rotate.cc
+ *  Created on: 2013-11-27
  *      Author: buaa
  */
 
-#ifndef OPERATION_H_
-#define OPERATION_H_
-
-#include "scale.h"
-#include "draw.h"
-#include "pick.h"
 #include "rotate.h"
+namespace itr_vision
+{
 
-#endif // OPERATION_H_
+    ImageARGB Rotate::rotate(const ImageARGB& src, RectangleS &rect ,  F32 ang)
+    {
+        assert(rect.Width>0&&rect.Height>0);
+        ImageARGB ta(rect.Width,rect.Height);
+        Point2D  center(rect.X+rect.Width/2,rect.Y+rect.Height/2);
+        assert(center.X>0&&center.Y>0);         //需要判断吗？？？？？
+        Transform2D trans;      //旋转矩阵，旋转中心为原点
+        trans.Rotate(ang);
+
+        S32 srcw,srch;
+        srcw=src.GetWidth();        //获取大图片的宽和高，用来判断是否超出图片范围
+        srch=src.GetHeight();
+
+        Point2D pin,pout;
+        S32 x0,y0;
+        for(int i=0;i<=rect.Width;i++)
+        {
+            for(int j=0;i<=rect.Height;j++)
+            {
+              pin.X=i-center.X;
+              pin.Y=j-center.Y;
+              trans.Transform(pin,pout);        //旋转坐标
+              x0=pout.X+center.X;
+              y0=pout.Y+center.Y;               //还原坐标
+              if((x0>=0&&x0<=srcw)&&(y0<=srch&&y0>=0))
+              {
+                  ta[i,j]=src[x0+y0*srcw];      //出错了？重载运算符不是很明白。。。。。
+              }
+              else
+              {
+                  ta[i,j]=0;        //超出图片范围赋值0;
+              }
+            }
+        }
+        return(ta);
+    }
+} // namespace itr_vision
