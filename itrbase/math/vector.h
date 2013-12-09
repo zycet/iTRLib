@@ -128,7 +128,7 @@ namespace itr_math
             /*
              * 读取单个元素
              */
-            inline F32 operator[](int index) const
+            inline F32& operator[](int index) const
             {
                 assert(index < dim);
                 return data[index];
