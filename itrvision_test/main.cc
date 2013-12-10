@@ -46,6 +46,8 @@ int main()
 {
     //Init Math
     itr_math::MathObjStandInit();
+    //Test Rotate !
+    rotatetest();
     //Test Pick OK!
     // picktest();
     //Test Draw OK!
@@ -61,7 +63,7 @@ int main()
     //Finish
     itr_math::MathObjStandDeinit();
     //Deint Math
-    rotatetest();
+
     //rotatetest
     TRACE_INFO("OK All");
     return 0;

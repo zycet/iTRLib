@@ -64,21 +64,21 @@ namespace itr_vision
         }
     }
 
-    void Draw::LineOffset(ImageGray& Img,S32 x, S32 y, S32 offsetx ,S32 offsety,S16 color)
+    void Draw::LineOffset(ImageGray& Img, S32 x, S32 y, S32 offsetx, S32 offsety, S16 color)
     {
         int i, j;
         if (offsetx == 0)
         {
-            if(offsety >=0 )
+            if (offsety >= 0)
             {
-                for(i = 0;i <= offsety; i++)
+                for (i = 0; i <= offsety; i++)
                 {
                     Img(y + i, x) = color;
                 }
             }
             else
             {
-                for(i = 0;i >= offsety; i--)
+                for (i = 0; i >= offsety; i--)
                 {
                     Img(y + i, x) = color;
                 }
@@ -87,16 +87,16 @@ namespace itr_vision
         else
         {
             j = offsety / offsetx;
-            if(offsetx >= 0)
+            if (offsetx >= 0)
             {
-                for(i = 0; i <= offsetx; i++)
+                for (i = 0; i <= offsetx; i++)
                 {
                     Img(y + i * j, x + i) = color;
                 }
             }
             else
             {
-                for(i = 0; i >= offsetx; i--)
+                for (i = 0; i >= offsetx; i--)
                 {
                     Img(y + i * j, x + i) = color;
                 }
@@ -104,21 +104,21 @@ namespace itr_vision
 
         }
     }
-    void Draw::LineOffset(ImageARGB& Img,S32 x, S32 y, S32 offsetx ,S32 offsety,U32 color)
+    void Draw::LineOffset(ImageARGB& Img, S32 x, S32 y, S32 offsetx, S32 offsety, U32 color)
     {
         int i, j;
         if (offsetx == 0)
         {
-            if(offsety >=0 )
+            if (offsety >= 0)
             {
-                for(i = 0;i <= offsety; i++)
+                for (i = 0; i <= offsety; i++)
                 {
                     Img(y + i, x) = color;
                 }
             }
             else
             {
-                for(i = 0;i >= offsety; i--)
+                for (i = 0; i >= offsety; i--)
                 {
                     Img(y + i, x) = color;
                 }
@@ -127,16 +127,16 @@ namespace itr_vision
         else
         {
             j = offsety / offsetx;
-            if(offsetx >= 0)
+            if (offsetx >= 0)
             {
-                for(i = 0; i <= offsetx; i++)
+                for (i = 0; i <= offsetx; i++)
                 {
                     Img(y + i * j, x + i) = color;
                 }
             }
             else
             {
-                for(i = 0; i >= offsetx; i--)
+                for (i = 0; i >= offsetx; i--)
                 {
                     Img(y + i * j, x + i) = color;
                 }
@@ -144,20 +144,20 @@ namespace itr_vision
 
         }
     }
-    void Draw::Line(ImageGray& Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,S16 color)
+    void Draw::Line(ImageGray& Img, S32 beginx, S32 beginy, S32 endx, S32 endy, S16 color)
     {
-        int i,j;
+        int i, j;
         i = endx - beginx;
         j = endy - beginy;
         LineOffset(Img, beginx, beginy, i, j, color);
     }
-    void Draw::Line(ImageARGB& Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,U32 color)
-   {
-       int i,j;
-       i = endx - beginx;
-       j = endy - beginy;
-       LineOffset(Img, beginx, beginy, i, j, color);
-   }
+    void Draw::Line(ImageARGB& Img, S32 beginx, S32 beginy, S32 endx, S32 endy, U32 color)
+    {
+        int i, j;
+        i = endx - beginx;
+        j = endy - beginy;
+        LineOffset(Img, beginx, beginy, i, j, color);
+    }
     void Draw::Cross(ImageGray &bmp, S32 x, S32 y, S32 scale, S16 color)
     {
         LineOffset(bmp, x, y, 0, scale, color);
@@ -172,34 +172,35 @@ namespace itr_vision
         LineOffset(bmp, x, y, scale, 0, color);
         LineOffset(bmp, x, y, -scale, 0, color);
     }
-    void Draw::Rectangle(ImageGray& Img,RectangleS rect,S16 color)
+    void Draw::Rectangle(ImageGray& Img, RectangleS rect, S16 color)
     {
         LineOffset(Img, rect.X, rect.Y, rect.Width, 0, color);
         LineOffset(Img, rect.X, rect.Y, 0, rect.Height, color);
         LineOffset(Img, rect.X + rect.Width, rect.Y, 0, rect.Height, color);
         LineOffset(Img, rect.X, rect.Y + rect.Height, rect.Width, 0, color);
     }
-    void Draw::Rectangle(ImageARGB& Img,RectangleS rect,U32 color)
+    void Draw::Rectangle(ImageARGB& Img, RectangleS rect, U32 color)
     {
         LineOffset(Img, rect.X, rect.Y, rect.Width, 0, color);
         LineOffset(Img, rect.X, rect.Y, 0, rect.Height, color);
         LineOffset(Img, rect.X + rect.Width, rect.Y, 0, rect.Height, color);
         LineOffset(Img, rect.X, rect.Y + rect.Height, rect.Width, 0, color);
     }
-    /*ImageGray Draw::Correspond(ImageGray& Img1,ImageGray& Img2,vector<FeaturePoint>& feature1,vector<FeaturePoint>& feature2)
+    void Draw::Correspond(const ImageGray& Img1, const ImageGray& Img2,
+            const vector<FeaturePoint>& feature1, const vector<FeaturePoint>& feature2,
+            ImageGray& Result)
     {
-        ImageGray Result(Img1.GetWidth()*2+10,Img1.GetHeight());
-        int offset=Img1.GetWidth()+10;
-        for(int i=0;i<Img1.GetWidth();i++)
-            for(int j=0;j<Img1.GetHeight();j++)
+        assert(Result.Allocate(Img1.GetWidth() * 2 + 10, Img1.GetHeight())==true);
+        int offset = Img1.GetWidth() + 10;
+        for (int i = 0; i < Img1.GetWidth(); i++)
+            for (int j = 0; j < Img1.GetHeight(); j++)
             {
-                Result(j,i)=Img1(j,i);
-                Result(j,i+offset)=Img2(j,i);
+                Result(j, i) = Img1(j, i);
+                Result(j, i + offset) = Img2(j, i);
             }
-        for(int i=0;i<feature1.size();i++)
+        for (int i = 0; i < feature1.size(); i++)
         {
-            Line(Result,feature1[i].x,feature1[i].y,feature2[i].x+offset,feature2[i].y,255);
+            Line(Result, feature1[i].x, feature1[i].y, feature2[i].x + offset, feature2[i].y, 255);
         }
-        return Result;
-    }*/
+    }
 } // namespace itr_vision
