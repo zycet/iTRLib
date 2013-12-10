@@ -46,7 +46,7 @@ using std::vector;
 void lktest()
 {
     lktest2Img();
-    //lkseq();
+    lkseq();
 }
 void lkseq()
 {
@@ -56,23 +56,24 @@ void lkseq()
     SelectFeature select(gray, 7);
     vector<FeaturePoint> flU(100), flV(100), flU2(100);
     RectangleS rect(210, 240, 100, 150);
+    select.mindist=5;
     select.SelectGoodFeature(rect, flU);
     LKTracker tracker(gray);
 
-    for (int k = 2; k < 200; ++k)
+    for (int k = 1; k < 200; ++k)
     {
         sprintf(file, "Debug/green/cap%03d.pgm", k);
         IOHelper::ReadPGMFile(file, gray);
         int start = clock() / 1000;
         tracker.AddNext(gray);
         tracker.Compute(flU, flV, true);
-//        tracker.Compute(flV, flU2, false);
-//        for (int i = 0; i < flU.size(); ++i)
-//        {
-//            if (fabs(flU[i] - flU2[i]) > 3)
-//                flV[i].value = -1;
-////            printf("%d,%d\n", flU[i] - flU2[i], flV[i].value);
-//        }
+        tracker.Compute(flV, flU2, false);
+        for (int i = 0; i < flU.size(); ++i)
+        {
+            if (fabs(flU[i] - flU2[i]) > 5)
+                flV[i].value = -1;
+//            printf("%d,%d\n", flU[i] - flU2[i], flV[i].value);
+        }
         F32 x = 0, y = 0;
         S32 count = 0;
         for (unsigned int i = 0; i < flV.size(); ++i)
@@ -91,6 +92,7 @@ void lkseq()
         rect.Y += (y / count);
         printf("%d,%d\n", rect.X, rect.Y);
         SelectFeature select(gray, 7);
+        select.mindist=5;
         select.SelectGoodFeature(rect, flU);
         sprintf(file, "Debug/output/%05d.pgm", k);
         for (unsigned int i = 0; i < flV.size(); ++i)
@@ -101,9 +103,12 @@ void lkseq()
             }
         }
 //        rect.X=rect.Y=0;
-        Draw::Circle(gray, rect.X, rect.Y, 10, 255);
+        Draw::Rectangle(gray, rect, 255);
         IOHelper::WritePGMFile(file, gray);
 
+        //flV.clear();
+        flU2.clear();
+        cout<<flV.size()<<endl;
     }
 
 }
