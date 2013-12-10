@@ -56,6 +56,7 @@ namespace itr_vision
             ImageGray dx, dy;
             S32 bw;
             S32 width, height;
+            S32 windowWidth;
     };
 
 } // namespace itr_vision

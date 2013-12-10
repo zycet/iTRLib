@@ -41,8 +41,9 @@ namespace itr_vision
     SelectFeature::SelectFeature(const ImageGray& Img, int WindowWidth)
     {
         bw = WindowWidth >> 1;
+        windowWidth=WindowWidth;
         mindist = 10;
-        mineigen = 10;
+        mineigen = 1;
         width = Img.GetWidth();
         height = Img.GetHeight();
         img.Allocate(Img.GetWidth(), Img.GetHeight());
@@ -68,24 +69,24 @@ namespace itr_vision
     {
     }
 
-    float SelectFeature::MinEigenvalue(float gxx, float gxy, float gyy)
+    float SelectFeature::MinEigenvalue(F32 gxx, F32 gxy, F32 gyy)
     {
         itr_math::NumericalObj->Sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy, gxy);
         return (float) ((gxx + gyy - gxy) * 0.5f);
 //        return (float) ((gxx + gyy - sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy)) *0.5f);/// 2.0f);
     }
-    void SelectFeature::SelectGoodFeature(const RectangleS& rect, vector<FeaturePoint>& fl)
+    void SelectFeature::SelectGoodFeature(const RectangleS& rect, vector<FeaturePoint>& featureOutput)
     {
         vector<FeaturePoint> featurelist(rect.Width * rect.Height);
-        S32 bord = 24;
+        S32 bord = 24,ImgWidth=img.GetWidth();
         S32 bordy = rect.Y + rect.Height;
         S32 bordx = rect.X + rect.Width;
         S32 beginy = (rect.Y < bord) ? bord : rect.Y;
         S32 beginx = (rect.X < bord) ? bord : rect.X;
         if (bordy >= img.GetHeight() - bord)
             bordy = img.GetHeight() - bord;
-        if (bordx >= img.GetWidth() - bord)
-            bordx = img.GetWidth() - bord;
+        if (bordx >= ImgWidth - bord)
+            bordx = ImgWidth - bord;
         S32 x, y, xx, yy;
         S32 gxx, gxy, gyy, gx, gy;
         vector<FeaturePoint>::iterator featptr = featurelist.begin();
@@ -99,8 +100,8 @@ namespace itr_vision
                         for (xx = x - bw; xx <= x + bw; ++xx)
                         {
                             // TODO 改成指针形式的访问
-                            gx = dx(yy, xx);
-                            gy = dy(yy, xx);
+                            gx = dx[yy*ImgWidth+ xx];
+                            gy = dy[yy*ImgWidth+ xx];
                             gxx += gx * gx;
                             gxy += gx * gy;
                             gyy += gy * gy;
@@ -113,11 +114,11 @@ namespace itr_vision
         }
 
         std::sort(featurelist.begin(), featurelist.end(), std::greater<FeaturePoint>());
-
+        --mindist;
         //增大最小间距
         {
             featptr = featurelist.begin();
-            vector<FeaturePoint>::iterator flindex = fl.begin();
+            vector<FeaturePoint>::iterator flindex = featureOutput.begin();
             BOOL *featuremap = new BOOL[height* width]();
             memset(featuremap, 0, sizeof(featuremap));
             S32 value;
@@ -126,7 +127,7 @@ namespace itr_vision
                 x = featptr->x;
                 y = featptr->y;
                 value = featptr->value;
-                if (featuremap[y * width + x] == 0 && value > mineigen)
+                if (featuremap[y * width + x] == 0 && value >= mineigen)
                 {
                     flindex->x = x;
                     flindex->y = y;
@@ -134,7 +135,7 @@ namespace itr_vision
                     fillMap(x, y, featuremap);
                     ++flindex;
                 }
-                if (flindex == fl.end())
+                if (flindex == featureOutput.end())
                     break;
                 ++featptr;
             }

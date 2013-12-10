@@ -39,7 +39,7 @@ namespace itr_vision
     LKTracker::LKTracker(const ImageGray& Img1, const ImageGray& Img2)
     {
         windowWidth = 11;
-        minDet = 100;
+        minDet = 0.1;
         level = 2;
         stopth = 0.1f;
         max_residue = 10;

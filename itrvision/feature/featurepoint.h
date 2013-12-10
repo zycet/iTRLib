@@ -25,7 +25,7 @@ class FeaturePoint
             y = Y;
             value = Value;
         }
-        inline bool operator-(const FeaturePoint &b) const
+        inline S32 operator-(const FeaturePoint &b) const
         {
             return fabs(x-b.x)+fabs(y-b.y);
         }
