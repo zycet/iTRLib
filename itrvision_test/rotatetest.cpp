@@ -18,4 +18,5 @@ void rotateImgGraytest()
     IOHelper::ReadPGMFile("Debug/table1.pgm", grayI);
     Rotate::rotate(grayI, rect, ang, grayO);
     IOHelper::WritePGMFile("Debug/grayO.pgm", grayO);
+    TRACE_INFO("OK Rotate");
 }

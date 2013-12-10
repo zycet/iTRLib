@@ -186,5 +186,20 @@ namespace itr_vision
         LineOffset(Img, rect.X + rect.Width, rect.Y, 0, rect.Height, color);
         LineOffset(Img, rect.X, rect.Y + rect.Height, rect.Width, 0, color);
     }
-
+    /*ImageGray Draw::Correspond(ImageGray& Img1,ImageGray& Img2,vector<FeaturePoint>& feature1,vector<FeaturePoint>& feature2)
+    {
+        ImageGray Result(Img1.GetWidth()*2+10,Img1.GetHeight());
+        int offset=Img1.GetWidth()+10;
+        for(int i=0;i<Img1.GetWidth();i++)
+            for(int j=0;j<Img1.GetHeight();j++)
+            {
+                Result(j,i)=Img1(j,i);
+                Result(j,i+offset)=Img2(j,i);
+            }
+        for(int i=0;i<feature1.size();i++)
+        {
+            Line(Result,feature1[i].x,feature1[i].y,feature2[i].x+offset,feature2[i].y,255);
+        }
+        return Result;
+    }*/
 } // namespace itr_vision

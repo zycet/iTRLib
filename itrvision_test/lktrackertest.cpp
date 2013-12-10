@@ -46,7 +46,7 @@ using std::vector;
 void lktest()
 {
     lktest2Img();
-    lkseq();
+    //lkseq();
 }
 void lkseq()
 {

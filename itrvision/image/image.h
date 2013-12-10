@@ -188,6 +188,7 @@ namespace itr_vision
                 assert(Y < this->height);
                 return &this->pixels[Y * this->width + X];
             }
+            ImageGray& operator=(const ImageGray& Img);
             inline S16& operator[](int index)
             {
                 assert(index < this->pixelsNumber);

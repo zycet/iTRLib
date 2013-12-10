@@ -113,6 +113,10 @@ namespace itr_vision
         new(this)ImageGray(Img.GetWidth(),Img.GetHeight(),Img.GetPixels());
     }
 
+    ImageGray& ImageGray::operator =(const ImageGray& Img)
+    {
+        new(this)ImageGray(Img.GetWidth(),Img.GetHeight(),Img.GetPixels());
+    }
     ImageGray::~ImageGray()
     {
         if (this->localData == true)
@@ -152,4 +156,5 @@ namespace itr_vision
         }
     }
 } // namespace itr_image
+
 

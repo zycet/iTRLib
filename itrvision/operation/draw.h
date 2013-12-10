@@ -35,6 +35,8 @@
 #define DRAW_H_
 #include "../itrvision.h"
 #include "itrbase.h"
+#include <vector>
+using std::vector;
 using itr_math::RectangleS;
 namespace itr_vision
 {
@@ -52,6 +54,7 @@ namespace itr_vision
             static void Cross(ImageARGB &bmp, S32 x, S32 y, S32 scale, U32 color);
             static void Rectangle(ImageGray& Img,RectangleS rect,S16 color);
             static void Rectangle(ImageARGB& Img,RectangleS rect,U32 color);
+           // static ImageGray Correspond(ImageGray& Img1,ImageGray& Img2,vector<FeaturePoint>& feature1,vector<FeaturePoint>& feature2);
     };
 
 } // namespace itr_vision
