@@ -34,6 +34,7 @@
 #ifndef DRAW_H_
 #define DRAW_H_
 #include "../itrvision.h"
+#include "../feature/featurepoint.h"
 #include "itrbase.h"
 #include <vector>
 using std::vector;
@@ -54,7 +55,7 @@ namespace itr_vision
             static void Cross(ImageARGB &bmp, S32 x, S32 y, S32 scale, U32 color);
             static void Rectangle(ImageGray& Img,RectangleS rect,S16 color);
             static void Rectangle(ImageARGB& Img,RectangleS rect,U32 color);
-           // static ImageGray Correspond(ImageGray& Img1,ImageGray& Img2,vector<FeaturePoint>& feature1,vector<FeaturePoint>& feature2);
+            static void Correspond(const ImageGray& Img1,const ImageGray& Img2,const vector<FeaturePoint>& feature1,const vector<FeaturePoint>& feature2,ImageGray& Result);
     };
 
 } // namespace itr_vision

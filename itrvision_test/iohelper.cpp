@@ -60,9 +60,10 @@ void IOHelper::ReadPPMFile(char* filename, ImageGray& img)
 
 void IOHelper::WritePPMFile(char* filename, ImageGray& img)
 {
-    U8* bufferWrite = new U8[1024 * 1024];
+    S32 length2 = img.GetWidth() * img.GetHeight()*3 + 20;
+    U8* bufferWrite = new U8[length2];
     //Write Image
-    S32 length2 = 1024 * 1024;
+
     itr_vision::FormatPPM FormatPPMObj;
     assert(FormatPPMObj.ToBinary(img, bufferWrite, length2)==itr_vision::IFormat::Success);
     //Write File
@@ -98,9 +99,8 @@ void IOHelper::ReadPGMFile(char* filename, ImageGray& img)
 
 void IOHelper::WritePGMFile(char* filename, ImageGray& img)
 {
-    U8* bufferWrite = new U8[1024 * 1024];
-    //Write Image
-    S32 length2 = 1024 * 1024;
+    S32 length2 = img.GetWidth() * img.GetHeight() + 20;
+    U8* bufferWrite = new U8[length2];
     itr_vision::FormatPGM FormatPGMObj;
     assert(FormatPGMObj.ToBinary(img, bufferWrite, length2)==itr_vision::IFormat::Success);
     //Write File

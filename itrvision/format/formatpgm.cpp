@@ -111,7 +111,7 @@ namespace itr_vision
     IFormat::ConvertResult FormatPGM::ToBinary(ImageARGB& Img, U8* Data, S32& Length)
     {
 
-        if (Length < (Img.GetWidth() * Img.GetHeight() * 3 + 15))
+        if (Length < (Img.GetWidth() * Img.GetHeight() + 15))
             return IFormat::LengthIllegal;
         stringstream str;
         str << "P5" << '\n';
@@ -144,7 +144,7 @@ namespace itr_vision
     IFormat::ConvertResult FormatPGM::ToBinary(ImageGray& Img, U8* Data, S32& Length)
     {
 
-        if (Length < (Img.GetWidth() * Img.GetHeight() * 3 + 15))
+        if (Length < (Img.GetWidth() * Img.GetHeight() + 15))
             return IFormat::LengthIllegal;
         stringstream str;
         str << "P5" << '\n';

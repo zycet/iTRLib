@@ -56,7 +56,7 @@ void lkseq()
     SelectFeature select(gray, 7);
     vector<FeaturePoint> flU(100), flV(100), flU2(100);
     RectangleS rect(210, 240, 100, 150);
-    select.mindist=5;
+    select.mindist = 5;
     select.SelectGoodFeature(rect, flU);
     LKTracker tracker(gray);
 
@@ -92,7 +92,7 @@ void lkseq()
         rect.Y += (y / count);
         printf("%d,%d\n", rect.X, rect.Y);
         SelectFeature select(gray, 7);
-        select.mindist=5;
+        select.mindist = 5;
         select.SelectGoodFeature(rect, flU);
         sprintf(file, "Debug/output/%05d.pgm", k);
         for (unsigned int i = 0; i < flV.size(); ++i)
@@ -108,7 +108,7 @@ void lkseq()
 
         //flV.clear();
         flU2.clear();
-        cout<<flV.size()<<endl;
+        cout << flV.size() << endl;
     }
 
 }
@@ -118,10 +118,12 @@ void lktest2Img()
     IOHelper::ReadPGMFile("Debug/img0.pgm", gray1);
     IOHelper::ReadPGMFile("Debug/img1.pgm", gray2);
     SelectFeature select(gray1, 7);
-    vector<FeaturePoint> flU(100), flV(100), flU2(100);
+    vector<FeaturePoint> flU(50), flV(100), flU2(100);
     RectangleS rect(0, 0, gray1.GetWidth(), gray1.GetHeight());
     select.SelectGoodFeature(rect, flU);
     LKTracker tracker(gray1, gray2);
+
+    tracker.Compute(flU, flV, true);
     vector<FeaturePoint>::iterator feat = flU.begin();
     int i = 0;
     while (feat != flU.end())
@@ -129,14 +131,6 @@ void lktest2Img()
         Draw::Circle(gray1, feat->x, feat->y, 3, 255);
         printf("Feature:%d at(%d,%d) with %d\n", i++, feat->x, feat->y, feat->value);
         ++feat;
-    }
-    tracker.Compute(flU, flV, true);
-    tracker.Compute(flV, flU2, false);
-    for (int i = 0; i < flU.size(); ++i)
-    {
-        if (fabs(flU[i] - flU2[i]) > 5)
-            flV[i].value = -1;
-        printf("%d,%d\n", flU[i] - flU2[i], flV[i].value);
     }
     feat = flV.begin();
     i = 0;
@@ -149,6 +143,18 @@ void lktest2Img()
         }
         ++feat;
     }
+    ImageGray result;
+    Draw::Correspond(gray1, gray2, flU, flV, result);
+    tracker.Compute(flV, flU2, false);
+    for (int i = 0; i < flU.size(); ++i)
+    {
+        if (fabs(flU[i] - flU2[i]) > 5)
+            flV[i].value = -1;
+        printf("%d,%d\n", flU[i] - flU2[i], flV[i].value);
+    }
+
+    IOHelper::WritePPMFile("Debug/result.ppm", result);
     IOHelper::WritePPMFile("Debug/gray1.ppm", gray1);
     IOHelper::WritePPMFile("Debug/gray2.ppm", gray2);
+
 }
