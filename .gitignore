@@ -19,4 +19,9 @@
 *.*~
 
 test/
-RemoteSystemsTempFiles/
+RemoteSystemsTempFiles//itrbase/itrbase.depend
+/itrbase_test/itrbase_test.depend
+/itrvision/itrvision.depend
+/itrvision_test/itrvision_test.depend
+/itrbase/itrbase.depend
+/RemoteSystemsTempFiles/.project
