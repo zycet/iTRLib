@@ -9,7 +9,7 @@ void rotatetest()
     rotateImgGraytest();
 }
 
-void pickImgGraytest()
+void rotateImgGraytest()
 {
     ImageGray grayI;
     ImageGray grayO(100, 150);

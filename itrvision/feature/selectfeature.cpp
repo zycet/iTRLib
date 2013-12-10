@@ -41,7 +41,7 @@ namespace itr_vision
     SelectFeature::SelectFeature(const ImageGray& Img, int WindowWidth)
     {
         bw = WindowWidth >> 1;
-        mindist = 3;
+        mindist = 10;
         mineigen = 10;
         width = Img.GetWidth();
         height = Img.GetHeight();
