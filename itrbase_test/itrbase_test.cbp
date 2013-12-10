@@ -16,7 +16,12 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add directory="../itrbase" />
 				</Compiler>
+				<Linker>
+					<Add library="../itrbase/Debug/libitrbase.a" />
+					<Add directory="../itrbase" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="itrbase_test" prefix_auto="1" extension_auto="1" />
@@ -26,17 +31,25 @@
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
-					<Add option="-Wall" />
 					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add directory="../itrbase" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add directory="../itrbase" />
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="calculatetest.cc" />
+		<Unit filename="calculatetest.h" />
+		<Unit filename="containertest.cc" />
+		<Unit filename="containertest.h" />
+		<Unit filename="main.cc" />
+		<Unit filename="mathtest.cc" />
+		<Unit filename="mathtest.h" />
+		<Unit filename="platform_test.cc" />
+		<Unit filename="platform_test.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

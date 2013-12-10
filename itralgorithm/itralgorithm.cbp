@@ -16,7 +16,11 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add directory="../itrbase" />
 				</Compiler>
+				<Linker>
+					<Add directory="../itrbase" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="itralgorithm" prefix_auto="1" extension_auto="1" />
@@ -26,17 +30,24 @@
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
-					<Add option="-Wall" />
 					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add directory="../itrbase" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add directory="../itrbase" />
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="classifier/classifier.h" />
+		<Unit filename="classifier/domain.cpp" />
+		<Unit filename="classifier/domain.h" />
+		<Unit filename="classifier/naivebayes.cpp" />
+		<Unit filename="classifier/naivebayes.h" />
+		<Unit filename="classifier/trainingdata.cpp" />
+		<Unit filename="classifier/trainingdata.h" />
+		<Unit filename="itralgorithm.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

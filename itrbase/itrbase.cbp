@@ -34,9 +34,30 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="container/container.h" />
+		<Unit filename="container/cyclequeue.h" />
+		<Unit filename="math/calculate.cc" />
+		<Unit filename="math/calculate.h" />
+		<Unit filename="math/geometry.cc" />
+		<Unit filename="math/geometry.h" />
+		<Unit filename="math/math.cc" />
+		<Unit filename="math/math.h" />
+		<Unit filename="math/matrix.cc" />
+		<Unit filename="math/matrix.h" />
+		<Unit filename="math/numerical.cc" />
+		<Unit filename="math/numerical.h" />
+		<Unit filename="math/statistics.cc" />
+		<Unit filename="math/statistics.h" />
+		<Unit filename="math/transform2d.cc" />
+		<Unit filename="math/transform2d.h" />
+		<Unit filename="math/vector.cc" />
+		<Unit filename="math/vector.h" />
+		<Unit filename="platform/assistmacro.h" />
+		<Unit filename="platform/debugsupport.h" />
+		<Unit filename="platform/memoryoperation.cc" />
+		<Unit filename="platform/memoryoperation.h" />
+		<Unit filename="platform/platform.h" />
+		<Unit filename="platform/typedef.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

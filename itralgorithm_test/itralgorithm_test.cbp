@@ -16,7 +16,13 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add directory="../itralgorithm" />
+					<Add directory="../itrbase" />
 				</Compiler>
+				<Linker>
+					<Add directory="../itralgorithm" />
+					<Add directory="../itrvision" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="itralgorithm_test" prefix_auto="1" extension_auto="1" />
@@ -26,17 +32,21 @@
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
-					<Add option="-Wall" />
 					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add directory="../itralgorithm" />
+					<Add directory="../itrbase" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add directory="../itrbase" />
+					<Add directory="../itralgorithm" />
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="bayestest.cpp" />
+		<Unit filename="bayestest.h" />
+		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

@@ -16,7 +16,11 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add directory="../itrbase" />
 				</Compiler>
+				<Linker>
+					<Add directory="../itrbase" />
+				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="itrvision" prefix_auto="1" extension_auto="1" />
@@ -26,17 +30,53 @@
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
-					<Add option="-Wall" />
 					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add directory="../itrbase" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add directory="../itrbase" />
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="main.c">
-			<Option compilerVar="CC" />
-		</Unit>
+		<Unit filename="Debug/makefile" />
+		<Unit filename="Debug/objects.mk" />
+		<Unit filename="Debug/sources.mk" />
+		<Unit filename="Debug/subdir.mk" />
+		<Unit filename="feature/feature.h" />
+		<Unit filename="feature/featurepoint.h" />
+		<Unit filename="feature/lktracker.cc" />
+		<Unit filename="feature/lktracker.h" />
+		<Unit filename="feature/pyramid.cpp" />
+		<Unit filename="feature/pyramid.h" />
+		<Unit filename="feature/selectfeature.cpp" />
+		<Unit filename="feature/selectseature.h" />
+		<Unit filename="format/format.h" />
+		<Unit filename="format/formatpgm.cpp" />
+		<Unit filename="format/formatpgm.h" />
+		<Unit filename="format/formatppm.cpp" />
+		<Unit filename="format/formatppm.h" />
+		<Unit filename="format/iformat.h" />
+		<Unit filename="helper/gaussiangenerate.cc" />
+		<Unit filename="helper/gaussiangenerate.h" />
+		<Unit filename="helper/helper.h" />
+		<Unit filename="image/image.cc" />
+		<Unit filename="image/image.h" />
+		<Unit filename="operation/draw.cpp" />
+		<Unit filename="operation/draw.h" />
+		<Unit filename="operation/operation.h" />
+		<Unit filename="operation/pick.cpp" />
+		<Unit filename="operation/pick.h" />
+		<Unit filename="operation/rotate.cc" />
+		<Unit filename="operation/rotate.h" />
+		<Unit filename="operation/scale.cpp" />
+		<Unit filename="operation/scale.h" />
+		<Unit filename="process/convolutesquare.cc" />
+		<Unit filename="process/convolutesquare.h" />
+		<Unit filename="process/gradient.cpp" />
+		<Unit filename="process/gradient.h" />
+		<Unit filename="process/process.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
