@@ -34,19 +34,17 @@
 #include "rotate.h"
 namespace itr_vision
 {
-
-    ImageGray Rotate::rotate(const ImageGray& src, RectangleS &rect ,  F32 ang)
+    void Rotate::rotate(const ImageGray& ImgInput, RectangleS &rect, F32 ang, ImageGray& ImgOutput)
     {
         assert(rect.Width>0&&rect.Height>0);
-        ImageGray ta(rect.Width,rect.Height);
         Point2D  center(rect.X+rect.Width/2,rect.Y+rect.Height/2);
-        assert(center.X>0&&center.Y>0);         //需要判断吗？？？？？
-        Transform2D trans;      //旋转矩阵，旋转中心为原点
+        assert(center.X>0&&center.Y>0);
+        Transform2D trans;
         trans.Rotate(ang);
 
-        S32 srcw,srch;
-        srcw=src.GetWidth();        //获取大图片的宽和高，用来判断是否超出图片范围
-        srch=src.GetHeight();
+        S32 Inputw;
+        Inputw=ImgInput.GetWidth();
+
 
         Point2D pin,pout;
         S32 x0,y0;
@@ -56,19 +54,52 @@ namespace itr_vision
             {
               pin.X=i-center.X;
               pin.Y=j-center.Y;
-              trans.Transform(pin,pout);        //旋转坐标
+              trans.Transform(pin,pout);
               x0=pout.X+center.X;
-              y0=pout.Y+center.Y;               //还原坐标
-              if((x0>=0&&x0<srcw)&&(y0<srch&&y0>=0))
+              y0=pout.Y+center.Y;
+              if((x0>=0&&x0<rect.Width)&&(y0<rect.Height&&y0>=0))
               {
-                  ta(i,j)=src[x0+y0*srcw];      //出错了？重载运算符不是很明白。。。。。
+                  ImgOutput(i,j)=ImgInput[x0+y0*Inputw];
               }
               else
               {
-                  ta(i,j)=0;        //超出图片范围赋值0;
+                  ImgOutput(i,j)=0;
               }
             }
         }
-        return(ta);
+    }
+
+    void Rotate::rotate(const ImageARGB& ImgInput, RectangleS &rect, F32 ang, ImageARGB& ImgOutput)
+    {
+        assert(rect.Width>0&&rect.Height>0);
+        Point2D  center(rect.X+rect.Width/2,rect.Y+rect.Height/2);
+        assert(center.X>0&&center.Y>0);
+        Transform2D trans;
+        trans.Rotate(ang);
+
+        S32 Inputw;
+        Inputw=ImgInput.GetWidth();
+
+        Point2D pin,pout;
+        S32 x0,y0;
+        for(int i=0;i<rect.Height;i++)
+        {
+            for(int j=0;j<rect.Width;j++)
+            {
+              pin.X=i-center.X;
+              pin.Y=j-center.Y;
+              trans.Transform(pin,pout);
+              x0=pout.X+center.X;
+              y0=pout.Y+center.Y;
+              if((x0>=0&&x0<rect.Width)&&(y0<rect.Height&&y0>=0))
+              {
+                  ImgOutput(i,j)=ImgInput[x0+y0*Inputw];
+              }
+              else
+              {
+                  ImgOutput(i,j)=0;
+              }
+            }
+        }
     }
 } // namespace itr_vision
