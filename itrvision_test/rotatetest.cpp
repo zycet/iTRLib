@@ -12,8 +12,8 @@ void rotatetest()
 void rotateImgGraytest()
 {
     ImageGray grayI;
-    ImageGray grayO(100, 150);
-    RectangleS rect(100, 40, 100, 150);
+    ImageGray grayO(100, 100);
+    RectangleS rect(100, 100, 100, 100);
     F32 ang = 90;
     IOHelper::ReadPGMFile("Debug/table1.pgm", grayI);
     Rotate::rotate(grayI, rect, ang, grayO);

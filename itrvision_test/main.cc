@@ -41,6 +41,7 @@
 #include "lktrackertest.h"
 #include "drawtest.h"
 #include "picktest.h"
+#include "rotatetest.h"
 int main()
 {
     //Init Math
@@ -60,6 +61,8 @@ int main()
     //Finish
     itr_math::MathObjStandDeinit();
     //Deint Math
+    rotatetest();
+    //rotatetest
     TRACE_INFO("OK All");
     return 0;
 }
