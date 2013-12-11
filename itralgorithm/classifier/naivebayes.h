@@ -39,21 +39,23 @@
 
 #include <vector>
 using std::vector;
-
+using itr_math::Matrix;
 namespace itr_algorithm
 {
     class NaiveBayes
     {
         public:
-            NaiveBayes(const vector<Domain> &Domain);
-            void Train(vector<TrainingData>& Data,bool Flag);
-            S32 Classify(S32* Data,S32 length);
+            NaiveBayes(int FeatureNum);
+            void TrainPos(const Matrix& input);
+            void TrainNeg(const Matrix& input);
+            bool Classify(S32* Data,S32 length);
+            float LearnRate;
             virtual ~NaiveBayes();
         private:
-            int **pTrue;
-            int **pFalse;
-            const vector<Domain>& _domain;
-            S32 m,n;
+            bool inited;
+            int featureNum;
+            float *muPos,*muNeg;
+            float *sigmaPos,*sigmaNeg;
     };
 
 } // namespace itr_algorithm
