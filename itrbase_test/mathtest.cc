@@ -427,9 +427,7 @@ void TestCalculateTest()
 void TestTransform()
 {
     itr_math::Vector Input(3), veco(3);
-    F32 data1[3] =
-    { 1, 2, 0 }, data2[3], data3[3] =
-    { 2, 0, 0 };
+    F32 data1[3] ={ 1, 2, 0 }, data2[3], data3[3] = { 2, 0, 0 };
     Input.CopyFrom(data1);
 
     itr_math::Transform2D trans1;
@@ -448,7 +446,6 @@ void TestTransform()
     trans1.Offset(-1, -3);               //test Offset function (minus)
     trans1.Transform(Input, veco);
     veco.CopyTo(data2);
-    // printf("%f,%f,%f\n",*data2,*(data2+1),*(data2+2));
     assert(*data2 == 1);
     assert(*(data2 + 1) == 2);
 
@@ -462,22 +459,23 @@ void TestTransform()
     trans1.Inv();
     trans1.Transform(veco, veco);
     veco.CopyTo(data2);
-
-   // printf("%f,%f,%f\n", *data2, *(data2 + 1), *(data2 + 2));                  //出错，源于matrix.Inv出错。
+    assert(*data2 == 1);
+    assert(*(data2 + 1) == 2);
 
     trans1.Reset();
     trans1.Scale(0.5, 0.25);             //test Scale function (reduce)
     trans1.Transform(Input, veco);
     veco.CopyTo(data2);
-    assert(*data2 == 1);
-    assert(*(data2 + 1) == 2);
+    assert(*data2 == 0.5);
+    assert(*(data2 + 1) == 0.5);
 
     Input.CopyFrom(data3);              //test Rotate function(90 degree)
+    trans1.Reset();
     trans1.Rotate(90);
     trans1.Transform(Input, veco);
     veco.CopyTo(data2);
-    assert((*data2) < 0.0001 && (*data2) > -0.0001);
-    assert(*(data2 + 1) == 2);
+    assert(GET_ABS(*data2) < 0.0001 );
+    assert(GET_ABS(*(data2 + 1)-2) <0.0001);
     trans1.Rotate(-60);
     trans1.Transform(Input, veco);
     veco.CopyTo(data2);
@@ -512,18 +510,21 @@ void TestTransform()
 
     pos1.X = 2;
     pos1.Y = 0;
+    trans1.Reset();
     trans1.Rotate(90);                  //test Rotate function(90 degree)
     trans1.Transform(pos1, pos2);
-    assert(fabs(pos2.X - 0) < 0.001);
+    assert(GET_ABS(pos2.X - 0) < 0.001);
     assert(pos2.Y == 2);
+    trans1.Reset();
     trans1.Rotate(-60);
     trans1.Transform(pos1, pos2);
-    assert(pos2.Y == 1);
+    assert(GET_ABS(pos2.X-1)<0.001);
+    assert(GET_ABS(pos2.Y+1.732)<0.01);
 
-    /*trans1.Inv();
-     trans1.Transform(pos1,pos2);
-     assert(pos2.X==2);
-     assert(pos2.Y==1);*/
+    trans1.Inv();
+    trans1.Transform(pos1,pos2);
+    assert(GET_ABS(pos2.X-1)<0.01);
+    assert(GET_ABS(pos2.Y-1.732)<0.01);
 
     F32 inx = 1, iny = 2, outx, outy;
     trans1.Reset();
@@ -554,16 +555,19 @@ void TestTransform()
     trans1.Reset();
     trans1.Rotate(90);                  //test Rotate function(90 degree)
     trans1.Transform(inx, iny, outx, outy);
-    assert(fabs(outx - 0) < 0.001);
+    assert(GET_ABS(outx - 0) < 0.001);
     assert(outy == 2);
+
+    trans1.Reset();
     trans1.Rotate(-60);
     trans1.Transform(inx, iny, outx, outy);
-    assert(outy == 1);
+    assert(GET_ABS(outx -1)<0.01);
+    assert(GET_ABS(outy+1.732)<0.01);
 
-    /*trans1.Inv();
-     trans1.Transform(inx,iny,outx,outy);
-     assert(outx==2);
-     assert(outy==1);*/
+    trans1.Inv();
+    trans1.Transform(inx,iny,outx,outy);
+    assert(GET_ABS(outx-1)<0.01);
+    assert(GET_ABS(outy-1.732)<0.01);
 
     TRACE_INFO("OK TestTransform2D()");
 }
