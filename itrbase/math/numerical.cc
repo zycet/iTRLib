@@ -173,6 +173,14 @@ namespace itr_math
 
     BOOL Numerical::RandGaussian(F32 mid, F32& Result) const
     {
+        float r1, r2;
+        float R,log,cos;
+        Log(r1,log);
+        Cos(2 *Pi * r2,cos);
+        Rand(r1);
+        Rand(r2);
+        Sqrt(-2*log,R);
+        Result=R*cos;
         return true;
     }
 }

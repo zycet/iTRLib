@@ -42,6 +42,7 @@ namespace itr_math
     class Numerical
     {
         public:
+
             Numerical();
             virtual ~Numerical();
             virtual BOOL Sin(F32 Source, F32& Result) const;
@@ -65,6 +66,7 @@ namespace itr_math
             virtual BOOL Rand(F32& Result) const;
             virtual BOOL Rand(S32 low, S32 high, S32& Result) const;
             virtual BOOL RandGaussian(F32 mid, F32& Result) const;
+            const static float Pi=3.1415926f;
     };
 }
 
