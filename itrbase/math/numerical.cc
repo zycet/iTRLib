@@ -34,12 +34,14 @@
 #include "../platform/platform.h"
 #include "math.h"
 #include <math.h>
-
+#include <time.h>
+#include <stdlib.h>
 namespace itr_math
 {
     Numerical::Numerical()
     {
         // TODO Auto-generated constructor stub
+        srand(time(0));
     }
 
     Numerical::~Numerical()
@@ -154,6 +156,23 @@ namespace itr_math
     BOOL Numerical::Mod(S32 SourceA, S32 SourceB, S32& Result) const
     {
         Result = SourceA % SourceB;
+        return true;
+    }
+
+    BOOL Numerical::Rand(F32& Result) const
+    {
+        Result = rand() % 1000000 / 1000000.0;
+        return true;
+    }
+
+    BOOL Numerical::Rand(S32 low, S32 high, S32& Result) const
+    {
+        Result = rand() % (high - low) + low;
+        return true;
+    }
+
+    BOOL Numerical::RandGaussian(F32 mid, F32& Result) const
+    {
         return true;
     }
 }

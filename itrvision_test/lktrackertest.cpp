@@ -49,6 +49,60 @@ void lktest()
     lktest2Img();
     lkseq();
 }
+void Ransac(S32 count, F32* x, S32& drop)
+{
+    S32 INF = 9999999;
+    S32 M = 7;
+    S32 N = count / M;
+    if (N < 1)
+        N = 1;
+    F32 *data = new F32[N];
+    F32 *result = new F32[M];
+    F32 *error = new F32[M];
+    int index, key;
+    for (int i = 0; i < M; i++)
+    {
+
+        for (int j = 0; j < N; j++)
+        {
+            itr_math::NumericalObj->Rand(0, count, index);
+            data[j] = x[index];
+        }
+        std::sort(data, data + N);
+        result[i] = data[N / 2];
+        for (int j = 0; j < count; ++j)
+        {
+            error[i] += fabs(x[j] - result[i]); //*(x[j]-result[i]);
+        }
+    }
+    index = 0;
+    key = error[0];
+    for (int i = 1; i < M; i++)
+    {
+        if (key > error[i])
+        {
+            key = error[i];
+            index = i;
+        }
+    }
+    key = result[index];
+    drop = 0;
+    printf("error: ");
+    for (int i = 0; i < count; ++i)
+    {
+        printf("%0.0f ", fabs(x[i] - key));
+        if (fabs(x[i] - key) >= 1.5)
+        {
+            x[i] = INF;
+            ++drop;
+        }
+    }
+    cout << endl;
+    delete[] error;
+    delete[] data;
+    delete[] result;
+}
+
 void lkseq()
 {
     char file[25];
@@ -56,7 +110,7 @@ void lkseq()
     IOHelper::ReadPGMFile("Debug/green/cap000.pgm", gray);
     SelectFeature select(gray, 7);
     vector<FeaturePoint> flU(100), flV(100), flU2(100);
-    RectangleS rect(230, 270, 80, 80);
+    RectangleS rect(250, 270, 80, 80);
     select.mindist = 10;
     select.SelectGoodFeature(rect, flU);
     LKTracker tracker(gray);
@@ -80,7 +134,7 @@ void lkseq()
 
         //计算矩形框速度
         F32 *x = new F32[flV.size()], *y = new F32[flV.size()];
-        S32 count = 0;
+        S32 count = 0, drop;
         for (unsigned int i = 0; i < flV.size(); ++i)
         {
             if (flV[i].value >= 0)
@@ -93,26 +147,28 @@ void lkseq()
         }
         cout << count << endl;
 
-        std::sort(x, x + count);
-        std::sort(y, y + count);
-
         //RANSAC
-        {
+        Ransac(count, x, drop);
+        std::sort(x, x + count);
+        rect.X += x[(count - drop) / 2]; //(x / count + 0.5);
+        Ransac(count, y, drop);
+        std::sort(y, y + count);
+        rect.Y += y[(count - drop) / 2]; //(y / count + 0.5);
 
-        }
+        printf("X,Y:%d,%d\n", rect.X, rect.Y);
         //输出速度
         {
+            printf("X: ");
             for (int i = 0; i < count; i++)
                 printf("%0.0f ", x[i]);
             cout << endl;
+            printf("Y: ");
             for (int i = 0; i < count; i++)
                 printf("%0.0f ", y[i]);
             cout << endl;
         }
+        //std::cin.get();
         cout << (clock() / 1000 - start) << endl;
-        rect.X += x[count / 2]; //(x / count + 0.5);
-        rect.Y += y[count / 2]; //(y / count + 0.5);
-        printf("X,Y:%d,%d\n", rect.X, rect.Y);
 
         //选择下一帧图像中的特征点
         SelectFeature select(gray, 7);
@@ -129,11 +185,14 @@ void lkseq()
             }
         }
 //        rect.X=rect.Y=0;
+        delete[] x;
+        delete[] y;
         Draw::Rectangle(gray, rect, 255);
         IOHelper::WritePGMFile(file, gray);
     }
 
 }
+
 void lktest2Img()
 {
     ImageGray gray1, gray2;

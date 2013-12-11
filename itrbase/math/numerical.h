@@ -62,6 +62,9 @@ namespace itr_math
             virtual BOOL Ceil(F32 Source, S32& Result) const;
             virtual BOOL Round(F32 Source, S32& Result) const;
             virtual BOOL Mod(S32 SourceA, S32 SourceB, S32& Result) const;
+            virtual BOOL Rand(F32& Result) const;
+            virtual BOOL Rand(S32 low, S32 high, S32& Result) const;
+            virtual BOOL RandGaussian(F32 mid, F32& Result) const;
     };
 }
 
