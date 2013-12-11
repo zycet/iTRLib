@@ -59,7 +59,7 @@ int main()
     TestMathdeDeinit();
     TestMatrix();
     TestGeometry();
-    TestTransform();
+    //TestTransform();
 
     //Finish
     //TRACE_INFO("OK All");
