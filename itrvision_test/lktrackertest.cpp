@@ -40,13 +40,14 @@
 #include <vector>
 #include <time.h>
 #include <iostream>
+#include <algorithm>
 using std::endl;
 using std::cout;
 using std::vector;
 void lktest()
 {
     lktest2Img();
-    //lkseq();
+    lkseq();
 }
 void lkseq()
 {
@@ -55,8 +56,8 @@ void lkseq()
     IOHelper::ReadPGMFile("Debug/green/cap000.pgm", gray);
     SelectFeature select(gray, 7);
     vector<FeaturePoint> flU(100), flV(100), flU2(100);
-    RectangleS rect(210, 240, 100, 150);
-    select.mindist = 5;
+    RectangleS rect(230, 270, 80, 80);
+    select.mindist = 10;
     select.SelectGoodFeature(rect, flU);
     LKTracker tracker(gray);
 
@@ -66,34 +67,59 @@ void lkseq()
         IOHelper::ReadPGMFile(file, gray);
         int start = clock() / 1000;
         tracker.AddNext(gray);
+
+        //正反误差滤波
         tracker.Compute(flU, flV, true);
         tracker.Compute(flV, flU2, false);
         for (int i = 0; i < flU.size(); ++i)
         {
-            if (fabs(flU[i] - flU2[i]) > 5)
+            if (fabs(flU[i] - flU2[i]) > 9)
                 flV[i].value = -1;
 //            printf("%d,%d\n", flU[i] - flU2[i], flV[i].value);
         }
-        F32 x = 0, y = 0;
+
+        //计算矩形框速度
+        F32 *x = new F32[flV.size()], *y = new F32[flV.size()];
         S32 count = 0;
         for (unsigned int i = 0; i < flV.size(); ++i)
         {
             if (flV[i].value >= 0)
             {
-                x += flV[i].x - flU[i].x;
-                y += flV[i].y - flU[i].y;
+                x[count] = flV[i].x - flU[i].x;
+                y[count] = flV[i].y - flU[i].y;
                 ++count;
             }
             flU[i].value = -1;
         }
-        //cout<<count<<endl;
+        cout << count << endl;
+
+        std::sort(x, x + count);
+        std::sort(y, y + count);
+
+        //RANSAC
+        {
+
+        }
+        //输出速度
+        {
+            for (int i = 0; i < count; i++)
+                printf("%0.0f ", x[i]);
+            cout << endl;
+            for (int i = 0; i < count; i++)
+                printf("%0.0f ", y[i]);
+            cout << endl;
+        }
         cout << (clock() / 1000 - start) << endl;
-        rect.X += (x / count);
-        rect.Y += (y / count);
-        printf("%d,%d\n", rect.X, rect.Y);
+        rect.X += x[count / 2]; //(x / count + 0.5);
+        rect.Y += y[count / 2]; //(y / count + 0.5);
+        printf("X,Y:%d,%d\n", rect.X, rect.Y);
+
+        //选择下一帧图像中的特征点
         SelectFeature select(gray, 7);
-        select.mindist = 5;
+        select.mindist = 7;
         select.SelectGoodFeature(rect, flU);
+
+        //输出处理
         sprintf(file, "Debug/output/%05d.pgm", k);
         for (unsigned int i = 0; i < flV.size(); ++i)
         {
@@ -105,10 +131,6 @@ void lkseq()
 //        rect.X=rect.Y=0;
         Draw::Rectangle(gray, rect, 255);
         IOHelper::WritePGMFile(file, gray);
-
-        //flV.clear();
-        flU2.clear();
-        cout << flV.size() << endl;
     }
 
 }
@@ -124,6 +146,14 @@ void lktest2Img()
     LKTracker tracker(gray1, gray2);
 
     tracker.Compute(flU, flV, true);
+
+    tracker.Compute(flV, flU2, false);
+    for (int i = 0; i < flU.size(); ++i)
+    {
+        if (fabs(flU[i] - flU2[i]) > 5)
+            flV[i].value = -1;
+        printf("%d,%d\n", flU[i] - flU2[i], flV[i].value);
+    }
     vector<FeaturePoint>::iterator feat = flU.begin();
     int i = 0;
     while (feat != flU.end())
@@ -132,6 +162,7 @@ void lktest2Img()
         printf("Feature:%d at(%d,%d) with %d\n", i++, feat->x, feat->y, feat->value);
         ++feat;
     }
+
     feat = flV.begin();
     i = 0;
     while (feat != flV.end())
@@ -143,16 +174,9 @@ void lktest2Img()
         }
         ++feat;
     }
+
     ImageGray result;
     Draw::Correspond(gray1, gray2, flU, flV, result);
-    tracker.Compute(flV, flU2, false);
-    for (int i = 0; i < flU.size(); ++i)
-    {
-        if (fabs(flU[i] - flU2[i]) > 5)
-            flV[i].value = -1;
-        printf("%d,%d\n", flU[i] - flU2[i], flV[i].value);
-    }
-
     IOHelper::WritePPMFile("Debug/result.ppm", result);
     IOHelper::WritePPMFile("Debug/gray1.ppm", gray1);
     IOHelper::WritePPMFile("Debug/gray2.ppm", gray2);

@@ -200,7 +200,9 @@ namespace itr_vision
             }
         for (int i = 0; i < feature1.size(); i++)
         {
-            Line(Result, feature1[i].x, feature1[i].y, feature2[i].x + offset, feature2[i].y, 255);
+            if (feature2[i].value >= 0)
+                Line(Result, feature1[i].x, feature1[i].y, feature2[i].x + offset, feature2[i].y,
+                        255);
         }
     }
 } // namespace itr_vision
