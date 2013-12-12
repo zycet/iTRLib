@@ -219,7 +219,8 @@ namespace itr_math
                 assert(ColNo<col);
                 assert(Data!=NULL);
                 for (S32 i = 0; i < row; i++)
-                    MemoryCopy(Data, data + ColNo + i * col, sizeof(F32));
+                  //  MemoryCopy(Data+i, data + ColNo + i * col, sizeof(F32));
+                    Data[i]=data[ColNo+i*col];
             }
 
             //**********数据访问**********

@@ -80,7 +80,7 @@ printMatrix(dataNeg);
     nb.TrainNeg(dataNeg);
 
     F32 test[3] =
-    { 1, -1, 1 };
+    { -0.5, 2, 1 };
     printf("%f\n", nb.Classify(test));
 }
 

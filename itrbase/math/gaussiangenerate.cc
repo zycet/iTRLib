@@ -64,7 +64,7 @@ namespace itr_math
     F32 GaussianGenerate::PDF(F32 mu, F32 sigma, F32 value)
     {
         F32 x = mu - value;
-        sigma=1/(sigma+1e30);
+        sigma=1/(sigma+1e-30);
         F32 expv;
         itr_math::NumericalObj->Exp(x * x * sigma * sigma * (-0.5f), expv);
         return expv *sigma/6.28;
