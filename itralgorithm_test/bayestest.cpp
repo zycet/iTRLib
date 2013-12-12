@@ -41,6 +41,18 @@ using std::vector;
 using std::ofstream;
 using namespace itr_math;
 using namespace itr_algorithm;
+
+void printMatrix(Matrix& a)
+{
+    for (int i = 0; i < a.GetRow(); ++i)
+    {
+        for (int j = 0; j < a.GetCol(); ++j)
+        {
+            printf("%f ", a(i, j));
+        }
+        printf("\n");
+    }
+}
 void NBCtest()
 {
     itr_math::MathObjStandInit();
@@ -52,19 +64,23 @@ void NBCtest()
     for (int i = 0; i < m; ++i)
     {
         fscanf(fin, "%f %f", temp, temp + 1);
-        dataPos.CopyRowFrom(i, temp);
+//        printf("%f %f\n",temp[0],temp[1]);
+        dataPos.CopyRowFrom(i+1, temp);
     }
     for (int i = 0; i < n; ++i)
     {
         fscanf(fin, "%f %f", temp, temp + 1);
-        dataNeg.CopyRowFrom(i, temp);
+//        printf("%f %f\n",temp[0],temp[1]);
+        dataNeg.CopyRowFrom(i+1, temp);
     }
+printMatrix(dataPos);
+printMatrix(dataNeg);
     NaiveBayes nb(FeatureNum);
     nb.TrainPos(dataPos);
     nb.TrainNeg(dataNeg);
 
     F32 test[3] =
-    { 1, 1, 1 };
+    { 1, -1, 1 };
     printf("%f\n", nb.Classify(test));
 }
 
