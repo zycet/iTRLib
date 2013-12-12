@@ -32,9 +32,8 @@
  */
 
 #include "gaussiangenerate.h"
-#include "itrbase.h"
 
-namespace itr_vision
+namespace itr_math
 {
     void GaussianGenerate::Generate(F32 Sigma, S32 Length, F32* Data)
     {
@@ -57,9 +56,17 @@ namespace itr_vision
     S32 GaussianGenerate::SuggestLength(F32 Sigma)
     {
         const F32 Sample = 3.5;
-        S32 r =0;
-        itr_math::NumericalObj->Round(Sample * Sigma,r);
+        S32 r = 0;
+        itr_math::NumericalObj->Round(Sample * Sigma, r);
         return (r * 2 + 1);
+    }
+
+    F32 GaussianGenerate::PDF(F32 mu, F32 sigma, F32 value)
+    {
+        F32 x = mu - value;
+        F32 expv;
+        itr_math::NumericalObj->Exp(x * x / (sigma * sigma * (-0.5f)), expv);
+        return expv / (sigma+1e20);
     }
 
 } // namespace itr_image

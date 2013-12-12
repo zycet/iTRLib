@@ -48,14 +48,15 @@ namespace itr_algorithm
             NaiveBayes(int FeatureNum);
             void TrainPos(const Matrix& input);
             void TrainNeg(const Matrix& input);
-            bool Classify(S32* Data,S32 length);
+            F32 Classify(F32* Data);
             float LearnRate;
             virtual ~NaiveBayes();
         private:
-            bool inited;
+            bool initpos,initneg;
             int featureNum;
             float *muPos,*muNeg;
             float *sigmaPos,*sigmaNeg;
+            const F32 INFMIN=1e-20;
     };
 
 } // namespace itr_algorithm

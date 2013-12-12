@@ -34,15 +34,17 @@
 #ifndef GAUSSIANGENERATE_H_
 #define GAUSSIANGENERATE_H_
 
-#include "itrbase.h"
+#include "../platform/platform.h"
+#include "math.h"
 
-namespace itr_vision
+namespace itr_math
 {
     class GaussianGenerate
     {
         public:
             static void Generate(F32 Sigma, S32 Length, F32* Data);
             static S32 SuggestLength(F32 Sigma);
+            static F32 PDF(F32 mu, F32 sigma, F32 value);
     };
 
 } // namespace itr_image

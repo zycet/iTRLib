@@ -61,8 +61,8 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itralgorithm/Debug}&quot;"/>
 								</option>
 								<option id="gnu.cpp.link.option.libs.1834725851" name="Libraries (-l)" superClass="gnu.cpp.link.option.libs" valueType="libs">
-									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="itrbase"/>
 									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="itralgorithm"/>
+									<listOptionValue builtIn="false" srcPrefixMapping="" srcRootPath="" value="itrbase"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.286210090" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>

@@ -26,22 +26,15 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * testhelper.cc
+ * testhelper.h
  *  Created on: 2013-9-27
  *      Author: buaa
  */
 
-#include "helpertest.h"
-#include "itrvision.h"
+#ifndef HELPERTEST_H_
+#define HELPERTEST_H_
 
-void TestGaussianGenerate()
-{
-    F32 sigma = 1;
-    S32 n = itr_vision::GaussianGenerate::SuggestLength(sigma);
-    assert(n==9);
-    F32* filter = new F32[n];
-    itr_vision::GaussianGenerate::Generate(sigma, n, filter);
-    assert(GET_ABS(filter[4]-0.398943484)<0.0001);
-    assert(GET_ABS(filter[0]-0.000133830)<0.0001);
-    delete filter;
-}
+#include "itrbase.h"
+void TestGaussianGenerate();
+
+#endif // TESTHELPER_H_

@@ -34,6 +34,7 @@
 #include "naivebayes.h"
 #include <iostream>
 #include <stdio.h>
+
 using std::cout;
 using std::endl;
 namespace itr_algorithm
@@ -53,7 +54,8 @@ namespace itr_algorithm
         sigmaPos = new F32[FeatureNum]();
         sigmaNeg = new F32[FeatureNum]();
         LearnRate = 0.8f;
-        inited = false;
+        initpos = false;
+        initneg = false;
     }
 
     void itr_algorithm::NaiveBayes::TrainPos(const Matrix& input)
@@ -62,7 +64,7 @@ namespace itr_algorithm
         F32* data = new F32[length];
         F32 mu, sigma;
 
-        if (!inited)
+        if (!initpos)
         {
             for (int i = 0; i < featureNum; i++)
             {
@@ -70,7 +72,7 @@ namespace itr_algorithm
                 itr_math::StatisticsObj->Mean(data, length, muPos[i]);
                 itr_math::StatisticsObj->Variance(data, length, sigmaPos[i]);
             }
-            inited = true;
+            initpos = true;
         }
         else
         {
@@ -96,7 +98,7 @@ namespace itr_algorithm
         F32* data = new F32[length];
         F32 mu, sigma;
 
-        if (!inited)
+        if (!initneg)
         {
             for (int i = 0; i < featureNum; i++)
             {
@@ -104,7 +106,7 @@ namespace itr_algorithm
                 itr_math::StatisticsObj->Mean(data, length, muNeg[i]);
                 itr_math::StatisticsObj->Variance(data, length, sigmaNeg[i]);
             }
-            inited = true;
+            initneg = true;
         }
         else
         {
@@ -124,9 +126,19 @@ namespace itr_algorithm
         }
     }
 
-    bool itr_algorithm::NaiveBayes::Classify(S32* Data, S32 length)
+    F32 itr_algorithm::NaiveBayes::Classify(F32* Data)
     {
-        return true;
+        F32 result = 0;
+        F32 p, n;
+        for (int i = 0; i < featureNum; ++i)
+        {
+            p = itr_math::GaussianGenerate::PDF(muPos[i], sigmaPos[i], Data[i]);
+            n = itr_math::GaussianGenerate::PDF(muNeg[i], sigmaNeg[i], Data[i]);
+            itr_math::NumericalObj->Log(p + INFMIN, p);
+            itr_math::NumericalObj->Log(n + INFMIN, n);
+            result += (p - n);
+        }
+        return result;
     }
 
     itr_algorithm::NaiveBayes::~NaiveBayes()

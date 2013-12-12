@@ -61,7 +61,7 @@ namespace itr_math
 #include "matrix.h"
 #include "geometry.h"
 #include "transform2d.h"
-
+#include "gaussiangenerate.h"
 namespace itr_math
 {
     void MathObjStandInit();

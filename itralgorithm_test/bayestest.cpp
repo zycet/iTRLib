@@ -43,28 +43,28 @@ using namespace itr_math;
 using namespace itr_algorithm;
 void NBCtest()
 {
+    itr_math::MathObjStandInit();
     FILE* fin = fopen("Debug/data", "r");
-    int n, m;
-    fscanf(fin, "%d %d", &m, &n);
-    vector<TrainingData> data(m, 2);
-    float temp[3];
+    int FeatureNum, n, m;
+    fscanf(fin, "%d %d %d", &FeatureNum, &m, &n);
+    Matrix dataPos(m, FeatureNum), dataNeg(n, FeatureNum);
+    float temp[2];
     for (int i = 0; i < m; ++i)
     {
-        fscanf(fin, "%f %f %f", temp, temp + 1, temp + 2);
-        data[i].SetData(temp, 1);
+        fscanf(fin, "%f %f", temp, temp + 1);
+        dataPos.CopyRowFrom(i, temp);
     }
-    vector<Domain> domain(2);
-    domain[0].Init(1, 2, 2);
-    domain[1].Init(-3, 3, 7);
-    NaiveBayes nb(domain);
-    nb.Train(data, true);
-    for (int i = 0; i < m; ++i)
+    for (int i = 0; i < n; ++i)
     {
-        fscanf(fin, "%f %f %f", temp, temp + 1, temp + 2);
-        data[i].SetData(temp, 1);
+        fscanf(fin, "%f %f", temp, temp + 1);
+        dataNeg.CopyRowFrom(i, temp);
     }
-    nb.Train(data,false);
-    int test[3]={1,-1,1};
-    printf("%d\n",nb.Classify(test,2));
+    NaiveBayes nb(FeatureNum);
+    nb.TrainPos(dataPos);
+    nb.TrainNeg(dataNeg);
+
+    F32 test[3] =
+    { 1, 1, 1 };
+    printf("%f\n", nb.Classify(test));
 }
 
