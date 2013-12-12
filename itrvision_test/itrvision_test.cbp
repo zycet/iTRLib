@@ -8,11 +8,11 @@
 		<Build>
 			<Target title="Debug">
 				<Option output="Debug/itrvision_test" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="" />
+				<Option working_dir="Debug" />
 				<Option object_output="obj/Debug/" />
-				<Option type="2" />
+				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option createDefFile="1" />
+				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
@@ -20,6 +20,8 @@
 					<Add directory="../itrvision" />
 				</Compiler>
 				<Linker>
+					<Add library="../itrvision/Debug/libitrvision.a" />
+					<Add library="../itrbase/Debug/libitrbase.a" />
 					<Add directory="../itrbase" />
 					<Add directory="../itrvision" />
 				</Linker>
