@@ -2,7 +2,7 @@
 
 namespace itr_algorithm
 {
-    Ransac::Ransac()
+    Ransac::Ransac(Operator& Oper):oper(Oper)
     {
         //ctor
         M=7;
@@ -10,16 +10,15 @@ namespace itr_algorithm
     }
     void Ransac::Process(S32 count, F32 *x, S32 &drop)
     {
-        S32 INF = 9999999;
-        S32 M = 7;
-        S32 N = count / M;
+
+        N = count / M;
         if (N < 1)
         {
             N = 1;
         }
-        F32 *data = new F32[N];
-        F32 *result = new F32[M];
-        F32 *error = new F32[M];
+        data = new F32[N];
+        result = new F32[M];
+        error = new F32[M];
         int index, key;
         for (int i = 0; i < M; i++)
         {
@@ -29,11 +28,11 @@ namespace itr_algorithm
                 itr_math::NumericalObj->Rand(0, count, index);
                 data[j] = x[index];
             }
-            std::sort(data, data + N);
-            result[i] = data[N / 2];
+
+            result[i] =oper.GetValue(data,N);
             for (int j = 0; j < count; ++j)
             {
-                error[i] += fabs(x[j] - result[i]); //*(x[j]-result[i]);
+                error[i] += oper.GetError(x[j] , result[i]); //*(x[j]-result[i]);
             }
         }
         index = 0;
@@ -48,17 +47,17 @@ namespace itr_algorithm
         }
         key = result[index];
         drop = 0;
-        printf("error: ");
+//        printf("error: ");
         for (int i = 0; i < count; ++i)
         {
-            printf("%0.0f ", fabs(x[i] - key));
-            if (fabs(x[i] - key) >= 1.5)
+//            printf("%0.0f ", fabs(x[i] - key));
+            if (oper.Remain(x[i] - key))
             {
                 x[i] = INF;
                 ++drop;
             }
         }
-        cout << endl;
+//        cout << endl;
         delete[] error;
         delete[] data;
         delete[] result;

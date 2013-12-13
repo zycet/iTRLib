@@ -34,6 +34,6 @@
 #ifndef CLASSIFIER_H_
 #define CLASSIFIER_H_
 
-#include "classifier.h"
-#include "ransac.h"
+#include "naivebayes.h"
+
 #endif // CLASSIFIER_H_

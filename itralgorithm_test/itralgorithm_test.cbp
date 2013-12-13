@@ -12,7 +12,6 @@
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
-				<Option use_console_runner="0" />
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
@@ -20,6 +19,8 @@
 					<Add directory="../itrbase" />
 				</Compiler>
 				<Linker>
+					<Add library="../itralgorithm/Debug/libitralgorithm.a" />
+					<Add library="../itrbase/Debug/libitrbase.a" />
 					<Add directory="../itralgorithm" />
 					<Add directory="../itrvision" />
 				</Linker>

@@ -36,13 +36,15 @@
 #include "itralgorithm.h"
 #include <stdio.h>
 #include <fstream>
+#include <algorithm>
 #include <vector>
+#include <math.h>
 using std::vector;
 using std::ofstream;
 using namespace itr_math;
 using namespace itr_algorithm;
 
-void printMatrix(Matrix& a)
+void printMatrix(Matrix &a)
 {
     for (int i = 0; i < a.GetRow(); ++i)
     {
@@ -53,10 +55,27 @@ void printMatrix(Matrix& a)
         printf("\n");
     }
 }
+class DataOper:Operator
+{
+    public:
+        F32 GetError(F32 a, F32 b)
+        {
+            return fabs(a-b);
+        }
+        F32 GetValue(F32 *data, S32 N)
+        {
+            std::sort(data,data+N);
+            return data[N/2];
+        }
+        bool Remain(F32 error)
+        {
+            return fabs(error)<1.5;
+        }
+};
 void NBCtest()
 {
     itr_math::MathObjStandInit();
-    FILE* fin = fopen("Debug/data", "r");
+    FILE *fin = fopen("Debug/data", "r");
     int FeatureNum, n, m;
     fscanf(fin, "%d %d %d", &FeatureNum, &m, &n);
     Matrix dataPos(m, FeatureNum), dataNeg(n, FeatureNum);
@@ -73,8 +92,8 @@ void NBCtest()
 //        printf("%f %f\n",temp[0],temp[1]);
         dataNeg.CopyRowFrom(i+1, temp);
     }
-printMatrix(dataPos);
-printMatrix(dataNeg);
+    printMatrix(dataPos);
+    printMatrix(dataNeg);
     NaiveBayes nb(FeatureNum);
     nb.TrainPos(dataPos);
     nb.TrainNeg(dataNeg);
