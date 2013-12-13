@@ -255,6 +255,18 @@ void TestVector()
     TRACE_INFO("OK TestVector()");
 }
 
+void printMatrix(itr_math::Matrix& a)
+{
+    for (int i = 0; i < a.GetRow(); ++i)
+    {
+        for (int j = 0; j < a.GetCol(); ++j)
+        {
+            printf("%f ", a(i, j));
+        }
+        printf("\n");
+    }
+}
+
 void TestMatrix()
 {
     //Init
@@ -276,6 +288,8 @@ void TestMatrix()
     { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
     F32 data7[3 * 3] =
     { 1, 0, 0, 0, 2, 0, 0, 0, 4 };
+    F32 dataRect[3 * 3] =
+    { 10, 200, 30, 40, 0, 0, 0, 0, 0 };
     F32 ExData[] =
     { 1, 1, 1 };
     F32 ExTemp[] =
@@ -300,6 +314,7 @@ void TestMatrix()
     itr_math::Matrix Source4(3, 3, data5);
     itr_math::Matrix SourceEye(3, 3, data6);
     itr_math::Matrix Source5(3, 3, data7);
+    itr_math::Matrix Template(3, 3, data1);
 
     itr_math::Vector VecSource(3, VecData);
 
@@ -405,6 +420,36 @@ void TestMatrix()
                     && Source1.GetData()[1] == Result.GetData()[3]
                     && Source1.GetData()[2] == Result.GetData()[6]);
 
+    /*测试内联函数*/
+
+    //测试函数
+    //inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height,F32* Data)
+    //printMatrix(Source1);
+
+    Source1.CopyFrom(2, 2, 2, 2, dataRect);
+    //printMatrix(Source1);
+    Source1.CopyFrom(1, 1, 3, 3, data1);    //复原数据
+    //assert(Source1.CompMatrix(Source1, Template) == true);
+    Source1.CompMatrix(Source1, Template);
+    //测试：inline void virtual CopyFrom(F32* Data)
+    Source1.CopyFrom(data6);
+    printMatrix(Source1);
+    Source1.CopyFrom(1, 1, 3, 3, data1);    //复原数据
+    printMatrix(Source1);
+    assert(Source1.CompMatrix(Source1, Template) == true);
+
+    //测试：inline void virtual CopyTo(S32 RowPos, S32 ColPos, S32 Width, S32 Height, F32* Data) const
+    Source1.CopyTo(2, 2, 2, 2, dataRect);
+    //printf("%f %f %f %f\n", dataRect[0], dataRect[1], dataRect[2], dataRect[3]);
+    //测试：inline void virtual CopyTo(F32* Data) const
+    //printMatrix(Source1);
+
+    Source1.CopyTo(dataRect);
+    for(int i = 0;i<9;i++)
+    {
+        printf("%f ",dataRect[i]);
+    }
+    printf("\n");
     TRACE_INFO("OK TestMatrix()");
 
 }
@@ -427,7 +472,9 @@ void TestCalculateTest()
 void TestTransform()
 {
     itr_math::Vector Input(3), veco(3);
-    F32 data1[3] ={ 1, 2, 0 }, data2[3], data3[3] = { 2, 0, 0 };
+    F32 data1[3] =
+    { 1, 2, 0 }, data2[3], data3[3] =
+    { 2, 0, 0 };
     Input.CopyFrom(data1);
 
     itr_math::Transform2D trans1;
@@ -474,7 +521,7 @@ void TestTransform()
     trans1.Rotate(90);
     trans1.Transform(Input, veco);
     veco.CopyTo(data2);
-    assert(GET_ABS(*data2) < 0.0001 );
+    assert(GET_ABS(*data2) < 0.0001);
     assert(GET_ABS(*(data2 + 1)-2) <0.0001);
     trans1.Rotate(-60);
     trans1.Transform(Input, veco);
@@ -522,7 +569,7 @@ void TestTransform()
     assert(GET_ABS(pos2.Y+1.732)<0.01);
 
     trans1.Inv();
-    trans1.Transform(pos1,pos2);
+    trans1.Transform(pos1, pos2);
     assert(GET_ABS(pos2.X-1)<0.01);
     assert(GET_ABS(pos2.Y-1.732)<0.01);
 
@@ -565,7 +612,7 @@ void TestTransform()
     assert(GET_ABS(outy+1.732)<0.01);
 
     trans1.Inv();
-    trans1.Transform(inx,iny,outx,outy);
+    trans1.Transform(inx, iny, outx, outy);
     assert(GET_ABS(outx-1)<0.01);
     assert(GET_ABS(outy-1.732)<0.01);
 

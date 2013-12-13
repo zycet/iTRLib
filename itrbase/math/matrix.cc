@@ -331,11 +331,12 @@ namespace itr_math
         Result.Sub(Mat);
         return Result;
     }
-    void Matrix::operator=(const Matrix& Mat)
+    Matrix Matrix::operator=(const Matrix& Mat)
     {
         assert(row == Mat.row);
         assert(col == Mat.col);
         this->CopyFrom(Mat.data);
+        return *this;
     }
     /*
      * 把Mat设为对角阵Mat[i][i] = value

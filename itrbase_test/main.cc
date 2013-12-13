@@ -61,7 +61,7 @@ int main()
     TestGeometry();
     TestTransform();
     //Test Helper
-    TestGaussianGenerate();
+    //TestGaussianGenerate();
     //Finish
     TRACE_INFO("OK All");
     return 0;

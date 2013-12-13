@@ -39,9 +39,11 @@
 
 #include "../platform/platform.h"
 #include "math.h"
+#include <stdio.h>
 
 namespace itr_math
 {
+    //注意：矩阵的行、列从1开始，
     class Matrix
     {
         public:
@@ -99,19 +101,26 @@ namespace itr_math
 
             //**********数据转移**********
             /*
-             * 将传入的数据复制至指定的矩形区域
+             * Func:将传入的数据复制至指定的矩形区域
+             * Para:RowOffset,ColOffset:插入位置，从1开始
+             *      Width,Height:插入打举行区域尺寸
              */
-            inline void virtual CopyFrom(S32 RowOffset, S32 ColOffset, S32 RowNum, S32 ColNum,
-                    F32* Data)
+            inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height, F32* Data)
             {
-                assert((RowOffset + RowNum) <= row && (ColOffset + ColNum) <= col);
+                assert(RowPos > 0 && RowPos <= row);
+                assert(ColPos > 0 && ColPos <= col);
+                assert(RowPos + Height <= row + 1);
+                assert(ColPos + Width <= col + 1);
                 assert(Data!=NULL);
-                for (S32 i = 0; i < ColNum; i++)
-                    MemoryCopy(data + (RowOffset - 1) * col + ColOffset + i * row, Data,
-                            RowNum * sizeof(F32));
+                for (S32 i = 0; i < Height; i++)
+                {
+                    MemoryCopy(data + (RowPos - 1) * col + (ColPos - 1) + i * row, Data + i * Width,
+                            Width * sizeof(F32));
+                }
             }
             /*
-             * 将传入的数据全部复制到矩阵中
+             * Func:将传入的数据全部复制到矩阵中
+             * Para:
              */
             inline void virtual CopyFrom(F32* Data)
             {
@@ -119,16 +128,23 @@ namespace itr_math
                 MemoryCopy(data, Data, row * col * sizeof(F32));
             }
             /*
-             * 将指定的矩形区域复制到出来
+             * Func:将指定的矩形区域复制到出来
+             * Para:RowPos,ColPos:取出的位置
+             *      Width,Height:矩形尺寸
              */
-            inline void virtual CopyTo(S32 RowOffset, S32 ColOffset, S32 RowNum, S32 ColNum,
+            inline void virtual CopyTo(S32 RowPos, S32 ColPos, S32 Width, S32 Height,
                     F32* Data) const
             {
-                assert((RowOffset+RowNum) <= row && (ColOffset + ColNum)<=col);
+                assert(RowPos > 0 && RowPos <= row);
+                assert(ColPos > 0 && ColPos <= col);
+                assert(RowPos + Height <= row + 1);
+                assert(ColPos + Width <= col + 1);
                 assert(Data!=NULL);
-                for (S32 i = 0; i < col; i++)
-                    MemoryCopy(Data, data + (RowOffset - 1) * col + ColOffset + i * row,
-                            RowNum * sizeof(F32));
+                for (S32 i = 0; i < Height; i++)
+                {
+                    MemoryCopy(Data + i * Width, data + (RowPos - 1) * col + (ColPos - 1) + i * row,
+                            Width * sizeof(F32));
+                }
             }
             /*
              * 将全部数据复制出来
@@ -216,11 +232,11 @@ namespace itr_math
             inline void virtual CopyColTo(S32 ColNo, F32* Data) const
             {
                 --ColNo;
-                assert(ColNo<col);
+                assert(ColNo < col);
                 assert(Data!=NULL);
                 for (S32 i = 0; i < row; i++)
-                  //  MemoryCopy(Data+i, data + ColNo + i * col, sizeof(F32));
-                    Data[i]=data[ColNo+i*col];
+                    //  MemoryCopy(Data+i, data + ColNo + i * col, sizeof(F32));
+                    Data[i] = data[ColNo + i * col];
             }
 
             //**********数据访问**********
@@ -453,7 +469,6 @@ namespace itr_math
              * 左乘行向量
              */
             //void virtual RightMulCol(const Vector& Vec, Matrix& MatResult) const;
-
             Vector virtual operator*(const Vector& vec) const;
 
             //**********矩阵相关计算**********
@@ -477,7 +492,7 @@ namespace itr_math
             Matrix virtual operator*(const Matrix& Mat) const;
             Matrix virtual operator+(const Matrix& Mat) const;
             Matrix virtual operator-(const Matrix& Mat) const;
-            void virtual operator=(const Matrix& Mat);
+            Matrix virtual operator=(const Matrix& Mat);
             /*
              * 把Mat设为对角阵Mat[i][i] = value
              */
@@ -497,6 +512,22 @@ namespace itr_math
              */
             //F32 virtual Det() const;
 
+            /*
+             *测试用函数
+             */
+            inline BOOL CompMatrix(Matrix mat1, Matrix mat2)
+            {
+                if (mat1.col != mat2.col)
+                    return false;
+                if (mat1.row != mat2.row)
+                    return false;
+                for (int i = 0; i < mat1.col * mat1.row; i++)
+                {
+                    if (mat1.data[i] != mat2.data[i])
+                        return false;
+                }
+                return true;
+            }
         private:
             S32 row, col;
             F32* data;
