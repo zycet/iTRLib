@@ -18,6 +18,7 @@
 #Temp file
 *.*~
 .save
+.layout
 .cbp.save
 .out
 test/
