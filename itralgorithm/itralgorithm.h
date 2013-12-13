@@ -35,6 +35,6 @@
 #define ITRALGORITHM_H_
 
 #include "classifier/classifier.h"
-#include "filter/ransac.h"
+#include "filter/filter.h"
 
 #endif // ITRALGORITHM_H_

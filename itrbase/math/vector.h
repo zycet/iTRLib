@@ -50,11 +50,11 @@ namespace itr_math
             /*
              * 初始化维数为Dim的向量(使用Data指向的空间储存数据)
              */
-            Vector(S32 Dim, F32* Data);
+            Vector(S32 Dim, F32 *Data);
             /*
              * 构造完全一样的向量(Clone)
              */
-            Vector(const Vector& Vec);
+            Vector(const Vector &Vec);
             /*
              * 回收本地空间(如果曾经分配)
              */
@@ -69,7 +69,7 @@ namespace itr_math
             /*
              * 返回内部数据地址
              */
-            inline F32* GetData() const
+            inline F32 *GetData() const
             {
                 return data;
             }
@@ -83,7 +83,7 @@ namespace itr_math
             /*
              * 返回维数是否一致
              */
-            inline BOOL MatchDim(const Vector& Vec) const
+            inline BOOL MatchDim(const Vector &Vec) const
             {
                 return (Vec.GetDim() == dim);
             }
@@ -104,23 +104,23 @@ namespace itr_math
             /*
              * 复制数据至内部指定位置
              */
-            virtual void CopyFrom(S32 Offset, S32 Num, F32* Data);
+            virtual void CopyFrom(S32 Offset, S32 Num, F32 *Data);
             /*
              * 复制数据至内部
              */
-            virtual void CopyFrom(F32* Data);
+            virtual void CopyFrom(F32 *Data);
             /*
              * 复制指定位置数据到Data
              */
-            virtual void CopyTo(S32 Offset, S32 Num, F32* Data) const;
+            virtual void CopyTo(S32 Offset, S32 Num, F32 *Data) const;
             /*
              * 复制数据至Data
              */
-            virtual void CopyTo(F32* Data) const;
+            virtual void CopyTo(F32 *Data) const;
             /*
              * 写入单个元素
              */
-            inline F32& operator[](int index)
+            inline F32 &operator[](int index)
             {
                 assert(index < dim);
                 return data[index];
@@ -128,7 +128,7 @@ namespace itr_math
             /*
              * 读取单个元素
              */
-            inline F32& operator[](int index) const
+            inline F32 &operator[](int index) const
             {
                 assert(index < dim);
                 return data[index];
@@ -136,10 +136,11 @@ namespace itr_math
             /*
              * 复制运算符重载
              */
-            inline void operator=(const Vector& Vec) const
+            inline Vector &operator=(const Vector &Vec)
             {
                 assert(MatchDim(Vec));
                 Vec.CopyTo(data);
+                return *this;
             }
 
             /*
@@ -149,6 +150,12 @@ namespace itr_math
             {
                 CalculateObj->Offset(data, K, dim, data);
             }
+
+            inline Vector operator+(F32 K)
+            {
+                this->Add(K);
+                return (*this);
+            }
             /*
              * 全部元素乘以K
              */
@@ -156,36 +163,60 @@ namespace itr_math
             {
                 CalculateObj->Scale(data, K, dim, data);
             }
+            inline Vector operator*(F32 K)
+            {
+                this->Mul(K);
+                return (*this);
+            }
             /*
              * 加上向量Vec(维数需一致)
              */
-            inline virtual void Add(const Vector& Vec)
+            inline virtual void Add(const Vector &Vec)
             {
                 assert(MatchDim(Vec));
                 CalculateObj->Add(data, Vec.GetData(), dim, data);
             }
+            inline Vector operator+(const Vector &Vec)
+            {
+                this->Add(Vec);
+                return (*this);
+            }
+
             /*
              * 减去向量Vec(维数需一致)
              */
-            inline virtual void Sub(const Vector& Vec)
+            inline virtual void Sub(const Vector &Vec)
             {
                 assert(MatchDim(Vec));
                 CalculateObj->Sub(data, Vec.GetData(), dim, data);
             }
+            inline Vector operator-(const Vector &Vec)
+            {
+                this->Sub(Vec);
+                return (*this);
+            }
+
+
             /*
              * 向量元素积
              */
-            virtual void Product(const Vector& Vec);
+            virtual void Product(const Vector &Vec);
             /*
              * 向量内积
              */
-            virtual F32 ProductInner(const Vector& Vec) const;
+            virtual F32 ProductInner(const Vector &Vec) const;
+            inline F32 operator*(const Vector &Vec)
+            {
+                return this->ProductInner(Vec);
+
+            }
+
             /*
              * 向量外积
              */
-            virtual void ProductOuter(const Vector& Vec, Vector& VecResult) const;
+            virtual void ProductOuter(const Vector &Vec, Vector &VecResult) const;
         private:
-            F32* data;
+            F32 *data;
             S32 dim;
             BOOL localData;
     };
