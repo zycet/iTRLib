@@ -33,6 +33,7 @@
 
 #include "lktrackertest.h"
 #include "iohelper.h"
+#include "itralgorithm.h"
 #include "itrvision.h"
 #include "itrbase.h"
 #include <math.h>
@@ -44,12 +45,13 @@
 using std::endl;
 using std::cout;
 using std::vector;
+using namespace itr_algorithm;
 void lktest()
 {
     lktest2Img();
     lkseq();
 }
-void Ransac(S32 count, F32* x, S32& drop)
+/*void Ransac(S32 count, F32* x, S32& drop)
 {
     S32 INF = 9999999;
     S32 M = 7;
@@ -101,8 +103,24 @@ void Ransac(S32 count, F32* x, S32& drop)
     delete[] error;
     delete[] data;
     delete[] result;
-}
-
+}*/
+class DataOper:public Operator
+{
+    public:
+        F32 GetError(F32 a, F32 b)
+        {
+            return fabs(a-b);
+        }
+        F32 GetValue(F32 *data, S32 N)
+        {
+            std::sort(data,data+N);
+            return data[N/2];
+        }
+        bool Remain(F32 error)
+        {
+            return (fabs(error)<3);
+        }
+};
 void lkseq()
 {
     char file[25];
@@ -114,7 +132,8 @@ void lkseq()
     select.mindist = 10;
     select.SelectGoodFeature(rect, flU);
     LKTracker tracker(gray);
-
+    DataOper oper;
+    Ransac ransac(oper);
     for (int k = 1; k < 200; ++k)
     {
         sprintf(file, "Debug/green/cap%03d.pgm", k);
@@ -146,16 +165,30 @@ void lkseq()
             flU[i].value = -1;
         }
         cout << count << endl;
-
+        //输出速度
+        {
+            printf("X: ");
+             std::sort(x, x + count);
+            for (int i = 0; i < count; i++)
+                printf("%0.0f ", x[i]);
+            cout << endl;
+            std::sort(y, y + count);
+            printf("Y: ");
+            for (int i = 0; i < count; i++)
+                printf("%0.0f ", y[i]);
+            cout << endl;
+        }
         //RANSAC
-        Ransac(count, x, drop);
+        //Ransac(count, x, drop);
+        ransac.Process(count, x, drop);
         std::sort(x, x + count);
         rect.X += x[(count - drop) / 2]; //(x / count + 0.5);
-        Ransac(count, y, drop);
+        ransac.Process(count, y, drop);
         std::sort(y, y + count);
         rect.Y += y[(count - drop) / 2]; //(y / count + 0.5);
 
-        printf("X,Y:%d,%d\n", rect.X, rect.Y);
+        printf("X,Y:%d,%d \n", rect.X, rect.Y);
+        cout<<endl;
         //输出速度
         {
             printf("X: ");

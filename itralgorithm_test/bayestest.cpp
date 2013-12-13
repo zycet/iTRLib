@@ -55,23 +55,7 @@ void printMatrix(Matrix &a)
         printf("\n");
     }
 }
-class DataOper:Operator
-{
-    public:
-        F32 GetError(F32 a, F32 b)
-        {
-            return fabs(a-b);
-        }
-        F32 GetValue(F32 *data, S32 N)
-        {
-            std::sort(data,data+N);
-            return data[N/2];
-        }
-        bool Remain(F32 error)
-        {
-            return fabs(error)<1.5;
-        }
-};
+
 void NBCtest()
 {
     itr_math::MathObjStandInit();
