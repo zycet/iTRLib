@@ -49,8 +49,6 @@
 		<Unit filename="drawtest.cc" />
 		<Unit filename="drawtest.h" />
 		<Unit filename="gmon.out" />
-		<Unit filename="helpertest.cc" />
-		<Unit filename="helpertest.h" />
 		<Unit filename="iohelper.cpp" />
 		<Unit filename="iohelper.h" />
 		<Unit filename="lktrackertest.cpp" />

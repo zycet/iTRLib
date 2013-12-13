@@ -58,10 +58,10 @@ namespace itr_algorithm
         initneg = false;
     }
 
-    void itr_algorithm::NaiveBayes::TrainPos(const Matrix& input)
+    void itr_algorithm::NaiveBayes::TrainPos(const Matrix &input)
     {
         int length = input.GetRow();
-        F32* data = new F32[length];
+        F32 *data = new F32[length];
         F32 mu, sigma;
 
         if (!initpos)
@@ -83,19 +83,19 @@ namespace itr_algorithm
                 itr_math::StatisticsObj->Variance(data, length, sigma);
 
                 itr_math::NumericalObj->Sqrt(
-                        LearnRate * sigmaPos[i] * sigmaPos[i] + (1 - LearnRate) * sigma * sigma
-                                + LearnRate * (1 - LearnRate) * (mu - muPos[i]) * (mu - muPos[i]),
-                        sigmaPos[i]);
+                    LearnRate * sigmaPos[i] * sigmaPos[i] + (1 - LearnRate) * sigma * sigma
+                    + LearnRate * (1 - LearnRate) * (mu - muPos[i]) * (mu - muPos[i]),
+                    sigmaPos[i]);
                 muPos[i] = LearnRate * muPos[i] + (1 - LearnRate) * mu;
             }
 
         }
     }
 
-    void itr_algorithm::NaiveBayes::TrainNeg(const Matrix& input)
+    void itr_algorithm::NaiveBayes::TrainNeg(const Matrix &input)
     {
         int length = input.GetRow();
-        F32* data = new F32[length];
+        F32 *data = new F32[length];
         F32 mu, sigma;
 
         if (!initneg)
@@ -117,16 +117,16 @@ namespace itr_algorithm
                 itr_math::StatisticsObj->Variance(data, length, sigma);
 
                 itr_math::NumericalObj->Sqrt(
-                        LearnRate * sigmaNeg[i] * sigmaNeg[i] + (1 - LearnRate) * sigma * sigma
-                                + LearnRate * (1 - LearnRate) * (mu - sigmaNeg[i])
-                                        * (mu - sigmaNeg[i]), sigmaNeg[i]);
+                    LearnRate * sigmaNeg[i] * sigmaNeg[i] + (1 - LearnRate) * sigma * sigma
+                    + LearnRate * (1 - LearnRate) * (mu - sigmaNeg[i])
+                    * (mu - sigmaNeg[i]), sigmaNeg[i]);
                 muNeg[i] = LearnRate * muNeg[i] + (1 - LearnRate) * mu;
             }
 
         }
     }
 
-    F32 itr_algorithm::NaiveBayes::Classify(F32* Data)
+    F32 itr_algorithm::NaiveBayes::Classify(F32 *Data)
     {
         F32 result = 0;
         F32 p, n;

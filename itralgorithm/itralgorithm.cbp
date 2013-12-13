@@ -41,12 +41,10 @@
 			</Target>
 		</Build>
 		<Unit filename="classifier/classifier.h" />
-		<Unit filename="classifier/domain.cpp" />
-		<Unit filename="classifier/domain.h" />
 		<Unit filename="classifier/naivebayes.cpp" />
 		<Unit filename="classifier/naivebayes.h" />
-		<Unit filename="classifier/trainingdata.cpp" />
-		<Unit filename="classifier/trainingdata.h" />
+		<Unit filename="filter/ransac.cpp" />
+		<Unit filename="filter/ransac.h" />
 		<Unit filename="itralgorithm.h" />
 		<Extensions>
 			<code_completion />

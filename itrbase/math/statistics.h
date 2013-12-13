@@ -59,6 +59,8 @@ namespace itr_math
             virtual bool RMS(F32* Source, S32 Length, F32& Result) const;
             virtual bool Variance(S32* Source, S32 Length, S32& Result) const;
             virtual bool Variance(F32* Source, S32 Length, F32& Result) const;
+            virtual bool Variance(S32* Source, S32 Length, S32& Mean, S32& Result) const;
+            virtual bool Variance(F32* Source, S32 Length, F32& Mean, F32& Result) const;
     };
 
 } // namespace itr_math

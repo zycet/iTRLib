@@ -42,13 +42,14 @@ using std::vector;
 using itr_math::Matrix;
 namespace itr_algorithm
 {
+
     class NaiveBayes
     {
         public:
             NaiveBayes(int FeatureNum);
-            void TrainPos(const Matrix& input);
-            void TrainNeg(const Matrix& input);
-            F32 Classify(F32* Data);
+            void TrainPos(const Matrix &input);
+            void TrainNeg(const Matrix &input);
+            F32 Classify(F32 *Data);
             float LearnRate;
             virtual ~NaiveBayes();
         private:
