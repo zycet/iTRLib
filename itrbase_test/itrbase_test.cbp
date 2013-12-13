@@ -44,6 +44,8 @@
 		<Unit filename="calculatetest.h" />
 		<Unit filename="containertest.cc" />
 		<Unit filename="containertest.h" />
+		<Unit filename="helpertest.cc" />
+		<Unit filename="helpertest.h" />
 		<Unit filename="main.cc" />
 		<Unit filename="mathtest.cc" />
 		<Unit filename="mathtest.h" />
