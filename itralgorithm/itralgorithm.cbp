@@ -43,6 +43,9 @@
 		<Unit filename="classifier/classifier.h" />
 		<Unit filename="classifier/naivebayes.cpp" />
 		<Unit filename="classifier/naivebayes.h" />
+		<Unit filename="filter/filter.h" />
+		<Unit filename="filter/kalmanfilter.cpp" />
+		<Unit filename="filter/kalmanfilter.h" />
 		<Unit filename="filter/ransac.cpp" />
 		<Unit filename="filter/ransac.h" />
 		<Unit filename="itralgorithm.h" />

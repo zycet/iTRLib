@@ -255,7 +255,7 @@ void TestVector()
     TRACE_INFO("OK TestVector()");
 }
 
-void printMatrix(itr_math::Matrix& a)
+void printMatrix(itr_math::Matrix a)
 {
     for (int i = 0; i < a.GetRow(); ++i)
     {
@@ -385,7 +385,8 @@ void TestMatrix()
     assert(VecSource[0] == 3 && VecSource[1] == 3 && VecSource[2] == 3);
     VecSource.Set(1);
     assert(VecSource[0] == 1 && VecSource[1] == 1 && VecSource[2] == 1);
-
+printMatrix(Result);
+printMatrix(Source1 * SourceEye);
     Result = Source1 * SourceEye;    //乘单位阵
     assert(Result.GetData()[0] == 1 && Result.GetData()[4] == 25 && Result.GetData()[8] == 81);
     Result.Set(0);
