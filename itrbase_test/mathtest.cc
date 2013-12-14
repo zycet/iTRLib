@@ -304,6 +304,7 @@ void TestMatrix()
     }
 
     itr_math::Matrix Source1(3, 3, data1);
+    printMatrix(Source1);
     itr_math::Matrix Source2(3, 3, data2);
     itr_math::Matrix Result(3, 3, data3);
     itr_math::Matrix Source3(3, 3, data4);
@@ -385,8 +386,8 @@ void TestMatrix()
     assert(VecSource[0] == 3 && VecSource[1] == 3 && VecSource[2] == 3);
     VecSource.Set(1);
     assert(VecSource[0] == 1 && VecSource[1] == 1 && VecSource[2] == 1);
-printMatrix(Result);
-printMatrix(Source1 * SourceEye);
+    printMatrix(Result);
+    printMatrix(Source1 * SourceEye);
     Result = Source1 * SourceEye;    //乘单位阵
     assert(Result.GetData()[0] == 1 && Result.GetData()[4] == 25 && Result.GetData()[8] == 81);
     Result.Set(0);
@@ -408,43 +409,57 @@ printMatrix(Source1 * SourceEye);
     Source5.Inv(Result);
     Result = Source5 * Result;
     assert(
-            fabs(Result.GetData()[0] - 1) < 0.0001 && fabs(Result.GetData()[4] - 1) < 0.0001
-                    && fabs(Result.GetData()[8] - 1) < 0.0001);
+        fabs(Result.GetData()[0] - 1) < 0.0001 && fabs(Result.GetData()[4] - 1) < 0.0001
+        && fabs(Result.GetData()[8] - 1) < 0.0001);
     Result.Set(0);
 
     Source1.Tran(Result);
     assert(
-            Source1.GetData()[0] == Result.GetData()[0]
-                    && Source1.GetData()[1] == Result.GetData()[3]
-                    && Source1.GetData()[2] == Result.GetData()[6]);
+        Source1.GetData()[0] == Result.GetData()[0]
+        && Source1.GetData()[1] == Result.GetData()[3]
+        && Source1.GetData()[2] == Result.GetData()[6]);
 
     /*测试内联函数*/
-
+    F32 SourceData[3*3] = {1,2,3,4,5,6,7,8,9};
+    F32 InsertData[3*3] = {2,2,2,2,2,2,2,2,2};
+    F32 ExtractData[3*3];
     //测试:inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height,F32* Data)
-    //printMatrix(Source1);
+    printf("测试:inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height,F32* Data)\n");
+    Source1.Set(1);
+    printMatrix(Source1);
     Source1.CopyFrom(2, 2, 2, 2, dataRect);
-    //printMatrix(Source1);
-    Source1.CopyFrom(1, 1, 3, 3, data2);    //复原数据
+    printMatrix(Source1);
+    Source1.Set(1);    //复原数据
     //测试：inline void virtual CopyFrom(F32* Data)
-    Source1.CopyFrom(data6);
+    printf("测试：inline void virtual CopyFrom(F32* Data)\n");
     printMatrix(Source1);
-    Source1.CopyFrom(1, 1, 3, 3, data1);    //复原数据
+    Source1.CopyFrom(SourceData);
     printMatrix(Source1);
-    //assert(Source1.CompMatrix(Source1, Template) == true);
-
+    Source1.Set(1);    //复原数据
+    printMatrix(Source1);
     //测试：inline void virtual CopyTo(S32 RowPos, S32 ColPos, S32 Width, S32 Height, F32* Data) const
-    Source1.CopyTo(2, 2, 2, 2, dataRect);
-    //printf("%f %f %f %f\n", dataRect[0], dataRect[1], dataRect[2], dataRect[3]);
-    //测试：inline void virtual CopyTo(F32* Data) const
-    //printMatrix(Source1);
-
-    Source1.CopyTo(dataRect);
-    for(int i = 0;i<9;i++)
+    printf("测试：inline void virtual CopyTo(S32 RowPos, S32 ColPos, S32 Width, S32 Height, F32* Data) const\n");
+    Source1.CopyTo(1, 1, 3, 3, ExtractData);
+    for(S32 i = 0; i<9; i++)
     {
-        printf("%f ",dataRect[i]);
+        printf("%f ",ExtractData[i]);
     }
     printf("\n");
+    //测试：inline void virtual CopyTo(F32* Data) const
+    printf("测试：inline void virtual CopyTo(F32* Data) const\n");
+    Source1.Set(5);
+    printMatrix(Source1);
+    Source1.CopyTo(ExtractData);
+    for(int i = 0; i<9; i++)
+    {
+        printf("%f ",ExtractData[i]);
+    }
+    printf("\n");
+    //Test:inline void virtual CopyRowFrom(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data)
+    printf("inline void virtual CopyRowFrom(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data)\n");
+    Source1
     TRACE_INFO("OK TestMatrix()");
+    //
 
 }
 void TestCalculateTest()
@@ -624,8 +639,8 @@ void TestGeometry()
 
     dis1.SetAngleDistance(90, 20);       //
     assert(
-            (dis1.DX < 0.0001 && dis1.DX > -0.0001)
-                    && ((dis1.DY - 20) > -0.001 && (dis1.DY - 20) < 0.0001));
+        (dis1.DX < 0.0001 && dis1.DX > -0.0001)
+        && ((dis1.DY - 20) > -0.001 && (dis1.DY - 20) < 0.0001));
 
     dis1.SetDXDY(10, 20);
     dis2 = dis1;

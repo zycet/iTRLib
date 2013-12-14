@@ -154,16 +154,17 @@ namespace itr_math
                 assert(Data!=NULL);
                 MemoryCopy(Data, data, row * col * sizeof(F32));
             }
-//            //Copy Row From
-//            /*
-//             * 将传入数据复制到指定行的部分区域
-//             */
-//            inline void virtual CopyRowFrom(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data)
-//            {
-//                assert(RowNo <= row && ColOffset+ColNum <= col);
-//                assert(Data!=NULL);
-//                MemoryCopy(data + (RowNo - 1) * col + ColOffset, Data, ColNum * sizeof(F32));
-//            }
+            //Copy Row From
+
+            /*
+            * 将传入数据复制到指定行的部分区域
+            */
+            inline void virtual CopyRowFrom(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data)
+            {
+                assert(RowNo <= row && ColOffset+ColNum <= col);
+                assert(Data!=NULL);
+                MemoryCopy(data + (RowNo - 1) * col + ColOffset, Data, ColNum * sizeof(F32));
+            }
             /*
              * 将传入数据复制到指定行
              */
