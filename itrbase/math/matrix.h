@@ -515,19 +515,23 @@ namespace itr_math
             /*
              *测试用函数
              */
-            inline BOOL CompMatrix(Matrix mat1, Matrix mat2)
+
+             //BOOL virtual CompMatrix(Matrix& mat);
+
+            inline BOOL CompMatrix(Matrix& mat)
             {
-                if (mat1.col != mat2.col)
+                if (this->col != mat.col)
                     return false;
-                if (mat1.row != mat2.row)
+                if (this->row != mat.row)
                     return false;
-                for (int i = 0; i < mat1.col * mat1.row; i++)
+                for (int i = 0; i < this->col * this->row; i++)
                 {
-                    if (mat1.data[i] != mat2.data[i])
+                    if (this->GetData()[i]= mat.data[i])
                         return false;
                 }
                 return true;
             }
+
         private:
             S32 row, col;
             F32* data;

@@ -65,7 +65,11 @@ namespace itr_math
     {
         assert(NumericalObj!=NULL && CalculateObj!=NULL);
         assert(Row>0 && Col>0);
-        data = Data;
+        data = new F32[Row * col];
+        for(S32 i = 0 ;i<Row*Col;i++)
+        {
+            data[i] = Data[i];
+        }
         assert(data != NULL);
         row = Row;
         col = Col;
@@ -438,6 +442,20 @@ namespace itr_math
                 MatResult.data[j * MatResult.col + i] = this->data[i * MatResult.col + j];
         }
     }
+
+    BOOL Matrix::CompMatrix(Matrix& mat)
+            {
+                if (this->col != mat.col)
+                    return false;
+                if (this->row != mat.row)
+                    return false;
+                for (int i = 0; i < this->col * this->row; i++)
+                {
+                    if (this->GetData()[i]= mat.data[i])
+                        return false;
+                }
+                return true;
+            }
 /*
  * 求矩阵行列式值
  */

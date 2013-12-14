@@ -276,6 +276,7 @@ void TestMatrix()
      * 16 25 36
      * 49 64 91
      */
+    /*初始化数据*/
     F32 data1[3 * 3];
     F32 data2[3 * 3];
     F32 data3[3 * 3] =
@@ -301,11 +302,6 @@ void TestMatrix()
         data1[i] = (i + 1) * (i + 1);
         data2[i] = (i + 1) * (i + 1);
     }
-    //F32* Data1 = data1;
-    //F32* Data2 = data2;
-    //F32* Data3 = data3;
-    //F32* Data4 = data4;
-    //F32* Data5 = data5;
 
     itr_math::Matrix Source1(3, 3, data1);
     itr_math::Matrix Source2(3, 3, data2);
@@ -406,6 +402,7 @@ void TestMatrix()
     assert(Result.GetData()[0] == 2 && Result.GetData()[4] == 2 && Result.GetData()[8] == 2);
     Result.Set(0);
 
+
     //此处测试啦，没有问题啊！！！
     Source5.Inv(Result);
     Result = Source5 * Result;
@@ -422,21 +419,17 @@ void TestMatrix()
 
     /*测试内联函数*/
 
-    //测试函数
-    //inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height,F32* Data)
+    //测试:inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height,F32* Data)
     //printMatrix(Source1);
-
     Source1.CopyFrom(2, 2, 2, 2, dataRect);
     //printMatrix(Source1);
-    Source1.CopyFrom(1, 1, 3, 3, data1);    //复原数据
-    //assert(Source1.CompMatrix(Source1, Template) == true);
-    Source1.CompMatrix(Source1, Template);
+    Source1.CopyFrom(1, 1, 3, 3, data2);    //复原数据
     //测试：inline void virtual CopyFrom(F32* Data)
     Source1.CopyFrom(data6);
     printMatrix(Source1);
     Source1.CopyFrom(1, 1, 3, 3, data1);    //复原数据
     printMatrix(Source1);
-    assert(Source1.CompMatrix(Source1, Template) == true);
+    //assert(Source1.CompMatrix(Source1, Template) == true);
 
     //测试：inline void virtual CopyTo(S32 RowPos, S32 ColPos, S32 Width, S32 Height, F32* Data) const
     Source1.CopyTo(2, 2, 2, 2, dataRect);
