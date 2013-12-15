@@ -304,7 +304,6 @@ void TestMatrix()
     }
 
     itr_math::Matrix Source1(3, 3, data1);
-    printMatrix(Source1);
     itr_math::Matrix Source2(3, 3, data2);
     itr_math::Matrix Result(3, 3, data3);
     itr_math::Matrix Source3(3, 3, data4);
@@ -406,14 +405,18 @@ void TestMatrix()
 
 
     //此处测试啦，没有问题啊！！！
-    Source5.Inv(Result);
-    Result = Source5 * Result;
+    //Source5.Inv(Result);
+    //Result = Source5 * Result;
+    Result = Source5.Inv();
+    Result = Source5*Result;
+    printMatrix(Result);
     assert(
-        fabs(Result.GetData()[0] - 1) < 0.0001 && fabs(Result.GetData()[4] - 1) < 0.0001
-        && fabs(Result.GetData()[8] - 1) < 0.0001);
+       fabs(Result.GetData()[0] - 1) < 0.0001 && fabs(Result.GetData()[4] - 1) < 0.0001
+    && fabs(Result.GetData()[8] - 1) < 0.0001);
     Result.Set(0);
 
-    Source1.Tran(Result);
+    //Source1.Tran(Result);
+    Result = Source1.Tran();
     assert(
         Source1.GetData()[0] == Result.GetData()[0]
         && Source1.GetData()[1] == Result.GetData()[3]
@@ -423,6 +426,7 @@ void TestMatrix()
     F32 SourceData[3*3] = {1,2,3,4,5,6,7,8,9};
     F32 InsertData[3*3] = {2,2,2,2,2,2,2,2,2};
     F32 ExtractData[3*3];
+    F32 RowData[3] = {11,22,33};
     //测试:inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height,F32* Data)
     printf("测试:inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height,F32* Data)\n");
     Source1.Set(1);
@@ -455,9 +459,12 @@ void TestMatrix()
         printf("%f ",ExtractData[i]);
     }
     printf("\n");
-    //Test:inline void virtual CopyRowFrom(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data)
-    printf("inline void virtual CopyRowFrom(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data)\n");
-    Source1
+    //Test:inline void virtual CopyRowFrom(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data)
+    printf("inline void virtual CopyRowFrom(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data)\n");
+    //Source1.Set(3);
+    //Source1.CopyRowFrom(2,1,3,RowData);
+    //printMatrix(Source1);
+
     TRACE_INFO("OK TestMatrix()");
     //
 

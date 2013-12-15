@@ -159,11 +159,13 @@ namespace itr_math
             /*
             * 将传入数据复制到指定行的部分区域
             */
-            inline void virtual CopyRowFrom(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data)
+            inline void virtual CopyRowFrom(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data)
             {
-                assert(RowNo <= row && ColOffset+ColNum <= col);
+                assert(RowPos > 0 && RowPos <= row);
+                assert(ColPos > 0 && ColPos <= col);
+                assert(ColNum > 0 && ColNum + ColPos <= col + 1);
                 assert(Data!=NULL);
-                MemoryCopy(data + (RowNo - 1) * col + ColOffset, Data, ColNum * sizeof(F32));
+                MemoryCopy(data + (RowPos - 1) * col + ColPos - 1, Data, ColNum * sizeof(F32));
             }
             /*
              * 将传入数据复制到指定行
@@ -502,12 +504,19 @@ namespace itr_math
              * 求矩阵逆并将结果放至MatResult
              */
             BOOL virtual Inv(Matrix& MatResult) const;
+            /*
+             * 求矩阵逆
+             */
+            Matrix virtual Inv() const;
 
             /*
              * 求矩阵转置并将结果放至MatResult
              */
             void virtual Tran(Matrix& MatResult) const;
-
+             /*
+             * 求矩阵转置
+             */
+            Matrix virtual Tran() const;
             /*
              * 求矩阵行列式值
              */

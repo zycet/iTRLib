@@ -65,8 +65,8 @@ namespace itr_math
     {
         assert(NumericalObj!=NULL && CalculateObj!=NULL);
         assert(Row>0 && Col>0);
-        assert(data != NULL);
         data = new F32[Row * Col];
+        assert(data != NULL);
         row = Row;
         col = Col;
         MemoryCopy(data,Data,Row*Col*sizeof(F32));
@@ -424,7 +424,75 @@ namespace itr_math
         }
         return true;
     }
-
+    /*
+     * 求矩阵逆
+     */
+    Matrix Matrix::Inv() const
+    {
+        S32 i, j, k;
+        Matrix MatTemp(this->row, this->col);
+        Matrix MatResult(this->row, this->col);
+        F32 lMax, temp;
+        S32 tempM, tempN;
+        tempM = MatTemp.row;
+        tempN = MatTemp.col;
+        MemoryCopy(MatTemp.data, this->data, this->row * this->col * sizeof(F32));
+        MatResult.MatEye(1.0);
+        for (i = 0; i < this->row; i++)
+        {
+            //寻找主元
+            lMax = MatTemp.data[i * tempN + i];
+            k = i;
+            for (j = i + 1; j < this->row; j++)
+            {
+                if (GET_ABS(MatTemp.data[j*tempN+i]) > GET_ABS(lMax))
+                {
+                    lMax = MatTemp.data[j * tempN + i];
+                    k = j;
+                }
+            }
+            //如果主元所在行不是第i行，进行行变换
+            if (k != i)
+            {
+                for (j = 0; j < this->col; j++)
+                {
+                    temp = MatTemp.data[i * tempN + j];
+                    MatTemp.data[i * tempN + j] = MatTemp.data[k * tempN + j];
+                    MatTemp.data[k * tempN + j] = temp;
+                    temp = MatResult.data[i * MatResult.col + j];
+                    MatResult.data[i * MatResult.col + j] = MatResult.data[k * MatResult.col + j];
+                    MatResult.data[k * MatResult.col + j] = temp;
+                }
+            }
+            //判断主元是否是0，如果是，则矩阵不是满秩矩阵，不存在逆
+            if (MatTemp.data[i * tempN + i] == 0)
+            {
+                return NULL;
+            }
+            //使对角线元素为1
+            temp = MatTemp.data[i * tempN + i];
+            for (j = 0; j < this->col; j++)
+            {
+                MatTemp.data[i * tempN + j] = MatTemp.data[i * tempN + j] / temp;
+                MatResult.data[i * tempN + j] = MatResult.data[i * tempN + j] / temp;
+            }
+            for (j = 0; j < this->row; j++)
+            {
+                if (j != i)
+                {
+                    temp = MatTemp.data[j * tempN + i];
+                    for (k = 0; k < this->col; k++)
+                    {
+                        MatTemp.data[j * tempN + k] = MatTemp.data[j * tempN + k]
+                                - MatTemp.data[i * tempN + k] * temp;
+                        MatResult.data[j * tempN + k] = MatResult.data[j * tempN + k]
+                                - MatResult.data[i * tempN + k] * temp;
+                    }
+                }
+            }
+        }
+        return MatResult;
+    }
     /*
      * 求矩阵转置并将结果放至MatResult
      */
@@ -438,6 +506,19 @@ namespace itr_math
             for (j = 0; j < this->col; j++)
                 MatResult.data[j * MatResult.col + i] = this->data[i * MatResult.col + j];
         }
+    }
+    /*
+     * 求矩阵转置
+     */
+    Matrix Matrix::Tran() const
+    {
+        assert(this->row == this->col);
+        Matrix TranAns(this->row,this->col);
+        S32 i,j;
+        for(i = 0;i < this->row;i++)
+            for(j = 0;j < this->col; j++)
+                TranAns.data[j * TranAns.col + i] = this->data[i * this->col + j];
+        return TranAns;
     }
 
 /*
