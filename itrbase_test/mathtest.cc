@@ -465,9 +465,31 @@ void TestMatrix()
     Source1.CopyRowFrom(2,1,3,RowData);
     printMatrix(Source1);
     Source1.Set(0);
+    //Test:inline void virtual CopyRowFrom(S32 RowNo, F32* Data)
+    printf("inline void virtual CopyRowFrom(S32 RowNo, F32* Data)\n");
+    Source1.CopyRowFrom(1,RowData);
+    printMatrix(Source1);
+    Source1.Set(0);
     //Test:inline void virtual CopyRowTo(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data) const
     printf("inline void virtual CopyRowTo(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data) const\n");
+    Source1.CopyRowTo(1,1,2,RowData);
+    for(S32 i = 0;i<3;i++)
+        printf("%f ",RowData[i]);
+    printf("\n");
+    //Test:inline void virtual CopyRowTo(S32 RowNo, F32* Data) const
+    printf("inline void virtual CopyRowTo(S32 RowNo, F32* Data) const\n");
+    Source2.CopyRowTo(3,RowData);
+    for(S32 i = 0;i<3;i++)
+        printf("%f ",RowData[i]);
+    printf("\n");
+    //Test:inline void virtual CopyColFrom(S32 ColNo, S32 RowOffset, S32 RowNum, F32* Data)
+    printf("inline void virtual CopyColFrom(S32 ColNo, S32 RowOffset, S32 RowNum, F32* Data)\n");
+    Source2.CopyColFrom(1,1,3,RowData);
+    printMatrix(Source2);
 
+    itr_math::Matrix MatTest(2,4,data1);
+    printMatrix(MatTest);
+    printMatrix(MatTest.Tran());
     TRACE_INFO("OK TestMatrix()");
     //
 

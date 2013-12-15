@@ -440,13 +440,12 @@ namespace itr_math
      */
     void Matrix::Tran(Matrix& MatResult) const
     {
-        assert(this->row == this->col);
-        assert(MatResult.row == this->row && MatResult.col == this->col);
+        assert(MatResult.row == this->col && MatResult.col == this->row);
         S32 i, j;
         for (i = 0; i < this->row; i++)
         {
             for (j = 0; j < this->col; j++)
-                MatResult.data[j * MatResult.col + i] = this->data[i * MatResult.col + j];
+                MatResult.data[j * MatResult.col + i] = this->data[i * this->col + j];
         }
     }
     /*
@@ -454,8 +453,7 @@ namespace itr_math
      */
     Matrix Matrix::Tran() const
     {
-        assert(this->row == this->col);
-        Matrix TranAns(this->row,this->col);
+        Matrix TranAns(this->col,this->row);
         Tran(TranAns);
         return TranAns;
     }

@@ -58,8 +58,8 @@ int main()
     TestCalculateTest();
     TestMathdeDeinit();
     TestMatrix();
-    TestGeometry();
-    TestTransform();
+    //TestGeometry();
+    //TestTransform();
     //Test Helper
     //TestGaussianGenerate();
     //Finish

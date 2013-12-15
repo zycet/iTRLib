@@ -170,42 +170,45 @@ namespace itr_math
             /*
              * 将传入数据复制到指定行
              */
-            inline void virtual CopyRowFrom(S32 RowNo, F32* Data)
+            inline void virtual CopyRowFrom(S32 RowPos, F32* Data)
             {
-                --RowNo;
-                assert(RowNo < row);
+                --RowPos;
+                assert(RowPos < row);
                 assert(Data!=NULL);
-                MemoryCopy(data + RowNo * col, Data, col * sizeof(F32));
+                MemoryCopy(data + RowPos * col, Data, col * sizeof(F32));
             }
             /*
              * 复制指定行的部分数据出来
              */
-            inline void virtual CopyRowTo(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data) const
+            inline void virtual CopyRowTo(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data) const
             {
-                assert(RowNo <= row && ColOffset+ColNum<=col);
+                assert(RowPos > 0 && RowPos <= row);
+                assert(ColPos > 0 && ColPos <= col);
+                assert(ColNum + ColPos <= col + 1);
                 assert(Data !=NULL);
-                MemoryCopy(Data, data + (RowNo - 1) * col + ColOffset, ColNum * sizeof(F32));
+                MemoryCopy(Data, data + (RowPos - 1) * col + ColPos - 1, ColNum * sizeof(F32));
             }
-//            /*
-//             * 复制定制行数据处理
-//             */
-//            inline void virtual CopyRowTo(S32 RowNo, F32* Data) const
-//            {
-//                assert(RowNo <= row);
-//                assert(Data!=NULL);
-//                MemoryCopy(Data, data + (RowNo - 1) * col, col * sizeof(F32));
-//            }
-//            //Copy Col From
-//            /*
-//             * 将数据复制到指定列的部分区域
-//             */
-//            inline void virtual CopyColFrom(S32 ColNo, S32 RowOffset, S32 RowNum, F32* Data)
-//            {
-//                assert(ColNo <= col && RowOffset+RowNum <= row);
-//                assert(Data!=NULL);
-//                for (S32 i = 0; i < RowNum; i++)
-//                    MemoryCopy(data + (RowOffset - 1) * col + ColNo + i * row, Data, sizeof(F32));
-//            }
+            /*
+             * 复制定制行数据处理
+             */
+            inline void virtual CopyRowTo(S32 RowNo, F32* Data) const
+            {
+                assert(RowNo <= row);
+                assert(Data!=NULL);
+                MemoryCopy(Data, data + (RowNo - 1) * col, col * sizeof(F32));
+            }
+            /*
+             * 将数据复制到指定列的部分区域
+             */
+            inline void virtual CopyColFrom(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data)
+            {
+                assert(ColPos > 0 && ColPos <= col);
+                assert(RowPos > 0 && RowPos <= row);
+                assert(RowPos + RowNum <= row + 1);
+                assert(Data!=NULL);
+                for (S32 i = 0; i < RowNum; i++)
+                    MemoryCopy(data + (RowPos - 1) * col + ColPos - 1 + i * row, Data, sizeof(F32));
+            }
             /*
              * 将数据复制到指定列
              */
