@@ -44,7 +44,7 @@ namespace itr_math
     {
         assert(CalculateObj!=NULL);
         assert(Dim > 0);
-        data = new F32[Dim];
+        data = new F32[Dim]();
         assert(data!=NULL);
         dim = Dim;
         localData = true;
@@ -56,9 +56,10 @@ namespace itr_math
     {
         assert(CalculateObj!=NULL);
         assert(Dim > 0);
-        data = Data;
+        data = new F32[Dim]();
         assert(data!=NULL);
         dim = Dim;
+        MemoryCopy(data,Data,Dim*sizeof(F32));
         localData = false;
     }
     /*
@@ -67,7 +68,7 @@ namespace itr_math
     Vector::Vector(const Vector& Vec)
     {
         assert(CalculateObj!=NULL);
-        data = new F32[Vec.GetDim()];
+        data = new F32[Vec.GetDim()]();
         assert(data!=NULL);
         dim = Vec.GetDim();
         CopyFrom(Vec.GetData());

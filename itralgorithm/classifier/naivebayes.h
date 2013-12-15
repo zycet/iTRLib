@@ -57,7 +57,7 @@ namespace itr_algorithm
             int featureNum;
             float *muPos,*muNeg;
             float *sigmaPos,*sigmaNeg;
-            const F32 INFMIN=1e-20;
+            static const F32 INFMIN=1e-20;
     };
 
 } // namespace itr_algorithm

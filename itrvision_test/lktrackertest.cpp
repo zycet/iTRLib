@@ -121,6 +121,18 @@ class DataOper:public Operator
             return (fabs(error)<3);
         }
 };
+
+void printMatrix(Matrix a)
+{
+    for (int i = 0; i < a.GetRow(); ++i)
+    {
+        for (int j = 0; j < a.GetCol(); ++j)
+        {
+            printf("%f ", a(i, j));
+        }
+        printf("\n");
+    }
+}
 void lkseq()
 {
     char file[25];
@@ -134,6 +146,19 @@ void lkseq()
     LKTracker tracker(gray);
     DataOper oper;
     Ransac ransac(oper);
+
+    KalmanFilter kf(4);
+    F32 data[16]={2 ,0,-1,0,0,2,0,-1,0,0,1,0,0,0,0,1};
+    kf.F_x.CopyRowFrom(1,data);
+    kf.F_x.CopyRowFrom(2,data+4);
+    kf.F_x.CopyRowFrom(3,data+8);
+    kf.F_x.CopyRowFrom(4,data+12);
+    Matrix H(2,4);
+    H(0,0)=1;
+    H(1,1)=1;
+    printMatrix(H);
+    printMatrix(kf.F_x);
+    Vector z(2);
     for (int k = 1; k < 200; ++k)
     {
         sprintf(file, "Debug/green/cap%03d.pgm", k);
@@ -188,6 +213,11 @@ void lkseq()
         rect.Y += y[(count - drop) / 2]; //(y / count + 0.5);
 
         printf("X,Y:%d,%d \n", rect.X, rect.Y);
+        z[0]=rect.X;
+        z[1]=rect.Y;
+        kf.UpdateModel();
+        z=kf.UpdateMeasure(H,z);
+        printf("Esti:%.0f,%.0f\n",z[0],z[1]);
         cout<<endl;
         //输出速度
         {
@@ -222,6 +252,7 @@ void lkseq()
         delete[] y;
         Draw::Rectangle(gray, rect, 255);
         IOHelper::WritePGMFile(file, gray);
+        cout<<endl;
     }
 
 }

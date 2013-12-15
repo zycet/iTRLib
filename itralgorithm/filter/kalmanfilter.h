@@ -10,20 +10,20 @@ namespace itr_algorithm
     {
         public:
             /** Default constructor */
-            KalmanFilter(int DimState,int DimMeasure);
-            Vector Update(const Vector& z);
-            ///状态转移矩阵，噪声矩阵，观测矩阵
-            Matrix F_x,F_n,H;
+            KalmanFilter(int DimState);
+            ///观测矩阵,观测向量
+            void UpdateModel();
+            Vector UpdateMeasure(const Matrix& H,const Vector& z);
+            ///状态变量
+            Vector x;
+            ///状态转移矩阵，噪声矩阵
+            Matrix F_x,F_n;
             ///噪声方差阵，观测方差阵，卡尔曼方差阵,卡尔曼增益
             Matrix Q,R,P,K;
-            ///状态变量，观测变量
-            Vector x,z;
-            ///噪声
-            Vector n,v;
 
         private:
         S32 _dimState,_dimMeasure;
-        F32 q,r;
+
     };
 }
 #endif // KALMANFILTER_H

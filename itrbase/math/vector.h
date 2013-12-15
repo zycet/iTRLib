@@ -163,10 +163,11 @@ namespace itr_math
             {
                 CalculateObj->Scale(data, K, dim, data);
             }
-            inline Vector operator*(F32 K)
+            inline Vector operator*(F32 K) const
             {
-                this->Mul(K);
-                return (*this);
+                Vector temp(dim,data);
+                temp.Mul(K);
+                return (temp);
             }
             /*
              * 加上向量Vec(维数需一致)
@@ -176,10 +177,11 @@ namespace itr_math
                 assert(MatchDim(Vec));
                 CalculateObj->Add(data, Vec.GetData(), dim, data);
             }
-            inline Vector operator+(const Vector &Vec)
+            inline Vector operator+(const Vector &Vec) const
             {
-                this->Add(Vec);
-                return (*this);
+                Vector temp(dim,data);
+                temp.Add(Vec);
+                return (temp);
             }
 
             /*
@@ -190,10 +192,11 @@ namespace itr_math
                 assert(MatchDim(Vec));
                 CalculateObj->Sub(data, Vec.GetData(), dim, data);
             }
-            inline Vector operator-(const Vector &Vec)
+            inline Vector operator-(const Vector &Vec) const
             {
-                this->Sub(Vec);
-                return (*this);
+                Vector temp(dim,data);
+                temp.Sub(Vec);
+                return (temp);
             }
 
 
