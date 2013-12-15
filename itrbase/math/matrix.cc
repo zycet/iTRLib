@@ -298,7 +298,7 @@ namespace itr_math
     Vector Matrix::operator*(const Vector& vec) const
     {
         assert(this->col==vec.GetDim());
-        Vector VecResult(vec.GetDim());
+        Vector VecResult(this->row);
         for (S32 i = 0; i < this->row; i++)
         {
             CalculateObj->MultiSum(this->data + i * this->col, vec.GetData(), vec.GetDim(),

@@ -16,7 +16,8 @@ void kftest()
     KalmanFilter kf(2);
     F32 data[2];
     data[0]=data[1]=1;
-    Matrix H(2,2);
+    Matrix H(2,2),R(2,2);
+    R.MatEye(1);
     H.CopyRowFrom(1,data);
     //H.CopyRowFrom(2,data);
     kf.F_x.CopyRowFrom(1,data);
@@ -38,7 +39,7 @@ void kftest()
         z=H*x+v;
 
         kf.UpdateModel();
-        X=kf.UpdateMeasure(H,z);
+        X=kf.UpdateMeasure(H,R,z);
         printf("State:%.0f,%.0f\n",x[0],x[1]);
         printf("Measure:%.0f,%.0f\n",z[0],z[1]);
         printf("Estimate:%.0f,%.0f\n",X[0],X[1]);

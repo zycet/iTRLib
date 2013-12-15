@@ -153,12 +153,13 @@ void lkseq()
     kf.F_x.CopyRowFrom(2,data+4);
     kf.F_x.CopyRowFrom(3,data+8);
     kf.F_x.CopyRowFrom(4,data+12);
-    Matrix H(2,4);
-    H(0,0)=1;
-    H(1,1)=1;
+    Matrix H(2,4),R(2,2);
+    R.MatEye(0.1);
+    H.CopyRowFrom(1,data+10);
+    H.CopyRowFrom(2,data+9);
     printMatrix(H);
     printMatrix(kf.F_x);
-    Vector z(2);
+    Vector z(2),X(4);
     for (int k = 1; k < 200; ++k)
     {
         sprintf(file, "Debug/green/cap%03d.pgm", k);
@@ -213,11 +214,12 @@ void lkseq()
         rect.Y += y[(count - drop) / 2]; //(y / count + 0.5);
 
         printf("X,Y:%d,%d \n", rect.X, rect.Y);
-        z[0]=rect.X;
-        z[1]=rect.Y;
+        z[0]=rect.X+0.0;
+        z[1]=rect.Y+0.0;
+
         kf.UpdateModel();
-        z=kf.UpdateMeasure(H,z);
-        printf("Esti:%.0f,%.0f\n",z[0],z[1]);
+        X=kf.UpdateMeasure(H,R,z);
+        printf("Esti: %.0f,%.0f,%.0f,%.0f\n",X[0],X[1],X[2],X[3]);
         cout<<endl;
         //输出速度
         {

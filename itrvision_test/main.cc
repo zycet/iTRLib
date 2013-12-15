@@ -46,7 +46,7 @@ int main()
     //Init Math
     itr_math::MathObjStandInit();
     //Test Rotate !
-    rotatetest();
+    //rotatetest();
     //Test Pick OK!
     // picktest();
     //Test Draw OK!
