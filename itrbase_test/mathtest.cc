@@ -460,10 +460,13 @@ void TestMatrix()
     }
     printf("\n");
     //Test:inline void virtual CopyRowFrom(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data)
-    printf("inline void virtual CopyRowFrom(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data)\n");
-    //Source1.Set(3);
-    //Source1.CopyRowFrom(2,1,3,RowData);
-    //printMatrix(Source1);
+    printf("Test:inline void virtual CopyRowFrom(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data)\n");
+    Source1.Set(3);
+    Source1.CopyRowFrom(2,1,3,RowData);
+    printMatrix(Source1);
+    Source1.Set(0);
+    //Test:inline void virtual CopyRowTo(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data) const
+    printf("inline void virtual CopyRowTo(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data) const\n");
 
     TRACE_INFO("OK TestMatrix()");
     //

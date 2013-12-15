@@ -177,16 +177,15 @@ namespace itr_math
                 assert(Data!=NULL);
                 MemoryCopy(data + RowNo * col, Data, col * sizeof(F32));
             }
-//            //Copy Row To
-//            /*
-//             * 复制指定行的部分数据出来
-//             */
-//            inline void virtual CopyRowTo(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data) const
-//            {
-//                assert(RowNo <= row && ColOffset+ColNum<=col);
-//                assert(Data !=NULL);
-//                MemoryCopy(Data, data + (RowNo - 1) * col + ColOffset, ColNum * sizeof(F32));
-//            }
+            /*
+             * 复制指定行的部分数据出来
+             */
+            inline void virtual CopyRowTo(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data) const
+            {
+                assert(RowNo <= row && ColOffset+ColNum<=col);
+                assert(Data !=NULL);
+                MemoryCopy(Data, data + (RowNo - 1) * col + ColOffset, ColNum * sizeof(F32));
+            }
 //            /*
 //             * 复制定制行数据处理
 //             */
@@ -499,7 +498,7 @@ namespace itr_math
             /*
              * 把Mat设为对角阵Mat[i][i] = value
              */
-            BOOL virtual MatEye(F32 Value) const;
+            BOOL virtual MatEye(F32 Value);
             /*
              * 求矩阵逆并将结果放至MatResult
              */
