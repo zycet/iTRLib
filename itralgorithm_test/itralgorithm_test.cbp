@@ -47,6 +47,8 @@
 		</Build>
 		<Unit filename="bayestest.cpp" />
 		<Unit filename="bayestest.h" />
+		<Unit filename="kftest.cpp" />
+		<Unit filename="kftest.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />

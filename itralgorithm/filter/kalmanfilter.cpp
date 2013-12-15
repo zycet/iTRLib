@@ -11,8 +11,8 @@ namespace itr_algorithm
     {
         _dimState=DimState;
         F_n.MatEye(1);
-        P.MatEye(1);
-        Q.MatEye(1);
+        P.MatEye(0.1);
+        Q.MatEye(0.1);
 
     }
 void printVec(Vector a)
@@ -38,15 +38,28 @@ void printMatrix(Matrix a)
     void KalmanFilter::UpdateModel()
     {
         x=F_x*x;
+//    printVec(x);
         P=F_x*P*F_x.Tran()+F_n*Q*F_n.Tran();
+//        printMatrix(P);
     }
 
     Vector KalmanFilter::UpdateMeasure(const Matrix &H,const Matrix &R,const Vector& z)
     {
         Matrix K(H.GetCol(),H.GetRow());
-        K=P*H.Tran()*((H*P*H.Tran()+R).Inv());
+//        printMatrix(K);
+        K=P*H.Tran();
+//        printMatrix(K);
+        K=K*((H*P*H.Tran()+R).Inv());
+//        printMatrix(K);
+
         P=P-K*H*P;
+//         printMatrix(H);
+//        printMatrix(P);
+//        printMatrix(K);
+//         printVec(z);
+//        printVec(x);
         x=x+K*(z-H*x);
+
         return x;
     }
 }

@@ -58,8 +58,6 @@
 		<Unit filename="format/formatppm.cpp" />
 		<Unit filename="format/formatppm.h" />
 		<Unit filename="format/iformat.h" />
-		<Unit filename="helper/gaussiangenerate.cc" />
-		<Unit filename="helper/gaussiangenerate.h" />
 		<Unit filename="helper/helper.h" />
 		<Unit filename="image/image.cc" />
 		<Unit filename="image/image.h" />
