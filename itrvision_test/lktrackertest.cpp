@@ -118,7 +118,7 @@ class DataOper:public Operator
         }
         bool Remain(F32 error)
         {
-            return (fabs(error)<3);
+            return (fabs(error)<1.5);
         }
 };
 
@@ -138,10 +138,12 @@ void lkseq()
 printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
     char file[25];
     ImageGray gray;
-    IOHelper::ReadPGMFile("Debug/green/cap000.pgm", gray);
+//    IOHelper::ReadPGMFile("Debug/green/cap000.pgm", gray);
+    IOHelper::ReadPGMFile("Debug/twinnings/imgs/img00000.pgm", gray);
     SelectFeature select(gray, 7);
     vector<FeaturePoint> flU(100), flV(100), flU2(100);
-    RectangleS rect(235, 265, 80, 80);
+//    RectangleS rect(235, 265, 80, 80);
+    RectangleS rect(126,165,73,53);
     select.mindist = 10;
     select.SelectGoodFeature(rect, flU);
     LKTracker tracker(gray);
@@ -167,7 +169,7 @@ printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
     kf.x[3]=rect.Y;
     for (int k = 1; k < 200; ++k)
     {
-        sprintf(file, "Debug/green/cap%03d.pgm", k);
+        sprintf(file, "Debug/twinnings/imgs/img%05d.pgm", k);
         IOHelper::ReadPGMFile(file, gray);
         int start = clock() / 1000;
         tracker.AddNext(gray);
@@ -262,6 +264,7 @@ printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
         Draw::Rectangle(gray, rect, 255);
         IOHelper::WritePGMFile(file, gray);
         cout<<endl;
+        getchar();
     }
 printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
 }
