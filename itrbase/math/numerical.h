@@ -39,35 +39,35 @@
 
 namespace itr_math
 {
-    class Numerical
-    {
-        public:
+class Numerical
+{
+public:
 
-            Numerical();
-            virtual ~Numerical();
-            virtual BOOL Sin(F32 Source, F32& Result) const;
-            virtual BOOL Cos(F32 Source, F32& Result) const;
-            virtual BOOL SinCos(F32 Source, F32& ResultSin, F32& ResultCos) const;
-            virtual BOOL Tan(F32 Source, F32& Result) const;
-            virtual BOOL Asin(F32 Source, F32& Result) const;
-            virtual BOOL Acos(F32 Source, F32& Result) const;
-            virtual BOOL Atan(F32 Source, F32& Result) const;
-            virtual BOOL Atan2(F32 SourceA, F32 SourceB, F32& Result) const;
-            virtual BOOL Sqrt(F32 Source, F32& Result) const;
-            virtual BOOL InvSqrt(F32 Source, F32& Result) const;
-            virtual BOOL Exp(F32 Source, F32& Result) const;
-            virtual BOOL Log(F32 Source, F32& Result) const;
-            virtual BOOL Log10(F32 Source, F32& Result) const;
-            virtual BOOL Pow(F32 SourceA, F32 SourceB, F32& Result) const;
-            virtual BOOL Floor(F32 Source, S32& Result) const;
-            virtual BOOL Ceil(F32 Source, S32& Result) const;
-            virtual BOOL Round(F32 Source, S32& Result) const;
-            virtual BOOL Mod(S32 SourceA, S32 SourceB, S32& Result) const;
-            virtual BOOL Rand(F32& Result) const;
-            virtual BOOL Rand(S32 low, S32 high, S32& Result) const;
-            virtual BOOL RandGaussian(F32 mid, F32& Result) const;
-            const static float Pi=3.1415926f;
-    };
+    Numerical();
+    virtual ~Numerical();
+    virtual BOOL Sin(F32 Source, F32& Result) const;
+    virtual BOOL Cos(F32 Source, F32& Result) const;
+    virtual BOOL SinCos(F32 Source, F32& ResultSin, F32& ResultCos) const;
+    virtual BOOL Tan(F32 Source, F32& Result) const;
+    virtual BOOL Asin(F32 Source, F32& Result) const;
+    virtual BOOL Acos(F32 Source, F32& Result) const;
+    virtual BOOL Atan(F32 Source, F32& Result) const;
+    virtual BOOL Atan2(F32 SourceA, F32 SourceB, F32& Result) const;
+    virtual BOOL Sqrt(F32 Source, F32& Result) const;
+    virtual BOOL InvSqrt(F32 Source, F32& Result) const;
+    virtual BOOL Exp(F32 Source, F32& Result) const;
+    virtual BOOL Log(F32 Source, F32& Result) const;
+    virtual BOOL Log10(F32 Source, F32& Result) const;
+    virtual BOOL Pow(F32 SourceA, F32 SourceB, F32& Result) const;
+    virtual BOOL Floor(F32 Source, S32& Result) const;
+    virtual BOOL Ceil(F32 Source, S32& Result) const;
+    virtual BOOL Round(F32 Source, S32& Result) const;
+    virtual BOOL Mod(S32 SourceA, S32 SourceB, S32& Result) const;
+    virtual BOOL Rand(F32& Result) const;
+    virtual BOOL Rand(S32 low, S32 high, S32& Result) const;
+    virtual BOOL RandGaussian(F32 mid, F32& Result) const;
+    const static float Pi=3.1415926f;
+};
 }
 
 #endif // NUMERICAL_H_

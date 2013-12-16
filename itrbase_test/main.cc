@@ -53,7 +53,7 @@ int main()
     TestCalculate();
     TestNumerical();
     TestStatistics();
-    TestVector();
+    //TestVector();
 
     TestCalculateTest();
     TestMathdeDeinit();

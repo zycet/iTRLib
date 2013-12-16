@@ -257,6 +257,7 @@ void TestVector()
 
 void printMatrix(itr_math::Matrix a)
 {
+    printf("The Matrix is:\n");
     for (int i = 0; i < a.GetRow(); ++i)
     {
         for (int j = 0; j < a.GetCol(); ++j)
@@ -265,6 +266,29 @@ void printMatrix(itr_math::Matrix a)
         }
         printf("\n");
     }
+    printf("\n");
+}
+
+void printVector(itr_math::Vector a)
+{
+    printf("The Vector is\n");
+    for(int i = 0; i<a.GetDim(); i++)
+    {
+        printf("%f ",a.GetData()[i]);
+    }
+    printf("\n");
+    printf("\n");
+}
+
+void printArray(F32* data, int length)
+{
+    printf("The Array is:\n");
+    for(int i = 0;i<length;i++)
+    {
+        printf("%f ",data[i]);
+    }
+    printf("\n");
+    printf("\n");
 }
 
 void TestMatrix()
@@ -302,7 +326,7 @@ void TestMatrix()
         data1[i] = (i + 1) * (i + 1);
         data2[i] = (i + 1) * (i + 1);
     }
-
+    F32 MatData[20] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
     itr_math::Matrix Source1(3, 3, data1);
     itr_math::Matrix Source2(3, 3, data2);
     itr_math::Matrix Result(3, 3, data3);
@@ -311,7 +335,7 @@ void TestMatrix()
     itr_math::Matrix SourceEye(3, 3, data6);
     itr_math::Matrix Source5(3, 3, data7);
     itr_math::Matrix Template(3, 3, data1);
-
+    itr_math::Matrix GeneralMat(3,5,MatData);
     itr_math::Vector VecSource(3, VecData);
 
     //初等变换测试
@@ -411,8 +435,8 @@ void TestMatrix()
     Result = Source5*Result;
     printMatrix(Result);
     assert(
-       fabs(Result.GetData()[0] - 1) < 0.0001 && fabs(Result.GetData()[4] - 1) < 0.0001
-    && fabs(Result.GetData()[8] - 1) < 0.0001);
+        fabs(Result.GetData()[0] - 1) < 0.0001 && fabs(Result.GetData()[4] - 1) < 0.0001
+        && fabs(Result.GetData()[8] - 1) < 0.0001);
     Result.Set(0);
 
     //Source1.Tran(Result);
@@ -473,24 +497,35 @@ void TestMatrix()
     //Test:inline void virtual CopyRowTo(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data) const
     printf("inline void virtual CopyRowTo(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data) const\n");
     Source1.CopyRowTo(1,1,2,RowData);
-    for(S32 i = 0;i<3;i++)
+    for(S32 i = 0; i<3; i++)
         printf("%f ",RowData[i]);
     printf("\n");
     //Test:inline void virtual CopyRowTo(S32 RowNo, F32* Data) const
     printf("inline void virtual CopyRowTo(S32 RowNo, F32* Data) const\n");
     Source2.CopyRowTo(3,RowData);
-    for(S32 i = 0;i<3;i++)
+    for(S32 i = 0; i<3; i++)
         printf("%f ",RowData[i]);
     printf("\n");
-    //Test:inline void virtual CopyColFrom(S32 ColNo, S32 RowOffset, S32 RowNum, F32* Data)
-    printf("inline void virtual CopyColFrom(S32 ColNo, S32 RowOffset, S32 RowNum, F32* Data)\n");
-    Source2.CopyColFrom(1,1,3,RowData);
+    //Test:inline void virtual CopyColFrom(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data)
+    printf("inline void virtual CopyColFrom(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data)\n");
+    printMatrix(GeneralMat);
+    printArray(RowData,3);
+    GeneralMat.CopyColFrom(1,2,2,RowData);
+    printMatrix(GeneralMat);
+    //Test:inline void virtual CopyColFrom(S32 ColNo, F32* Data)
+    printf("inline void virtual CopyColFrom(S32 ColNo, F32* Data)\n");
+    printArray(RowData,3);
+    Source2.CopyColFrom(3,RowData);
     printMatrix(Source2);
-
-    itr_math::Matrix MatTest(2,4,data1);
-    printMatrix(MatTest);
-    printMatrix(MatTest.Tran());
+    //Test:inline void virtual CopyColTo(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data) const
+    printf("inline void virtual CopyColTo(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data) const\n");
+    printMatrix(GeneralMat);
+    printArray(RowData,3);
+    GeneralMat.CopyColTo(5,2,2,RowData);
+    printArray(RowData,3);
     TRACE_INFO("OK TestMatrix()");
+    //Test:inline void virtual CopyColTo(S32 ColNo, F32* Data) const
+    //printf("inline void virtual CopyColTo(S32 ColNo, F32* Data) const\n");
     //
 
 }

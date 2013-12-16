@@ -41,22 +41,22 @@
 #include "numerical.h"
 namespace itr_math
 {
-    extern Numerical* NumericalObj;
+extern Numerical* NumericalObj;
 }
 #include "calculate.h"
 namespace itr_math
 {
-    extern Calculate* CalculateObj;
+extern Calculate* CalculateObj;
 }
 #include "statistics.h"
 namespace itr_math
 {
-    extern Statistics* StatisticsObj;
+extern Statistics* StatisticsObj;
 }
 #include "vector.h"
 namespace itr_math
 {
-	extern Vector* VectorObj;
+extern Vector* VectorObj;
 }
 #include "matrix.h"
 #include "geometry.h"
@@ -64,8 +64,8 @@ namespace itr_math
 #include "gaussiangenerate.h"
 namespace itr_math
 {
-    void MathObjStandInit();
-    void MathObjStandDeinit();
+void MathObjStandInit();
+void MathObjStandDeinit();
 }
 
 #endif // MATH_H_

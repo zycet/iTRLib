@@ -43,512 +43,512 @@
 
 namespace itr_math
 {
-    //注意：矩阵的行、列从1开始，
-    class Matrix
+//注意：矩阵的行、列从1开始，
+class Matrix
+{
+public:
+    //**********构造&析构**********
+    /*
+     * 初始化一个指定行列数的空矩阵(自动分配内存)
+     */
+    Matrix(S32 Row, S32 Col);
+    /*
+     * 初始化一个指定行列数的矩阵(以传入的指针为数据区)
+     */
+    Matrix(S32 Row, S32 Col, F32* Data);
+    /*
+     * 初始化一个指定阶数的方阵(自动分配内存)
+     */
+    Matrix(S32 RowCol);
+    /*
+     * 初始化完全一样的矩阵(Clone)
+     */
+    Matrix(const Matrix& Mat);
+    /*
+     * 回收自动分配的内存
+     */
+    virtual ~Matrix();
+
+    //**********成员属性**********
+    /*
+     * 获取行数
+     */
+    inline virtual S32 GetRow() const
     {
-        public:
-            //**********构造&析构**********
-            /*
-             * 初始化一个指定行列数的空矩阵(自动分配内存)
-             */
-            Matrix(S32 Row, S32 Col);
-            /*
-             * 初始化一个指定行列数的矩阵(以传入的指针为数据区)
-             */
-            Matrix(S32 Row, S32 Col, F32* Data);
-            /*
-             * 初始化一个指定阶数的方阵(自动分配内存)
-             */
-            Matrix(S32 RowCol);
-            /*
-             * 初始化完全一样的矩阵(Clone)
-             */
-            Matrix(const Matrix& Mat);
-            /*
-             * 回收自动分配的内存
-             */
-            virtual ~Matrix();
+        return row;
+    }
+    /*
+     * 获取列数
+     */
+    inline virtual S32 GetCol() const
+    {
+        return col;
+    }
+    /*
+     * 获取数据地址
+     */
+    inline virtual F32* GetData() const
+    {
+        return data;
+    }
+    /*
+     * 是否为初始化自动分配的本地数据
+     */
+    inline virtual BOOL IsLocalData() const
+    {
+        return localData;
+    }
 
-            //**********成员属性**********
-            /*
-             * 获取行数
-             */
-            inline virtual S32 GetRow() const
-            {
-                return row;
-            }
-            /*
-             * 获取列数
-             */
-            inline virtual S32 GetCol() const
-            {
-                return col;
-            }
-            /*
-             * 获取数据地址
-             */
-            inline virtual F32* GetData() const
-            {
-                return data;
-            }
-            /*
-             * 是否为初始化自动分配的本地数据
-             */
-            inline virtual BOOL IsLocalData() const
-            {
-                return localData;
-            }
+    //**********数据转移**********
+    /*
+     * Func:将传入的数据复制至指定的矩形区域
+     * Para:RowOffset,ColOffset:插入位置，从1开始
+     *      Width,Height:插入打举行区域尺寸
+     */
+    inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height, F32* Data)
+    {
+        assert(RowPos > 0 && RowPos <= row);
+        assert(ColPos > 0 && ColPos <= col);
+        assert(RowPos + Height <= row + 1);
+        assert(ColPos + Width <= col + 1);
+        assert(Data!=NULL);
+        for (S32 i = 0; i < Height; i++)
+        {
+            MemoryCopy(data + (RowPos - 1) * col + (ColPos - 1) + i * row, Data + i * Width,
+                       Width * sizeof(F32));
+        }
+    }
+    /*
+     * Func:将传入的数据全部复制到矩阵中
+     * Para:
+     */
+    inline void virtual CopyFrom(F32* Data)
+    {
+        assert(Data!=NULL);
+        MemoryCopy(data, Data, row * col * sizeof(F32));
+    }
+    /*
+     * Func:将指定的矩形区域复制到出来
+     * Para:RowPos,ColPos:取出的位置
+     *      Width,Height:矩形尺寸
+     */
+    inline void virtual CopyTo(S32 RowPos, S32 ColPos, S32 Width, S32 Height,
+                               F32* Data) const
+    {
+        assert(RowPos > 0 && RowPos <= row);
+        assert(ColPos > 0 && ColPos <= col);
+        assert(RowPos + Height <= row + 1);
+        assert(ColPos + Width <= col + 1);
+        assert(Data!=NULL);
+        for (S32 i = 0; i < Height; i++)
+        {
+            MemoryCopy(Data + i * Width, data + (RowPos - 1) * col + (ColPos - 1) + i * row,
+                       Width * sizeof(F32));
+        }
+    }
+    /*
+     * 将全部数据复制出来
+     */
+    inline void virtual CopyTo(F32* Data) const
+    {
+        assert(Data!=NULL);
+        MemoryCopy(Data, data, row * col * sizeof(F32));
+    }
+    //Copy Row From
 
-            //**********数据转移**********
-            /*
-             * Func:将传入的数据复制至指定的矩形区域
-             * Para:RowOffset,ColOffset:插入位置，从1开始
-             *      Width,Height:插入打举行区域尺寸
-             */
-            inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height, F32* Data)
-            {
-                assert(RowPos > 0 && RowPos <= row);
-                assert(ColPos > 0 && ColPos <= col);
-                assert(RowPos + Height <= row + 1);
-                assert(ColPos + Width <= col + 1);
-                assert(Data!=NULL);
-                for (S32 i = 0; i < Height; i++)
-                {
-                    MemoryCopy(data + (RowPos - 1) * col + (ColPos - 1) + i * row, Data + i * Width,
-                            Width * sizeof(F32));
-                }
-            }
-            /*
-             * Func:将传入的数据全部复制到矩阵中
-             * Para:
-             */
-            inline void virtual CopyFrom(F32* Data)
-            {
-                assert(Data!=NULL);
-                MemoryCopy(data, Data, row * col * sizeof(F32));
-            }
-            /*
-             * Func:将指定的矩形区域复制到出来
-             * Para:RowPos,ColPos:取出的位置
-             *      Width,Height:矩形尺寸
-             */
-            inline void virtual CopyTo(S32 RowPos, S32 ColPos, S32 Width, S32 Height,
-                    F32* Data) const
-            {
-                assert(RowPos > 0 && RowPos <= row);
-                assert(ColPos > 0 && ColPos <= col);
-                assert(RowPos + Height <= row + 1);
-                assert(ColPos + Width <= col + 1);
-                assert(Data!=NULL);
-                for (S32 i = 0; i < Height; i++)
-                {
-                    MemoryCopy(Data + i * Width, data + (RowPos - 1) * col + (ColPos - 1) + i * row,
-                            Width * sizeof(F32));
-                }
-            }
-            /*
-             * 将全部数据复制出来
-             */
-            inline void virtual CopyTo(F32* Data) const
-            {
-                assert(Data!=NULL);
-                MemoryCopy(Data, data, row * col * sizeof(F32));
-            }
-            //Copy Row From
+    /*
+    * 将传入数据复制到指定行的部分区域
+    */
+    inline void virtual CopyRowFrom(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data)
+    {
+        assert(RowPos > 0 && RowPos <= row);
+        assert(ColPos > 0 && ColPos <= col);
+        assert(ColNum > 0 && ColNum + ColPos <= col + 1);
+        assert(Data!=NULL);
+        MemoryCopy(data + (RowPos - 1) * col + ColPos - 1, Data, ColNum * sizeof(F32));
+    }
+    /*
+     * 将传入数据复制到指定行
+     */
+    inline void virtual CopyRowFrom(S32 RowPos, F32* Data)
+    {
+        --RowPos;
+        assert(RowPos < row);
+        assert(Data!=NULL);
+        MemoryCopy(data + RowPos * col, Data, col * sizeof(F32));
+    }
+    /*
+     * 复制指定行的部分数据出来
+     */
+    inline void virtual CopyRowTo(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data) const
+    {
+        assert(RowPos > 0 && RowPos <= row);
+        assert(ColPos > 0 && ColPos <= col);
+        assert(ColNum + ColPos <= col + 1);
+        assert(Data !=NULL);
+        MemoryCopy(Data, data + (RowPos - 1) * col + ColPos - 1, ColNum * sizeof(F32));
+    }
+    /*
+     * 复制定制行数据处理
+     */
+    inline void virtual CopyRowTo(S32 RowNo, F32* Data) const
+    {
+        assert(RowNo <= row);
+        assert(Data!=NULL);
+        MemoryCopy(Data, data + (RowNo - 1) * col, col * sizeof(F32));
+    }
+    /*
+     * 将数据复制到指定列的部分区域D
+     */
+    inline void virtual CopyColFrom(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data)
+    {
+        assert(ColPos > 0 && ColPos <= col);
+        assert(RowPos > 0 && RowPos <= row);
+        assert(RowPos + RowNum <= row + 1);
+        assert(Data!=NULL);
+        for (S32 i = 0; i < RowNum; i++)
+            MemoryCopy(data + (RowPos - 1) * col + ColPos - 1 + i * col, Data, sizeof(F32));
+    }
+    /*
+     * d将数据复制到指定列
+     */
+    inline void virtual CopyColFrom(S32 ColNo, F32* Data)
+    {
+        assert(ColNo > 0 && ColNo <= col);
+        assert(Data != NULL);
+        for (S32 i = 0; i < row; i++)
+            MemoryCopy(data + ColNo - 1 + i * col, Data + i, sizeof(F32));
+    }
+    /*
+    * d复制指定列的部分区域数据出来
+    */
+    inline void virtual CopyColTo(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data) const
+    {
+        assert(ColPos > 0 && ColPos <= col);
+        assert(RowPos > 0 && RowPos <= row);
+        assert(RowNum > 0 && RowNum + RowPos <= row + 1);
+        assert(Data!=NULL);
+        for (S32 i = 0; i < RowNum; i++)
+            MemoryCopy(Data + i, data + (RowPos - 1) * col + ColPos - 1 + i * col, sizeof(F32));
+    }
+    /*
+     * 复制指定列的数据出来
+     */
+    inline void virtual CopyColTo(S32 ColNo, F32* Data) const
+    {
+        --ColNo;
+        assert(ColNo < col);
+        assert(Data!=NULL);
+        for (S32 i = 0; i < row; i++)
+            //  MemoryCopy(Data+i, data + ColNo + i * col, sizeof(F32));
+            Data[i] = data[ColNo + i * col];
+    }
 
-            /*
-            * 将传入数据复制到指定行的部分区域
-            */
-            inline void virtual CopyRowFrom(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data)
-            {
-                assert(RowPos > 0 && RowPos <= row);
-                assert(ColPos > 0 && ColPos <= col);
-                assert(ColNum > 0 && ColNum + ColPos <= col + 1);
-                assert(Data!=NULL);
-                MemoryCopy(data + (RowPos - 1) * col + ColPos - 1, Data, ColNum * sizeof(F32));
-            }
-            /*
-             * 将传入数据复制到指定行
-             */
-            inline void virtual CopyRowFrom(S32 RowPos, F32* Data)
-            {
-                --RowPos;
-                assert(RowPos < row);
-                assert(Data!=NULL);
-                MemoryCopy(data + RowPos * col, Data, col * sizeof(F32));
-            }
-            /*
-             * 复制指定行的部分数据出来
-             */
-            inline void virtual CopyRowTo(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data) const
-            {
-                assert(RowPos > 0 && RowPos <= row);
-                assert(ColPos > 0 && ColPos <= col);
-                assert(ColNum + ColPos <= col + 1);
-                assert(Data !=NULL);
-                MemoryCopy(Data, data + (RowPos - 1) * col + ColPos - 1, ColNum * sizeof(F32));
-            }
-            /*
-             * 复制定制行数据处理
-             */
-            inline void virtual CopyRowTo(S32 RowNo, F32* Data) const
-            {
-                assert(RowNo <= row);
-                assert(Data!=NULL);
-                MemoryCopy(Data, data + (RowNo - 1) * col, col * sizeof(F32));
-            }
-            /*
-             * 将数据复制到指定列的部分区域
-             */
-            inline void virtual CopyColFrom(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data)
-            {
-                assert(ColPos > 0 && ColPos <= col);
-                assert(RowPos > 0 && RowPos <= row);
-                assert(RowPos + RowNum <= row + 1);
-                assert(Data!=NULL);
-                for (S32 i = 0; i < RowNum; i++)
-                    MemoryCopy(data + (RowPos - 1) * col + ColPos - 1 + i * row, Data, sizeof(F32));
-            }
-            /*
-             * 将数据复制到指定列
-             */
-            inline void virtual CopyColFrom(S32 ColNo, F32* Data)
-            {
-                assert(ColNo <= col);
-                assert(Data!=NULL);
-                for (S32 i = 0; i < row; i++)
-                    MemoryCopy(data + ColNo - 1 + i * row, Data + i, sizeof(F32));
-            }
-//            //Copy Col To
-//            /*
-//             * 复制指定列的部分区域数据出来
-//             */
-//            inline void virtual CopyColTo(S32 ColNo, S32 RowOffset, S32 RowNum, F32* Data) const
-//            {
-//                assert(ColNo <= col&&RowOffset+RowNum<=row);
-//                assert(Data!=NULL);
-//                for (S32 i = 0; i < RowNum; i++)
-//                    MemoryCopy(Data, data + (RowOffset - 1) * col + ColNo + i * row, sizeof(F32));
-//
-//            }
-            /*
-             * 复制指定列的数据出来
-             */
-            inline void virtual CopyColTo(S32 ColNo, F32* Data) const
-            {
-                --ColNo;
-                assert(ColNo < col);
-                assert(Data!=NULL);
-                for (S32 i = 0; i < row; i++)
-                    //  MemoryCopy(Data+i, data + ColNo + i * col, sizeof(F32));
-                    Data[i] = data[ColNo + i * col];
-            }
+    //**********数据访问**********
+    /*
+     * 写入单个元素(一维线性访问)
+     */
+    inline F32& operator[](int index)
+    {
+        assert(index < row * col);
+        return data[index];
+    }
+    /*
+     * 读取单个元素(一维线性访问)
+     */
+    inline F32 operator[](int index) const
+    {
+        assert(index < row * col);
+        return data[index];
+    }
+    /*
+     * 写入单个元素(Y=行数,X=列数)
+     */
+    inline F32& operator()(int Y, int X)
+    {
+        assert(X < col);
+        assert(Y < row);
+        return data[Y * col + X];
+    }
+    /*
+     * 读取单个元素(Y=行数,X=列数)
+     */
+    inline F32 operator()(int Y, int X) const
+    {
+        assert(X < col);
+        assert(Y < row);
+        return data[Y * col + X];
+    }
 
-            //**********数据访问**********
-            /*
-             * 写入单个元素(一维线性访问)
-             */
-            inline F32& operator[](int index)
-            {
-                assert(index < row * col);
-                return data[index];
-            }
-            /*
-             * 读取单个元素(一维线性访问)
-             */
-            inline F32 operator[](int index) const
-            {
-                assert(index < row * col);
-                return data[index];
-            }
-            /*
-             * 写入单个元素(Y=行数,X=列数)
-             */
-            inline F32& operator()(int Y, int X)
-            {
-                assert(X < col);
-                assert(Y < row);
-                return data[Y * col + X];
-            }
-            /*
-             * 读取单个元素(Y=行数,X=列数)
-             */
-            inline F32 operator()(int Y, int X) const
-            {
-                assert(X < col);
-                assert(Y < row);
-                return data[Y * col + X];
-            }
+    //**********数据操作**********
+    /*
+     * 设置所有元素为0
+     */
+    inline void virtual Clear()
+    {
+        for (S32 i = 0; i < row * col; i++)
+            data[i] = 0;
+    }
+    /*
+     * 设置所有元素为K
+     */
+    inline void virtual Set(F32 K)
+    {
+        for (S32 i = 0; i < row * col; i++)
+            data[i] = K;
+    }
+    /*
+     * 设置主对角线元素为K
+     */
+    inline void virtual SetDiag(F32 K)
+    {
+        for (S32 i = 0; i < row; i++)
+            data[i * row + i] = K;
+    }
+    /*
+     * 设置主对角线元素为Data
+     */
+    inline void virtual SetDiag(F32* Data)
+    {
+        assert(Data!=NULL);
+        for (S32 i = 0; i < row; i++)
+            data[i * row + i] = Data[i];
+    }
+    /*
+     * 将主对角线元素放至Data
+     */
+    inline void virtual GetDiag(F32* Data) const
+    {
+        assert(Data!=NULL);
+        for (S32 i = 0; i < row; i++)
+            Data[i] = data[i * row + i];
+    }
 
-            //**********数据操作**********
-            /*
-             * 设置所有元素为0
-             */
-            inline void virtual Clear()
-            {
-                for (S32 i = 0; i < row * col; i++)
-                    data[i] = 0;
-            }
-            /*
-             * 设置所有元素为K
-             */
-            inline void virtual Set(F32 K)
-            {
-                for (S32 i = 0; i < row * col; i++)
-                    data[i] = K;
-            }
-            /*
-             * 设置主对角线元素为K
-             */
-            inline void virtual SetDiag(F32 K)
-            {
-                for (S32 i = 0; i < row; i++)
-                    data[i * row + i] = K;
-            }
-            /*
-             * 设置主对角线元素为Data
-             */
-            inline void virtual SetDiag(F32* Data)
-            {
-                assert(Data!=NULL);
-                for (S32 i = 0; i < row; i++)
-                    data[i * row + i] = Data[i];
-            }
-            /*
-             * 将主对角线元素放至Data
-             */
-            inline void virtual GetDiag(F32* Data) const
-            {
-                assert(Data!=NULL);
-                for (S32 i = 0; i < row; i++)
-                    Data[i] = data[i * row + i];
-            }
+    //**********维数匹配**********
+    /*
+     * 检查维数与Mat是否一致
+     */
+    inline BOOL virtual MatchDim(const Matrix& Mat) const
+    {
+        if (Mat.row == row && Mat.col == col)
+            return true;
+        else
+            return false;
+    }
+    /*
+     * 检查维数是否为Row,Col
+     */
+    inline BOOL virtual MatchDim(int Row, int Col) const
+    {
+        if (Row == row && Col == col)
+            return true;
+        else
+            return false;
+    }
+    /*
+     * 检查维数是否可右乘Mat
+     */
+    inline BOOL virtual MatchMul(const Matrix& Mat) const
+    {
+        if (col == Mat.row)
+            return true;
+        else
+            return false;
+    }
+    /*
+     * 检查维数是否可右乘行向量Vec
+     */
+    inline BOOL virtual MatchRightMulRow(const Vector& Vec) const
+    {
+        if (col == Vec.GetDim())
+            return true;
+        else
+            return false;
+    }
+    /*
+     * 检查维数是否可右乘列向量Vec
+     */
+    inline BOOL virtual MatchRightMulCol(const Vector& Vec) const
+    {
+        if (col == 1)
+            return true;
+        else
+            return false;
+    }
+    /*
+     * 检查维数是否可左乘行向量Vec
+     */
+    inline BOOL virtual MatchLeftMulRow(const Vector& Vec) const
+    {
+        if (row == Vec.GetDim())
+            return true;
+        else
+            return false;
+    }
+    /*
+     * 检查维数是否可左乘列向量Vec
+     */
+    inline BOOL virtual MatchLeftMulCol(const Vector& Vec) const
+    {
+        if (row == 1)
+            return true;
+        else
+            return false;
+    }
 
-            //**********维数匹配**********
-            /*
-             * 检查维数与Mat是否一致
-             */
-            inline BOOL virtual MatchDim(const Matrix& Mat) const
-            {
-                if (Mat.row == row && Mat.col == col)
-                    return true;
-                else
-                    return false;
-            }
-            /*
-             * 检查维数是否为Row,Col
-             */
-            inline BOOL virtual MatchDim(int Row, int Col) const
-            {
-                if (Row == row && Col == col)
-                    return true;
-                else
-                    return false;
-            }
-            /*
-             * 检查维数是否可右乘Mat
-             */
-            inline BOOL virtual MatchMul(const Matrix& Mat) const
-            {
-                if (col == Mat.row)
-                    return true;
-                else
-                    return false;
-            }
-            /*
-             * 检查维数是否可右乘行向量Vec
-             */
-            inline BOOL virtual MatchRightMulRow(const Vector& Vec) const
-            {
-                if (col == Vec.GetDim())
-                    return true;
-                else
-                    return false;
-            }
-            /*
-             * 检查维数是否可右乘列向量Vec
-             */
-            inline BOOL virtual MatchRightMulCol(const Vector& Vec) const
-            {
-                if (col == 1)
-                    return true;
-                else
-                    return false;
-            }
-            /*
-             * 检查维数是否可左乘行向量Vec
-             */
-            inline BOOL virtual MatchLeftMulRow(const Vector& Vec) const
-            {
-                if (row == Vec.GetDim())
-                    return true;
-                else
-                    return false;
-            }
-            /*
-             * 检查维数是否可左乘列向量Vec
-             */
-            inline BOOL virtual MatchLeftMulCol(const Vector& Vec) const
-            {
-                if (row == 1)
-                    return true;
-                else
-                    return false;
-            }
+    //**********初等变换**********
+    /*
+     * 将RowNoAdd行加至RowNoResult行
+     */
+    void virtual AddRow(S32 RowNoAdd, S32 RowNoResult);
+    /*
+     * 将Data加至RowNoResult行
+     */
+    void virtual AddRow(F32* Data, S32 RowNoResult);
+    /*
+     * 将RowNoSub行减至RowNoResult行
+     */
+    void virtual SubRow(S32 RowNoSub, S32 RowNoResult);
+    /*
+     * 将Data减至RowNoResult行
+     */
+    void virtual SubRow(F32* Data, S32 RowNoResult);
+    /*
+     * 将RowNoResult行乘以K
+     */
+    void virtual MulRow(F32 K, S32 RowNoResult);
+    //Swap Row
+    /*
+     * 交换RowNoA行和RowNoB行
+     */
+    void virtual SwapRow(S32 RowNoA, S32 RowNoB);
+    /*
+     * 将ColNoAdd列加至ColNoResult列
+     */
+    void virtual AddCol(S32 ColNoAdd, S32 ColNoResult);
+    /*
+     * 将Data加至ColNoResult列
+     */
+    void virtual AddCol(F32* Data, S32 ColNoResult);
+    /*
+     * 将ColNoSub列减至ColNoResult列
+     */
+    void virtual SubCol(S32 ColNoSub, S32 ColNoResult);
+    /*
+     * 将Data减至ColNoResult行
+     */
+    void virtual SubCol(F32* Data, S32 ColNoResult);
+    /*
+     * 将ColNoResult列乘以K
+     */
+    void virtual MulCol(F32 K, S32 ColNoResult);
+    /*
+     * 交换ColNoA列和ColNoB列
+     */
+    void virtual SwapCol(S32 ColNoA, S32 ColNoB);
 
-            //**********初等变换**********
-            /*
-             * 将RowNoAdd行加至RowNoResult行
-             */
-            void virtual AddRow(S32 RowNoAdd, S32 RowNoResult);
-            /*
-             * 将Data加至RowNoResult行
-             */
-            void virtual AddRow(F32* Data, S32 RowNoResult);
-            /*
-             * 将RowNoSub行减至RowNoResult行
-             */
-            void virtual SubRow(S32 RowNoSub, S32 RowNoResult);
-            /*
-             * 将Data减至RowNoResult行
-             */
-            void virtual SubRow(F32* Data, S32 RowNoResult);
-            /*
-             * 将RowNoResult行乘以K
-             */
-            void virtual MulRow(F32 K, S32 RowNoResult);
-            //Swap Row
-            /*
-             * 交换RowNoA行和RowNoB行
-             */
-            void virtual SwapRow(S32 RowNoA, S32 RowNoB);
-            /*
-             * 将ColNoAdd列加至ColNoResult列
-             */
-            void virtual AddCol(S32 ColNoAdd, S32 ColNoResult);
-            /*
-             * 将Data加至ColNoResult列
-             */
-            void virtual AddCol(F32* Data, S32 ColNoResult);
-            /*
-             * 将ColNoSub列减至ColNoResult列
-             */
-            void virtual SubCol(S32 ColNoSub, S32 ColNoResult);
-            /*
-             * 将Data减至ColNoResult行
-             */
-            void virtual SubCol(F32* Data, S32 ColNoResult);
-            /*
-             * 将ColNoResult列乘以K
-             */
-            void virtual MulCol(F32 K, S32 ColNoResult);
-            /*
-             * 交换ColNoA列和ColNoB列
-             */
-            void virtual SwapCol(S32 ColNoA, S32 ColNoB);
+    //**********常量相关计算**********
+    /*
+     * 全部元素加上K
+     */
+    void virtual Add(F32 K);
+    /*
+     * 全部元素乘以K
+     */
+    void virtual Mul(F32 K);
 
-            //**********常量相关计算**********
-            /*
-             * 全部元素加上K
-             */
-            void virtual Add(F32 K);
-            /*
-             * 全部元素乘以K
-             */
-            void virtual Mul(F32 K);
+    //**********向量相关计算**********
+    /*
+     * 左乘行向量
+     */
+    //void virtual LeftMulRow(const Vector& Vec, Matrix& MatResult) const;
+    /*
+     * 左乘列向量
+     */
+    //void virtual LeftMulCol(const Vector& Vec, Matrix& MatResult) const;
+    /*
+     * 右乘行向量
+     */
+    //void virtual RightMulRow(const Vector& Vec, Matrix& MatResult) const;
+    /*
+     * 左乘行向量
+     */
+    //void virtual RightMulCol(const Vector& Vec, Matrix& MatResult) const;
+    Vector virtual operator*(const Vector& vec) const;
 
-            //**********向量相关计算**********
-            /*
-             * 左乘行向量
-             */
-            //void virtual LeftMulRow(const Vector& Vec, Matrix& MatResult) const;
-            /*
-             * 左乘列向量
-             */
-            //void virtual LeftMulCol(const Vector& Vec, Matrix& MatResult) const;
-            /*
-             * 右乘行向量
-             */
-            //void virtual RightMulRow(const Vector& Vec, Matrix& MatResult) const;
-            /*
-             * 左乘行向量
-             */
-            //void virtual RightMulCol(const Vector& Vec, Matrix& MatResult) const;
-            Vector virtual operator*(const Vector& vec) const;
+    //**********矩阵相关计算**********
+    /*
+     * 用于抽取矩阵中的某列
+     */
+    void virtual ColExtract(F32* Data, S32 Offset, S32 Interval, S32 Length, F32* Result);
+    /*
+     * 加上矩阵MatrixAdd
+     */
+    void virtual Add(const Matrix& Mat);
+    /*
+     * 减去矩阵MatrixSub
+     */
+    void virtual Sub(const Matrix& Mat);
+    /*
+     * 右乘矩阵Mat并将结果存至MatResult
+     */
+    void virtual Mul(const Matrix& Mat, Matrix& MatResult) const;
 
-            //**********矩阵相关计算**********
-            /*
-             * 用于抽取矩阵中的某列
-             */
-            void virtual ColExtract(F32* Data, S32 Offset, S32 Interval, S32 Length, F32* Result);
-            /*
-             * 加上矩阵MatrixAdd
-             */
-            void virtual Add(const Matrix& Mat);
-            /*
-             * 减去矩阵MatrixSub
-             */
-            void virtual Sub(const Matrix& Mat);
-            /*
-             * 右乘矩阵Mat并将结果存至MatResult
-             */
-            void virtual Mul(const Matrix& Mat, Matrix& MatResult) const;
+    Matrix virtual operator*(const Matrix& Mat) const;
+    Matrix virtual operator+(const Matrix& Mat) const;
+    Matrix virtual operator-(const Matrix& Mat) const;
+    Matrix virtual operator=(const Matrix& Mat);
+    /*
+     * 把Mat设为对角阵Mat[i][i] = value
+     */
+    BOOL virtual MatEye(F32 Value);
+    /*
+     * 求矩阵逆并将结果放至MatResult
+     */
+    BOOL virtual Inv(Matrix& MatResult) const;
+    /*
+     * 求矩阵逆
+     */
+    Matrix virtual Inv() const;
 
-            Matrix virtual operator*(const Matrix& Mat) const;
-            Matrix virtual operator+(const Matrix& Mat) const;
-            Matrix virtual operator-(const Matrix& Mat) const;
-            Matrix virtual operator=(const Matrix& Mat);
-            /*
-             * 把Mat设为对角阵Mat[i][i] = value
-             */
-            BOOL virtual MatEye(F32 Value);
-            /*
-             * 求矩阵逆并将结果放至MatResult
-             */
-            BOOL virtual Inv(Matrix& MatResult) const;
-            /*
-             * 求矩阵逆
-             */
-            Matrix virtual Inv() const;
+    /*
+     * 求矩阵转置并将结果放至MatResult
+     */
+    void virtual Tran(Matrix& MatResult) const;
+    /*
+    * 求矩阵转置
+    */
+    Matrix virtual Tran() const;
+    /*
+     * 求矩阵行列式值
+     */
+    //F32 virtual Det() const;
 
-            /*
-             * 求矩阵转置并将结果放至MatResult
-             */
-            void virtual Tran(Matrix& MatResult) const;
-             /*
-             * 求矩阵转置
-             */
-            Matrix virtual Tran() const;
-            /*
-             * 求矩阵行列式值
-             */
-            //F32 virtual Det() const;
+    /*
+     *测试用函数
+     */
 
-            /*
-             *测试用函数
-             */
+    //BOOL virtual CompMatrix(Matrix& mat);
 
-             //BOOL virtual CompMatrix(Matrix& mat);
+    inline BOOL CompMatrix(Matrix& mat)
+    {
+        if (this->col != mat.col)
+            return false;
+        if (this->row != mat.row)
+            return false;
+        for (int i = 0; i < this->col * this->row; i++)
+        {
+            if (this->GetData()[i]= mat.data[i])
+                return false;
+        }
+        return true;
+    }
 
-            inline BOOL CompMatrix(Matrix& mat)
-            {
-                if (this->col != mat.col)
-                    return false;
-                if (this->row != mat.row)
-                    return false;
-                for (int i = 0; i < this->col * this->row; i++)
-                {
-                    if (this->GetData()[i]= mat.data[i])
-                        return false;
-                }
-                return true;
-            }
-
-        private:
-            S32 row, col;
-            F32* data;
-            BOOL localData;
-    };
+private:
+    S32 row, col;
+    F32* data;
+    BOOL localData;
+};
 
 } // namespace itr_math
 
