@@ -220,7 +220,7 @@ public:
             MemoryCopy(data + ColNo - 1 + i * col, Data + i, sizeof(F32));
     }
     /*
-    * d复制指定列的部分区域数据出来
+    * 复制指定列的部分区域数据出来
     */
     inline void virtual CopyColTo(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data) const
     {

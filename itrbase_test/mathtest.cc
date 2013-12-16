@@ -523,8 +523,15 @@ void TestMatrix()
     printArray(RowData,3);
     GeneralMat.CopyColTo(5,2,2,RowData);
     printArray(RowData,3);
+    //Test:inline Řvoid virtual CopyColTo(S32 ColNo, F32* Data) const
+    printf("//Test:inline Řvoid virtual CopyColTo(S32 ColNo, F32* Data) const\n");
+    printMatrix(GeneralMat);
+    printArray(RowData,3);
+    GeneralMat.CopyColTo(3,RowData);
+    printArray(RowData,3);
+
     TRACE_INFO("OK TestMatrix()");
-    //Test:inline void virtual CopyColTo(S32 ColNo, F32* Data) const
+    //Test:inline Řvoid virtual CopyColTo(S32 ColNo, F32* Data) const
     //printf("inline void virtual CopyColTo(S32 ColNo, F32* Data) const\n");
     //
 
