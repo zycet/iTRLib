@@ -152,14 +152,10 @@ printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
 
     KalmanFilter kf(4);
     F32 data[16]= {2 ,0,-1,0,0,2,0,-1,1,0,0,0,0,1,0,0};
-    kf.F_x.CopyRowFrom(1,data);
-    kf.F_x.CopyRowFrom(2,data+4);
-    kf.F_x.CopyRowFrom(3,data+8);
-    kf.F_x.CopyRowFrom(4,data+12);
+    kf.F_x.CopyFrom(data);
     Matrix H(2,4),R(2,2);
     R.MatEye(2.012306);
-    H.CopyRowFrom(1,data+8);
-    H.CopyRowFrom(2,data+12);
+    H.CopyFrom(data+8);
     printMatrix(H);
     printMatrix(kf.F_x);
     Vector z(2),X(4),v(2);
