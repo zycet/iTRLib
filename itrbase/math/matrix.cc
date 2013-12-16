@@ -114,7 +114,8 @@ Matrix::~Matrix()
  */
 void Matrix::AddRow(S32 RowNoAdd, S32 RowNoResult)
 {
-    assert(RowNoAdd <= row && RowNoResult <= row);
+    assert(RowNoAdd > 0 && RowNoAdd <= row);
+    assert(RowNoResult > 0 && RowNoResult <= row);
     CalculateObj->Add(data + (RowNoAdd - 1) * col, data + (RowNoResult - 1) * col, col,data + (RowNoResult - 1) * col);
 }
 /*
@@ -123,7 +124,7 @@ void Matrix::AddRow(S32 RowNoAdd, S32 RowNoResult)
 void Matrix::AddRow(F32* Data, S32 RowNoResult)
 {
     assert(Data!=NULL);
-    assert(RowNoResult <= row);
+    assert(RowNoResult > 0 && RowNoResult <= row);
     CalculateObj->Add(Data, data + (RowNoResult - 1) * col, col,
                       data + (RowNoResult - 1) * col);
 }
@@ -132,7 +133,8 @@ void Matrix::AddRow(F32* Data, S32 RowNoResult)
  */
 void Matrix::SubRow(S32 RowNoSub, S32 RowNoResult)
 {
-    assert(RowNoSub <= row && RowNoResult <= row);
+    assert(RowNoSub > 0 && RowNoSub <= row);
+    assert(RowNoResult > 0 && RowNoResult <= row);
     CalculateObj->Sub(data + (RowNoResult - 1) * col, data + (RowNoSub - 1) * col, col,
                       data + (RowNoResult - 1) * col);
 }
@@ -142,7 +144,7 @@ void Matrix::SubRow(S32 RowNoSub, S32 RowNoResult)
 void Matrix::SubRow(F32* Data, S32 RowNoResult)
 {
     assert(Data!=NULL);
-    assert(RowNoResult <= row);
+    assert(RowNoResult > 0 && RowNoResult <= row);
     CalculateObj->Sub(data + (RowNoResult - 1) * col, Data, col,
                       data + (RowNoResult - 1) * col);
 }
@@ -151,7 +153,7 @@ void Matrix::SubRow(F32* Data, S32 RowNoResult)
  */
 void Matrix::MulRow(F32 K, S32 RowNoResult)
 {
-    assert(RowNoResult <= row);
+    assert(RowNoResult > 0 && RowNoResult <= row);
     CalculateObj->Scale(data + (RowNoResult - 1) * col, K, col, data + (RowNoResult - 1) * col);
 }
 //Swap Row
@@ -160,8 +162,8 @@ void Matrix::MulRow(F32 K, S32 RowNoResult)
  */
 void Matrix::SwapRow(S32 RowNoA, S32 RowNoB)
 {
-    assert(RowNoA <= row);
-    assert(RowNoB <= row);
+    assert(RowNoA > 0 && RowNoA <= row);
+    assert(RowNoB > 0 && RowNoB <= row);
     MemorySwap(data + (RowNoA - 1) * col, data + (RowNoB - 1) * col, col*sizeof(F32));
 }
 /*
@@ -169,8 +171,8 @@ void Matrix::SwapRow(S32 RowNoA, S32 RowNoB)
  */
 void Matrix::AddCol(S32 ColNoAdd, S32 ColNoResult)
 {
-    assert(ColNoAdd<=col);
-    assert(ColNoResult<=col);
+    assert(ColNoAdd > 0 && ColNoAdd <= col);
+    assert(ColNoResult > 0 && ColNoResult <= col);
     for (S32 i = 0; i < row; i++)
         data[i * col + ColNoResult - 1] = data[i * col + ColNoAdd - 1] + data[i * col + ColNoResult - 1];
 }
@@ -180,7 +182,7 @@ void Matrix::AddCol(S32 ColNoAdd, S32 ColNoResult)
 void Matrix::AddCol(F32* Data, S32 ColNoResult)
 {
     assert(Data!=NULL);
-    assert(ColNoResult<=col);
+    assert(ColNoResult > 0 && ColNoResult<=col);
     for (S32 i = 0; i < row; i++)
         data[i * col + ColNoResult - 1] = Data[i] + data[i * col + ColNoResult - 1];
 }
@@ -189,8 +191,8 @@ void Matrix::AddCol(F32* Data, S32 ColNoResult)
  */
 void Matrix::SubCol(S32 ColNoSub, S32 ColNoResult)
 {
-    assert(ColNoSub<col);
-    assert(ColNoResult<col);
+    assert(ColNoSub > 0 && ColNoSub <= col);
+    assert(ColNoResult > 0 && ColNoResult <= col);
     for (S32 i = 0; i < row; i++)
         data[i * col + ColNoResult - 1] = data[i * col + ColNoResult - 1] - data[i * col + ColNoSub - 1];
 }
@@ -200,7 +202,7 @@ void Matrix::SubCol(S32 ColNoSub, S32 ColNoResult)
 void Matrix::SubCol(F32* Data, S32 ColNoResult)
 {
     assert(Data!=NULL);
-    assert(ColNoResult<=col);
+    assert(ColNoResult > 0 && ColNoResult <= col);
     for (S32 i = 0; i < row; i++)
         data[i * col + ColNoResult - 1] = data[i * col + ColNoResult - 1] - Data[i];
 }
@@ -209,7 +211,7 @@ void Matrix::SubCol(F32* Data, S32 ColNoResult)
  */
 void Matrix::MulCol(F32 K, S32 ColNoResult)
 {
-    assert(ColNoResult < col);
+    assert(ColNoResult > 0 && ColNoResult <= col);
     for (S32 i = 0; i < row; i++)
         data[i * col + ColNoResult - 1] = data[i * col + ColNoResult - 1] * K;
 }
@@ -218,8 +220,8 @@ void Matrix::MulCol(F32 K, S32 ColNoResult)
  */
 void Matrix::SwapCol(S32 ColNoA, S32 ColNoB)
 {
-    assert(ColNoA<=col);
-    assert(ColNoB<=col);
+    assert(ColNoA > 0 && ColNoA <= col);
+    assert(ColNoB > 0 && ColNoB <= col);
     F32 temp;
     for (S32 i = 0; i < row; i++)
     {
@@ -244,7 +246,6 @@ void Matrix::Add(F32 K)
  */
 void Matrix::Mul(F32 K)
 {
-
     for (S32 i = 0; i < col; i++)
     {
         CalculateObj->Scale(data + i * col, K, col, data + i * col);
