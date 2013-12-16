@@ -135,12 +135,13 @@ void printMatrix(Matrix a)
 }
 void lkseq()
 {
+printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
     char file[25];
     ImageGray gray;
     IOHelper::ReadPGMFile("Debug/green/cap000.pgm", gray);
     SelectFeature select(gray, 7);
     vector<FeaturePoint> flU(100), flV(100), flU2(100);
-    RectangleS rect(250, 270, 80, 80);
+    RectangleS rect(235, 265, 80, 80);
     select.mindist = 10;
     select.SelectGoodFeature(rect, flU);
     LKTracker tracker(gray);
@@ -148,18 +149,22 @@ void lkseq()
     Ransac ransac(oper);
 
     KalmanFilter kf(4);
-    F32 data[16]={2 ,0,-1,0,0,2,0,-1,0,0,1,0,0,0,0,1};
+    F32 data[16]= {2 ,0,-1,0,0,2,0,-1,1,0,0,0,0,1,0,0};
     kf.F_x.CopyRowFrom(1,data);
     kf.F_x.CopyRowFrom(2,data+4);
     kf.F_x.CopyRowFrom(3,data+8);
     kf.F_x.CopyRowFrom(4,data+12);
     Matrix H(2,4),R(2,2);
-    R.MatEye(0.1);
-    H.CopyRowFrom(1,data+10);
-    H.CopyRowFrom(2,data+9);
+    R.MatEye(2.012306);
+    H.CopyRowFrom(1,data+8);
+    H.CopyRowFrom(2,data+12);
     printMatrix(H);
     printMatrix(kf.F_x);
-    Vector z(2),X(4);
+    Vector z(2),X(4),v(2);
+    kf.x[0]=rect.X;
+    kf.x[1]=rect.Y;
+    kf.x[2]=rect.X;
+    kf.x[3]=rect.Y;
     for (int k = 1; k < 200; ++k)
     {
         sprintf(file, "Debug/green/cap%03d.pgm", k);
@@ -219,6 +224,8 @@ void lkseq()
 
         kf.UpdateModel();
         X=kf.UpdateMeasure(H,R,z);
+        rect.X=X[0];
+        rect.Y=X[1];
         printf("Esti: %.0f,%.0f,%.0f,%.0f\n",X[0],X[1],X[2],X[3]);
         cout<<endl;
         //输出速度
@@ -256,11 +263,12 @@ void lkseq()
         IOHelper::WritePGMFile(file, gray);
         cout<<endl;
     }
-
+printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
 }
 
 void lktest2Img()
 {
+   printf("*****Begin KLT Tracking 2 Image Test!*****\n\n");
     ImageGray gray1, gray2;
     IOHelper::ReadPGMFile("Debug/img0.pgm", gray1);
     IOHelper::ReadPGMFile("Debug/img1.pgm", gray2);
@@ -305,5 +313,5 @@ void lktest2Img()
     IOHelper::WritePPMFile("Debug/result.ppm", result);
     IOHelper::WritePPMFile("Debug/gray1.ppm", gray1);
     IOHelper::WritePPMFile("Debug/gray2.ppm", gray2);
-
+    printf("*****End KLT Tracking 2 Image Test!*****\n\n");
 }

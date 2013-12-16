@@ -65,7 +65,7 @@ public:
     virtual BOOL Mod(S32 SourceA, S32 SourceB, S32& Result) const;
     virtual BOOL Rand(F32& Result) const;
     virtual BOOL Rand(S32 low, S32 high, S32& Result) const;
-    virtual BOOL RandGaussian(F32 mid, F32& Result) const;
+    virtual BOOL RandGaussian(F32& Result) const;
     const static float Pi=3.1415926f;
 };
 }

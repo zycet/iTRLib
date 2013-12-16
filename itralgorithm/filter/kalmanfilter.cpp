@@ -39,7 +39,7 @@ void printMatrix(Matrix a)
     {
         x=F_x*x;
 //    printVec(x);
-        P=F_x*P*F_x.Tran()+F_n*Q*F_n.Tran();
+        P=F_x*P*F_x.Tran()+Q;
 //        printMatrix(P);
     }
 
@@ -47,10 +47,8 @@ void printMatrix(Matrix a)
     {
         Matrix K(H.GetCol(),H.GetRow());
 //        printMatrix(K);
-        K=P*H.Tran();
-//        printMatrix(K);
-        K=K*((H*P*H.Tran()+R).Inv());
-//        printMatrix(K);
+        K=P*H.Tran()*((H*P*H.Tran()+R).Inv());
+        printMatrix(K);
 
         P=P-K*H*P;
 //         printMatrix(H);

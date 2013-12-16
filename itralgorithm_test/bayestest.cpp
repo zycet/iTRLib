@@ -54,10 +54,13 @@ void printMatrix(Matrix &a)
         }
         printf("\n");
     }
+    printf("\n");
 }
+
 
 void NBCtest()
 {
+printf("*****Begin Naive Bayes Classifier Test!*****\n\n");
     itr_math::MathObjStandInit();
     FILE *fin = fopen("Debug/data", "r");
     int FeatureNum, n, m;
@@ -85,5 +88,6 @@ void NBCtest()
     F32 test[3] =
     { -0.5, 2, 1 };
     printf("%f\n", nb.Classify(test));
+    printf("*****End Naive Bayes Classifier Test!*****\n\n");
 }
 

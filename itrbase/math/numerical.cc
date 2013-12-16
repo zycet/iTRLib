@@ -38,150 +38,167 @@
 #include <stdlib.h>
 namespace itr_math
 {
-Numerical::Numerical()
-{
-    // TODO Auto-generated constructor stub
-    srand(time(0));
-}
+    Numerical::Numerical()
+    {
+        // TODO Auto-generated constructor stub
+        srand(time(0));
+    }
 
-Numerical::~Numerical()
-{
-    // TODO Auto-generated destructor stub
-}
+    Numerical::~Numerical()
+    {
+        // TODO Auto-generated destructor stub
+    }
 
-BOOL Numerical::Sin(F32 Source, F32& Result) const
-{
-    Result = sin(Source);
-    return true;
-}
+    BOOL Numerical::Sin(F32 Source, F32 &Result) const
+    {
+        Result = sin(Source);
+        return true;
+    }
 
-BOOL Numerical::Cos(F32 Source, F32& Result) const
-{
-    Result = sin(Source);
-    return true;
-}
+    BOOL Numerical::Cos(F32 Source, F32 &Result) const
+    {
+        Result = sin(Source);
+        return true;
+    }
 
-BOOL Numerical::SinCos(F32 Source, F32& ResultSin, F32& ResultCos) const
-{
-    ResultSin = sin(Source);
-    ResultCos = cos(Source);
-    return true;
-}
+    BOOL Numerical::SinCos(F32 Source, F32 &ResultSin, F32 &ResultCos) const
+    {
+        ResultSin = sin(Source);
+        ResultCos = cos(Source);
+        return true;
+    }
 
-BOOL Numerical::Tan(F32 Source, F32& Result) const
-{
-    Result = tan(Source);
-    return true;
-}
+    BOOL Numerical::Tan(F32 Source, F32 &Result) const
+    {
+        Result = tan(Source);
+        return true;
+    }
 
-BOOL Numerical::Asin(F32 Source, F32& Result) const
-{
-    Result = asin(Source);
-    return true;
-}
+    BOOL Numerical::Asin(F32 Source, F32 &Result) const
+    {
+        Result = asin(Source);
+        return true;
+    }
 
-BOOL Numerical::Acos(F32 Source, F32& Result) const
-{
-    Result = acos(Source);
-    return true;
-}
+    BOOL Numerical::Acos(F32 Source, F32 &Result) const
+    {
+        Result = acos(Source);
+        return true;
+    }
 
-BOOL Numerical::Atan(F32 Source, F32& Result) const
-{
-    Result = atan(Source);
-    return true;
-}
+    BOOL Numerical::Atan(F32 Source, F32 &Result) const
+    {
+        Result = atan(Source);
+        return true;
+    }
 
-BOOL Numerical::Atan2(F32 SourceA, F32 SourceB, F32& Result) const
-{
-    Result = atan2(SourceA, SourceB);
-    return true;
-}
+    BOOL Numerical::Atan2(F32 SourceA, F32 SourceB, F32 &Result) const
+    {
+        Result = atan2(SourceA, SourceB);
+        return true;
+    }
 
-BOOL Numerical::Sqrt(F32 Source, F32& Result) const
-{
-    Result = sqrt(Source);
-    return true;
-}
+    BOOL Numerical::Sqrt(F32 Source, F32 &Result) const
+    {
+        Result = sqrt(Source);
+        return true;
+    }
 
-BOOL Numerical::InvSqrt(F32 Source, F32& Result) const
-{
-    Result = sqrt(Source);
-    Result = 1 / Result;
-    return true;
-}
+    BOOL Numerical::InvSqrt(F32 Source, F32 &Result) const
+    {
+        Result = sqrt(Source);
+        Result = 1 / Result;
+        return true;
+    }
 
-BOOL Numerical::Exp(F32 Source, F32& Result) const
-{
-    Result = exp(Source);
-    return true;
-}
+    BOOL Numerical::Exp(F32 Source, F32 &Result) const
+    {
+        Result = exp(Source);
+        return true;
+    }
 
-BOOL Numerical::Log(F32 Source, F32& Result) const
-{
-    Result = log(Source);
-    return true;
-}
+    BOOL Numerical::Log(F32 Source, F32 &Result) const
+    {
+        Result = log(Source);
+        return true;
+    }
 
-BOOL Numerical::Log10(F32 Source, F32& Result) const
-{
-    Result = log10(Source);
-    return true;
-}
+    BOOL Numerical::Log10(F32 Source, F32 &Result) const
+    {
+        Result = log10(Source);
+        return true;
+    }
 
-BOOL Numerical::Pow(F32 SourceA, F32 SourceB, F32& Result) const
-{
-    Result = pow(SourceA, SourceB);
-    return true;
-}
+    BOOL Numerical::Pow(F32 SourceA, F32 SourceB, F32 &Result) const
+    {
+        Result = pow(SourceA, SourceB);
+        return true;
+    }
 
-BOOL Numerical::Floor(F32 Source, S32& Result) const
-{
-    Result = floor(Source);
-    return true;
-}
+    BOOL Numerical::Floor(F32 Source, S32 &Result) const
+    {
+        Result = floor(Source);
+        return true;
+    }
 
-BOOL Numerical::Ceil(F32 Source, S32& Result) const
-{
-    Result = ceil(Source);
-    return true;
-}
+    BOOL Numerical::Ceil(F32 Source, S32 &Result) const
+    {
+        Result = ceil(Source);
+        return true;
+    }
 
-BOOL Numerical::Round(F32 Source, S32& Result) const
-{
-    Result = round(Source);
-    return true;
-}
+    BOOL Numerical::Round(F32 Source, S32 &Result) const
+    {
+        Result = round(Source);
+        return true;
+    }
 
-BOOL Numerical::Mod(S32 SourceA, S32 SourceB, S32& Result) const
-{
-    Result = SourceA % SourceB;
-    return true;
-}
+    BOOL Numerical::Mod(S32 SourceA, S32 SourceB, S32 &Result) const
+    {
+        Result = SourceA % SourceB;
+        return true;
+    }
 
-BOOL Numerical::Rand(F32& Result) const
-{
-    Result = rand() % 1000000 / 1000000.0;
-    return true;
-}
+    BOOL Numerical::Rand(F32 &Result) const
+    {
+        Result = rand() % 1000000 / 1000000.0;
+        return true;
+    }
 
-BOOL Numerical::Rand(S32 low, S32 high, S32& Result) const
-{
-    Result = rand() % (high - low) + low;
-    return true;
-}
+    BOOL Numerical::Rand(S32 low, S32 high, S32 &Result) const
+    {
+        Result = rand() % (high - low) + low;
+        return true;
+    }
 
-BOOL Numerical::RandGaussian(F32 mid, F32& Result) const
-{
-    float r1, r2;
-    float R,log,cos;
-    Log(r1,log);
-    Cos(2 *Pi * r2,cos);
-    Rand(r1);
-    Rand(r2);
-    Sqrt(-2*log,R);
-    Result=R*cos;
-    return true;
-}
+    BOOL Numerical::RandGaussian(F32 &Result) const
+    {
+        static double V1, V2, S;
+        static int phase = 0;
+        double X;
+
+        if ( phase == 0 )
+        {
+            do
+            {
+                double U1 = (double)rand() / RAND_MAX;
+                double U2 = (double)rand() / RAND_MAX;
+
+                V1 = 2 * U1 - 1;
+                V2 = 2 * U2 - 1;
+                S = V1 * V1 + V2 * V2;
+            }
+            while(S >= 1 || S == 0);
+
+            Result = V1 * sqrt(-2 * log(S) / S);
+        }
+        else
+        {
+            Result = V2 * sqrt(-2 * log(S) / S);
+        }
+
+        phase = 1 - phase;
+        return true;
+    }
 }
 
