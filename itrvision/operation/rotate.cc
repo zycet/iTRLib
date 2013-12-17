@@ -40,6 +40,7 @@ namespace itr_vision
         Point2D  center(rect.X+rect.Width/2,rect.Y+rect.Height/2);
         assert(center.X>0&&center.Y>0);
         Transform2D trans;
+        trans.Reset();
         trans.Rotate(ang);
 
         S32 Inputw;

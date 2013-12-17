@@ -255,6 +255,42 @@ void TestVector()
     TRACE_INFO("OK TestVector()");
 }
 
+void printMatrix(itr_math::Matrix a)
+{
+    printf("The Matrix is:\n");
+    for (int i = 0; i < a.GetRow(); ++i)
+    {
+        for (int j = 0; j < a.GetCol(); ++j)
+        {
+            printf("%f ", a(i, j));
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+void printVector(itr_math::Vector a)
+{
+    printf("The Vector is\n");
+    for(int i = 0; i<a.GetDim(); i++)
+    {
+        printf("%f ",a.GetData()[i]);
+    }
+    printf("\n");
+    printf("\n");
+}
+
+void printArray(F32* data, int length)
+{
+    printf("The Array is:\n");
+    for(int i = 0;i<length;i++)
+    {
+        printf("%f ",data[i]);
+    }
+    printf("\n");
+    printf("\n");
+}
+
 void TestMatrix()
 {
     //Init
@@ -264,6 +300,7 @@ void TestMatrix()
      * 16 25 36
      * 49 64 91
      */
+    /*初始化数据*/
     F32 data1[3 * 3];
     F32 data2[3 * 3];
     F32 data3[3 * 3] =
@@ -276,6 +313,8 @@ void TestMatrix()
     { 1, 0, 0, 0, 1, 0, 0, 0, 1 };
     F32 data7[3 * 3] =
     { 1, 0, 0, 0, 2, 0, 0, 0, 4 };
+    F32 dataRect[3 * 3] =
+    { 10, 200, 30, 40, 0, 0, 0, 0, 0 };
     F32 ExData[] =
     { 1, 1, 1 };
     F32 ExTemp[] =
@@ -287,12 +326,7 @@ void TestMatrix()
         data1[i] = (i + 1) * (i + 1);
         data2[i] = (i + 1) * (i + 1);
     }
-    //F32* Data1 = data1;
-    //F32* Data2 = data2;
-    //F32* Data3 = data3;
-    //F32* Data4 = data4;
-    //F32* Data5 = data5;
-
+    F32 MatData[20] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
     itr_math::Matrix Source1(3, 3, data1);
     itr_math::Matrix Source2(3, 3, data2);
     itr_math::Matrix Result(3, 3, data3);
@@ -300,7 +334,8 @@ void TestMatrix()
     itr_math::Matrix Source4(3, 3, data5);
     itr_math::Matrix SourceEye(3, 3, data6);
     itr_math::Matrix Source5(3, 3, data7);
-
+    itr_math::Matrix Template(3, 3, data1);
+    itr_math::Matrix GeneralMat(3,5,MatData);
     itr_math::Vector VecSource(3, VecData);
 
     //初等变换测试
@@ -374,7 +409,8 @@ void TestMatrix()
     assert(VecSource[0] == 3 && VecSource[1] == 3 && VecSource[2] == 3);
     VecSource.Set(1);
     assert(VecSource[0] == 1 && VecSource[1] == 1 && VecSource[2] == 1);
-
+    printMatrix(Result);
+    printMatrix(Source1 * SourceEye);
     Result = Source1 * SourceEye;    //乘单位阵
     assert(Result.GetData()[0] == 1 && Result.GetData()[4] == 25 && Result.GetData()[8] == 81);
     Result.Set(0);
@@ -391,21 +427,113 @@ void TestMatrix()
     assert(Result.GetData()[0] == 2 && Result.GetData()[4] == 2 && Result.GetData()[8] == 2);
     Result.Set(0);
 
+
     //此处测试啦，没有问题啊！！！
-    Source5.Inv(Result);
-    Result = Source5 * Result;
+    //Source5.Inv(Result);
+    //Result = Source5 * Result;
+    Result = Source5.Inv();
+    Result = Source5*Result;
+    printMatrix(Result);
     assert(
-            fabs(Result.GetData()[0] - 1) < 0.0001 && fabs(Result.GetData()[4] - 1) < 0.0001
-                    && fabs(Result.GetData()[8] - 1) < 0.0001);
+        fabs(Result.GetData()[0] - 1) < 0.0001 && fabs(Result.GetData()[4] - 1) < 0.0001
+        && fabs(Result.GetData()[8] - 1) < 0.0001);
     Result.Set(0);
 
-    Source1.Tran(Result);
+    //Source1.Tran(Result);
+    Result = Source1.Tran();
     assert(
-            Source1.GetData()[0] == Result.GetData()[0]
-                    && Source1.GetData()[1] == Result.GetData()[3]
-                    && Source1.GetData()[2] == Result.GetData()[6]);
+        Source1.GetData()[0] == Result.GetData()[0]
+        && Source1.GetData()[1] == Result.GetData()[3]
+        && Source1.GetData()[2] == Result.GetData()[6]);
+
+    /*测试内联函数*/
+    F32 SourceData[3*3] = {1,2,3,4,5,6,7,8,9};
+    F32 InsertData[3*3] = {2,2,2,2,2,2,2,2,2};
+    F32 ExtractData[3*3];
+    F32 RowData[3] = {11,22,33};
+    //测试:inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height,F32* Data)
+    printf("测试:inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height,F32* Data)\n");
+    Source1.Set(1);
+    printMatrix(Source1);
+    Source1.CopyFrom(2, 2, 2, 2, dataRect);
+    printMatrix(Source1);
+    Source1.Set(1);    //复原数据
+    //测试：inline void virtual CopyFrom(F32* Data)
+    printf("测试：inline void virtual CopyFrom(F32* Data)\n");
+    printMatrix(Source1);
+    Source1.CopyFrom(SourceData);
+    printMatrix(Source1);
+    Source1.Set(1);    //复原数据
+    printMatrix(Source1);
+    //测试：inline void virtual CopyTo(S32 RowPos, S32 ColPos, S32 Width, S32 Height, F32* Data) const
+    printf("测试：inline void virtual CopyTo(S32 RowPos, S32 ColPos, S32 Width, S32 Height, F32* Data) const\n");
+    Source1.CopyTo(1, 1, 3, 3, ExtractData);
+    for(S32 i = 0; i<9; i++)
+    {
+        printf("%f ",ExtractData[i]);
+    }
+    printf("\n");
+    //测试：inline void virtual CopyTo(F32* Data) const
+    printf("测试：inline void virtual CopyTo(F32* Data) const\n");
+    Source1.Set(5);
+    printMatrix(Source1);
+    Source1.CopyTo(ExtractData);
+    for(int i = 0; i<9; i++)
+    {
+        printf("%f ",ExtractData[i]);
+    }
+    printf("\n");
+    //Test:inline void virtual CopyRowFrom(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data)
+    printf("Test:inline void virtual CopyRowFrom(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data)\n");
+    Source1.Set(3);
+    Source1.CopyRowFrom(2,1,3,RowData);
+    printMatrix(Source1);
+    Source1.Set(0);
+    //Test:inline void virtual CopyRowFrom(S32 RowNo, F32* Data)
+    printf("inline void virtual CopyRowFrom(S32 RowNo, F32* Data)\n");
+    Source1.CopyRowFrom(1,RowData);
+    printMatrix(Source1);
+    Source1.Set(0);
+    //Test:inline void virtual CopyRowTo(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data) const
+    printf("inline void virtual CopyRowTo(S32 RowNo, S32 ColOffset, S32 ColNum, F32* Data) const\n");
+    Source1.CopyRowTo(1,1,2,RowData);
+    for(S32 i = 0; i<3; i++)
+        printf("%f ",RowData[i]);
+    printf("\n");
+    //Test:inline void virtual CopyRowTo(S32 RowNo, F32* Data) const
+    printf("inline void virtual CopyRowTo(S32 RowNo, F32* Data) const\n");
+    Source2.CopyRowTo(3,RowData);
+    for(S32 i = 0; i<3; i++)
+        printf("%f ",RowData[i]);
+    printf("\n");
+    //Test:inline void virtual CopyColFrom(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data)
+    printf("inline void virtual CopyColFrom(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data)\n");
+    printMatrix(GeneralMat);
+    printArray(RowData,3);
+    GeneralMat.CopyColFrom(1,2,2,RowData);
+    printMatrix(GeneralMat);
+    //Test:inline void virtual CopyColFrom(S32 ColNo, F32* Data)
+    printf("inline void virtual CopyColFrom(S32 ColNo, F32* Data)\n");
+    printArray(RowData,3);
+    Source2.CopyColFrom(3,RowData);
+    printMatrix(Source2);
+    //Test:inline void virtual CopyColTo(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data) const
+    printf("inline void virtual CopyColTo(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data) const\n");
+    printMatrix(GeneralMat);
+    printArray(RowData,3);
+    GeneralMat.CopyColTo(5,2,2,RowData);
+    printArray(RowData,3);
+    //Test:inline Řvoid virtual CopyColTo(S32 ColNo, F32* Data) const
+    printf("//Test:inline Řvoid virtual CopyColTo(S32 ColNo, F32* Data) const\n");
+    printMatrix(GeneralMat);
+    printArray(RowData,3);
+    GeneralMat.CopyColTo(3,RowData);
+    printArray(RowData,3);
 
     TRACE_INFO("OK TestMatrix()");
+    //Test:inline Řvoid virtual CopyColTo(S32 ColNo, F32* Data) const
+    //printf("inline void virtual CopyColTo(S32 ColNo, F32* Data) const\n");
+    //
 
 }
 void TestCalculateTest()
@@ -448,7 +576,6 @@ void TestTransform()
     trans1.Offset(-1, -3);               //test Offset function (minus)
     trans1.Transform(Input, veco);
     veco.CopyTo(data2);
-    // printf("%f,%f,%f\n",*data2,*(data2+1),*(data2+2));
     assert(*data2 == 1);
     assert(*(data2 + 1) == 2);
 
@@ -462,22 +589,23 @@ void TestTransform()
     trans1.Inv();
     trans1.Transform(veco, veco);
     veco.CopyTo(data2);
-
-   // printf("%f,%f,%f\n", *data2, *(data2 + 1), *(data2 + 2));                  //出错，源于matrix.Inv出错。
+    assert(*data2 == 1);
+    assert(*(data2 + 1) == 2);
 
     trans1.Reset();
     trans1.Scale(0.5, 0.25);             //test Scale function (reduce)
     trans1.Transform(Input, veco);
     veco.CopyTo(data2);
-    assert(*data2 == 1);
-    assert(*(data2 + 1) == 2);
+    assert(*data2 == 0.5);
+    assert(*(data2 + 1) == 0.5);
 
     Input.CopyFrom(data3);              //test Rotate function(90 degree)
+    trans1.Reset();
     trans1.Rotate(90);
     trans1.Transform(Input, veco);
     veco.CopyTo(data2);
-    assert((*data2) < 0.0001 && (*data2) > -0.0001);
-    assert(*(data2 + 1) == 2);
+    assert(GET_ABS(*data2) < 0.0001);
+    assert(GET_ABS(*(data2 + 1)-2) <0.0001);
     trans1.Rotate(-60);
     trans1.Transform(Input, veco);
     veco.CopyTo(data2);
@@ -512,18 +640,21 @@ void TestTransform()
 
     pos1.X = 2;
     pos1.Y = 0;
+    trans1.Reset();
     trans1.Rotate(90);                  //test Rotate function(90 degree)
     trans1.Transform(pos1, pos2);
-    assert(fabs(pos2.X - 0) < 0.001);
+    assert(GET_ABS(pos2.X - 0) < 0.001);
     assert(pos2.Y == 2);
+    trans1.Reset();
     trans1.Rotate(-60);
     trans1.Transform(pos1, pos2);
-    assert(pos2.Y == 1);
+    assert(GET_ABS(pos2.X-1)<0.001);
+    assert(GET_ABS(pos2.Y+1.732)<0.01);
 
-    /*trans1.Inv();
-     trans1.Transform(pos1,pos2);
-     assert(pos2.X==2);
-     assert(pos2.Y==1);*/
+    trans1.Inv();
+    trans1.Transform(pos1, pos2);
+    assert(GET_ABS(pos2.X-1)<0.01);
+    assert(GET_ABS(pos2.Y-1.732)<0.01);
 
     F32 inx = 1, iny = 2, outx, outy;
     trans1.Reset();
@@ -554,16 +685,19 @@ void TestTransform()
     trans1.Reset();
     trans1.Rotate(90);                  //test Rotate function(90 degree)
     trans1.Transform(inx, iny, outx, outy);
-    assert(fabs(outx - 0) < 0.001);
+    assert(GET_ABS(outx - 0) < 0.001);
     assert(outy == 2);
+
+    trans1.Reset();
     trans1.Rotate(-60);
     trans1.Transform(inx, iny, outx, outy);
-    assert(outy == 1);
+    assert(GET_ABS(outx -1)<0.01);
+    assert(GET_ABS(outy+1.732)<0.01);
 
-    /*trans1.Inv();
-     trans1.Transform(inx,iny,outx,outy);
-     assert(outx==2);
-     assert(outy==1);*/
+    trans1.Inv();
+    trans1.Transform(inx, iny, outx, outy);
+    assert(GET_ABS(outx-1)<0.01);
+    assert(GET_ABS(outy-1.732)<0.01);
 
     TRACE_INFO("OK TestTransform2D()");
 }
@@ -579,8 +713,8 @@ void TestGeometry()
 
     dis1.SetAngleDistance(90, 20);       //
     assert(
-            (dis1.DX < 0.0001 && dis1.DX > -0.0001)
-                    && ((dis1.DY - 20) > -0.001 && (dis1.DY - 20) < 0.0001));
+        (dis1.DX < 0.0001 && dis1.DX > -0.0001)
+        && ((dis1.DY - 20) > -0.001 && (dis1.DY - 20) < 0.0001));
 
     dis1.SetDXDY(10, 20);
     dis2 = dis1;

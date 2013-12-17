@@ -33,9 +33,11 @@
 #include "itrbase.h"
 #include "itralgorithm.h"
 #include "bayestest.h"
+#include "kftest.h"
 int main()
 {
     NBCtest();
+    kftest();
     return 0;
 }
 

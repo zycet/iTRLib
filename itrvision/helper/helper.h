@@ -34,6 +34,5 @@
 #ifndef HELPER_H_
 #define HELPER_H_
 
-#include "gaussiangenerate.h"
 
 #endif // HELPER_H_

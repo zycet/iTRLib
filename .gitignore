@@ -17,7 +17,11 @@
 
 #Temp file
 *.*~
-
+*.save
+*.layout
+*.cbp.save
+*.out
+*.depend
 test/
 RemoteSystemsTempFiles//itrbase/itrbase.depend
 /itrbase_test/itrbase_test.depend

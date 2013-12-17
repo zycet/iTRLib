@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Workspace">
+		<Project filename="itrvision_test/itrvision_test.cbp" />
+		<Project filename="itrvision/itrvision.cbp" />
+		<Project filename="itrbase_test/itrbase_test.cbp" />
+		<Project filename="itralgorithm_test/itralgorithm_test.cbp" />
+		<Project filename="itralgorithm/itralgorithm.cbp" />
+		<Project filename="itrbase/itrbase.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>

@@ -26,31 +26,15 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * domain.h
- *  Created on: 2013-10-22
- *      Author: ghdawn
+ * testhelper.h
+ *  Created on: 2013-9-27
+ *      Author: buaa
  */
 
-#ifndef DOMAIN_H_
-#define DOMAIN_H_
+#ifndef HELPERTEST_H_
+#define HELPERTEST_H_
+
 #include "itrbase.h"
+void TestGaussianGenerate();
 
-namespace itr_algorithm
-{
-
-    class Domain
-    {
-        public:
-            Domain();
-            Domain(const Domain& domain);
-            void Init(S32 Min,S32 Max,S32 Count);
-            virtual ~Domain();
-            S32 Calc(float number) const;
-
-            S32 min,max;
-            S32 count;
-            F32 factor;
-    };
-
-} // namespace itr_algorithm
-#endif // DOMAIN_H_
+#endif // TESTHELPER_H_

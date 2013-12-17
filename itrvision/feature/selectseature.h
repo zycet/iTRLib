@@ -46,7 +46,7 @@ namespace itr_vision
     {
         public:
             SelectFeature(const ImageGray& Img, S32 WindowWidth);
-            void SelectGoodFeature(const RectangleS& rect, vector<FeaturePoint>& fl);
+            S32 SelectGoodFeature(const RectangleS& rect, vector<FeaturePoint>& fl);
             virtual ~SelectFeature();
             int mindist, mineigen;
         private:

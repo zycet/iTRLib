@@ -36,35 +36,58 @@
 #include "itralgorithm.h"
 #include <stdio.h>
 #include <fstream>
+#include <algorithm>
 #include <vector>
+#include <math.h>
 using std::vector;
 using std::ofstream;
 using namespace itr_math;
 using namespace itr_algorithm;
+
+void printMatrix(Matrix a)
+{
+    for (int i = 0; i < a.GetRow(); ++i)
+    {
+        for (int j = 0; j < a.GetCol(); ++j)
+        {
+            printf("%f ", a(i, j));
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+
 void NBCtest()
 {
-    FILE* fin = fopen("Debug/data", "r");
-    int n, m;
-    fscanf(fin, "%d %d", &m, &n);
-    vector<TrainingData> data(m, 2);
-    float temp[3];
+printf("*****Begin Naive Bayes Classifier Test!*****\n\n");
+    itr_math::MathObjStandInit();
+    FILE *fin = fopen("Debug/data", "r");
+    int FeatureNum, n, m;
+    fscanf(fin, "%d %d %d", &FeatureNum, &m, &n);
+    Matrix dataPos(m, FeatureNum), dataNeg(n, FeatureNum);
+    float temp[2];
     for (int i = 0; i < m; ++i)
     {
-        fscanf(fin, "%f %f %f", temp, temp + 1, temp + 2);
-        data[i].SetData(temp, 1);
+        fscanf(fin, "%f %f", temp, temp + 1);
+//        printf("%f %f\n",temp[0],temp[1]);
+        dataPos.CopyRowFrom(i+1, temp);
     }
-    vector<Domain> domain(2);
-    domain[0].Init(1, 2, 2);
-    domain[1].Init(-3, 3, 7);
-    NaiveBayes nb(domain);
-    nb.Train(data, true);
-    for (int i = 0; i < m; ++i)
+    for (int i = 0; i < n; ++i)
     {
-        fscanf(fin, "%f %f %f", temp, temp + 1, temp + 2);
-        data[i].SetData(temp, 1);
+        fscanf(fin, "%f %f", temp, temp + 1);
+//        printf("%f %f\n",temp[0],temp[1]);
+        dataNeg.CopyRowFrom(i+1, temp);
     }
-    nb.Train(data,false);
-    int test[3]={1,-1,1};
-    printf("%d\n",nb.Classify(test,2));
+    printMatrix(dataPos);
+    printMatrix(dataNeg);
+    NaiveBayes nb(FeatureNum);
+    nb.TrainPos(dataPos);
+    nb.TrainNeg(dataNeg);
+
+    F32 test[3] =
+    { -0.5, 2, 1 };
+    printf("%f\n", nb.Classify(test));
+    printf("*****End Naive Bayes Classifier Test!*****\n\n");
 }
 

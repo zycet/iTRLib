@@ -38,7 +38,7 @@
 #include "platform_test.h"
 #include "containertest.h"
 #include "mathtest.h"
-
+#include "helpertest.h"
 int main()
 {
     //Platform
@@ -53,16 +53,17 @@ int main()
     TestCalculate();
     TestNumerical();
     TestStatistics();
-    TestVector();
+    //TestVector();
 
     TestCalculateTest();
     TestMathdeDeinit();
     TestMatrix();
-    TestGeometry();
+    //TestGeometry();
     //TestTransform();
-
+    //Test Helper
+    //TestGaussianGenerate();
     //Finish
-    //TRACE_INFO("OK All");
+    TRACE_INFO("OK All");
     return 0;
 }
 

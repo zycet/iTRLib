@@ -34,75 +34,119 @@
 #include "naivebayes.h"
 #include <iostream>
 #include <stdio.h>
+
 using std::cout;
 using std::endl;
 namespace itr_algorithm
 {
-    NaiveBayes::NaiveBayes(const vector<Domain>& domain):_domain(domain)
-    {
-//        this->_domain = domain;
-        m = n = 0;
-        pTrue = new int*[domain.size()];
+    /*
+     * 输入矩阵的每一行是一组数据
+     * 所以
+     * 有多少特征就有多少列，
+     * 有多少组数据就有多少行。
+     */
 
-        for (int i = 0; i < domain.size(); ++i)
-        {
-            pTrue[i] = new int[domain[i].count];
-        }
-        pFalse = new int*[domain.size()];
-        for (int i = 0; i < domain.size(); ++i)
-        {
-            pFalse[i] = new int[domain[i].count];
-        }
+    itr_algorithm::NaiveBayes::NaiveBayes(int FeatureNum)
+    {
+        featureNum = FeatureNum;
+        muPos = new F32[FeatureNum]();
+        muNeg = new F32[FeatureNum]();
+        sigmaPos = new F32[FeatureNum]();
+        sigmaNeg = new F32[FeatureNum]();
+        LearnRate = 0.8f;
+        initpos = false;
+        initneg = false;
     }
 
-    NaiveBayes::~NaiveBayes()
+    void itr_algorithm::NaiveBayes::TrainPos(const Matrix &input)
     {
-        // TODO Auto-generated destructor stub
-    }
-    void itr_algorithm::NaiveBayes::Train(vector<TrainingData>& Data, bool Flag)
-    {
-        if (Flag)
+        int length = input.GetRow();
+        F32 *data = new F32[length];
+        F32 mu, sigma;
+
+        if (!initpos)
         {
-            for (int i = 0; i < Data.size(); ++i)
+            for (int i = 0; i < featureNum; i++)
             {
-                F32 *p = (Data[i]).GetData();
-                S32 dim = Data[i].GetDim();
-                for (int j = 0; j < dim; ++j)
-                {
-                    pTrue[j][(_domain[j].Calc(*p))]++;
-                    ++p;
-                }
+                input.CopyColTo(i+1, data);
+                itr_math::StatisticsObj->Mean(data, length, muPos[i]);
+                itr_math::StatisticsObj->Variance(data, length, sigmaPos[i]);
             }
-            m = Data.size();
+            initpos = true;
         }
         else
         {
-            for (int i = 0; i < Data.size(); ++i)
+            for (int i = 0; i < featureNum; i++)
             {
-                F32 *p = (Data[i]).GetData();
-                S32 dim = Data[i].GetDim();
-                for (int j = 0; j < dim; ++j)
-                {
-                    pFalse[j][(_domain[j].Calc(*p))]++;
-                    ++p;
-                }
+                input.CopyColTo(i+1, data);
+                itr_math::StatisticsObj->Mean(data, length, mu);
+                itr_math::StatisticsObj->Variance(data, length, sigma);
+
+                itr_math::NumericalObj->Sqrt(
+                    LearnRate * sigmaPos[i] * sigmaPos[i] + (1 - LearnRate) * sigma * sigma
+                    + LearnRate * (1 - LearnRate) * (mu - muPos[i]) * (mu - muPos[i]),
+                    sigmaPos[i]);
+                muPos[i] = LearnRate * muPos[i] + (1 - LearnRate) * mu;
             }
-            n = Data.size();
+
         }
     }
 
-    S32 NaiveBayes::Classify(S32* Data, S32 length)
+    void itr_algorithm::NaiveBayes::TrainNeg(const Matrix &input)
     {
-        float rTrue = 1, rFalse = 1;
-        for (int i = 0; i < length; ++i)
+        int length = input.GetRow();
+        F32 *data = new F32[length];
+        F32 mu, sigma;
+
+        if (!initneg)
         {
-            rTrue *= (pTrue[i][(_domain[i].Calc(Data[i]))] + 1) / (float) (m + _domain[i].count);
-            rFalse *= (pFalse[i][(_domain[i].Calc(Data[i]))] + 1) / (float) (m + _domain[i].count);
+            for (int i = 0; i < featureNum; i++)
+            {
+                input.CopyColTo(i+1, data);
+                itr_math::StatisticsObj->Mean(data, length, muNeg[i]);
+                itr_math::StatisticsObj->Variance(data, length, sigmaNeg[i]);
+            }
+            initneg = true;
         }
-        if (rTrue > rFalse)
-            return 1;
         else
-            return 0;
+        {
+            for (int i = 0; i < featureNum; i++)
+            {
+                input.CopyColTo(i+1, data);
+                itr_math::StatisticsObj->Mean(data, length, mu);
+                itr_math::StatisticsObj->Variance(data, length, sigma);
+
+                itr_math::NumericalObj->Sqrt(
+                    LearnRate * sigmaNeg[i] * sigmaNeg[i] + (1 - LearnRate) * sigma * sigma
+                    + LearnRate * (1 - LearnRate) * (mu - sigmaNeg[i])
+                    * (mu - sigmaNeg[i]), sigmaNeg[i]);
+                muNeg[i] = LearnRate * muNeg[i] + (1 - LearnRate) * mu;
+            }
+
+        }
+    }
+
+    F32 itr_algorithm::NaiveBayes::Classify(F32 *Data)
+    {
+        F32 result = 0;
+        F32 p, n;
+        for (int i = 0; i < featureNum; ++i)
+        {
+            p = itr_math::GaussianGenerate::PDF(muPos[i], sigmaPos[i], Data[i]);
+            n = itr_math::GaussianGenerate::PDF(muNeg[i], sigmaNeg[i], Data[i]);
+            itr_math::NumericalObj->Log(p + INFMIN, p);
+            itr_math::NumericalObj->Log(n + INFMIN, n);
+            result += (p - n);
+        }
+        return result;
+    }
+
+    itr_algorithm::NaiveBayes::~NaiveBayes()
+    {
+        delete[] muPos;
+        delete[] muNeg;
+        delete[] sigmaPos;
+        delete[] sigmaNeg;
     }
 
 } // namespace itr_algorithm

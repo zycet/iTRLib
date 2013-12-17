@@ -64,9 +64,9 @@ void ConvoluteSquareTest()
     itr_vision::ImageFormatComvert(imageARGB, imageGray);
     //Calc Gaussian Filter
     F32 sigma = 1;
-    S32 n = itr_vision::GaussianGenerate::SuggestLength(sigma);
+    S32 n = itr_math::GaussianGenerate::SuggestLength(sigma);
     F32* filter = new F32[n];
-    itr_vision::GaussianGenerate::Generate(sigma, n, filter);
+    itr_math::GaussianGenerate::Generate(sigma, n, filter);
     //Convolute
     itr_vision::ImageGray imageGrayResult(imageInfo.Width, imageInfo.Height);
     itr_vision::ConvoluteSquare ConvoluteSquareObj(n, imageARGB.GetWidth(), imageARGB.GetHeight());
@@ -89,7 +89,7 @@ void ConvoluteSquareTest4Pro()
     const S32 N = 9;
     const F32 sigma = 1;
     F32 filter[N];
-    itr_vision::GaussianGenerate::Generate(sigma, N, filter);
+    itr_math::GaussianGenerate::Generate(sigma, N, filter);
     for (S32 i = 0; i < N; i++)
     {
         filter[i] = 1;

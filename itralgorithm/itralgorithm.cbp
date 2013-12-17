@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="itralgorithm" prefix_auto="1" extension_auto="1" />
+				<Option output="Debug/itralgorithm" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/Debug/" />
 				<Option type="2" />
@@ -41,12 +41,13 @@
 			</Target>
 		</Build>
 		<Unit filename="classifier/classifier.h" />
-		<Unit filename="classifier/domain.cpp" />
-		<Unit filename="classifier/domain.h" />
 		<Unit filename="classifier/naivebayes.cpp" />
 		<Unit filename="classifier/naivebayes.h" />
-		<Unit filename="classifier/trainingdata.cpp" />
-		<Unit filename="classifier/trainingdata.h" />
+		<Unit filename="filter/filter.h" />
+		<Unit filename="filter/kalmanfilter.cpp" />
+		<Unit filename="filter/kalmanfilter.h" />
+		<Unit filename="filter/ransac.cpp" />
+		<Unit filename="filter/ransac.h" />
 		<Unit filename="itralgorithm.h" />
 		<Extensions>
 			<code_completion />

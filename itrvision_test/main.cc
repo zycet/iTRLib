@@ -36,7 +36,6 @@
 
 #include "itrbase.h"
 #include "itrvision.h"
-#include "helpertest.h"
 #include "processtest.h"
 #include "lktrackertest.h"
 #include "drawtest.h"
@@ -47,15 +46,14 @@ int main()
     //Init Math
     itr_math::MathObjStandInit();
     //Test Rotate !
-    rotatetest();
+    //rotatetest();
     //Test Pick OK!
     // picktest();
     //Test Draw OK!
     // drawtest();
     //Test LKTracker
     lktest();
-    //Test Helper
-    TestGaussianGenerate();
+
     //Test Process
     //ConvoluteSquareTest();
     ConvoluteSquareTest4Pro();
