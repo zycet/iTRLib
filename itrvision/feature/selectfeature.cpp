@@ -75,7 +75,7 @@ namespace itr_vision
         return (float) ((gxx + gyy - gxy) * 0.5f);
 //        return (float) ((gxx + gyy - sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy)) *0.5f);/// 2.0f);
     }
-    void SelectFeature::SelectGoodFeature(const RectangleS& rect, vector<FeaturePoint>& featureOutput)
+    S32 SelectFeature::SelectGoodFeature(const RectangleS& rect, vector<FeaturePoint>& featureOutput)
     {
         vector<FeaturePoint> featurelist(rect.Width * rect.Height);
         S32 bord = 24,ImgWidth=img.GetWidth();
@@ -116,6 +116,7 @@ namespace itr_vision
         std::sort(featurelist.begin(), featurelist.end(), std::greater<FeaturePoint>());
         --mindist;
         //增大最小间距
+        int count=0;
         {
             featptr = featurelist.begin();
             vector<FeaturePoint>::iterator flindex = featureOutput.begin();
@@ -134,6 +135,7 @@ namespace itr_vision
                     flindex->value = value;
                     fillMap(x, y, featuremap);
                     ++flindex;
+                    ++count;
                 }
                 if (flindex == featureOutput.end())
                     break;
@@ -141,8 +143,9 @@ namespace itr_vision
             }
             delete[] featuremap;
         }
-
+        return count;
     }
+
 
 }
 // namespace itr_vision

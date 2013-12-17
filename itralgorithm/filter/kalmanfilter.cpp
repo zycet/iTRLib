@@ -48,7 +48,7 @@ void printMatrix(Matrix a)
         Matrix K(H.GetCol(),H.GetRow());
 //        printMatrix(K);
         K=P*H.Tran()*((H*P*H.Tran()+R).Inv());
-        printMatrix(K);
+//        printMatrix(K);
 
         P=P-K*H*P;
 //         printMatrix(H);
