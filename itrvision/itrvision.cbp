@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="itrvision" prefix_auto="1" extension_auto="1" />
+				<Option output="libitrvision" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/Debug/" />
 				<Option type="2" />
@@ -23,7 +23,7 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="itrvision" prefix_auto="1" extension_auto="1" />
+				<Option output="libitrvision" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/Release/" />
 				<Option type="2" />
@@ -40,6 +40,12 @@
 				</Linker>
 			</Target>
 		</Build>
+		<Compiler>
+			<Add directory="../itrbase" />
+		</Compiler>
+		<Linker>
+			<Add library="../itrbase/libitrbase.a" />
+		</Linker>
 		<Unit filename="Debug/makefile" />
 		<Unit filename="Debug/objects.mk" />
 		<Unit filename="Debug/sources.mk" />
