@@ -41,6 +41,7 @@
 #include "drawtest.h"
 #include "picktest.h"
 #include "rotatetest.h"
+#include "detectiontest.h"
 int main()
 {
     //Init Math
@@ -51,9 +52,10 @@ int main()
     // picktest();
     //Test Draw OK!
     // drawtest();
-    //Test LKTracker
-    lktest();
-
+    ///Test LKTracker
+    //lktest();
+    ///Test Detection
+    DetectionTest();
     //Test Process
     //ConvoluteSquareTest();
     ConvoluteSquareTest4Pro();
