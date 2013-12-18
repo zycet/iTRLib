@@ -15,10 +15,15 @@
 					<Add option="-g" />
 					<Add option="-I/usr/include/opencv2    -lopencv_highgui -lopencv_core" />
 					<Add directory="../ASICameraDemo" />
+					<Add directory="../itrbase" />
+					<Add directory="../itrvision" />
+					<Add directory="../itralgorithm" />
 				</Compiler>
 				<Linker>
 					<Add library="ASICamera" />
 					<Add library="usb-1.0" />
+					<Add library="../itrbase/libitrbase.a" />
+					<Add library="../itrvision/libitrvision.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
