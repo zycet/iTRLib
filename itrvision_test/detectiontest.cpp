@@ -54,47 +54,82 @@ void DetectionTest()
     IOHelper::ReadPGMFile("Debug/green/pgm/cap000.pgm", img);
     //IOHelper::ReadPGMFile("Debug/david/imgs/img00001.ppm", gray);
     ImageGray gray(img.GetWidth(),img.GetHeight());
+    ImageGray sample(30,30);
     ConvoluteSquare conv;
-    conv._KLTComputeSmoothedImage(img, 1, gray);
+    conv._KLTComputeSmoothedImage(img, 2, gray);
     ///Mine
     RectangleS rect(235, 265, 80, 80);
     /// twinning
     //RectangleS rect(126,165,73,53);
     /// David
     //RectangleS rect(120,58,75,97);
-    S32 FeatureNum=rect.Width*rect.Height;
-    F32 data[8000];
-    itr_algorithm::NaiveBayes nbc(FeatureNum);
-
-    Matrix dataPos(1,FeatureNum),dataNeg(4,FeatureNum);
-    ImageGray patch(rect.Width,rect.Height);
-    itr_vision::Pick::Rectangle(gray,rect,patch);
-    IOHelper::WritePPMFile("Debug/0.ppm", patch);
-
-    for(int i=0; i<FeatureNum; ++i)
-    {
-        data[i]=patch[i];
-    }
-    dataPos.CopyFrom(data);
-    nbc.TrainPos(dataPos);
 
     RectangleS rectNeg(rect.X, rect.Y, rect.Width, rect.Height);
     RectangleS rectPos(rect.X, rect.Y, rect.Width, rect.Height);
+
+    S32 FeatureNum=sample.GetWidth()*sample.GetHeight();
+    F32 data[8000];
+    itr_algorithm::NaiveBayes nbc(FeatureNum);
+
+    Matrix dataPos(4,FeatureNum),dataNeg(4,FeatureNum);
+    ImageGray patch(rect.Width,rect.Height);
+    itr_vision::Pick::Rectangle(gray,rect,patch);
+    itr_vision::Scale::Bilinear(patch,sample);
+    IOHelper::WritePPMFile("Debug/0.ppm", sample);
+
+    for(int i=0; i<FeatureNum; ++i)
+    {
+        data[i]=sample[i];
+    }
+    dataPos.CopyRowFrom(1,data);
+
+    rectPos.X+=2;
+    itr_vision::Pick::Rectangle(gray,rectPos,patch);
+    itr_vision::Scale::Bilinear(patch,sample);
+    for(int i=0; i<FeatureNum; ++i)
+    {
+        data[i]=sample[i];
+    }
+    dataPos.CopyRowFrom(2,data);
+
+    rectPos.X-=4;
+    itr_vision::Pick::Rectangle(gray,rectPos,patch);
+    itr_vision::Scale::Bilinear(patch,sample);
+    for(int i=0; i<FeatureNum; ++i)
+    {
+        data[i]=sample[i];
+    }
+    dataPos.CopyRowFrom(3,data);
+
+    rectPos.Y+=2;
+    itr_vision::Pick::Rectangle(gray,rectPos,patch);
+    itr_vision::Scale::Bilinear(patch,sample);
+    for(int i=0; i<FeatureNum; ++i)
+    {
+        data[i]=sample[i];
+    }
+    dataPos.CopyRowFrom(4,data);
+
+    nbc.TrainPos(dataPos);
+
+
     rectNeg.X=rect.X+rect.Width;
     itr_vision::Pick::Rectangle(gray,rectNeg,patch);
     IOHelper::WritePPMFile("Debug/1.ppm", patch);
+    itr_vision::Scale::Bilinear(patch,sample);
     for(int i=0; i<FeatureNum; ++i)
     {
-        data[i]=patch[i];
+        data[i]=sample[i];
     }
     dataNeg.CopyRowFrom(1,data);
 
     rectNeg.X=rect.X-rect.Width;
     itr_vision::Pick::Rectangle(gray,rectNeg,patch);
     IOHelper::WritePPMFile("Debug/2.ppm", patch);
+    itr_vision::Scale::Bilinear(patch,sample);
     for(int i=0; i<FeatureNum; ++i)
     {
-        data[i]=patch[i];
+        data[i]=sample[i];
     }
     dataNeg.CopyRowFrom(2,data);
 
@@ -102,18 +137,20 @@ void DetectionTest()
     rectNeg.Y=rect.Y+rect.Height;
     itr_vision::Pick::Rectangle(gray,rectNeg,patch);
     IOHelper::WritePPMFile("Debug/3.ppm", patch);
+    itr_vision::Scale::Bilinear(patch,sample);
     for(int i=0; i<FeatureNum; ++i)
     {
-        data[i]=patch[i];
+        data[i]=sample[i];
     }
     dataNeg.CopyRowFrom(3,data);
 
     rectNeg.Y=rect.Y-rect.Height;
     itr_vision::Pick::Rectangle(gray,rectNeg,patch);
     IOHelper::WritePPMFile("Debug/4.ppm", patch);
+    itr_vision::Scale::Bilinear(patch,sample);
     for(int i=0; i<FeatureNum; ++i)
     {
-        data[i]=patch[i];
+        data[i]=sample[i];
     }
     dataNeg.CopyRowFrom(4,data);
 
@@ -130,32 +167,129 @@ void DetectionTest()
         sprintf(file, "Debug/green/cap%03d.pgm", k);
         printf("%s\n",file);
         IOHelper::ReadPGMFile(file, img);
-        conv._KLTComputeSmoothedImage(img, 1, gray);
+        conv._KLTComputeSmoothedImage(img, 2, gray);
         int start = clock() / 1000;
         best=-9999999;
-        for(int i=rectPos.X-rect.Width; i<rectPos.X+2*rect.Width; i+=4)
-            for(int j=rectPos.Y-rect.Height; j<rectPos.Y+2*rect.Height; j+=4)
+        for(int i=rectPos.X-50; i<rectPos.X+50; i+=2)
+            for(int j=rectPos.Y-50; j<rectPos.Y+50; j+=2)
             {
                 rect.X=i;
                 rect.Y=j;
                 itr_vision::Pick::Rectangle(gray,rect,patch);
-                IOHelper::WritePPMFile("Debug/5.ppm", patch);
-                getchar();
+                itr_vision::Scale::Bilinear(patch,sample);
+                IOHelper::WritePPMFile("Debug/5.ppm", sample);
+//                getchar();
                 for(int i=0; i<FeatureNum; ++i)
                 {
-                    data[i]=patch[i];
+                    data[i]=sample[i];
                 }
                 result=nbc.Classify(data);
-                printf("i,j:%d,%d,%.3f\n",i,j,result);
+                // printf("i,j:%d,%d,%.3f\n",i,j,result);
                 if(best<result)
                 {
-                    printf("result:%f   ",result);
                     best=result;
                     x=i;
                     y=j;
                 }
             }
-        printf("Final X,Y:%d %d\n",x,y);
+        printf("Final X,Y:%d %d\n at %.3f\n\n",x,y,best);
+        rectPos.X=x;
+        rectPos.Y=y;
+        itr_vision::Pick::Rectangle(gray,rectPos,patch);
+        itr_vision::Scale::Bilinear(patch,sample);
+        for(int i=0; i<FeatureNum; ++i)
+        {
+            data[i]=sample[i];
+        }
+        itr_vision::Draw::Rectangle(gray,rectPos,255);
+
+        itr_vision::Pick::Rectangle(gray,rect,patch);
+        itr_vision::Scale::Bilinear(patch,sample);
+        IOHelper::WritePPMFile("Debug/0.ppm", sample);
+
+        for(int i=0; i<FeatureNum; ++i)
+        {
+            data[i]=sample[i];
+        }
+        dataPos.CopyRowFrom(1,data);
+
+        rectPos.X+=2;
+        itr_vision::Pick::Rectangle(gray,rectPos,patch);
+        itr_vision::Scale::Bilinear(patch,sample);
+        for(int i=0; i<FeatureNum; ++i)
+        {
+            data[i]=sample[i];
+        }
+        dataPos.CopyRowFrom(2,data);
+
+        rectPos.X-=4;
+        itr_vision::Pick::Rectangle(gray,rectPos,patch);
+        itr_vision::Scale::Bilinear(patch,sample);
+        for(int i=0; i<FeatureNum; ++i)
+        {
+            data[i]=sample[i];
+        }
+        dataPos.CopyRowFrom(3,data);
+
+        rectPos.Y+=2;
+        itr_vision::Pick::Rectangle(gray,rectPos,patch);
+        itr_vision::Scale::Bilinear(patch,sample);
+        for(int i=0; i<FeatureNum; ++i)
+        {
+            data[i]=sample[i];
+        }
+        dataPos.CopyRowFrom(4,data);
+
+        nbc.TrainPos(dataPos);
+
+
+        rectNeg.X=rect.X+rect.Width;
+        itr_vision::Pick::Rectangle(gray,rectNeg,patch);
+        IOHelper::WritePPMFile("Debug/1.ppm", patch);
+        itr_vision::Scale::Bilinear(patch,sample);
+        for(int i=0; i<FeatureNum; ++i)
+        {
+            data[i]=sample[i];
+        }
+        dataNeg.CopyRowFrom(1,data);
+
+        rectNeg.X=rect.X-rect.Width;
+        itr_vision::Pick::Rectangle(gray,rectNeg,patch);
+        IOHelper::WritePPMFile("Debug/2.ppm", patch);
+        itr_vision::Scale::Bilinear(patch,sample);
+        for(int i=0; i<FeatureNum; ++i)
+        {
+            data[i]=sample[i];
+        }
+        dataNeg.CopyRowFrom(2,data);
+
+        rectNeg.X=rect.X;
+        rectNeg.Y=rect.Y+rect.Height;
+        itr_vision::Pick::Rectangle(gray,rectNeg,patch);
+        IOHelper::WritePPMFile("Debug/3.ppm", patch);
+        itr_vision::Scale::Bilinear(patch,sample);
+        for(int i=0; i<FeatureNum; ++i)
+        {
+            data[i]=sample[i];
+        }
+        dataNeg.CopyRowFrom(3,data);
+
+        rectNeg.Y=rect.Y-rect.Height;
+        itr_vision::Pick::Rectangle(gray,rectNeg,patch);
+        IOHelper::WritePPMFile("Debug/4.ppm", patch);
+        itr_vision::Scale::Bilinear(patch,sample);
+        for(int i=0; i<FeatureNum; ++i)
+        {
+            data[i]=sample[i];
+        }
+        dataNeg.CopyRowFrom(4,data);
+
+        nbc.TrainNeg(dataNeg);
+        rectPos.X=x;
+        rectPos.Y=y;
+        sprintf(file, "Debug/output/cap%03d.pgm", k);
+        IOHelper::WritePPMFile(file,gray);
+        IOHelper::WritePPMFile("Debug/6.ppm", patch);
     }
     printf("*****End Detection Sequence Test!*****\n\n");
 }

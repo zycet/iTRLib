@@ -53,7 +53,7 @@ namespace itr_algorithm
         muNeg = new F32[FeatureNum]();
         sigmaPos = new F32[FeatureNum]();
         sigmaNeg = new F32[FeatureNum]();
-        LearnRate = 0.8f;
+        LearnRate = 0.9f;
         initpos = false;
         initneg = false;
     }
