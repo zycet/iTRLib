@@ -33,7 +33,7 @@
 
 #include "rotate.h"
 #include "scale.h"
-#include"stdio.h"
+
 namespace itr_vision
 {
     void Rotate::rotate(const ImageGray& ImgInput, RectangleS &rect, F32 ang, ImageGray& ImgOutput)
