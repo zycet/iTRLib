@@ -36,7 +36,7 @@
 #include <stdio.h>
 namespace itr_vision
 {
-    LKTracker::LKTracker(const ImageGray& Img1, const ImageGray& Img2)
+    LKTracker::LKTracker(const ImageGray &Img1, const ImageGray &Img2)
     {
         windowWidth = 7;
         minDet = 100;
@@ -53,7 +53,7 @@ namespace itr_vision
         Dt = new S32[length]();
         Sum = new S32[length]();
     }
-    LKTracker::LKTracker(const ImageGray& Img)
+    LKTracker::LKTracker(const ImageGray &Img)
     {
         windowWidth = 7;
         minDet = 100;
@@ -77,14 +77,14 @@ namespace itr_vision
         delete[] Sum;
     }
 
-    void itr_vision::LKTracker::AddNext(const ImageGray& Img)
+    void itr_vision::LKTracker::AddNext(const ImageGray &Img)
     {
         last = current;
         current = new Pyramid();
         current->Init(Img, 4, 2);
     }
 
-    void LKTracker::_ComputeDt(Point2D& U, Point2D& V, S32 L, S32 hw, S32* dt)
+    void LKTracker::_ComputeDt(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dt)
     {
         S32 y, x, g1, g2;
         for (y = -hw; y <= hw; ++y)
@@ -95,7 +95,7 @@ namespace itr_vision
                 *dt++ = g1 - g2;
             }
     }
-    void LKTracker::_ComputeGrad(Point2D& U, Point2D& V, S32 L, S32 hw, S32* dx, S32* dy)
+    void LKTracker::_ComputeGrad(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dx, S32 *dy)
     {
         S32 y, x, g1, g2;
         for (y = -hw; y <= hw; ++y)
@@ -109,7 +109,7 @@ namespace itr_vision
                 *dy++ = g1 + g2;
             }
     }
-    void LKTracker::_ComputeGrad2(Point2D& U, S32 L, S32 hw, S32* dx, S32* dy)
+    void LKTracker::_ComputeGrad2(Point2D &U, S32 L, S32 hw, S32 *dx, S32 *dy)
     {
         S32 y, x;
         for (y = -hw; y <= hw; ++y)
@@ -119,7 +119,7 @@ namespace itr_vision
                 *dy++ = Scale::Interpolation(last->grady[L], U.Y + y, U.X + x);
             }
     }
-    S32 LKTracker::_ComputeSum(S32* a, S32* b, S32* sum, S32 length)
+    S32 LKTracker::_ComputeSum(S32 *a, S32 *b, S32 *sum, S32 length)
     {
         S32 result = 0;
         itr_math::CalculateObj->Multi(a, b, length, sum);
@@ -130,10 +130,12 @@ namespace itr_vision
     {
         int ans = 0;
         while (length--)
+        {
             ans += *a++;
+        }
         return ans;
     }
-    LKTracker::TrackResult LKTracker::Compute(Point2D& U, Point2D& V, int L)
+    LKTracker::TrackResult LKTracker::Compute(Point2D &U, Point2D &V, int L)
     {
         S32 hw = windowWidth >> 1;
         S32 length = windowWidth * windowWidth;
@@ -173,13 +175,15 @@ namespace itr_vision
         }
         _ComputeDt(U, V, L, hw, Dt);
         if (_SumDiff(Dt, length) / (length) > max_residue)
+        {
             result = LARGE_RESIDUE;
+        }
         // TODO  大残差的解决
         return result;
     }
 
-    void LKTracker::Compute(const vector<FeaturePoint>& fl, vector<FeaturePoint>& flresult,
-            bool Forward)
+    void LKTracker::Compute(const vector<FeaturePoint> &fl, vector<FeaturePoint> &flresult,
+                            bool Forward)
     {
         vector<FeaturePoint>::const_iterator feat = fl.begin();
         vector<FeaturePoint>::iterator featr = flresult.begin();
@@ -189,7 +193,7 @@ namespace itr_vision
         int subsampling = last->GetSubsampling();
         if (!Forward)
         {
-            Pyramid* temp = last;
+            Pyramid *temp = last;
             last = current;
             current = temp;
         }
@@ -218,7 +222,9 @@ namespace itr_vision
                 V.Y *= subsampling;
                 result = Compute(U, V, l);
                 if (result != Tracked)
+                {
                     break;
+                }
             }
 
             featr->x = V.X;
@@ -227,11 +233,13 @@ namespace itr_vision
             ++featr;
             ++feat;
             if(featr==flresult.end())
+            {
                 break;
+            }
         }
         if (!Forward)
         {
-            Pyramid* temp = last;
+            Pyramid *temp = last;
             last = current;
             current = temp;
         }

@@ -45,13 +45,13 @@ namespace itr_vision
     class SelectFeature
     {
         public:
-            SelectFeature(const ImageGray& Img, S32 WindowWidth);
-            S32 SelectGoodFeature(const RectangleS& rect, vector<FeaturePoint>& fl);
+            SelectFeature(const ImageGray &Img, S32 WindowWidth);
+            S32 SelectGoodFeature(const RectangleS &rect, vector<FeaturePoint> &fl);
             virtual ~SelectFeature();
             int mindist, mineigen;
         private:
             F32 MinEigenvalue(F32 gxx, F32 gxy, F32 gyy);
-            void fillMap(S32 x, S32 y, BOOL* featuremap);
+            void fillMap(S32 x, S32 y, BOOL *featuremap);
             ImageGray img;
             ImageGray dx, dy;
             S32 bw;

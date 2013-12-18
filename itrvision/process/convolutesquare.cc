@@ -72,7 +72,7 @@ namespace itr_vision
         delete this->imageBufferS16;
     }
 
-    void FillMultBufferCol(S16* Data, S32 Width, S32 X, S32 Y, S32 R, S16* Buffer)
+    void FillMultBufferCol(S16 *Data, S32 Width, S32 X, S32 Y, S32 R, S16 *Buffer)
     {
         S32 offset = (Y - R) * Width + X;
         S32 d = R * 2 + 1;
@@ -84,14 +84,14 @@ namespace itr_vision
         }
     }
 
-    void ConvoluteSquare::Convolute(const ImageGray& Input, F32* Filter, ImageGray& Output)
+    void ConvoluteSquare::Convolute(const ImageGray &Input, F32 *Filter, ImageGray &Output)
     {
         assert(Input.MatchWidthHeight(width,height));
         assert(Output.MatchWidthHeight(width,height));
         assert(Filter!=NULL);
         //S16* input = Input.GetPixels();
-        S16* output = Output.GetPixels();
-        S16* tempP = NULL;
+        S16 *output = Output.GetPixels();
+        S16 *tempP = NULL;
         S16 value = 0;
         for (S32 y = 0; y < height; y++)
         {
@@ -115,7 +115,7 @@ namespace itr_vision
     }
 
     void ConvoluteSquare::_computeKernels(float sigma, ConvolutionKernel *gauss,
-            ConvolutionKernel *gaussderiv)
+                                          ConvolutionKernel *gaussderiv)
     {
         const float factor = 0.01f; /* for truncating tail */
         int i;
@@ -150,9 +150,13 @@ namespace itr_vision
 
         /* Shift if width less than MAX_KERNEL_WIDTH */
         for (i = 0; i < gauss->width; i++)
+        {
             gauss->data[i] = gauss->data[i + (MAX_KERNEL_WIDTH - gauss->width) / 2];
+        }
         for (i = 0; i < gaussderiv->width; i++)
+        {
             gaussderiv->data[i] = gaussderiv->data[i + (MAX_KERNEL_WIDTH - gaussderiv->width) / 2];
+        }
         /* Normalize gauss and deriv */
         {
             const int hw = gaussderiv->width / 2;
@@ -160,14 +164,22 @@ namespace itr_vision
 
             den = 0.0;
             for (i = 0; i < gauss->width; i++)
+            {
                 den += gauss->data[i];
+            }
             for (i = 0; i < gauss->width; i++)
+            {
                 gauss->data[i] /= den;
+            }
             den = 0.0;
             for (i = -hw; i <= hw; i++)
+            {
                 den -= i * gaussderiv->data[i + hw];
+            }
             for (i = -hw; i <= hw; i++)
+            {
                 gaussderiv->data[i + hw] /= den;
+            }
         }
 
         sigma_last = sigma;
@@ -178,7 +190,7 @@ namespace itr_vision
     {
         S16 *ptrrow = imgin.GetPixels(); /* Points to row's first pixel */
         S16 *ptrout = imgout.GetPixels(), /* Points to next output pixel */
-        *ppp;
+             *ppp;
         float sum;
         S32 radius = kernel.width / 2;
         S32 ncols = imgin.GetWidth(), nrows = imgin.GetHeight();
@@ -199,7 +211,9 @@ namespace itr_vision
 
             /* Zero leftmost columns */
             for (i = 0; i < radius; i++)
+            {
                 *ptrout++ = 0.0;
+            }
 
             /* Convolve middle columns with kernel */
             for (; i < ncols - radius; i++)
@@ -207,13 +221,17 @@ namespace itr_vision
                 ppp = ptrrow + i - radius;
                 sum = 0.0;
                 for (k = kernel.width - 1; k >= 0; k--)
+                {
                     sum += *ppp++ * kernel.data[k];
+                }
                 *ptrout++ = sum;
             }
 
             /* Zero rightmost columns */
             for (; i < ncols; i++)
+            {
                 *ptrout++ = 0.0;
+            }
 
             ptrrow += ncols;
         }
@@ -223,12 +241,12 @@ namespace itr_vision
      * _convolveImageVert
      */
 
-    void ConvoluteSquare::_convolveImageVert(const ImageGray& imgin, ConvolutionKernel kernel,
+    void ConvoluteSquare::_convolveImageVert(const ImageGray &imgin, ConvolutionKernel kernel,
             ImageGray &imgout)
     {
         S16 *ptrcol = imgin.GetPixels(); /* Points to row's first pixel */
         S16 *ptrout = imgout.GetPixels(), /* Points to next output pixel */
-        *ppp;
+             *ppp;
         S32 sum;
         S32 radius = kernel.width / 2;
         S32 ncols = imgin.GetWidth(), nrows = imgin.GetHeight();
@@ -280,7 +298,7 @@ namespace itr_vision
         }
     }
 
-    void ConvoluteSquare::_KLTComputeSmoothedImage(const ImageGray& img, float sigma, ImageGray& smooth)
+    void ConvoluteSquare::_KLTComputeSmoothedImage(const ImageGray &img, float sigma, ImageGray &smooth)
     {
         /* Output image must be large enough to hold result */
         assert(smooth.GetWidth() >= img.GetWidth());
@@ -288,23 +306,27 @@ namespace itr_vision
 
         /* Compute kernel, if necessary; gauss_deriv is not used */
         if (fabs(sigma - sigma_last) > 0.05)
+        {
             _computeKernels(sigma, &gauss_kernel, &gaussderiv_kernel);
+        }
 
         _convolveSeparate(img, gauss_kernel, gauss_kernel, smooth);
     }
 
-    void ConvoluteSquare::_KLTComputeGradients(const ImageGray& img, float sigma, ImageGray& gradx,
-            ImageGray& grady)
+    void ConvoluteSquare::_KLTComputeGradients(const ImageGray &img, float sigma, ImageGray &gradx,
+            ImageGray &grady)
     {
         if (fabs(sigma - sigma_last) > 0.05)
+        {
             _computeKernels(sigma, &gauss_kernel, &gaussderiv_kernel);
+        }
 
         _convolveSeparate(img, gaussderiv_kernel, gauss_kernel, gradx);
         _convolveSeparate(img, gauss_kernel, gaussderiv_kernel, grady);
     }
 
-    void ConvoluteSquare::_convolveSeparate(const ImageGray& imgin, ConvolutionKernel horiz_kernel,
-            ConvolutionKernel vert_kernel, ImageGray& imgout)
+    void ConvoluteSquare::_convolveSeparate(const ImageGray &imgin, ConvolutionKernel horiz_kernel,
+                                            ConvolutionKernel vert_kernel, ImageGray &imgout)
     {
         ImageGray tmpimg(imgin.GetWidth(), imgin.GetHeight());
         _convolveImageHoriz(imgin, horiz_kernel, tmpimg);

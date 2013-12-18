@@ -34,7 +34,7 @@
 #include "rotate.h"
 namespace itr_vision
 {
-    void Rotate::rotate(const ImageGray& ImgInput, RectangleS &rect, F32 ang, ImageGray& ImgOutput)
+    void Rotate::rotate(const ImageGray &ImgInput, RectangleS &rect, F32 ang, ImageGray &ImgOutput)
     {
         assert(rect.Width>0&&rect.Height>0);
         Point2D  center(rect.X+rect.Width/2,rect.Y+rect.Height/2);
@@ -49,28 +49,28 @@ namespace itr_vision
 
         Point2D pin,pout;
         S32 x0,y0;
-        for(int i=0;i<rect.Height;i++)
+        for(int i=0; i<rect.Height; i++)
         {
-            for(int j=0;j<rect.Width;j++)
+            for(int j=0; j<rect.Width; j++)
             {
-              pin.X=i-center.X;
-              pin.Y=j-center.Y;
-              trans.Transform(pin,pout);
-              x0=pout.X+center.X;
-              y0=pout.Y+center.Y;
-              if((x0>=0&&x0<rect.Width)&&(y0<rect.Height&&y0>=0))
-              {
-                  ImgOutput(i,j)=ImgInput[x0+y0*Inputw];
-              }
-              else
-              {
-                  ImgOutput(i,j)=0;
-              }
+                pin.X=i-center.X;
+                pin.Y=j-center.Y;
+                trans.Transform(pin,pout);
+                x0=pout.X+center.X;
+                y0=pout.Y+center.Y;
+                if((x0>=0&&x0<rect.Width)&&(y0<rect.Height&&y0>=0))
+                {
+                    ImgOutput(i,j)=ImgInput[x0+y0*Inputw];
+                }
+                else
+                {
+                    ImgOutput(i,j)=0;
+                }
             }
         }
     }
 
-    void Rotate::rotate(const ImageARGB& ImgInput, RectangleS &rect, F32 ang, ImageARGB& ImgOutput)
+    void Rotate::rotate(const ImageARGB &ImgInput, RectangleS &rect, F32 ang, ImageARGB &ImgOutput)
     {
         assert(rect.Width>0&&rect.Height>0);
         Point2D  center(rect.X+rect.Width/2,rect.Y+rect.Height/2);
@@ -83,23 +83,23 @@ namespace itr_vision
 
         Point2D pin,pout;
         S32 x0,y0;
-        for(int i=0;i<rect.Height;i++)
+        for(int i=0; i<rect.Height; i++)
         {
-            for(int j=0;j<rect.Width;j++)
+            for(int j=0; j<rect.Width; j++)
             {
-              pin.X=i-center.X;
-              pin.Y=j-center.Y;
-              trans.Transform(pin,pout);
-              x0=pout.X+center.X;
-              y0=pout.Y+center.Y;
-              if((x0>=0&&x0<rect.Width)&&(y0<rect.Height&&y0>=0))
-              {
-                  ImgOutput(i,j)=ImgInput[x0+y0*Inputw];
-              }
-              else
-              {
-                  ImgOutput(i,j)=0;
-              }
+                pin.X=i-center.X;
+                pin.Y=j-center.Y;
+                trans.Transform(pin,pout);
+                x0=pout.X+center.X;
+                y0=pout.Y+center.Y;
+                if((x0>=0&&x0<rect.Width)&&(y0<rect.Height&&y0>=0))
+                {
+                    ImgOutput(i,j)=ImgInput[x0+y0*Inputw];
+                }
+                else
+                {
+                    ImgOutput(i,j)=0;
+                }
             }
         }
     }

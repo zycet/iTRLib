@@ -21,7 +21,7 @@ namespace itr_vision
         // TODO Auto-generated destructor stub
     }
 
-    S16 Scale::Interpolation(const ImageGray& src, F32 y, F32 x)
+    S16 Scale::Interpolation(const ImageGray &src, F32 y, F32 x)
     {
         const int FACTOR = 2048;
         const int BITS = 22;
@@ -34,11 +34,11 @@ namespace itr_vision
         u_1 = FACTOR - u;
         v_1 = FACTOR - v;
         int result = (src(y0, x0) * u_1 + src(y0, x0 + 1) * u) * v_1
-                + (src(y0 + 1, x0) * u_1 + src(y0 + 1, x0 + 1) * u) * v;
+                     + (src(y0 + 1, x0) * u_1 + src(y0 + 1, x0 + 1) * u) * v;
         return (S16) (result >> BITS);
     }
 
-    void Scale::Bilinear(const ImageGray& src, ImageGray& dst)
+    void Scale::Bilinear(const ImageGray &src, ImageGray &dst)
     {
         int width = dst.GetWidth(), height = dst.GetHeight();
         float fw = float(src.GetWidth()) / width;
@@ -55,7 +55,7 @@ namespace itr_vision
         }
     }
 
-    void Scale::SubSampling(const ImageGray& src, ImageGray& dst, S32 scale)
+    void Scale::SubSampling(const ImageGray &src, ImageGray &dst, S32 scale)
     {
         assert(dst.MatchWidthHeight(src.GetWidth() / scale, src.GetHeight() / scale));
         for (int j = 0; j < dst.GetHeight(); ++j)
@@ -67,7 +67,7 @@ namespace itr_vision
         }
     }
 
-    S32 Scale::Interpolation(const ImageARGB& src, F32 y, F32 x)
+    S32 Scale::Interpolation(const ImageARGB &src, F32 y, F32 x)
     {
         const int FACTOR = 2048;
         const int BITS = 22;
@@ -80,11 +80,11 @@ namespace itr_vision
         u_1 = FACTOR - u;
         v_1 = FACTOR - v;
         int result = (src(y0, x0) * u_1 + src(y0, x0 + 1) * u) * v_1
-                + (src(y0 + 1, x0) * u_1 + src(y0 + 1, x0 + 1) * u) * v;
+                     + (src(y0 + 1, x0) * u_1 + src(y0 + 1, x0 + 1) * u) * v;
         return result >> BITS;
     }
 
-    void Scale::Bilinear(const ImageARGB& src, ImageGray& dst)
+    void Scale::Bilinear(const ImageARGB &src, ImageGray &dst)
     {
         int width = dst.GetWidth(), height = dst.GetHeight();
         float fw = float(src.GetWidth()) / width;
@@ -100,7 +100,7 @@ namespace itr_vision
             }
         }
     }
-    void Scale::SubSampling(const ImageARGB& src, ImageARGB& dst, S32 scale)
+    void Scale::SubSampling(const ImageARGB &src, ImageARGB &dst, S32 scale)
     {
         assert(dst.MatchWidthHeight(src.GetWidth() / scale, src.GetHeight() / scale));
         for (int j = 0; j < dst.GetHeight(); ++j)

@@ -38,14 +38,16 @@ namespace itr_vision
 
 } // namespace itr_vision
 
-void itr_vision::Gradient::Gradientx(const ImageGray& img, ImageGray& dx)
+void itr_vision::Gradient::Gradientx(const ImageGray &img, ImageGray &dx)
 {
     assert(img.MatchWidthHeight(dx));
-    for(int y=0;y<img.GetHeight();++y)
-        for(int x=0;x<img.GetWidth();++x)
+    for(int y=0; y<img.GetHeight(); ++y)
+        for(int x=0; x<img.GetWidth(); ++x)
         {
             if(x==0||y==0||x==img.GetWidth()-1||y==img.GetHeight()-1)
+            {
                 dx(y,x)=img(y,x);
+            }
             else
             {
                 dx(y,x)=(img(y,x+1)-img(y,x-1))>>1;
@@ -53,17 +55,19 @@ void itr_vision::Gradient::Gradientx(const ImageGray& img, ImageGray& dx)
         }
 }
 
-void itr_vision::Gradient::Gradienty(const ImageGray& img, ImageGray& dy)
+void itr_vision::Gradient::Gradienty(const ImageGray &img, ImageGray &dy)
 {
     assert(img.MatchWidthHeight(dy));
-        for(int y=0;y<img.GetHeight();++y)
-            for(int x=0;x<img.GetWidth();++x)
+    for(int y=0; y<img.GetHeight(); ++y)
+        for(int x=0; x<img.GetWidth(); ++x)
+        {
+            if(x==0||y==0||x==img.GetWidth()-1||y==img.GetHeight()-1)
             {
-                if(x==0||y==0||x==img.GetWidth()-1||y==img.GetHeight()-1)
-                    dy(y,x)=img(y,x);
-                else
-                {
-                    dy(y,x)=(img(y+1,x)-img(y-1,x))>>1;
-                }
+                dy(y,x)=img(y,x);
             }
+            else
+            {
+                dy(y,x)=(img(y+1,x)-img(y-1,x))>>1;
+            }
+        }
 }

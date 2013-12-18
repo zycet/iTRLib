@@ -45,17 +45,17 @@ namespace itr_vision
     class Draw
     {
         public:
-            static void Circle(ImageARGB& Img, S32 x, S32 y, S32 r, U32 color);
-            static void Circle(ImageGray& Img, S32 x, S32 y, S32 r, S16 color);
-            static void LineOffset(ImageGray& Img,S32 x, S32 y, S32 offsetx ,S32 offsety,S16 color);
-            static void LineOffset(ImageARGB& Img,S32 x, S32 y, S32 offsetx ,S32 offsety,U32 color);
-            static void Line(ImageGray& Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,S16 color);
-            static void Line(ImageARGB& Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,U32 color);
+            static void Circle(ImageARGB &Img, S32 x, S32 y, S32 r, U32 color);
+            static void Circle(ImageGray &Img, S32 x, S32 y, S32 r, S16 color);
+            static void LineOffset(ImageGray &Img,S32 x, S32 y, S32 offsetx ,S32 offsety,S16 color);
+            static void LineOffset(ImageARGB &Img,S32 x, S32 y, S32 offsetx ,S32 offsety,U32 color);
+            static void Line(ImageGray &Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,S16 color);
+            static void Line(ImageARGB &Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,U32 color);
             static void Cross(ImageGray &bmp, S32 x, S32 y, S32 scale, S16 color);
             static void Cross(ImageARGB &bmp, S32 x, S32 y, S32 scale, U32 color);
-            static void Rectangle(ImageGray& Img,RectangleS rect,S16 color);
-            static void Rectangle(ImageARGB& Img,RectangleS rect,U32 color);
-            static void Correspond(const ImageGray& Img1,const ImageGray& Img2,const vector<FeaturePoint>& feature1,const vector<FeaturePoint>& feature2,ImageGray& Result);
+            static void Rectangle(ImageGray &Img,RectangleS rect,S16 color);
+            static void Rectangle(ImageARGB &Img,RectangleS rect,U32 color);
+            static void Correspond(const ImageGray &Img1,const ImageGray &Img2,const vector<FeaturePoint> &feature1,const vector<FeaturePoint> &feature2,ImageGray &Result);
     };
 
 } // namespace itr_vision
