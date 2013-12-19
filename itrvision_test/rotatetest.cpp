@@ -17,13 +17,20 @@ void rotateImgGraytest()
     S32 width=685 ;
     S32 height=494;
     ImageGray grayI;
+
     ImageGray grayO(width,height);
     RectangleS rect(X, Y,width,height);
+
+    ImageGray grayO2(200,300);                   //2
+    RectangleS rect2(600, 200,200,300);             //
 
     IOHelper::ReadPGMFile("Debug/table1.pgm", grayI);
 
     Rotate::rotate(grayI, rect, 0, grayO);
     IOHelper::WritePGMFile("Debug/gray00.pgm", grayO);
+
+    Rotate::rotate(grayI, rect2, 0, grayO2);                //
+    IOHelper::WritePGMFile("Debug/gray200.pgm", grayO2);    //
 
     Rotate::rotate(grayI, rect, 90, grayO);
     IOHelper::WritePGMFile("Debug/gray90.pgm", grayO);
