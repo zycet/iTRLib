@@ -46,8 +46,8 @@ namespace itr_vision
         trans.Reset();
         trans.Rotate(ang);
 
-        S32 Inputw=ImgInput.GetWidth();
-        S32 Inputh=ImgInput.GetHeight();
+        S32 Inputw=ImgInput.GetCol();
+        S32 Inputh=ImgInput.GetRow();
 
         Point2D pin,pout;
         S32 x0,y0;
@@ -85,7 +85,7 @@ namespace itr_vision
         trans.Rotate(ang);
 
         S32 Inputw;
-        Inputw=ImgInput.GetWidth();
+        Inputw=ImgInput.GetCol();
 
         Point2D pin,pout;
         S32 x0,y0;
