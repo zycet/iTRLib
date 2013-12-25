@@ -45,9 +45,9 @@
 int main()
 {
     //Init Math
-    itr_math::MathObjStandInit();
+   // itr_math::MathObjStandInit();
     //Test Rotate !
-    //rotatetest();
+    rotatetest();
     //Test Pick OK!
     // picktest();
     //Test Draw OK!
@@ -55,13 +55,13 @@ int main()
     ///Test LKTracker
     lktest();
     ///Test Detection
-    DetectionTest();
+   // DetectionTest();
     //Test Process
     //ConvoluteSquareTest();
-    ConvoluteSquareTest4Pro();
+    //ConvoluteSquareTest4Pro();
     //FormatPPMTestPGMTest3();
     //Finish
-    itr_math::MathObjStandDeinit();
+    //itr_math::MathObjStandDeinit();
     //Deint Math
 
     //rotatetest
