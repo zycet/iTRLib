@@ -47,16 +47,17 @@ namespace itr_vision
         public:
             enum TrackResult
             {
-                Tracked, OOB, SmallDet, LARGE_RESIDUE
+                Tracked, OOB, SmallDet, LARGE_RESIDUE,MAX_ITERATION
             };
             LKTracker(const ImageGray &Img1, const ImageGray &Img2);
             LKTracker(const ImageGray &Img);
             virtual ~LKTracker();
             TrackResult Compute(Point2D &U, Point2D &V, S32 L);
-            void Compute(const vector<FeaturePoint> &fl,vector<FeaturePoint> &flresult, bool Forward);
+            void Compute(const vector<FeaturePoint> &fl,vector<FeaturePoint> &flresult, S32 FeatureNum,bool Forward);
             S32 windowWidth;
             S32 minDet;
             S32 max_residue;
+            S32 max_iterations;
             Pyramid *last,*current;
             void AddNext(const ImageGray &Img);
         private:

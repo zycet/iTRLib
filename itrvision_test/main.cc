@@ -53,7 +53,7 @@ int main()
     //Test Draw OK!
     // drawtest();
     ///Test LKTracker
-    //lktest();
+    lktest();
     ///Test Detection
     DetectionTest();
     //Test Process
