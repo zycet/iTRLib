@@ -34,11 +34,11 @@
 #ifndef LKTRACKER_H_
 #define LKTRACKER_H_
 
-#include "../image/image.h"
 #include "../feature/feature.h"
 #include <vector>
 using std::vector;
 using itr_math::Point2D;
+using itr_math::Matrix;
 namespace itr_vision
 {
 
@@ -49,8 +49,8 @@ namespace itr_vision
             {
                 Tracked, OOB, SmallDet, LARGE_RESIDUE,MAX_ITERATION
             };
-            LKTracker(const ImageGray &Img1, const ImageGray &Img2);
-            LKTracker(const ImageGray &Img);
+            LKTracker(const Matrix &Img1, const Matrix &Img2);
+            LKTracker(const Matrix &Img);
             virtual ~LKTracker();
             TrackResult Compute(Point2D &U, Point2D &V, S32 L);
             void Compute(const vector<FeaturePoint> &fl,vector<FeaturePoint> &flresult, S32 FeatureNum,bool Forward);
@@ -59,7 +59,7 @@ namespace itr_vision
             S32 max_residue;
             S32 max_iterations;
             Pyramid *last,*current;
-            void AddNext(const ImageGray &Img);
+            void AddNext(const Matrix &Img);
         private:
             void _ComputeDt(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dt);
             void _ComputeGrad(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dx, S32 *dy);

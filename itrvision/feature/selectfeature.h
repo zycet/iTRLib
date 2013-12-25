@@ -35,17 +35,17 @@
 #define SELECTSEATURE_H_
 
 #include "itrbase.h"
-#include "../itrvision.h"
 #include <vector>
 using std::vector;
 using itr_math::RectangleS;
+using itr_math::Matrix;
 namespace itr_vision
 {
 
     class SelectFeature
     {
         public:
-            SelectFeature(const ImageGray &Img);
+            SelectFeature(const Matrix &Img);
             S32 SelectGoodFeature(const RectangleS &rect, vector<FeaturePoint> &fl, S32 start=0);
             virtual ~SelectFeature();
             int mindist, mineigen;
@@ -53,8 +53,8 @@ namespace itr_vision
         private:
             F32 MinEigenvalue(F32 gxx, F32 gxy, F32 gyy);
             void fillMap(S32 x, S32 y, BOOL *featuremap);
-            ImageGray img;
-            ImageGray dx, dy;
+            Matrix img;
+            Matrix dx, dy;
             S32 bw;
             S32 width, height;
 

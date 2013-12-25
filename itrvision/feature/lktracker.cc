@@ -32,11 +32,12 @@
  */
 
 #include "lktracker.h"
+#include "../itrvision.h"
 #include <math.h>
 #include <stdio.h>
 namespace itr_vision
 {
-    LKTracker::LKTracker(const ImageGray &Img1, const ImageGray &Img2)
+    LKTracker::LKTracker(const Matrix &Img1, const Matrix &Img2)
     {
         windowWidth = 7;
         minDet = 100;
@@ -54,7 +55,7 @@ namespace itr_vision
         Dt = new S32[length]();
         Sum = new S32[length]();
     }
-    LKTracker::LKTracker(const ImageGray &Img)
+    LKTracker::LKTracker(const Matrix &Img)
     {
         windowWidth = 7;
         minDet = 100;
@@ -79,7 +80,7 @@ namespace itr_vision
         delete[] Sum;
     }
 
-    void itr_vision::LKTracker::AddNext(const ImageGray &Img)
+    void itr_vision::LKTracker::AddNext(const Matrix &Img)
     {
         last = current;
         current = new Pyramid();

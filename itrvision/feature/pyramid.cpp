@@ -42,7 +42,7 @@ namespace itr_vision
         subsampling = 4;
         sigma = 1;
     }
-    void Pyramid::Init(const ImageGray &Img, int Subsampling, int Level)
+    void Pyramid::Init(const Matrix &Img, int Subsampling, int Level)
     {
         level = Level;
         subsampling = Subsampling;
@@ -53,7 +53,7 @@ namespace itr_vision
         img[0].Allocate(width[0], height[0]);
         gradx[0].Allocate(width[0], height[0]);
         grady[0].Allocate(width[0], height[0]);
-        ImageGray tempimg(width[0], height[0]);
+        Matrix tempimg(width[0], height[0]);
         int L;
 
         for (L = 1; L < level; ++L)

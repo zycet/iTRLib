@@ -41,7 +41,7 @@
 namespace itr_vision
 {
 
-    SelectFeature::SelectFeature(const ImageGray &Img)
+    SelectFeature::SelectFeature(const Matrix &Img)
     {
         windowWidth=7;
         bw = windowWidth >> 1;
