@@ -38,6 +38,7 @@
 using itr_math::RectangleS;
 using itr_math::Transform2D;        //void Rotate(F32 Angle)；坐标旋转（原点为中心），逆时针正，角度
 using itr_math::Point2D;
+using itr_math::Matrix;
 namespace itr_vision
 {
 
@@ -47,7 +48,7 @@ namespace itr_vision
             Rotate();
             virtual ~Rotate();
 
-            static void rotate(const ImageGray& ImgInput, RectangleS &rect, F32 ang, ImageGray& ImgOutput);
+            static void rotate(const Matrix& ImgInput, RectangleS &rect, F32 ang, Matrix& ImgOutput);
             static void rotate(const ImageARGB& ImgInput, RectangleS &rect, F32 ang, ImageARGB& ImgOutput);
 
     };

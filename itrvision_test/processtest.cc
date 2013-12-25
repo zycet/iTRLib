@@ -154,3 +154,4 @@ void FormatPPMTestPGMTest3()
     fclose(file2);
     delete[] bufferRead;
 }
+

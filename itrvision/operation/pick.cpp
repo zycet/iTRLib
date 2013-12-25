@@ -50,7 +50,7 @@ namespace itr_vision
         }
     }
 
-    void itr_vision::Pick::Rectangle(const ImageGray &ImgInput, RectangleS &rect, ImageGray &ImgOutput)
+    void itr_vision::Pick::Rectangle(const Matrix &ImgInput, RectangleS &rect, Matrix &ImgOutput)
     {
         int i ,j;
         for(i = 0; i <= rect.Height; i ++)
