@@ -50,6 +50,46 @@ namespace itr_math
  */
 Matrix::Matrix(S32 Row, S32 Col)
 {
+    Init(Row,Col);
+}
+/*
+ * 初始化一个指定行列数的矩阵(以传入的指针为数据区)
+ */
+Matrix::Matrix(S32 Row, S32 Col, F32* Data)
+{
+    Init(Row,Col,Data);
+}
+/*
+ * 初始化一个指定阶数的方阵(自动分配内存)
+ */
+Matrix::Matrix(S32 RowCol)
+{
+    Init(RowCol);
+}
+/*
+ * 初始化完全一样的矩阵(Clone)
+ */
+Matrix::Matrix(const Matrix& Mat)
+{
+    Init(Mat);
+}
+/*
+ * 回收自动分配的内存
+ */
+Matrix::~Matrix()
+{
+    if (localData == true)
+    {
+        delete data;
+    }
+}
+
+//**********后初始化函数**********
+/*
+* 初始化一个指定行列数的空矩阵(自动分配内存)
+*/
+void Matrix::Init(S32 Row, S32 Col)
+{
     assert(NumericalObj!=NULL && CalculateObj!=NULL);
     assert(Row>0 && Col>0);
     data = new F32[Row * Col]();
@@ -61,7 +101,7 @@ Matrix::Matrix(S32 Row, S32 Col)
 /*
  * 初始化一个指定行列数的矩阵(以传入的指针为数据区)
  */
-Matrix::Matrix(S32 Row, S32 Col, F32* Data)
+void Matrix::Init(S32 Row, S32 Col, F32* Data)
 {
     assert(NumericalObj!=NULL && CalculateObj!=NULL);
     assert(Row>0 && Col>0);
@@ -69,13 +109,12 @@ Matrix::Matrix(S32 Row, S32 Col, F32* Data)
     assert(data != NULL);
     row = Row;
     col = Col;
-    MemoryCopy(data,Data,Row*Col*sizeof(F32));
     localData = false;
 }
 /*
  * 初始化一个指定阶数的方阵(自动分配内存)
  */
-Matrix::Matrix(S32 RowCol)
+void Matrix::Init(S32 RowCol)
 {
     assert(NumericalObj!=NULL && CalculateObj!=NULL);
     assert(RowCol>0);
@@ -88,7 +127,7 @@ Matrix::Matrix(S32 RowCol)
 /*
  * 初始化完全一样的矩阵(Clone)
  */
-Matrix::Matrix(const Matrix& Mat)
+void Matrix::Init(const Matrix& Mat)
 {
     assert(NumericalObj!=NULL && CalculateObj!=NULL);
     data = new F32[Mat.GetRow() * Mat.GetCol()]();
@@ -98,16 +137,7 @@ Matrix::Matrix(const Matrix& Mat)
     localData = true;
     this->CopyFrom(Mat.data);
 }
-/*
- * 回收自动分配的内存
- */
-Matrix::~Matrix()
-{
-    if (localData == true)
-    {
-        delete data;
-    }
-}
+
 //**********初等变换**********
 /*
  * 将RowNoAdd行加至RowNoResult行

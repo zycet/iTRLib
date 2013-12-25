@@ -43,7 +43,9 @@
 
 namespace itr_math
 {
-//注意：矩阵的行、列从1开始，
+/*
+ * 矩阵所有操作参数均为先行号(Row=Y=Height)后列号(Col=X=Width)
+ */
 class Matrix
 {
 public:
@@ -65,9 +67,32 @@ public:
      */
     Matrix(const Matrix& Mat);
     /*
+     * 用于初始化列表的空构造函数
+     * 在构造后需手动调用Init函数
+     */
+    Matrix();
+    /*
      * 回收自动分配的内存
      */
     virtual ~Matrix();
+
+    //**********后初始化函数**********
+    /*
+     * 初始化一个指定行列数的空矩阵(自动分配内存)
+     */
+    void Init(S32 Row, S32 Col);
+    /*
+     * 初始化一个指定行列数的矩阵(以传入的指针为数据区)
+     */
+    void Init(S32 Row, S32 Col, F32* Data);
+    /*
+     * 初始化一个指定阶数的方阵(自动分配内存)
+     */
+    void Init(S32 RowCol);
+    /*
+     * 初始化完全一样的矩阵(Clone)
+     */
+    void Init(const Matrix& Mat);
 
     //**********成员属性**********
     /*
@@ -102,20 +127,19 @@ public:
     //**********数据转移**********
     /*
      * Func:将传入的数据复制至指定的矩形区域
-     * Para:RowOffset,ColOffset:插入位置，从1开始
-     *      Width,Height:插入打举行区域尺寸
+     * Para:RowOffset,ColOffset:插入位置
+     *      Width,Height:插入的矩形行区域尺寸
      */
     inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height, F32* Data)
     {
-        assert(RowPos > 0 && RowPos <= row);
-        assert(ColPos > 0 && ColPos <= col);
-        assert(RowPos + Height <= row + 1);
-        assert(ColPos + Width <= col + 1);
+        assert(RowPos >= 0 && RowPos < row);
+        assert(ColPos >= 0 && ColPos < col);
+        assert(RowPos + Height <= row);
+        assert(ColPos + Width <= col);
         assert(Data!=NULL);
         for (S32 i = 0; i < Height; i++)
         {
-            MemoryCopy(data + (RowPos - 1) * col + (ColPos - 1) + i * row, Data + i * Width,
-                       Width * sizeof(F32));
+            MemoryCopy(data + RowPos  * (col+i) + ColPos, Data + i * Width, Width * sizeof(F32));
         }
     }
     /*
@@ -128,22 +152,21 @@ public:
         MemoryCopy(data, Data, row * col * sizeof(F32));
     }
     /*
-     * Func:将指定的矩形区域复制到出来
+     * Func:将指定的矩形区域复制出来
      * Para:RowPos,ColPos:取出的位置
      *      Width,Height:矩形尺寸
      */
     inline void virtual CopyTo(S32 RowPos, S32 ColPos, S32 Width, S32 Height,
                                F32* Data) const
     {
-        assert(RowPos > 0 && RowPos <= row);
-        assert(ColPos > 0 && ColPos <= col);
-        assert(RowPos + Height <= row + 1);
-        assert(ColPos + Width <= col + 1);
+        assert(RowPos >= 0 && RowPos < row);
+        assert(ColPos >= 0 && ColPos < col);
+        assert(RowPos + Height <= row);
+        assert(ColPos + Width <= col);
         assert(Data!=NULL);
         for (S32 i = 0; i < Height; i++)
         {
-            MemoryCopy(Data + i * Width, data + (RowPos - 1) * col + (ColPos - 1) + i * row,
-                       Width * sizeof(F32));
+            MemoryCopy(Data + i * Width, data + RowPos  * (col+i) + ColPos, Width * sizeof(F32));
         }
     }
     /*
@@ -154,25 +177,25 @@ public:
         assert(Data!=NULL);
         MemoryCopy(Data, data, row * col * sizeof(F32));
     }
-    //Copy Row From
 
+    //Copy Row From
     /*
     * 将传入数据复制到指定行的部分区域
     */
     inline void virtual CopyRowFrom(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data)
     {
-        assert(RowPos > 0 && RowPos <= row);
-        assert(ColPos > 0 && ColPos <= col);
-        assert(ColNum > 0 && ColNum + ColPos <= col + 1);
+        assert(RowPos >= 0 && RowPos < row);
+        assert(ColPos >= 0 && ColPos < col);
+        assert(ColNum >= 0 && ColNum + ColPos <= col);
         assert(Data!=NULL);
-        MemoryCopy(data + (RowPos - 1) * col + ColPos - 1, Data, ColNum * sizeof(F32));
+        MemoryCopy(data + RowPos * col + ColPos , Data, ColNum * sizeof(F32));
     }
     /*
      * 将传入数据复制到指定行
      */
     inline void virtual CopyRowFrom(S32 RowPos, F32* Data)
     {
-        --RowPos;
+        assert(RowPos >= 0);
         assert(RowPos < row);
         assert(Data!=NULL);
         MemoryCopy(data + RowPos * col, Data, col * sizeof(F32));
@@ -182,66 +205,81 @@ public:
      */
     inline void virtual CopyRowTo(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data) const
     {
-        assert(RowPos > 0 && RowPos <= row);
-        assert(ColPos > 0 && ColPos <= col);
-        assert(ColNum + ColPos <= col + 1);
+        assert(RowPos >= 0 && RowPos < row);
+        assert(ColPos >= 0 && ColPos < col);
+        assert(ColNum + ColPos <= col);
         assert(Data !=NULL);
-        MemoryCopy(Data, data + (RowPos - 1) * col + ColPos - 1, ColNum * sizeof(F32));
+        MemoryCopy(Data, data + RowPos * col + ColPos, ColNum * sizeof(F32));
     }
     /*
-     * 复制定制行数据处理
+     * 复制指定行数据处理
      */
-    inline void virtual CopyRowTo(S32 RowNo, F32* Data) const
+    inline void virtual CopyRowTo(S32 RowPos, F32* Data) const
     {
-        assert(RowNo <= row);
+        assert(RowPos >= 0);
+        assert(RowPos < row);
         assert(Data!=NULL);
-        MemoryCopy(Data, data + (RowNo - 1) * col, col * sizeof(F32));
+        MemoryCopy(Data, data + RowPos * col, col * sizeof(F32));
     }
     /*
-     * 将数据复制到指定列的部分区域D
+     * 将数据复制到指定列的部分区域
      */
     inline void virtual CopyColFrom(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data)
     {
-        assert(ColPos > 0 && ColPos <= col);
-        assert(RowPos > 0 && RowPos <= row);
-        assert(RowPos + RowNum <= row + 1);
+        assert(ColPos >= 0 && ColPos < col);
+        assert(RowPos >= 0 && RowPos < row);
+        assert(RowPos + RowNum <= row);
         assert(Data!=NULL);
+        int pos=RowPos*col+ColPos;
         for (S32 i = 0; i < RowNum; i++)
-            MemoryCopy(data + (RowPos - 1) * col + ColPos - 1 + i * col, Data, sizeof(F32));
+        {
+            data[pos]=Data[i];
+            pos+=col;
+        }
     }
     /*
-     * d将数据复制到指定列
+     * 将数据复制到指定列
      */
-    inline void virtual CopyColFrom(S32 ColNo, F32* Data)
+    inline void virtual CopyColFrom(S32 ColPos, F32* Data)
     {
-        assert(ColNo > 0 && ColNo <= col);
+        assert(ColPos >= 0 && ColPos < col);
         assert(Data != NULL);
+        int pos=ColPos;
         for (S32 i = 0; i < row; i++)
-            MemoryCopy(data + ColNo - 1 + i * col, Data + i, sizeof(F32));
+        {
+            data[pos]=Data[i];
+            pos+=col;
+        }
     }
     /*
     * 复制指定列的部分区域数据出来
     */
     inline void virtual CopyColTo(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data) const
     {
-        assert(ColPos > 0 && ColPos <= col);
-        assert(RowPos > 0 && RowPos <= row);
-        assert(RowNum > 0 && RowNum + RowPos <= row + 1);
+        assert(ColPos >= 0 && ColPos < col);
+        assert(RowPos >= 0 && RowPos < row);
+        assert(RowPos + RowNum <= row);
         assert(Data!=NULL);
+        int pos=RowPos*col+ColPos;
         for (S32 i = 0; i < RowNum; i++)
-            MemoryCopy(Data + i, data + (RowPos - 1) * col + ColPos - 1 + i * col, sizeof(F32));
+        {
+            Data[i]=data[pos];
+            pos+=col;
+        }
     }
     /*
      * 复制指定列的数据出来
      */
-    inline void virtual CopyColTo(S32 ColNo, F32* Data) const
+    inline void virtual CopyColTo(S32 ColPos, F32* Data) const
     {
-        --ColNo;
-        assert(ColNo < col);
-        assert(Data!=NULL);
+        assert(ColPos >= 0 && ColPos < col);
+        assert(Data != NULL);
+        int pos=ColPos;
         for (S32 i = 0; i < row; i++)
-            //  MemoryCopy(Data+i, data + ColNo + i * col, sizeof(F32));
-            Data[i] = data[ColNo + i * col];
+        {
+            Data[i]=data[pos];
+            pos+=col;
+        }
     }
 
     //**********数据访问**********
@@ -250,6 +288,7 @@ public:
      */
     inline F32& operator[](int index)
     {
+        assert(index >=0);
         assert(index < row * col);
         return data[index];
     }
@@ -258,25 +297,38 @@ public:
      */
     inline F32 operator[](int index) const
     {
+        assert(index >=0);
         assert(index < row * col);
         return data[index];
     }
     /*
-     * 写入单个元素(Y=行数,X=列数)
+     * 写入单个元素(Y=行数,X=列数),且会自动执行限位。
      */
     inline F32& operator()(int Y, int X)
     {
-        assert(X < col);
-        assert(Y < row);
+        if(X<0)
+            X=0;
+        if(X>=col)
+            X=col-1;
+        if(Y<0)
+            Y=0;
+        if(Y>=row)
+            Y=row-1;
         return data[Y * col + X];
     }
     /*
-     * 读取单个元素(Y=行数,X=列数)
+     * 读取单个元素(Y=行数,X=列数),且会自动执行限位。
      */
     inline F32 operator()(int Y, int X) const
     {
-        assert(X < col);
-        assert(Y < row);
+        if(X<0)
+            X=0;
+        if(X>=col)
+            X=col-1;
+        if(Y<0)
+            Y=0;
+        if(Y>=row)
+            Y=row-1;
         return data[Y * col + X];
     }
 
@@ -538,7 +590,7 @@ public:
             return false;
         for (int i = 0; i < this->col * this->row; i++)
         {
-            if (this->GetData()[i]= mat.data[i])
+            if (this->GetData()[i]== mat.data[i])
                 return false;
         }
         return true;
