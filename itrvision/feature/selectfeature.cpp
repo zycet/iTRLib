@@ -35,13 +35,16 @@
 #include <algorithm>
 #include <string.h>
 #include <math.h>
+#include <stdio.h>
+#include "../helper/helper.h"
+
 namespace itr_vision
 {
 
-    SelectFeature::SelectFeature(const ImageGray &Img, int WindowWidth)
+    SelectFeature::SelectFeature(const Matrix &Img)
     {
-        bw = WindowWidth >> 1;
-        windowWidth=WindowWidth;
+        windowWidth=7;
+        bw = windowWidth >> 1;
         mindist = 10;
         mineigen = 1;
         width = Img.GetWidth();
@@ -50,9 +53,10 @@ namespace itr_vision
         dx.Allocate(Img.GetWidth(), Img.GetHeight());
         dy.Allocate(Img.GetWidth(), Img.GetHeight());
         ConvoluteSquare conv;
-        conv._KLTComputeSmoothedImage(Img, 0.1 * WindowWidth, img);
+        conv._KLTComputeSmoothedImage(Img, 0.1f * windowWidth, img);
+
         // TODO 求微分
-        conv._KLTComputeGradients(img, 1, dx, dy);
+        conv._KLTComputeGradients(img, 1.0f, dx, dy);
     }
 
     void SelectFeature::fillMap(S32 x, S32 y, BOOL *featuremap)
@@ -77,7 +81,7 @@ namespace itr_vision
         return (float) ((gxx + gyy - gxy) * 0.5f);
 //        return (float) ((gxx + gyy - sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy)) *0.5f);/// 2.0f);
     }
-    S32 SelectFeature::SelectGoodFeature(const RectangleS &rect, vector<FeaturePoint> &featureOutput)
+    S32 SelectFeature::SelectGoodFeature(const RectangleS &rect, vector<FeaturePoint> &featureOutput,S32 start)
     {
         vector<FeaturePoint> featurelist(rect.Width * rect.Height);
         S32 bord = 24,ImgWidth=img.GetWidth();
@@ -95,6 +99,8 @@ namespace itr_vision
         }
         S32 x, y, xx, yy;
         S32 gxx, gxy, gyy, gx, gy;
+        S32 npoints=0;
+
         vector<FeaturePoint>::iterator featptr = featurelist.begin();
         // 初始化特征列表
         {
@@ -116,20 +122,21 @@ namespace itr_vision
                     featptr->y = y;
                     featptr->value = MinEigenvalue(gxx, gxy, gyy);
                     ++featptr;
+                    ++npoints;
                 }
         }
 
-        std::sort(featurelist.begin(), featurelist.end(), std::greater<FeaturePoint>());
+        std::sort(featurelist.begin(), featurelist.begin()+npoints, std::greater<FeaturePoint>());
         --mindist;
         //增大最小间距
         int count=0;
         {
             featptr = featurelist.begin();
-            vector<FeaturePoint>::iterator flindex = featureOutput.begin();
+            vector<FeaturePoint>::iterator flindex = featureOutput.begin()+start;
             BOOL *featuremap = new BOOL[height* width]();
             memset(featuremap, 0, sizeof(featuremap));
             S32 value;
-            while (featptr != featurelist.end())
+            while (npoints>0)
             {
                 x = featptr->x;
                 y = featptr->y;
@@ -148,6 +155,7 @@ namespace itr_vision
                     break;
                 }
                 ++featptr;
+                --npoints;
             }
             delete[] featuremap;
         }

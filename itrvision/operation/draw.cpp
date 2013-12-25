@@ -32,14 +32,13 @@
  */
 
 #include "draw.h"
-
 namespace itr_vision
 {
-    void Draw::Circle(ImageGray &Img, S32 x, S32 y, S32 r, S16 color)
+    void Draw::Circle(itr_math::Matrix &Img, S32 x, S32 y, S32 r, S16 color)
     {
         int i, j;
-        int width = Img.GetWidth();
-        int height = Img.GetHeight();
+        int width = Img.GetCol();
+        int height = Img.GetRow();
         for (i = -r; i < r; i++)
         {
             j = sqrt(r * r - i * i);
@@ -64,7 +63,7 @@ namespace itr_vision
         }
     }
 
-    void Draw::LineOffset(ImageGray &Img, S32 x, S32 y, S32 offsetx, S32 offsety, S16 color)
+    void Draw::LineOffset(Matrix &Img, S32 x, S32 y, S32 offsetx, S32 offsety, S16 color)
     {
         int i, j;
         if (offsetx == 0)
@@ -144,7 +143,7 @@ namespace itr_vision
 
         }
     }
-    void Draw::Line(ImageGray &Img, S32 beginx, S32 beginy, S32 endx, S32 endy, S16 color)
+    void Draw::Line(Matrix &Img, S32 beginx, S32 beginy, S32 endx, S32 endy, S16 color)
     {
         int i, j;
         i = endx - beginx;
@@ -158,7 +157,7 @@ namespace itr_vision
         j = endy - beginy;
         LineOffset(Img, beginx, beginy, i, j, color);
     }
-    void Draw::Cross(ImageGray &bmp, S32 x, S32 y, S32 scale, S16 color)
+    void Draw::Cross(Matrix &bmp, S32 x, S32 y, S32 scale, S16 color)
     {
         LineOffset(bmp, x, y, 0, scale, color);
         LineOffset(bmp, x, y, 0, -scale, color);
@@ -172,7 +171,7 @@ namespace itr_vision
         LineOffset(bmp, x, y, scale, 0, color);
         LineOffset(bmp, x, y, -scale, 0, color);
     }
-    void Draw::Rectangle(ImageGray &Img, RectangleS rect, S16 color)
+    void Draw::Rectangle(Matrix &Img, RectangleS rect, S16 color)
     {
         LineOffset(Img, rect.X, rect.Y, rect.Width, 0, color);
         LineOffset(Img, rect.X, rect.Y, 0, rect.Height, color);
@@ -186,14 +185,15 @@ namespace itr_vision
         LineOffset(Img, rect.X + rect.Width, rect.Y, 0, rect.Height, color);
         LineOffset(Img, rect.X, rect.Y + rect.Height, rect.Width, 0, color);
     }
-    void Draw::Correspond(const ImageGray &Img1, const ImageGray &Img2,
+    /*
+    void Draw::Correspond(const Matrix &Img1, const Matrix &Img2,
                           const vector<FeaturePoint> &feature1, const vector<FeaturePoint> &feature2,
-                          ImageGray &Result)
+                          Matrix &Result)
     {
-        assert(Result.Allocate(Img1.GetWidth() * 2 + 10, Img1.GetHeight())==true);
-        int offset = Img1.GetWidth() + 10;
-        for (int i = 0; i < Img1.GetWidth(); i++)
-            for (int j = 0; j < Img1.GetHeight(); j++)
+        assert(Result.Allocate(Img1.GetCol() * 2 + 10, Img1.GetRow())==true);
+        int offset = Img1.GetCol() + 10;
+        for (int i = 0; i < Img1.GetCol(); i++)
+            for (int j = 0; j < Img1.GetRow(); j++)
             {
                 Result(j, i) = Img1(j, i);
                 Result(j, i + offset) = Img2(j, i);
@@ -204,5 +204,5 @@ namespace itr_vision
                 Line(Result, feature1[i].x, feature1[i].y, feature2[i].x + offset, feature2[i].y,
                      255);
         }
-    }
+    }*/
 } // namespace itr_vision

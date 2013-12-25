@@ -36,6 +36,8 @@
 #include "itrbase.h"
 #include "math.h"
 #include "stdio.h"
+#include <time.h>
+#include <stdlib.h>
 
 void TestMathInit()
 {
@@ -798,4 +800,105 @@ void TestGeometry()
     //
 
     TRACE_INFO("OK TestGeometry()");
+}
+
+void TestCalcEff()
+{
+    clock_t start,end;
+    double t;
+    S32 width = 100;
+    S32 height = 100;
+    S16 RawDataS16a[100*100];
+    S16 RawDataS16b[100*100];
+    S16 RawDataS16c[100*100];
+    S32 RawDataS32a[100*100];
+    S32 RawDataS32b[100*100];
+    S32 RawDataS32c[100*100];
+    F32 RawDataF32a[100*100];
+    F32 RawDataF32b[100*100];
+    F32 RawDataF32c[100*100];
+
+    srand(time(0));//设置随机种子
+    for(int i = 0;i<width*height;i++)
+    {
+       RawDataS16a[i] = rand()%100 + 1;
+       RawDataS16b[i] = rand()%100 + 1;
+       RawDataS32a[i] = rand()%100 + 1;
+       RawDataS32b[i] = rand()%100 + 1;
+       RawDataF32a[i] = 99.0*(rand()%10000)/10000 + 1;
+       RawDataF32b[i] = 99.0*(rand()%10000)/10000 + 1;
+    }
+
+    //开始计时处写：
+    start = clock();
+        for(int j=0;j<100;++j)
+    for(int i = 0;i<width*height;i++)
+    {
+        RawDataS16c[i] = RawDataS16a[i] + RawDataS16b[i];
+    }
+    //结束计时处写：
+    end = clock();
+    t=(end - start);
+    printf("S16 + use %lf ms\n\n", t);
+
+    //开始计时处写：
+    start = clock();
+    for(int j=0;j<100;++j)
+    for(int i = 0;i<width*height;i++)
+    {
+        RawDataS16c[i] = RawDataS16a[i] * RawDataS16b[i];
+    }
+    //结束计时处写：
+    end = clock();
+    t=(end - start);
+    printf("S16 * use %d ms\n\n", (end - start));
+
+    //开始计时处写：
+    start = clock();
+        for(int j=0;j<100;++j)
+    for(int i = 0;i<width*height;i++)
+    {
+        RawDataS32c[i] = RawDataS32a[i] + RawDataS32b[i];
+    }
+    //结束计时处写：
+    end = clock();
+    t=(end - start);
+    printf("S32 + use %lf ms\n\n", t);
+
+    //开始计时处写：
+    start = clock();
+        for(int j=0;j<100;++j)
+    for(int i = 0;i<width*height;i++)
+    {
+        RawDataS32c[i] = RawDataS32a[i] * RawDataS32b[i];
+    }
+    //结束计时处写：
+    end = clock();
+    t=(end - start);
+    printf("S32 * use %lf ms\n\n", t);
+
+    //开始计时处写：
+    start = clock();
+        for(int j=0;j<100;++j)
+    for(int i = 0;i<width*height;i++)
+    {
+        RawDataF32c[i] = RawDataF32a[i] + RawDataF32b[i];
+    }
+    //结束计时处写：
+    end = clock();
+    t=(end - start);
+    printf("F32 + use %lf ms\n\n", t);
+
+    //开始计时处写：
+    start = clock();
+        for(int j=0;j<101;++j)
+    for(int i = 0;i<width*height;i++)
+    {
+        RawDataF32c[i] = RawDataF32a[i] * RawDataF32b[i];
+    }
+    //结束计时处写：
+    end = clock();
+    t=(end - start);
+    printf("F32 * use %lf ms\n\n", t);
+
 }

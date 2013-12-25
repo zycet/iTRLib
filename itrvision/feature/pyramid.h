@@ -34,8 +34,8 @@
 #ifndef PYRAMID_H_
 #define PYRAMID_H_
 #include "itrbase.h"
-#include "../image/image.h"
 
+using itr_math::Matrix;
 namespace itr_vision
 {
     class Pyramid
@@ -43,7 +43,7 @@ namespace itr_vision
         public:
             Pyramid();
             virtual ~Pyramid();
-            void Init(const ImageGray &Img, int Subsampling, int Level);
+            void Init(const Matrix &Img, int Subsampling, int Level);
             inline int GetLevel() const
             {
                 return level;
@@ -55,8 +55,8 @@ namespace itr_vision
             }
 
             S32 width[3], height[3];
-            ImageGray img[3];
-            ImageGray gradx[3], grady[3];
+            Matrix img[3];
+            Matrix gradx[3], grady[3];
         private:
             int level;
             int subsampling;

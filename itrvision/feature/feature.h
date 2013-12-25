@@ -36,7 +36,7 @@
 
 #include "pyramid.h"
 #include "featurepoint.h"
-#include "selectseature.h"
+#include "selectfeature.h"
 #include "lktracker.h"
 
 #endif // FEATURE_H_

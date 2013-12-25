@@ -36,6 +36,7 @@
 #include "itrbase.h"
 #include "../itrvision.h"
 using itr_math::RectangleS;
+using itr_math::Matrix;
 
 namespace itr_vision
 {
@@ -44,7 +45,7 @@ namespace itr_vision
     {
         public:
             static void Rectangle(const ImageARGB &ImgInput,RectangleS &rect,ImageARGB &ImgOutput);
-            static void Rectangle(const ImageGray &ImgInput,RectangleS &rect,ImageGray &ImgOutput);
+            static void Rectangle(const Matrix &ImgInput,RectangleS &rect,Matrix &ImgOutput);
     };
 
 } // namespace itr_vision

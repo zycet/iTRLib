@@ -32,17 +32,19 @@
  */
 
 #include "lktracker.h"
+#include "../itrvision.h"
 #include <math.h>
 #include <stdio.h>
 namespace itr_vision
 {
-    LKTracker::LKTracker(const ImageGray &Img1, const ImageGray &Img2)
+    LKTracker::LKTracker(const Matrix &Img1, const Matrix &Img2)
     {
         windowWidth = 7;
         minDet = 100;
         level = 2;
         stopth = 0.1f;
         max_residue = 10;
+        max_iterations=10;
         S32 length = windowWidth * windowWidth;
         last = new Pyramid();
         current = new Pyramid();
@@ -53,13 +55,14 @@ namespace itr_vision
         Dt = new S32[length]();
         Sum = new S32[length]();
     }
-    LKTracker::LKTracker(const ImageGray &Img)
+    LKTracker::LKTracker(const Matrix &Img)
     {
         windowWidth = 7;
         minDet = 100;
         level = 2;
         stopth = 0.1f;
         max_residue = 10;
+        max_iterations=10;
         S32 length = windowWidth * windowWidth;
         last =NULL;
         current = new Pyramid();
@@ -77,7 +80,7 @@ namespace itr_vision
         delete[] Sum;
     }
 
-    void itr_vision::LKTracker::AddNext(const ImageGray &Img)
+    void itr_vision::LKTracker::AddNext(const Matrix &Img)
     {
         last = current;
         current = new Pyramid();
@@ -144,7 +147,8 @@ namespace itr_vision
         S32 gxx, gxy, gyy, ex, ey;
         LKTracker::TrackResult result = Tracked;
         //_ComputeGrad2(U, L, hw, Dx, Dy);
-        for (int i = 0; i < 10 && (fabs(speedx) > stopth || fabs(speedy) > stopth); ++i)
+        S32 iteration=0;
+        for (; iteration < max_iterations && (fabs(speedx) > stopth || fabs(speedy) > stopth); ++iteration)
         {
             if (U.X - hw < 0 || U.Y - hw < 0 || V.X - hw < 0 || V.Y - hw < 0
                     || U.X + hw >= last->width[L] || U.Y + hw >= last->height[L]
@@ -173,16 +177,25 @@ namespace itr_vision
             V.X += speedx;
             V.Y += speedy;
         }
+        if ( V.X - hw < 0 || V.Y - hw < 0
+                || V.X + hw >= last->width[L] || V.Y + hw >= last->height[L])
+        {
+            result = OOB;
+        }
         _ComputeDt(U, V, L, hw, Dt);
         if (_SumDiff(Dt, length) / (length) > max_residue)
         {
             result = LARGE_RESIDUE;
         }
+        if(iteration>=max_iterations)
+        {
+            result=MAX_ITERATION;
+        }
         // TODO  大残差的解决
         return result;
     }
 
-    void LKTracker::Compute(const vector<FeaturePoint> &fl, vector<FeaturePoint> &flresult,
+    void LKTracker::Compute(const vector<FeaturePoint> &fl, vector<FeaturePoint> &flresult, S32 FeatureNum,
                             bool Forward)
     {
         vector<FeaturePoint>::const_iterator feat = fl.begin();
@@ -197,7 +210,7 @@ namespace itr_vision
             last = current;
             current = temp;
         }
-        while (feat != fl.end())
+        while (feat != fl.begin()+FeatureNum)
         {
             if (feat->value < 0)
             {
@@ -232,10 +245,6 @@ namespace itr_vision
             featr->value = -result;
             ++featr;
             ++feat;
-            if(featr==flresult.end())
-            {
-                break;
-            }
         }
         if (!Forward)
         {

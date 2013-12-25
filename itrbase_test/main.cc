@@ -63,6 +63,7 @@ int main()
     //Test Helper
     //TestGaussianGenerate();
     //Finish
+    TestCalcEff();
     TRACE_INFO("OK All");
     return 0;
 }

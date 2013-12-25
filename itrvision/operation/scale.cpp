@@ -21,7 +21,7 @@ namespace itr_vision
         // TODO Auto-generated destructor stub
     }
 
-    S16 Scale::Interpolation(const ImageGray &src, F32 y, F32 x)
+    S16 Scale::Interpolation(const Matrix &src, F32 y, F32 x)
     {
         const int FACTOR = 2048;
         const int BITS = 22;
@@ -38,7 +38,7 @@ namespace itr_vision
         return (S16) (result >> BITS);
     }
 
-    void Scale::Bilinear(const ImageGray &src, ImageGray &dst)
+    void Scale::Bilinear(const Matrix &src, Matrix &dst)
     {
         int width = dst.GetWidth(), height = dst.GetHeight();
         float fw = float(src.GetWidth()) / width;
@@ -55,7 +55,7 @@ namespace itr_vision
         }
     }
 
-    void Scale::SubSampling(const ImageGray &src, ImageGray &dst, S32 scale)
+    void Scale::SubSampling(const Matrix &src, Matrix &dst, S32 scale)
     {
         assert(dst.MatchWidthHeight(src.GetWidth() / scale, src.GetHeight() / scale));
         for (int j = 0; j < dst.GetHeight(); ++j)
@@ -84,7 +84,7 @@ namespace itr_vision
         return result >> BITS;
     }
 
-    void Scale::Bilinear(const ImageARGB &src, ImageGray &dst)
+    void Scale::Bilinear(const ImageARGB &src, Matrix &dst)
     {
         int width = dst.GetWidth(), height = dst.GetHeight();
         float fw = float(src.GetWidth()) / width;

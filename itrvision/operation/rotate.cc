@@ -36,7 +36,7 @@
 
 namespace itr_vision
 {
-    void Rotate::rotate(const ImageGray& ImgInput, RectangleS &rect, F32 ang, ImageGray& ImgOutput)
+    void Rotate::rotate(const Matrix& ImgInput, RectangleS &rect, F32 ang, Matrix& ImgOutput)
     {
         assert(rect.Width>0&&rect.Height>0);
         Point2D center(rect.Width/2,rect.Height/2);
