@@ -175,7 +175,6 @@ namespace itr_math
     {
         static double V1, V2, S;
         static int phase = 0;
-        double X;
 
         if ( phase == 0 )
         {

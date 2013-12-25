@@ -116,6 +116,7 @@ namespace itr_vision
     ImageGray& ImageGray::operator =(const ImageGray& Img)
     {
         new(this)ImageGray(Img.GetWidth(),Img.GetHeight(),Img.GetPixels());
+        return *this;
     }
     ImageGray::~ImageGray()
     {
