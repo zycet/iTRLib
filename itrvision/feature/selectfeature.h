@@ -35,6 +35,7 @@
 #define SELECTSEATURE_H_
 
 #include "itrbase.h"
+#include "../feature/featurepoint.h"
 #include <vector>
 using std::vector;
 using itr_math::RectangleS;
