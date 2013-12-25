@@ -36,7 +36,7 @@
 
 #include "itrbase.h"
 #include "../image/image.h"
-
+using itr_math::Matrix;
 namespace itr_vision
 {
 

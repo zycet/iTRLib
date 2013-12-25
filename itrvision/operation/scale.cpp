@@ -40,9 +40,9 @@ namespace itr_vision
 
     void Scale::Bilinear(const Matrix &src, Matrix &dst)
     {
-        int width = dst.GetWidth(), height = dst.GetHeight();
-        float fw = float(src.GetWidth()) / width;
-        float fh = float(src.GetHeight()) / height;
+        int width = dst.GetCol(), height = dst.GetRow();
+        float fw = float(src.GetCol()) / width;
+        float fh = float(src.GetRow()) / height;
         float x, y;
         for (int j = 0; j < height; ++j)
         {
@@ -57,10 +57,10 @@ namespace itr_vision
 
     void Scale::SubSampling(const Matrix &src, Matrix &dst, S32 scale)
     {
-        assert(dst.MatchWidthHeight(src.GetWidth() / scale, src.GetHeight() / scale));
-        for (int j = 0; j < dst.GetHeight(); ++j)
+        assert(dst.MatchDim( src.GetRow() / scale,src.GetCol() / scale));
+        for (int j = 0; j < dst.GetRow(); ++j)
         {
-            for (int i = 0; i < dst.GetWidth(); ++i)
+            for (int i = 0; i < dst.GetCol(); ++i)
             {
                 dst(j, i) = src(j * scale, i * scale);
             }
@@ -86,7 +86,7 @@ namespace itr_vision
 
     void Scale::Bilinear(const ImageARGB &src, Matrix &dst)
     {
-        int width = dst.GetWidth(), height = dst.GetHeight();
+        int width = src.GetWidth(), height = src.GetHeight();
         float fw = float(src.GetWidth()) / width;
         float fh = float(src.GetHeight()) / height;
         float x, y;
