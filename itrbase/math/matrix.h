@@ -230,7 +230,7 @@ public:
         assert(RowPos >= 0 && RowPos < row);
         assert(RowPos + RowNum <= row);
         assert(Data!=NULL);
-        int pos=RowPos*col+ColPos;
+        S32 pos=RowPos*col+ColPos;
         for (S32 i = 0; i < RowNum; i++)
         {
             data[pos]=Data[i];
@@ -244,7 +244,7 @@ public:
     {
         assert(ColPos >= 0 && ColPos < col);
         assert(Data != NULL);
-        int pos=ColPos;
+        S32 pos=ColPos;
         for (S32 i = 0; i < row; i++)
         {
             data[pos]=Data[i];
@@ -260,7 +260,7 @@ public:
         assert(RowPos >= 0 && RowPos < row);
         assert(RowPos + RowNum <= row);
         assert(Data!=NULL);
-        int pos=RowPos*col+ColPos;
+        S32 pos=RowPos*col+ColPos;
         for (S32 i = 0; i < RowNum; i++)
         {
             Data[i]=data[pos];
@@ -274,7 +274,7 @@ public:
     {
         assert(ColPos >= 0 && ColPos < col);
         assert(Data != NULL);
-        int pos=ColPos;
+        S32 pos=ColPos;
         for (S32 i = 0; i < row; i++)
         {
             Data[i]=data[pos];
@@ -286,7 +286,7 @@ public:
     /*
      * 写入单个元素(一维线性访问)
      */
-    inline F32& operator[](int index)
+    inline F32& operator[](S32 index)
     {
         assert(index >=0);
         assert(index < row * col);
@@ -295,7 +295,7 @@ public:
     /*
      * 读取单个元素(一维线性访问)
      */
-    inline F32 operator[](int index) const
+    inline F32 operator[](S32 index) const
     {
         assert(index >=0);
         assert(index < row * col);
@@ -304,7 +304,7 @@ public:
     /*
      * 写入单个元素(Y=行数,X=列数),且会自动执行限位。
      */
-    inline F32& operator()(int Y, int X)
+    inline F32& operator()(S32 Y, S32 X)
     {
         if(X<0)
             X=0;
@@ -319,7 +319,7 @@ public:
     /*
      * 读取单个元素(Y=行数,X=列数),且会自动执行限位。
      */
-    inline F32 operator()(int Y, int X) const
+    inline F32 operator()(S32 Y, S32 X) const
     {
         if(X<0)
             X=0;
@@ -390,7 +390,7 @@ public:
     /*
      * 检查维数是否为Row,Col
      */
-    inline BOOL virtual MatchDim(int Row, int Col) const
+    inline BOOL virtual MatchDim(S32 Row, S32 Col) const
     {
         if (Row == row && Col == col)
             return true;
@@ -588,7 +588,7 @@ public:
             return false;
         if (this->row != mat.row)
             return false;
-        for (int i = 0; i < this->col * this->row; i++)
+        for (S32 i = 0; i < this->col * this->row; i++)
         {
             if (this->GetData()[i]== mat.data[i])
                 return false;

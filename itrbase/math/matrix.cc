@@ -90,6 +90,7 @@ Matrix::~Matrix()
 */
 void Matrix::Init(S32 Row, S32 Col)
 {
+    assert(data==NULL);
     assert(NumericalObj!=NULL && CalculateObj!=NULL);
     assert(Row>0 && Col>0);
     data = new F32[Row * Col]();
@@ -103,6 +104,7 @@ void Matrix::Init(S32 Row, S32 Col)
  */
 void Matrix::Init(S32 Row, S32 Col, F32* Data)
 {
+    assert(data==NULL);
     assert(NumericalObj!=NULL && CalculateObj!=NULL);
     assert(Row>0 && Col>0);
     data = new F32[Row * Col]();
@@ -116,6 +118,7 @@ void Matrix::Init(S32 Row, S32 Col, F32* Data)
  */
 void Matrix::Init(S32 RowCol)
 {
+    assert(data==NULL);
     assert(NumericalObj!=NULL && CalculateObj!=NULL);
     assert(RowCol>0);
     data = new F32[RowCol * RowCol]();
@@ -129,6 +132,7 @@ void Matrix::Init(S32 RowCol)
  */
 void Matrix::Init(const Matrix& Mat)
 {
+    assert(data==NULL);
     assert(NumericalObj!=NULL && CalculateObj!=NULL);
     data = new F32[Mat.GetRow() * Mat.GetCol()]();
     assert(data!=NULL);
@@ -142,11 +146,11 @@ void Matrix::Init(const Matrix& Mat)
 /*
  * 将RowNoAdd行加至RowNoResult行
  */
-void Matrix::AddRow(S32 RowNoAdd, S32 RowNoResult)
+void Matrix::AddRow(S32 RowPosAdd, S32 RowPosTarget)
 {
-    assert(RowNoAdd > 0 && RowNoAdd <= row);
-    assert(RowNoResult > 0 && RowNoResult <= row);
-    CalculateObj->Add(data + (RowNoAdd - 1) * col, data + (RowNoResult - 1) * col, col,data + (RowNoResult - 1) * col);
+    assert(RowPosAdd >= 0 && RowPosAdd < row);
+    assert(RowPosTarget >= 0 && RowPosTarget < row);
+    CalculateObj->Add(data + RowPosAdd* col, data + RowPosTarget * col, col,data + RowPosTarget * col);
 }
 /*
  * 将Data加至RowNoResult行
@@ -154,110 +158,126 @@ void Matrix::AddRow(S32 RowNoAdd, S32 RowNoResult)
 void Matrix::AddRow(F32* Data, S32 RowNoResult)
 {
     assert(Data!=NULL);
-    assert(RowNoResult > 0 && RowNoResult <= row);
-    CalculateObj->Add(Data, data + (RowNoResult - 1) * col, col,
-                      data + (RowNoResult - 1) * col);
+    assert(RowNoResult >= 0 && RowNoResult < row);
+    CalculateObj->Add(Data, data + RowNoResult * col, col, data + RowNoResult * col);
 }
 /*
  * 将RowNoSub行减至RowNoResult行
  */
-void Matrix::SubRow(S32 RowNoSub, S32 RowNoResult)
+void Matrix::SubRow(S32 RowPosSub, S32 RowPosTarget)
 {
-    assert(RowNoSub > 0 && RowNoSub <= row);
-    assert(RowNoResult > 0 && RowNoResult <= row);
-    CalculateObj->Sub(data + (RowNoResult - 1) * col, data + (RowNoSub - 1) * col, col,
-                      data + (RowNoResult - 1) * col);
+    assert(RowPosSub >= 0 && RowPosSub < row);
+    assert(RowPosTarget >= 0 && RowPosTarget < row);
+    CalculateObj->Sub(data + RowPosSub* col, data + RowPosTarget * col, col,data + RowPosTarget * col);
 }
 /*
  * 将Data减至RowNoResult行
  */
-void Matrix::SubRow(F32* Data, S32 RowNoResult)
+void Matrix::SubRow(F32* Data, S32 RowPosTarget)
 {
     assert(Data!=NULL);
-    assert(RowNoResult > 0 && RowNoResult <= row);
-    CalculateObj->Sub(data + (RowNoResult - 1) * col, Data, col,
-                      data + (RowNoResult - 1) * col);
+    assert(RowPosTarget >= 0 && RowPosTarget < row);
+    CalculateObj->Sub(data + RowPosTarget * col, Data, col,data + RowPosTarget  * col);
 }
 /*
  * 将RowNoResult行乘以K
  */
-void Matrix::MulRow(F32 K, S32 RowNoResult)
+void Matrix::MulRow(F32 K, S32 RowPosTarget)
 {
-    assert(RowNoResult > 0 && RowNoResult <= row);
-    CalculateObj->Scale(data + (RowNoResult - 1) * col, K, col, data + (RowNoResult - 1) * col);
+    assert(RowPosTarget >= 0 && RowPosTarget < row);
+    CalculateObj->Scale(data + RowPosTarget  * col, K, col, data + RowPosTarget * col);
 }
 //Swap Row
 /*
  * 交换RowNoA行和RowNoB行
  */
-void Matrix::SwapRow(S32 RowNoA, S32 RowNoB)
+void Matrix::SwapRow(S32 RowPosA, S32 RowPosB)
 {
-    assert(RowNoA > 0 && RowNoA <= row);
-    assert(RowNoB > 0 && RowNoB <= row);
-    MemorySwap(data + (RowNoA - 1) * col, data + (RowNoB - 1) * col, col*sizeof(F32));
+    assert(RowPosA >= 0 && RowPosA < row);
+    assert(RowPosB >= 0 && RowPosB < row);
+    MemorySwap(data + RowPosA * col, data + RowPosB * col, col*sizeof(F32));
 }
 /*
  * 将ColNoAdd列加至ColNoResult列
  */
-void Matrix::AddCol(S32 ColNoAdd, S32 ColNoResult)
+void Matrix::AddCol(S32 ColPosAdd, S32 ColPosTarget)
 {
-    assert(ColNoAdd > 0 && ColNoAdd <= col);
-    assert(ColNoResult > 0 && ColNoResult <= col);
+    assert(ColPosAdd >= 0 && ColPosAdd < col);
+    assert(ColPosTarget >= 0 && ColPosTarget < col);
     for (S32 i = 0; i < row; i++)
-        data[i * col + ColNoResult - 1] = data[i * col + ColNoAdd - 1] + data[i * col + ColNoResult - 1];
+    {
+        data[ColPosTarget]+=data[ColPosAdd];
+        ColPosAdd+=col;
+        ColPosTarget+=col;
+    }
 }
 /*
  * 将Data加至ColNoResult列
  */
-void Matrix::AddCol(F32* Data, S32 ColNoResult)
+void Matrix::AddCol(F32* Data, S32 ColPosTarget)
 {
     assert(Data!=NULL);
-    assert(ColNoResult > 0 && ColNoResult<=col);
+    assert(ColPosTarget >= 0 && ColPosTarget<col);
+    
     for (S32 i = 0; i < row; i++)
-        data[i * col + ColNoResult - 1] = Data[i] + data[i * col + ColNoResult - 1];
+    {
+        data[ColPosTarget]+=Data[i];
+    }
 }
 /*
  * 将ColNoSub列减至ColNoResult列
  */
-void Matrix::SubCol(S32 ColNoSub, S32 ColNoResult)
+void Matrix::SubCol(S32 ColPosSub, S32 ColPosTarget)
 {
-    assert(ColNoSub > 0 && ColNoSub <= col);
-    assert(ColNoResult > 0 && ColNoResult <= col);
+    assert(ColPosSub >= 0 && ColPosSub < col);
+    assert(ColPosTarget >= 0 && ColPosTarget < col);
     for (S32 i = 0; i < row; i++)
-        data[i * col + ColNoResult - 1] = data[i * col + ColNoResult - 1] - data[i * col + ColNoSub - 1];
+    {
+        data[ColPosTarget]+=data[ColPosSub];
+        ColPosSub+=col;
+        ColPosTarget+=col;
+    }
 }
 /*
  * 将Data减至ColNoResult列
  */
-void Matrix::SubCol(F32* Data, S32 ColNoResult)
+void Matrix::SubCol(F32* Data, S32 ColPosTarget)
 {
     assert(Data!=NULL);
-    assert(ColNoResult > 0 && ColNoResult <= col);
+    assert(ColPosTarget >= 0 && ColPosTarget<col);
+        
     for (S32 i = 0; i < row; i++)
-        data[i * col + ColNoResult - 1] = data[i * col + ColNoResult - 1] - Data[i];
+    {
+        data[ColPosTarget]-=Data[i];
+    }
 }
 /*
  * 将ColNoResult列乘以K
  */
-void Matrix::MulCol(F32 K, S32 ColNoResult)
+void Matrix::MulCol(F32 K, S32 ColPosTarget)
 {
-    assert(ColNoResult > 0 && ColNoResult <= col);
+    assert(ColPosTarget >= 0 && ColPosTarget < col);
     for (S32 i = 0; i < row; i++)
-        data[i * col + ColNoResult - 1] = data[i * col + ColNoResult - 1] * K;
+    {
+        data[ColPosTarget ] *= K;
+        ColPosTarget+=col;
+    }
 }
 /*
  * 交换ColNoA列和ColNoB列
  */
-void Matrix::SwapCol(S32 ColNoA, S32 ColNoB)
+void Matrix::SwapCol(S32 ColPosA, S32 ColPosB)
 {
-    assert(ColNoA > 0 && ColNoA <= col);
-    assert(ColNoB > 0 && ColNoB <= col);
+    assert(ColPosA >= 0 && ColPosA < col);
+    assert(ColPosB >= 0 && ColPosB < col);
     F32 temp;
     for (S32 i = 0; i < row; i++)
     {
-        temp = data[i * col + ColNoB - 1];
-        data[i * col + ColNoB - 1] = data[i * col + ColNoA - 1];
-        data[i * col + ColNoA - 1] = temp;
+        temp=data[ColPosB];
+        data[ColPosB]=data[ColPosA];
+        data[ColPosA]=temp;
+        ColPosA+=col;
+        ColPosB+=col;
     }
 }
 //**********常量相关计算**********
