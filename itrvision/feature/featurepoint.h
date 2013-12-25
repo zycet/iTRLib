@@ -34,7 +34,7 @@ namespace itr_vision
             {
                 return value < b.value;
             }
-            inline bool operator>(const FeaturePoint& b) const
+            inline bool operator>(const FeaturePoint &b) const
             {
                 return value > b.value;
             }

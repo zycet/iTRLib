@@ -59,6 +59,8 @@
 		<Unit filename="format/formatppm.h" />
 		<Unit filename="format/iformat.h" />
 		<Unit filename="helper/helper.h" />
+		<Unit filename="helper/iopnm.cpp" />
+		<Unit filename="helper/iopnm.h" />
 		<Unit filename="image/image.cc" />
 		<Unit filename="image/image.h" />
 		<Unit filename="operation/draw.cpp" />

@@ -32,39 +32,45 @@
  */
 
 #include "rotate.h"
+#include "scale.h"
+
 namespace itr_vision
 {
     void Rotate::rotate(const ImageGray& ImgInput, RectangleS &rect, F32 ang, ImageGray& ImgOutput)
     {
         assert(rect.Width>0&&rect.Height>0);
-        Point2D  center(rect.X+rect.Width/2,rect.Y+rect.Height/2);
+        Point2D center(rect.Width/2,rect.Height/2);
+
         assert(center.X>0&&center.Y>0);
         Transform2D trans;
         trans.Reset();
         trans.Rotate(ang);
 
-        S32 Inputw;
-        Inputw=ImgInput.GetWidth();
-
+        S32 Inputw=ImgInput.GetWidth();
+        S32 Inputh=ImgInput.GetHeight();
 
         Point2D pin,pout;
         S32 x0,y0;
-        for(int i=0;i<rect.Height;i++)
+
+        for(int i=0;i<rect.Width;i++)
         {
-            for(int j=0;j<rect.Width;j++)
+            for(int j=0;j<rect.Height;j++)
             {
               pin.X=i-center.X;
               pin.Y=j-center.Y;
               trans.Transform(pin,pout);
-              x0=pout.X+center.X;
-              y0=pout.Y+center.Y;
-              if((x0>=0&&x0<rect.Width)&&(y0<rect.Height&&y0>=0))
+
+              x0=pout.X+center.X+rect.X;
+              y0=pout.Y+center.Y+rect.X;
+
+              if((x0>0&&x0<Inputw)&&(y0<Inputh&&y0>0))
               {
-                  ImgOutput(i,j)=ImgInput[x0+y0*Inputw];
+                  ImgOutput(j,i)=Scale::Interpolation(ImgInput,y0,x0);
               }
+
               else
               {
-                  ImgOutput(i,j)=0;
+                  ImgOutput(j,i)=0;
               }
             }
         }

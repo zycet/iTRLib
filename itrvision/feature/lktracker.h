@@ -49,22 +49,22 @@ namespace itr_vision
             {
                 Tracked, OOB, SmallDet, LARGE_RESIDUE
             };
-            LKTracker(const ImageGray& Img1, const ImageGray& Img2);
-            LKTracker(const ImageGray& Img);
+            LKTracker(const ImageGray &Img1, const ImageGray &Img2);
+            LKTracker(const ImageGray &Img);
             virtual ~LKTracker();
-            TrackResult Compute(Point2D& U, Point2D& V, S32 L);
-            void Compute(const vector<FeaturePoint>& fl,vector<FeaturePoint>& flresult, bool Forward);
+            TrackResult Compute(Point2D &U, Point2D &V, S32 L);
+            void Compute(const vector<FeaturePoint> &fl,vector<FeaturePoint> &flresult, bool Forward);
             S32 windowWidth;
             S32 minDet;
             S32 max_residue;
             Pyramid *last,*current;
-            void AddNext(const ImageGray& Img);
+            void AddNext(const ImageGray &Img);
         private:
-            void _ComputeDt(Point2D& U, Point2D& V, S32 L, S32 hw, S32* dt);
-            void _ComputeGrad(Point2D& U, Point2D& V, S32 L, S32 hw, S32* dx, S32* dy);
-            void _ComputeGrad2(Point2D& U, S32 L, S32 hw, S32* dx, S32* dy);
-            S32 _ComputeSum(S32* a, S32* b, S32* sum, S32 length);
-            S32 _SumDiff(S32* a, S32 length);
+            void _ComputeDt(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dt);
+            void _ComputeGrad(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dx, S32 *dy);
+            void _ComputeGrad2(Point2D &U, S32 L, S32 hw, S32 *dx, S32 *dy);
+            S32 _ComputeSum(S32 *a, S32 *b, S32 *sum, S32 length);
+            S32 _SumDiff(S32 *a, S32 length);
 
             S32 *Dt;
             S32 *Dx;

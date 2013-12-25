@@ -1,0 +1,6 @@
+#ifndef DETECTIONTEST_H_INCLUDED
+#define DETECTIONTEST_H_INCLUDED
+
+void DetectionTest();
+
+#endif // DETECTIONTEST_H_INCLUDED

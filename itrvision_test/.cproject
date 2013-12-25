@@ -5,13 +5,13 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.debug.195590814" moduleId="org.eclipse.cdt.core.settings" name="Debug">
 				<externalSettings/>
 				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
-					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -27,6 +27,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.34711359" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itrvision}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itrbase}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itralgorithm}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.debugging.gprof.1822679697" name="Generate gprof information (-pg)" superClass="gnu.cpp.compiler.option.debugging.gprof" value="true" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.144195436" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
@@ -37,6 +38,7 @@
 								<option id="gnu.c.compiler.option.include.paths.560065210" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itrvision}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itrbase}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itralgorithm}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.debugging.gprof.1863098552" name="Generate gprof information (-pg)" superClass="gnu.c.compiler.option.debugging.gprof" value="true" valueType="boolean"/>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1089303735" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
@@ -61,6 +63,7 @@
 								<option id="gnu.both.asm.option.include.paths.1268356209" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itrvision}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itrbase}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itralgorithm}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.30698369" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -89,13 +92,13 @@
 			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="cdt.managedbuild.config.gnu.exe.release.2025423210" moduleId="org.eclipse.cdt.core.settings" name="Release">
 				<externalSettings/>
 				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
 					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
-					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
-					<extension id="org.eclipse.cdt.core.PE" point="org.eclipse.cdt.core.BinaryParser"/>
 				</extensions>
 			</storageModule>
 			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
@@ -111,6 +114,7 @@
 								<option id="gnu.cpp.compiler.option.include.paths.86210985" name="Include paths (-I)" superClass="gnu.cpp.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itrvision}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itrbase}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itralgorithm}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.1116364105" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
@@ -120,6 +124,7 @@
 								<option id="gnu.c.compiler.option.include.paths.109297415" name="Include paths (-I)" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itrvision}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itrbase}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itralgorithm}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.c.compiler.input.1330313547" superClass="cdt.managedbuild.tool.gnu.c.compiler.input"/>
 							</tool>
@@ -142,6 +147,7 @@
 								<option id="gnu.both.asm.option.include.paths.366337910" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itrvision}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itrbase}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/itralgorithm}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.859416146" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>

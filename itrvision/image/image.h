@@ -43,7 +43,7 @@ namespace itr_vision
      */
     struct ARGB
     {
-            U8 A, R, G, B;
+        U8 A, R, G, B;
     };
 
     class ImageARGB
@@ -51,8 +51,8 @@ namespace itr_vision
         public:
             ImageARGB();
             ImageARGB(S32 Width, S32 Height);
-            ImageARGB(S32 Width, S32 Height, void* Pixels);
-            ImageARGB(const ImageARGB& Img);
+            ImageARGB(S32 Width, S32 Height, void *Pixels);
+            ImageARGB(const ImageARGB &Img);
             virtual ~ImageARGB();
             inline bool Allocate(S32 Width, S32 Height)
             {
@@ -70,19 +70,21 @@ namespace itr_vision
                     return true;
                 }
                 else
+                {
                     return false;
+                }
             }
-            inline U32* GetPixels() const
+            inline U32 *GetPixels() const
             {
                 return pixels;
             }
-            inline U32* GetPixel(S32 Y, S32 X) const
+            inline U32 *GetPixel(S32 Y, S32 X) const
             {
                 assert(X < this->width);
                 assert(Y < this->height);
                 return &this->pixels[Y * this->width + X];
             }
-            inline U32& operator[](int index)
+            inline U32 &operator[](int index)
             {
                 assert(index < this->pixelsNumber);
                 return this->pixels[index];
@@ -92,16 +94,24 @@ namespace itr_vision
                 assert(index < this->pixelsNumber);
                 return this->pixels[index];
             }
-            inline U32& operator()(int Y, int X)
+            inline U32 &operator()(int Y, int X)
             {
                 if (X < 0)
+                {
                     X = 0;
+                }
                 if (Y < 0)
+                {
                     Y = 0;
+                }
                 if (Y >= height)
+                {
                     Y = height - 1;
+                }
                 if (X >= width)
+                {
                     X = width - 1;
+                }
                 assert(X < this->width);
                 assert(Y < this->height);
                 return this->pixels[Y * this->width + X];
@@ -109,13 +119,21 @@ namespace itr_vision
             inline U32 operator()(int Y, int X) const
             {
                 if (X < 0)
+                {
                     X = 0;
+                }
                 if (Y < 0)
+                {
                     Y = 0;
+                }
                 if (Y >= height)
+                {
                     Y = height - 1;
+                }
                 if (X >= width)
+                {
                     X = width - 1;
+                }
                 assert(X < this->width);
                 assert(Y < this->height);
                 return this->pixels[Y * this->width + X];
@@ -137,7 +155,7 @@ namespace itr_vision
             {
                 return pixelsLength;
             }
-            inline BOOL MatchWidthHeight(const ImageARGB& Img) const
+            inline BOOL MatchWidthHeight(const ImageARGB &Img) const
             {
                 return (this->width == Img.GetWidth() && this->height == Img.GetHeight());
             }
@@ -147,7 +165,7 @@ namespace itr_vision
             }
 
         private:
-            U32* pixels;
+            U32 *pixels;
             S32 width;
             S32 height;
             S32 pixelsNumber;
@@ -159,8 +177,8 @@ namespace itr_vision
         public:
             ImageGray();
             ImageGray(S32 Width, S32 Height);
-            ImageGray(S32 Width, S32 Height, void* Pixels);
-            ImageGray(const ImageGray& Img);
+            ImageGray(S32 Width, S32 Height, void *Pixels);
+            ImageGray(const ImageGray &Img);
             virtual ~ImageGray();
             inline BOOL Allocate(S32 Width, S32 Height)
             {
@@ -176,20 +194,22 @@ namespace itr_vision
                     return true;
                 }
                 else
+                {
                     return false;
+                }
             }
-            inline S16* GetPixels() const
+            inline S16 *GetPixels() const
             {
                 return pixels;
             }
-            inline S16* GetPixel(S32 Y, S32 X) const
+            inline S16 *GetPixel(S32 Y, S32 X) const
             {
                 assert(X < this->width);
                 assert(Y < this->height);
                 return &this->pixels[Y * this->width + X];
             }
-            ImageGray& operator=(const ImageGray& Img);
-            inline S16& operator[](int index)
+            ImageGray &operator=(const ImageGray &Img);
+            inline S16 &operator[](int index)
             {
                 assert(index < this->pixelsNumber);
                 return this->pixels[index];
@@ -199,17 +219,25 @@ namespace itr_vision
                 assert(index < this->pixelsNumber);
                 return this->pixels[index];
             }
-            inline S16& operator()(int Y, int X)
+            inline S16 &operator()(int Y, int X)
             {
                 // TODO 待商议
                 if (X < 0)
+                {
                     X = 0;
+                }
                 if (Y < 0)
+                {
                     Y = 0;
+                }
                 if (Y >= height)
+                {
                     Y = height - 1;
+                }
                 if (X >= width)
+                {
                     X = width - 1;
+                }
                 assert(X < this->width);
                 assert(Y < this->height);
                 return this->pixels[Y * this->width + X];
@@ -218,13 +246,21 @@ namespace itr_vision
             {
                 // TODO 待商议
                 if (X < 0)
+                {
                     X = 0;
+                }
                 if (Y < 0)
+                {
                     Y = 0;
+                }
                 if (Y >= height)
+                {
                     Y = height - 1;
+                }
                 if (X >= width)
+                {
                     X = width - 1;
+                }
                 assert(X < this->width);
                 assert(Y < this->height);
                 return this->pixels[Y * this->width + X];
@@ -246,7 +282,7 @@ namespace itr_vision
             {
                 return pixelsLength;
             }
-            inline BOOL MatchWidthHeight(const ImageGray& Img) const
+            inline BOOL MatchWidthHeight(const ImageGray &Img) const
             {
                 return (this->width == Img.GetWidth() && this->height == Img.GetHeight());
             }
@@ -256,7 +292,7 @@ namespace itr_vision
             }
 
         private:
-            S16* pixels;
+            S16 *pixels;
             S32 width;
             S32 height;
             S32 pixelsNumber;
@@ -264,7 +300,7 @@ namespace itr_vision
             BOOL localData;
     };
 
-    void ImageFormatComvert(const ImageARGB& Input, ImageGray& Output);
-    void ImageFormatComvert(const ImageGray& Input, ImageARGB& Output, S32 DivOrder);
+    void ImageFormatComvert(const ImageARGB &Input, ImageGray &Output);
+    void ImageFormatComvert(const ImageGray &Input, ImageARGB &Output, S32 DivOrder);
 } // namespace itr_image
 #endif // IMAGE_H_

@@ -48,10 +48,10 @@ namespace itr_vision
             };
             struct ImageInfo
             {
-                    S32 Width;
-                    S32 Height;
-                    S32 PixelSize;
-                    S32 ColorChannel;
+                S32 Width;
+                S32 Height;
+                S32 PixelSize;
+                S32 ColorChannel;
             };
             inline IFormat()
             {
@@ -59,11 +59,11 @@ namespace itr_vision
             inline virtual ~IFormat()
             {
             }
-            virtual ConvertResult GetInfo(U8* Data, S32 Length, ImageInfo& ImgInfo)=0;
-            virtual ConvertResult ToImage(U8* Data, S32 Length, ImageARGB& Img)=0;
-            virtual ConvertResult ToImage(U8* Data, S32 Length, ImageGray& Img)=0;
-            virtual ConvertResult ToBinary(ImageARGB& Img, U8* Data, S32& Length)=0;
-            virtual ConvertResult ToBinary(ImageGray& Img, U8* Data, S32& Length)=0;
+            virtual ConvertResult GetInfo(U8 *Data, S32 Length, ImageInfo &ImgInfo)=0;
+            virtual ConvertResult ToImage(U8 *Data, S32 Length, ImageARGB &Img)=0;
+            virtual ConvertResult ToImage(U8 *Data, S32 Length, ImageGray &Img)=0;
+            virtual ConvertResult ToBinary(ImageARGB &Img, U8 *Data, S32 &Length)=0;
+            virtual ConvertResult ToBinary(ImageGray &Img, U8 *Data, S32 &Length)=0;
     };
 
 } // namespace itr_image

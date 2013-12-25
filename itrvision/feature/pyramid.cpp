@@ -42,7 +42,7 @@ namespace itr_vision
         subsampling = 4;
         sigma = 1;
     }
-    void Pyramid::Init(const ImageGray& Img, int Subsampling, int Level)
+    void Pyramid::Init(const ImageGray &Img, int Subsampling, int Level)
     {
         level = Level;
         subsampling = Subsampling;

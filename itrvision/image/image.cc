@@ -55,12 +55,12 @@ namespace itr_vision
         this->localData = true;
     }
 
-    ImageARGB::ImageARGB(S32 Width, S32 Height, void* Pixels)
+    ImageARGB::ImageARGB(S32 Width, S32 Height, void *Pixels)
     {
         assert(Width>0);
         assert(Height>0);
         assert(Pixels!=NULL);
-        this->pixels = static_cast<U32*>(Pixels);
+        this->pixels = static_cast<U32 *>(Pixels);
         this->width = Width;
         this->height = Height;
         this->pixelsNumber = Width * Height;
@@ -95,12 +95,12 @@ namespace itr_vision
         this->localData = true;
     }
 
-    ImageGray::ImageGray(S32 Width, S32 Height, void* Pixels)
+    ImageGray::ImageGray(S32 Width, S32 Height, void *Pixels)
     {
         assert(Width>0);
         assert(Height>0);
         assert(Pixels!=NULL);
-        this->pixels = static_cast<S16*>(Pixels);
+        this->pixels = static_cast<S16 *>(Pixels);
         this->width = Width;
         this->height = Height;
         this->pixelsNumber = Width * Height;
@@ -108,12 +108,12 @@ namespace itr_vision
         this->localData = false;
     }
 
-    ImageGray::ImageGray(const ImageGray& Img)
+    ImageGray::ImageGray(const ImageGray &Img)
     {
         new(this)ImageGray(Img.GetWidth(),Img.GetHeight(),Img.GetPixels());
     }
 
-    ImageGray& ImageGray::operator =(const ImageGray& Img)
+    ImageGray &ImageGray::operator =(const ImageGray &Img)
     {
         new(this)ImageGray(Img.GetWidth(),Img.GetHeight(),Img.GetPixels());
         return *this;
@@ -126,27 +126,27 @@ namespace itr_vision
         }
     }
 
-    void ImageFormatComvert(const ImageARGB& Input, ImageGray& Output)
+    void ImageFormatComvert(const ImageARGB &Input, ImageGray &Output)
     {
         assert(Input.MatchWidthHeight(Output.GetWidth(),Output.GetHeight()));
         S32 pixelsNumber = Input.GetPixelsNumber();
-        U8* input = (U8*) Input.GetPixels();
-        S16* output = Output.GetPixels();
+        U8 *input = (U8 *) Input.GetPixels();
+        S16 *output = Output.GetPixels();
         S32 offset = 0;
         for (int i = 0; i < pixelsNumber; i++)
         {
             output[i] = (input[offset + 0] + input[offset + 1] + input[offset + 1]
-                    + input[offset + 2]) >> 2;
+                         + input[offset + 2]) >> 2;
             offset += 4;
         }
     }
 
-    void ImageFormatComvert(const ImageGray& Input, ImageARGB& Output, S32 DivOrder)
+    void ImageFormatComvert(const ImageGray &Input, ImageARGB &Output, S32 DivOrder)
     {
         assert(Input.MatchWidthHeight(Output.GetWidth(),Output.GetHeight()));
         S32 pixelsNumber = Input.GetPixelsNumber();
-        S16* input = Input.GetPixels();
-        U8* output = (U8*) Output.GetPixels();
+        S16 *input = Input.GetPixels();
+        U8 *output = (U8 *) Output.GetPixels();
         S32 offset = 0;
         U8 value;
         for (int i = 0; i < pixelsNumber; i++)

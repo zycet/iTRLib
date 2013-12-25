@@ -138,28 +138,34 @@ void lkseq()
 printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
     char file[25];
     ImageGray gray;
-//    IOHelper::ReadPGMFile("Debug/green/cap000.pgm", gray);
-    IOHelper::ReadPGMFile("Debug/twinnings/imgs/img00000.pgm", gray);
+    IOHelper::ReadPGMFile("Debug/green/pgm/cap000.pgm", gray);
+    //IOHelper::ReadPGMFile("Debug/david/imgs/img00001.ppm", gray);
+
+///Mine
+    RectangleS rect(235, 265, 80, 80);
+    /// twinning
+    //RectangleS rect(126,165,73,53);
+    /// David
+    //RectangleS rect(120,58,75,97);
+
+    ///选取KLT特征
+    S32 FeatureNum=100;
+    vector<FeaturePoint> flU(FeatureNum), flV(FeatureNum), flU2(FeatureNum);
     SelectFeature select(gray, 7);
-    vector<FeaturePoint> flU(100), flV(100), flU2(100);
-//    RectangleS rect(235, 265, 80, 80);
-    RectangleS rect(126,165,73,53);
     select.mindist = 10;
-    select.SelectGoodFeature(rect, flU);
     LKTracker tracker(gray);
+
+    ///随机一致性检测
     DataOper oper;
     Ransac ransac(oper);
 
+    ///卡尔曼滤波用
     KalmanFilter kf(4);
     F32 data[16]= {2 ,0,-1,0,0,2,0,-1,1,0,0,0,0,1,0,0};
-    kf.F_x.CopyRowFrom(1,data);
-    kf.F_x.CopyRowFrom(2,data+4);
-    kf.F_x.CopyRowFrom(3,data+8);
-    kf.F_x.CopyRowFrom(4,data+12);
+    kf.F_x.CopyFrom(data);
     Matrix H(2,4),R(2,2);
-    R.MatEye(2.012306);
-    H.CopyRowFrom(1,data+8);
-    H.CopyRowFrom(2,data+12);
+    R.MatEye(5.012306);
+    H.CopyFrom(data+8);
     printMatrix(H);
     printMatrix(kf.F_x);
     Vector z(2),X(4),v(2);
@@ -167,9 +173,17 @@ printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
     kf.x[1]=rect.Y;
     kf.x[2]=rect.X;
     kf.x[3]=rect.Y;
+
+    ///用于临时存放速度值，总特征点数及有效点数
+    F32 *x = new F32[FeatureNum], *y = new F32[FeatureNum];
+    S32 count = 0, drop=0;
+
+    FeatureNum=select.SelectGoodFeature(rect, flU);
+    ///主循环，对每一帧图像
     for (int k = 1; k < 200; ++k)
     {
-        sprintf(file, "Debug/twinnings/imgs/img%05d.pgm", k);
+        sprintf(file, "Debug/green/cap%03d.pgm", k);
+        printf("%s\n",file);
         IOHelper::ReadPGMFile(file, gray);
         int start = clock() / 1000;
         tracker.AddNext(gray);
@@ -177,7 +191,7 @@ printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
         //正反误差滤波
         tracker.Compute(flU, flV, true);
         tracker.Compute(flV, flU2, false);
-        for (int i = 0; i < flU.size(); ++i)
+        for (int i = 0; i <FeatureNum; ++i)
         {
             if (fabs(flU[i] - flU2[i]) > 9)
                 flV[i].value = -1;
@@ -185,9 +199,8 @@ printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
         }
 
         //计算矩形框速度
-        F32 *x = new F32[flV.size()], *y = new F32[flV.size()];
-        S32 count = 0, drop;
-        for (unsigned int i = 0; i < flV.size(); ++i)
+        count=0;
+        for (unsigned int i = 0; i < FeatureNum; ++i)
         {
             if (flV[i].value >= 0)
             {
@@ -197,8 +210,9 @@ printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
             }
             flU[i].value = -1;
         }
-        cout << count << endl;
+        cout << "Points: "<<count << endl;
         //输出速度
+        if(false)
         {
             printf("X: ");
              std::sort(x, x + count);
@@ -215,10 +229,10 @@ printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
         //Ransac(count, x, drop);
         ransac.Process(count, x, drop);
         std::sort(x, x + count);
-        rect.X += x[(count - drop) / 2]; //(x / count + 0.5);
+        rect.X += (S32)(x[(count - drop) / 2]+0.5); //(x / count + 0.5);
         ransac.Process(count, y, drop);
         std::sort(y, y + count);
-        rect.Y += y[(count - drop) / 2]; //(y / count + 0.5);
+        rect.Y += (S32)(y[(count - drop) / 2]+0.5); //(y / count + 0.5);
 
         printf("X,Y:%d,%d \n", rect.X, rect.Y);
         z[0]=rect.X+0.0;
@@ -231,27 +245,24 @@ printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
         printf("Esti: %.0f,%.0f,%.0f,%.0f\n",X[0],X[1],X[2],X[3]);
         cout<<endl;
         //输出速度
+        if(false)
         {
             printf("X: ");
             for (int i = 0; i < count; i++)
-                printf("%0.0f ", x[i]);
+                printf("%0.2f ", x[i]);
             cout << endl;
             printf("Y: ");
             for (int i = 0; i < count; i++)
-                printf("%0.0f ", y[i]);
+                printf("%0.2f ", y[i]);
             cout << endl;
         }
         //std::cin.get();
         cout << (clock() / 1000 - start) << endl;
 
-        //选择下一帧图像中的特征点
-        SelectFeature select(gray, 7);
-        select.mindist = 7;
-        select.SelectGoodFeature(rect, flU);
 
         //输出处理
         sprintf(file, "Debug/output/%05d.pgm", k);
-        for (unsigned int i = 0; i < flV.size(); ++i)
+        for (unsigned int i = 0; i < FeatureNum; ++i)
         {
             if (flV[i].value >= 0)
             {
@@ -259,13 +270,20 @@ printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
             }
         }
 //        rect.X=rect.Y=0;
-        delete[] x;
-        delete[] y;
+
         Draw::Rectangle(gray, rect, 255);
         IOHelper::WritePGMFile(file, gray);
+
+        //选择下一帧图像中的特征点
+        SelectFeature select(gray, 7);
+        select.mindist = 7;
+        FeatureNum=select.SelectGoodFeature(rect, flU);
+
         cout<<endl;
-        getchar();
+        //getchar();
     }
+    delete[] x;
+    delete[] y;
 printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
 }
 
@@ -273,11 +291,15 @@ void lktest2Img()
 {
    printf("*****Begin KLT Tracking 2 Image Test!*****\n\n");
     ImageGray gray1, gray2;
-    IOHelper::ReadPGMFile("Debug/img0.pgm", gray1);
-    IOHelper::ReadPGMFile("Debug/img1.pgm", gray2);
+//    IOHelper::ReadPGMFile("Debug/img0.pgm", gray1);
+//    IOHelper::ReadPGMFile("Debug/img1.pgm", gray2);
+    IOHelper::ReadPPMFile("Debug/twinnings/imgs/img00000.ppm", gray1);
+    IOHelper::ReadPPMFile("Debug/twinnings/imgs/img00000.ppm", gray2);
+
     SelectFeature select(gray1, 7);
     vector<FeaturePoint> flU(50), flV(100), flU2(100);
-    RectangleS rect(0, 0, gray1.GetWidth(), gray1.GetHeight());
+    //RectangleS rect(0, 0, gray1.GetWidth(), gray1.GetHeight());
+    RectangleS rect(126,165,73,53);
     select.SelectGoodFeature(rect, flU);
     LKTracker tracker(gray1, gray2);
 
@@ -312,9 +334,13 @@ void lktest2Img()
     }
 
     ImageGray result;
+    ImageGray sub(gray1.GetWidth(),gray1.GetHeight());
+    for(int i=0;i<gray1.GetPixelsNumber();++i)
+        sub[i]=gray1[i]-gray2[i];
     Draw::Correspond(gray1, gray2, flU, flV, result);
     IOHelper::WritePPMFile("Debug/result.ppm", result);
     IOHelper::WritePPMFile("Debug/gray1.ppm", gray1);
     IOHelper::WritePPMFile("Debug/gray2.ppm", gray2);
+    IOHelper::WritePPMFile("Debug/gsub.ppm", sub);
     printf("*****End KLT Tracking 2 Image Test!*****\n\n");
 }

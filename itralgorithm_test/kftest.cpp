@@ -38,14 +38,10 @@ void kftest()
     printf("*****Begin Kalman Filter Test!*****\n\n");
     KalmanFilter kf(4);
     F32 data[16]= {2 ,0,-1,0,0,2,0,-1,1,0,0,0,0,1,0,0};
-    kf.F_x.CopyRowFrom(1,data);
-    kf.F_x.CopyRowFrom(2,data+4);
-    kf.F_x.CopyRowFrom(3,data+8);
-    kf.F_x.CopyRowFrom(4,data+12);
+    kf.F_x.CopyFrom(data);
     Matrix H(2,4),R(2,2);
     R.MatEye(5.012306);
-    H.CopyRowFrom(1,data+8);
-    H.CopyRowFrom(2,data+12);
+    H.CopyFrom(data+8);
     printMatrix(H);
     printMatrix(kf.F_x);
     Vector z(2),x(4),X(4),v(2),n(4);
@@ -55,14 +51,14 @@ void kftest()
     x[3]=0;
     for(int t=0; t<20; ++t)
     {
-        NumericalObj->Rand(data[0]);
-        NumericalObj->Rand(data[1]);
-        NumericalObj->Rand(data[2]);
-        NumericalObj->Rand(data[3]);
-        data[0]=(data[0]-0.5)*0.1;
-        data[1]=(data[1]-0.5)*0.1;
-        data[2]=(data[2]-0.5)*0.1;
-        data[3]=(data[3]-0.5)*0.1;
+        NumericalObj->RandGaussian(data[0]);
+        NumericalObj->RandGaussian(data[1]);
+        NumericalObj->RandGaussian(data[2]);
+        NumericalObj->RandGaussian(data[3]);
+//        data[0]=(data[0])*0.1;
+//        data[1]=(data[1])*0.1;
+//        data[2]=(data[2])*0.1;
+//        data[3]=(data[3])*0.1;
         printf("rand:%f,%f\n",data[0],data[1]);
         v.CopyFrom(data);
         n.CopyFrom(data);
@@ -72,9 +68,9 @@ void kftest()
 //        printVec(z);
         kf.UpdateModel();
         X=kf.UpdateMeasure(H,R,z);
-        printf("Measure:%.0f,%.0f\n",z[0],z[1]);
+        printf("Measu:%.0f,%.0f\n",z[0],z[1]);
         printf("State:%.0f,%.0f,%.0f,%.0f\n",x[0],x[1],x[2],x[3]);
-        printf("Estimate:%.0f,%.0f,%.0f,%.0f\n",X[0],X[1],X[2],X[3]);
+        printf("Esti :%.0f,%.0f,%.0f,%.0f\n",X[0],X[1],X[2],X[3]);
         printf("\n");
     }
     printf("*****End Kalman Filter Test!*****\n\n");

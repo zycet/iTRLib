@@ -43,8 +43,8 @@ namespace itr_vision
     class Pick
     {
         public:
-            static void Rectangle(const ImageARGB& ImgInput,RectangleS &rect,ImageARGB& ImgOutput);
-            static void Rectangle(const ImageGray& ImgInput,RectangleS &rect,ImageGray& ImgOutput);
+            static void Rectangle(const ImageARGB &ImgInput,RectangleS &rect,ImageARGB &ImgOutput);
+            static void Rectangle(const ImageGray &ImgInput,RectangleS &rect,ImageGray &ImgOutput);
     };
 
 } // namespace itr_vision

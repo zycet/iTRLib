@@ -47,6 +47,8 @@
 				</Linker>
 			</Target>
 		</Build>
+		<Unit filename="detectiontest.cpp" />
+		<Unit filename="detectiontest.h" />
 		<Unit filename="drawtest.cc" />
 		<Unit filename="drawtest.h" />
 		<Unit filename="gmon.out" />
@@ -62,7 +64,11 @@
 		<Unit filename="rotatetest.cpp" />
 		<Unit filename="rotatetest.h" />
 		<Extensions>
-			<code_completion />
+			<code_completion>
+				<search_path add="../itrvision" />
+				<search_path add="../itrbase" />
+				<search_path add="../itralgorithm" />
+			</code_completion>
 			<debugger />
 		</Extensions>
 	</Project>

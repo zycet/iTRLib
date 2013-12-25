@@ -19,12 +19,12 @@ namespace itr_vision
         public:
             Scale();
             virtual ~Scale();
-            static S16 Interpolation(const ImageGray& src, F32 x, F32 y);
-            static S32 Interpolation(const ImageARGB& src, F32 x, F32 y);
-            static void Bilinear(const ImageGray& src, ImageGray& dst);
-            static void Bilinear(const ImageARGB& src, ImageGray& dst);
-            static void SubSampling(const ImageGray& src, ImageGray& dst, S32 scale);
-            static void SubSampling(const ImageARGB& src, ImageARGB& dst, S32 scale);
+            static S16 Interpolation(const ImageGray &src, F32 x, F32 y);
+            static S32 Interpolation(const ImageARGB &src, F32 x, F32 y);
+            static void Bilinear(const ImageGray &src, ImageGray &dst);
+            static void Bilinear(const ImageARGB &src, ImageGray &dst);
+            static void SubSampling(const ImageGray &src, ImageGray &dst, S32 scale);
+            static void SubSampling(const ImageARGB &src, ImageARGB &dst, S32 scale);
     };
 
 } /* namespace itr_vision */

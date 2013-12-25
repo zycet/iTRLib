@@ -43,7 +43,7 @@ namespace itr_vision
         public:
             Pyramid();
             virtual ~Pyramid();
-            void Init(const ImageGray& Img, int Subsampling, int Level);
+            void Init(const ImageGray &Img, int Subsampling, int Level);
             inline int GetLevel() const
             {
                 return level;
