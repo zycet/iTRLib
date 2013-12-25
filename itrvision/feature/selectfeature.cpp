@@ -31,13 +31,13 @@
  *      Author: ghdawn
  */
 
-#include "selectseature.h"
+#include "selectfeature.h"
 #include <algorithm>
 #include <string.h>
 #include <math.h>
 #include <stdio.h>
 #include "../helper/helper.h"
-
+#include "../process/convolutesquare.h"
 namespace itr_vision
 {
 
@@ -47,11 +47,11 @@ namespace itr_vision
         bw = windowWidth >> 1;
         mindist = 10;
         mineigen = 1;
-        width = Img.GetWidth();
-        height = Img.GetHeight();
-        img.Allocate(Img.GetWidth(), Img.GetHeight());
-        dx.Allocate(Img.GetWidth(), Img.GetHeight());
-        dy.Allocate(Img.GetWidth(), Img.GetHeight());
+        width = Img.GetCol();
+        height = Img.GetRow();
+        img.Init(Img.GetCol(), Img.GetRow());
+        dx.Init(Img.GetCol(), Img.GetRow());
+        dy.Init(Img.GetCol(), Img.GetRow());
         ConvoluteSquare conv;
         conv._KLTComputeSmoothedImage(Img, 0.1f * windowWidth, img);
 
@@ -84,14 +84,14 @@ namespace itr_vision
     S32 SelectFeature::SelectGoodFeature(const RectangleS &rect, vector<FeaturePoint> &featureOutput,S32 start)
     {
         vector<FeaturePoint> featurelist(rect.Width * rect.Height);
-        S32 bord = 24,ImgWidth=img.GetWidth();
+        S32 bord = 24,ImgWidth=img.GetCol();
         S32 bordy = rect.Y + rect.Height;
         S32 bordx = rect.X + rect.Width;
         S32 beginy = (rect.Y < bord) ? bord : rect.Y;
         S32 beginx = (rect.X < bord) ? bord : rect.X;
-        if (bordy >= img.GetHeight() - bord)
+        if (bordy >= img.GetRow() - bord)
         {
-            bordy = img.GetHeight() - bord;
+            bordy = img.GetRow() - bord;
         }
         if (bordx >= ImgWidth - bord)
         {

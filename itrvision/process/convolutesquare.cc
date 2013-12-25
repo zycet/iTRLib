@@ -84,7 +84,7 @@ namespace itr_vision
         }
     }
 
-    void ConvoluteSquare::Convolute(const ImageGray &Input, F32 *Filter, ImageGray &Output)
+    void ConvoluteSquare::Convolute(const Matrix &Input, F32 *Filter, Matrix &Output)
     {
         assert(Input.MatchWidthHeight(width,height));
         assert(Output.MatchWidthHeight(width,height));
@@ -185,8 +185,8 @@ namespace itr_vision
         sigma_last = sigma;
     }
 
-    void ConvoluteSquare::_convolveImageHoriz(const ImageGray &imgin, ConvolutionKernel kernel,
-            ImageGray &imgout)
+    void ConvoluteSquare::_convolveImageHoriz(const Matrix &imgin, ConvolutionKernel kernel,
+            Matrix &imgout)
     {
         S16 *ptrrow = imgin.GetPixels(); /* Points to row's first pixel */
         S16 *ptrout = imgout.GetPixels(), /* Points to next output pixel */
@@ -241,8 +241,8 @@ namespace itr_vision
      * _convolveImageVert
      */
 
-    void ConvoluteSquare::_convolveImageVert(const ImageGray &imgin, ConvolutionKernel kernel,
-            ImageGray &imgout)
+    void ConvoluteSquare::_convolveImageVert(const Matrix &imgin, ConvolutionKernel kernel,
+            Matrix &imgout)
     {
         S16 *ptrcol = imgin.GetPixels(); /* Points to row's first pixel */
         S16 *ptrout = imgout.GetPixels(), /* Points to next output pixel */
@@ -298,7 +298,7 @@ namespace itr_vision
         }
     }
 
-    void ConvoluteSquare::_KLTComputeSmoothedImage(const ImageGray &img, float sigma, ImageGray &smooth)
+    void ConvoluteSquare::_KLTComputeSmoothedImage(const Matrix &img, float sigma, Matrix &smooth)
     {
         /* Output image must be large enough to hold result */
         assert(smooth.GetWidth() >= img.GetWidth());
@@ -313,8 +313,8 @@ namespace itr_vision
         _convolveSeparate(img, gauss_kernel, gauss_kernel, smooth);
     }
 
-    void ConvoluteSquare::_KLTComputeGradients(const ImageGray &img, float sigma, ImageGray &gradx,
-            ImageGray &grady)
+    void ConvoluteSquare::_KLTComputeGradients(const Matrix &img, float sigma, Matrix &gradx,
+            Matrix &grady)
     {
         if (fabs(sigma - sigma_last) > 0.05)
         {
@@ -325,10 +325,10 @@ namespace itr_vision
         _convolveSeparate(img, gauss_kernel, gaussderiv_kernel, grady);
     }
 
-    void ConvoluteSquare::_convolveSeparate(const ImageGray &imgin, ConvolutionKernel horiz_kernel,
-                                            ConvolutionKernel vert_kernel, ImageGray &imgout)
+    void ConvoluteSquare::_convolveSeparate(const Matrix &imgin, ConvolutionKernel horiz_kernel,
+                                            ConvolutionKernel vert_kernel, Matrix &imgout)
     {
-        ImageGray tmpimg(imgin.GetWidth(), imgin.GetHeight());
+        Matrix tmpimg(imgin.GetWidth(), imgin.GetHeight());
         _convolveImageHoriz(imgin, horiz_kernel, tmpimg);
         _convolveImageVert(tmpimg, vert_kernel, imgout);
     }
