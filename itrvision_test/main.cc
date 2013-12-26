@@ -36,18 +36,23 @@
 
 #include "itrbase.h"
 #include "itrvision.h"
-#include "processtest.h"
-#include "lktrackertest.h"
-#include "drawtest.h"
-#include "picktest.h"
+//#include "processtest.h"
+//#include "lktrackertest.h"
+//#include "drawtest.h"
+//#include "picktest.h"
 #include "rotatetest.h"
-#include "detectiontest.h"
+//#include "detectiontest.h"
+#include"genrecttest.h"
+
 int main()
 {
     //Init Math
-   // itr_math::MathObjStandInit();
+    itr_math::MathObjStandInit();
     //Test Rotate !
     rotatetest();
+    //Test Genrect
+    genrectintest();
+    genrectouttest();
     //Test Pick OK!
     // picktest();
     //Test Draw OK!
@@ -64,7 +69,7 @@ int main()
     //itr_math::MathObjStandDeinit();
     //Deint Math
 
-    //rotatetest
+
     TRACE_INFO("OK All");
     return 0;
 }
