@@ -7,21 +7,21 @@
 
 void rotatetest()
 {
-    rotateImgGraytest();
+    rotateMatrixtest();
 }
 
-void rotateImgGraytest()
+void rotateMatrixtest()
 {
     S32 X=0;
     S32 Y=0;
     S32 width=685 ;
     S32 height=494;
-    ImageGray grayI;
+    Matrix grayI;
 
-    ImageGray grayO(width,height);
+    Matrix grayO(width,height);
     RectangleS rect(X, Y,width,height);
 
-    ImageGray grayO2(200,300);                   //2
+    Matrix grayO2(200,300);                   //2
     RectangleS rect2(600, 200,200,300);             //
 
     IOHelper::ReadPGMFile("Debug/table1.pgm", grayI);

@@ -7,7 +7,7 @@ void genrectintest()
     RectangleS rectR[10];
     genrectin(rect,rectR[],10);
 
-    ImageGray gray;
+    Matrix gray;
     IOHelper::ReadPGMFile("Debug/img0.pgm", gray);
     for(S32 i=0;i<10;i++)
     {
@@ -22,7 +22,7 @@ void genrectouttest()
     RectangleS rectR[10];
     genrectout(rect,rectR[],10);
 
-    ImageGray gray;
+    Matrix gray;
     IOHelper::ReadPGMFile("Debug/img0.pgm", gray);
     for(S32 i=0;i<10;i++)
     {
@@ -31,4 +31,9 @@ void genrectouttest()
     IOHelper::WritePGMFile("Debug/graygenrectout.pgm", gray);
 
     TRACE_INFO("OK genrectout");
+}
+void genrecttest()
+{
+    genrectintest();
+    genrectouttest();
 }

@@ -4,6 +4,6 @@
 using itr_math::RectangleS;
 
 void rotatetest();
-void rotateImgGraytest();
+void rotateMatrixtest();
 
 #endif// ROTATETEST_H_
