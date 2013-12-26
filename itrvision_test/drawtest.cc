@@ -3,7 +3,7 @@
 #include "itrvision.h"
 #include "itrbase.h"
 #include <math.h>
-
+/*
 void drawtest()
 {
     drawImgGraytestCircle();
@@ -89,4 +89,4 @@ void drawImgARGBtestRectangle()
     Draw::Rectangle(ARGB, rect, 255);
     IOHelper::WritePGMFile("Debug/gray10.pgm", ARGB);
 }
-
+*/

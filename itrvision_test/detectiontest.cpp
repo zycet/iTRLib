@@ -47,7 +47,7 @@ using std::cout;
 using std::vector;
 void DetectionTest()
 {
-    printf("*****Begin Detection Sequence Test!*****\n\n");
+/*    printf("*****Begin Detection Sequence Test!*****\n\n");
     char file[25];
 
     Matrix img;
@@ -291,5 +291,5 @@ void DetectionTest()
         IOHelper::WritePPMFile(file,gray);
         IOHelper::WritePPMFile("Debug/6.ppm", patch);
     }
-    printf("*****End Detection Sequence Test!*****\n\n");
+    printf("*****End Detection Sequence Test!*****\n\n");*/
 }
