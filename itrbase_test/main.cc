@@ -42,6 +42,7 @@
 int main()
 {
     //Platform
+    TestMatrix();
     TestAssistMacro();
     TestDebugSupport();
     //TestMemoryOperation();
