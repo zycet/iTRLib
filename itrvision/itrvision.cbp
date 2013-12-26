@@ -58,6 +58,8 @@
 		<Unit filename="format/formatppm.cpp" />
 		<Unit filename="format/formatppm.h" />
 		<Unit filename="format/iformat.h" />
+		<Unit filename="helper/convertformat.cpp" />
+		<Unit filename="helper/convertformat.h" />
 		<Unit filename="helper/helper.h" />
 		<Unit filename="helper/iopnm.cpp" />
 		<Unit filename="helper/iopnm.h" />
