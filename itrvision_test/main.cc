@@ -45,9 +45,12 @@
 int main()
 {
     //Init Math
-   // itr_math::MathObjStandInit();
+    itr_math::MathObjStandInit();
     //Test Rotate !
     rotatetest();
+    //Test Genrect
+    genrectintest();
+    genrectouttest();
     //Test Pick OK!
     // picktest();
     //Test Draw OK!
@@ -64,7 +67,7 @@ int main()
     //itr_math::MathObjStandDeinit();
     //Deint Math
 
-    //rotatetest
+
     TRACE_INFO("OK All");
     return 0;
 }
