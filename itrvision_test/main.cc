@@ -42,18 +42,22 @@
 #include "picktest.h"
 #include "rotatetest.h"
 #include "detectiontest.h"
+#include"genrecttest.h"
+
 int main()
 {
     //Init Math
-   // itr_math::MathObjStandInit();
+    itr_math::MathObjStandInit();
     //Test Rotate !
     rotatetest();
+    //Test Genrect
+    genrecttest();
     //Test Pick OK!
     // picktest();
     //Test Draw OK!
     // drawtest();
     ///Test LKTracker
-    lktest();
+    //lktest();
     ///Test Detection
    // DetectionTest();
     //Test Process
@@ -64,7 +68,7 @@ int main()
     //itr_math::MathObjStandDeinit();
     //Deint Math
 
-    //rotatetest
+
     TRACE_INFO("OK All");
     return 0;
 }

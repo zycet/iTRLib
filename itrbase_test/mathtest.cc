@@ -183,14 +183,14 @@ void TestNumerical()
 void TestStatistics()
 {
     S32 SourceS32[50];
-    F32 SourceF32[50];
+    //F32 SourceF32[50];
     S32 ResultS32;
-    F32 ResultF32;
+    //F32 ResultF32;
     S32 Length = 50;
     for (S32 i = 0; i < Length; i++)
     {
         SourceS32[i] = i;
-        SourceF32[i] = i;
+        //SourceF32[i] = i;
     }
     itr_math::StatisticsObj->Max(SourceS32, Length, ResultS32);
     assert(ResultS32 == 49);
@@ -341,24 +341,24 @@ void TestMatrix()
     itr_math::Vector VecSource(3, VecData);
 
     //初等变换测试
-    Source1.AddRow(1, 2);
+    Source1.AddRow(0, 1);
     assert(Source1.GetData()[3] == 17 && Source1.GetData()[4] == 29 && Source1.GetData()[5] == 45);
-    Source1.SubRow(1, 2);
+    Source1.SubRow(0, 1);
     assert(Source1.GetData()[3] == 16 && Source1.GetData()[4] == 25 && Source1.GetData()[5] == 36);
 
-    Source1.AddRow(ExData, 1);
+    Source1.AddRow(ExData, 0);
     assert(Source1.GetData()[0] == 2 && Source1.GetData()[1] == 5 && Source1.GetData()[2] == 10);
-    Source1.SubRow(ExData, 1);
+    Source1.SubRow(ExData, 0);
     assert(Source1.GetData()[0] == 1 && Source1.GetData()[1] == 4 && Source1.GetData()[2] == 9);
 
-    Source1.AddCol(1, 2);
+    Source1.AddCol(0, 1);
     assert(Source1.GetData()[1] == 5 && Source1.GetData()[4] == 41 && Source1.GetData()[7] == 113);
-    Source1.SubCol(1, 2);
+    Source1.SubCol(0, 1);
     assert(Source1.GetData()[1] == 4 && Source1.GetData()[4] == 25 && Source1.GetData()[7] == 64);
 
-    Source1.AddCol(ExData, 1);
+    Source1.AddCol(ExData, 0);
     assert(Source1.GetData()[0] == 2 && Source1.GetData()[3] == 17 && Source1.GetData()[6] == 50);
-    Source1.SubCol(ExData, 1);
+    Source1.SubCol(ExData, 0);
     assert(Source1.GetData()[0] == 1 && Source1.GetData()[3] == 16 && Source1.GetData()[6] == 49);
 
     Result.Add(Source3);
@@ -366,27 +366,27 @@ void TestMatrix()
     Result.Add(Source4);
     assert(Result.GetData()[0] == 0 && Result.GetData()[4] == 0 && Result.GetData()[8] == 0);
 
-    Source3.MulRow(2, 1);
+    Source3.MulRow(2, 0);
     assert(Source3.GetData()[0] == 2 && Source3.GetData()[1] == 2 && Source3.GetData()[2] == 2);
-    Source3.MulRow(0.5, 1);
+    Source3.MulRow(0.5, 0);
     assert(Source3.GetData()[0] == 1 && Source3.GetData()[1] == 1 && Source3.GetData()[2] == 1);
 
-    Source3.MulCol(2, 1);
+    Source3.MulCol(2, 0);
     assert(Source3.GetData()[0] == 2 && Source3.GetData()[3] == 2 && Source3.GetData()[6] == 2);
-    Source3.MulCol(0.5, 1);
+    Source3.MulCol(0.5, 0);
     assert(Source3.GetData()[0] == 1 && Source3.GetData()[3] == 1 && Source3.GetData()[6] == 1);
 
     Source3.Mul(Result, Result);
     assert(Result.GetData()[0] == 0 && Result.GetData()[4] == 0 && Result.GetData()[8] == 0);
 
-    Source1.SwapRow(1, 2);
+    Source1.SwapRow(0, 1);
     assert(Source1.GetData()[0] == 16 && Source1.GetData()[1] == 25 && Source1.GetData()[2] == 36);
-    Source1.SwapRow(2, 1);
+    Source1.SwapRow(1, 0);
     assert(Source1.GetData()[0] == 1 && Source1.GetData()[1] == 4 && Source1.GetData()[2] == 9);
 
-    Source1.SwapCol(1, 2);
+    Source1.SwapCol(0, 1);
     assert(Source1.GetData()[0] == 4 && Source1.GetData()[3] == 25 && Source1.GetData()[6] == 64);
-    Source1.SwapCol(2, 1);
+    Source1.SwapCol(1, 0);
     assert(Source1.GetData()[0] == 1 && Source1.GetData()[3] == 16 && Source1.GetData()[6] == 49);
 
     //常量相关运算测试
@@ -448,16 +448,17 @@ void TestMatrix()
         && Source1.GetData()[1] == Result.GetData()[3]
         && Source1.GetData()[2] == Result.GetData()[6]);
 
-    /*测试内联函数*/
+
+
     F32 SourceData[3*3] = {1,2,3,4,5,6,7,8,9};
-    F32 InsertData[3*3] = {2,2,2,2,2,2,2,2,2};
+    //F32 InsertData[3*3] = {2,2,2,2,2,2,2,2,2};
     F32 ExtractData[3*3];
     F32 RowData[3] = {11,22,33};
     //测试:inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height,F32* Data)
     printf("测试:inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height,F32* Data)\n");
     Source1.Set(1);
     printMatrix(Source1);
-    Source1.CopyFrom(2, 2, 2, 2, dataRect);
+    Source1.CopyFrom(1, 1, 2, 2, dataRect);
     printMatrix(Source1);
     Source1.Set(1);    //复原数据
     //测试：inline void virtual CopyFrom(F32* Data)
@@ -469,7 +470,7 @@ void TestMatrix()
     printMatrix(Source1);
     //测试：inline void virtual CopyTo(S32 RowPos, S32 ColPos, S32 Width, S32 Height, F32* Data) const
     printf("测试：inline void virtual CopyTo(S32 RowPos, S32 ColPos, S32 Width, S32 Height, F32* Data) const\n");
-    Source1.CopyTo(1, 1, 3, 3, ExtractData);
+    Source1.CopyTo(0, 0, 3, 3, ExtractData);
     for(S32 i = 0; i<9; i++)
     {
         printf("%f ",ExtractData[i]);
@@ -488,7 +489,7 @@ void TestMatrix()
     //Test:inline void virtual CopyRowFrom(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data)
     printf("Test:inline void virtual CopyRowFrom(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data)\n");
     Source1.Set(3);
-    Source1.CopyRowFrom(2,1,3,RowData);
+    Source1.CopyRowFrom(1,0,3,RowData);
     printMatrix(Source1);
     Source1.Set(0);
     //Test:inline void virtual CopyRowFrom(S32 RowNo, F32* Data)
@@ -504,7 +505,7 @@ void TestMatrix()
     printf("\n");
     //Test:inline void virtual CopyRowTo(S32 RowNo, F32* Data) const
     printf("inline void virtual CopyRowTo(S32 RowNo, F32* Data) const\n");
-    Source2.CopyRowTo(3,RowData);
+    Source2.CopyRowTo(2,RowData);
     for(S32 i = 0; i<3; i++)
         printf("%f ",RowData[i]);
     printf("\n");
@@ -512,25 +513,25 @@ void TestMatrix()
     printf("inline void virtual CopyColFrom(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data)\n");
     printMatrix(GeneralMat);
     printArray(RowData,3);
-    GeneralMat.CopyColFrom(1,2,2,RowData);
+    GeneralMat.CopyColFrom(0,1,2,RowData);
     printMatrix(GeneralMat);
     //Test:inline void virtual CopyColFrom(S32 ColNo, F32* Data)
     printf("inline void virtual CopyColFrom(S32 ColNo, F32* Data)\n");
     printArray(RowData,3);
-    Source2.CopyColFrom(3,RowData);
+    Source2.CopyColFrom(2,RowData);
     printMatrix(Source2);
     //Test:inline void virtual CopyColTo(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data) const
     printf("inline void virtual CopyColTo(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data) const\n");
     printMatrix(GeneralMat);
     printArray(RowData,3);
-    GeneralMat.CopyColTo(5,2,2,RowData);
+    GeneralMat.CopyColTo(4,1,2,RowData);
     printArray(RowData,3);
     //Test:inline Řvoid virtual CopyColTo(S32 ColNo, F32* Data) const
     printf("//Test:inline Řvoid virtual CopyColTo(S32 ColNo, F32* Data) const\n");
     printMatrix(GeneralMat);
     printArray(RowData,3);
     GeneralMat.CopyColTo(3,RowData);
-    printArray(RowData,3);
+/*    printArray(RowData,3);*/
 
     TRACE_INFO("OK TestMatrix()");
     //Test:inline Řvoid virtual CopyColTo(S32 ColNo, F32* Data) const
@@ -808,25 +809,25 @@ void TestCalcEff()
     double t;
     S32 width = 100;
     S32 height = 100;
-    S16 RawDataS16a[100*100];
-    S16 RawDataS16b[100*100];
-    S16 RawDataS16c[100*100];
-    S32 RawDataS32a[100*100];
-    S32 RawDataS32b[100*100];
-    S32 RawDataS32c[100*100];
-    F32 RawDataF32a[100*100];
-    F32 RawDataF32b[100*100];
-    F32 RawDataF32c[100*100];
+//    S16 RawDataS16a[100*100];
+//    S16 RawDataS16b[100*100];
+    //S16 RawDataS16c[100*100];
+//    S32 RawDataS32a[100*100];
+//    S32 RawDataS32b[100*100];
+    //S32 RawDataS32c[100*100];
+//    F32 RawDataF32a[100*100];
+//    F32 RawDataF32b[100*100];
+    //F32 RawDataF32c[100*100];
 
     srand(time(0));//设置随机种子
     for(int i = 0;i<width*height;i++)
     {
-       RawDataS16a[i] = rand()%100 + 1;
-       RawDataS16b[i] = rand()%100 + 1;
-       RawDataS32a[i] = rand()%100 + 1;
-       RawDataS32b[i] = rand()%100 + 1;
-       RawDataF32a[i] = 99.0*(rand()%10000)/10000 + 1;
-       RawDataF32b[i] = 99.0*(rand()%10000)/10000 + 1;
+//       RawDataS16a[i] = rand()%100 + 1;
+//       RawDataS16b[i] = rand()%100 + 1;
+//       RawDataS32a[i] = rand()%100 + 1;
+//       RawDataS32b[i] = rand()%100 + 1;
+//       RawDataF32a[i] = 99.0*(rand()%10000)/10000 + 1;
+//       RawDataF32b[i] = 99.0*(rand()%10000)/10000 + 1;
     }
 
     //开始计时处写：
@@ -834,7 +835,7 @@ void TestCalcEff()
         for(int j=0;j<100;++j)
     for(int i = 0;i<width*height;i++)
     {
-        RawDataS16c[i] = RawDataS16a[i] + RawDataS16b[i];
+        //RawDataS16c[i] = RawDataS16a[i] + RawDataS16b[i];
     }
     //结束计时处写：
     end = clock();
@@ -846,19 +847,19 @@ void TestCalcEff()
     for(int j=0;j<100;++j)
     for(int i = 0;i<width*height;i++)
     {
-        RawDataS16c[i] = RawDataS16a[i] * RawDataS16b[i];
+        //RawDataS16c[i] = RawDataS16a[i] * RawDataS16b[i];
     }
     //结束计时处写：
     end = clock();
     t=(end - start);
-    printf("S16 * use %d ms\n\n", (end - start));
+    //printf("S16 * use %d ms\n\n", (end - start));
 
     //开始计时处写：
     start = clock();
         for(int j=0;j<100;++j)
     for(int i = 0;i<width*height;i++)
     {
-        RawDataS32c[i] = RawDataS32a[i] + RawDataS32b[i];
+        //RawDataS32c[i] = RawDataS32a[i] + RawDataS32b[i];
     }
     //结束计时处写：
     end = clock();
@@ -870,7 +871,7 @@ void TestCalcEff()
         for(int j=0;j<100;++j)
     for(int i = 0;i<width*height;i++)
     {
-        RawDataS32c[i] = RawDataS32a[i] * RawDataS32b[i];
+        //RawDataS32c[i] = RawDataS32a[i] * RawDataS32b[i];
     }
     //结束计时处写：
     end = clock();
@@ -882,7 +883,7 @@ void TestCalcEff()
         for(int j=0;j<100;++j)
     for(int i = 0;i<width*height;i++)
     {
-        RawDataF32c[i] = RawDataF32a[i] + RawDataF32b[i];
+       // RawDataF32c[i] = RawDataF32a[i] + RawDataF32b[i];
     }
     //结束计时处写：
     end = clock();
@@ -894,7 +895,7 @@ void TestCalcEff()
         for(int j=0;j<101;++j)
     for(int i = 0;i<width*height;i++)
     {
-        RawDataF32c[i] = RawDataF32a[i] * RawDataF32b[i];
+       // RawDataF32c[i] = RawDataF32a[i] * RawDataF32b[i];
     }
     //结束计时处写：
     end = clock();

@@ -4,15 +4,17 @@
 #include "itrbase.h"
 #include "../itrvision.h"
 
+using itr_math::RectangleS;
+
 
 namespace itr_vision
 {
 class GenRect
 {
     public:
-        RectangleS* genrectin(RectangleS rect,S32 num);
+       static void genrectin(RectangleS rect,RectangleS rectR[],S32 num);
 
-        RectangleS* genrectout(RectangleS rect,S32 num);
+       static void genrectout(RectangleS rect,RectangleS rectR[],S32 num);
 
     protected:
     private:
