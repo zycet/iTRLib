@@ -46,6 +46,7 @@ using std::endl;
 using std::cout;
 using std::vector;
 using namespace itr_algorithm;
+using namespace itr_vision;
 void lktest()
 {
     ImageGray my;
@@ -60,8 +61,8 @@ void lktest()
         sub[i]=(klt[i]-my[i])*10;
     IOHelper::WritePGMFile("sub.pgm",sub);
     IOHelper::WritePGMFile("klt.pgm",klt);
+    //lkseq();
     lktest2Img();
-    lkseq();
 }
 
 class DataOper:public Operator
@@ -270,17 +271,19 @@ printf("*****End KLT Tracking Sequence Test!*****\n\n");*/
 }
 
 void lktest2Img()
-{/*
+{
    printf("*****Begin KLT Tracking 2 Image Test!*****\n\n");
-    ImageGray gray1, gray2;
-    IOHelper::ReadPGMFile("Debug/green/cap001.pgm", gray1);
-    IOHelper::ReadPGMFile("Debug/green/cap002.pgm", gray2);
+    ImageGray input1, input2;
+    IOHelper::ReadPGMFile("Debug/green/cap001.pgm", input1);
+    IOHelper::ReadPGMFile("Debug/green/cap002.pgm", input2);
 //    IOHelper::ReadPPMFile("Debug/twinnings/imgs/img00000.ppm", gray1);
 //    IOHelper::ReadPPMFile("Debug/twinnings/imgs/img00000.ppm", gray2);
-
+    Matrix gray1(input1.GetHeight(),input1.GetWidth()),gray2(input1.GetHeight(),input1.GetWidth());
+    ConvertFormat::ImageGray2Matrix(input1,gray1);
+    ConvertFormat::ImageGray2Matrix(input2,gray2);
     SelectFeature select(gray1);
     vector<FeaturePoint> flU(100), flV(100), flU2(100);
-    RectangleS rect(0, 0, gray1.GetWidth(), gray1.GetHeight());
+    RectangleS rect(0, 0, gray1.GetCol(), gray1.GetRow());
 //    RectangleS rect(126,165,73,53);
     select.SelectGoodFeature(rect, flU);
     LKTracker tracker(gray1, gray2);
@@ -333,15 +336,15 @@ int i=0;
         ++feat;
     }
 
-    ImageGray result;
-    ImageGray sub(gray1.GetWidth(),gray1.GetHeight());
-    for(int i=0;i<gray1.GetPixelsNumber();++i)
-        sub[i]=gray1[i]-gray2[i];
+    Matrix result;
     Draw::Correspond(gray1, gray2, flU, flV, result);
-    IOHelper::WritePPMFile("Debug/result.ppm", result);
-    IOHelper::WritePPMFile("Debug/gray1.ppm", gray1);
-    IOHelper::WritePPMFile("Debug/gray2.ppm", gray2);
-    IOHelper::WritePPMFile("Debug/gsub.ppm", sub);
+    ImageGray imgresult(result.GetCol(),result.GetRow());
+    ConvertFormat::Matrix2ImageGray(result,imgresult);
+    ConvertFormat::Matrix2ImageGray(gray1,input1);
+    ConvertFormat::Matrix2ImageGray(gray2,input2);
+    IOHelper::WritePPMFile("Debug/result.ppm", imgresult);
+    IOHelper::WritePPMFile("Debug/gray1.ppm", input1);
+    IOHelper::WritePPMFile("Debug/gray2.ppm", input2);
     printf("*****End KLT Tracking 2 Image Test!*****\n\n");
-    getchar();*/
+    getchar();
 }

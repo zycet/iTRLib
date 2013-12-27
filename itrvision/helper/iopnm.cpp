@@ -1,6 +1,6 @@
 #include "iopnm.h"
 #include "../format/format.h"
-
+#include "convertformat.h"
 namespace itr_vision
 {
     void IOpnm::ReadPPMFile(char *filename, ImageGray &img)
@@ -78,6 +78,35 @@ namespace itr_vision
         fflush(file2);
         fclose(file2);
         delete[] bufferWrite;
+    }
+
+void IOpnm::ReadPPMFile(char *filename, Matrix &img)
+    {
+        ImageGray input;
+        ReadPPMFile(filename,input);
+        img.Init(input.GetHeight(),input.GetWidth());
+        ConvertFormat::ImageGray2Matrix(input,img);
+    }
+
+    void IOpnm::WritePPMFile(char *filename, Matrix &img)
+    {
+        ImageGray input(img.GetCol(),img.GetRow());
+        ConvertFormat::Matrix2ImageGray(img,input);
+        WritePPMFile(filename,input);
+    }
+    void IOpnm::ReadPGMFile(char *filename, Matrix &img)
+    {
+        ImageGray input;
+        ReadPGMFile(filename,input);
+        img.Init(input.GetHeight(),input.GetWidth());
+        ConvertFormat::ImageGray2Matrix(input,img);
+    }
+
+    void IOpnm::WritePGMFile(char *filename, Matrix &img)
+    {
+        ImageGray input(img.GetCol(),img.GetRow());
+        ConvertFormat::Matrix2ImageGray(img,input);
+        WritePGMFile(filename,input);
     }
 
     void IOpnm::ReadPPMFile(char *filename, ImageARGB &img)

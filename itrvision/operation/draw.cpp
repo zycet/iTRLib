@@ -185,12 +185,12 @@ namespace itr_vision
         LineOffset(Img, rect.X + rect.Width, rect.Y, 0, rect.Height, color);
         LineOffset(Img, rect.X, rect.Y + rect.Height, rect.Width, 0, color);
     }
-    /*
+
     void Draw::Correspond(const Matrix &Img1, const Matrix &Img2,
                           const vector<FeaturePoint> &feature1, const vector<FeaturePoint> &feature2,
                           Matrix &Result)
     {
-        assert(Result.Allocate(Img1.GetCol() * 2 + 10, Img1.GetRow())==true);
+        Result.Init(Img1.GetCol() * 2 + 10, Img1.GetRow());
         int offset = Img1.GetCol() + 10;
         for (int i = 0; i < Img1.GetCol(); i++)
             for (int j = 0; j < Img1.GetRow(); j++)
@@ -204,5 +204,5 @@ namespace itr_vision
                 Line(Result, feature1[i].x, feature1[i].y, feature2[i].x + offset, feature2[i].y,
                      255);
         }
-    }*/
+    }
 } // namespace itr_vision

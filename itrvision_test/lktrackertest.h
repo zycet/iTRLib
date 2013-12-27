@@ -36,5 +36,4 @@
 
 void lktest();
 void lktest2Img();
-void lkseq();
 #endif // LKTRACKERTEST_H_
