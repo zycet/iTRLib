@@ -50,8 +50,8 @@ int main()
     itr_math::MathObjStandInit();
     //Test Rotate OK!
     //rotatetest();
-    //Test Genrect
-    genrecttest();
+    //Test Genrect OK!
+    //genrecttest();
     //Test Pick OK!
     // picktest();
     //Test Draw OK!

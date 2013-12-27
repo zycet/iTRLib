@@ -14,10 +14,10 @@ namespace itr_vision
         {
             Numerical0.Rand(-off_max, off_max,  off_x);
             Numerical0.Rand(-off_max, off_max,  off_y);
-            rectR[i].Width = rect.Width;     //不知道是否满足要求
+            rectR[i].Width = rect.Width;
             rectR[i].Height = rect.Height;
-            rectR[i].X = off_x+rect.X;//+0.5*rect.Width-0.5*n_w;
-            rectR[i].Y = off_y+rect.Y;//+0.5*rect.Height-0.5*n_h;
+            rectR[i].X = off_x+rect.X;
+            rectR[i].Y = off_y+rect.Y;
         }
 
     }
@@ -50,7 +50,7 @@ namespace itr_vision
                 else
                     n_x=rect.X+1.5*rect.Width;
                 Numerical0.Floor(n_x,n_x);
-                Numerical0.Rand(rect.Y-0.5*rect.Width,rect.Y+rect.Width*1.5,off_y);
+                Numerical0.Rand(rect.Y-0.5*rect.Height,rect.Y+rect.Height*1.5,off_y);
                 n_y=off_y;
 
             }
@@ -59,8 +59,8 @@ namespace itr_vision
 
             rectR[i].Width = n_w;
             rectR[i].Height = n_h;
-            rectR[i].X =n_x;
-            rectR[i].Y = n_y;
+            rectR[i].X =n_x-0.5*n_w;
+            rectR[i].Y = n_y-0.5*n_h;
         }
 
     }

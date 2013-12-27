@@ -4,7 +4,7 @@
 #include "itrbase.h"
 #include <math.h>
 #include"stdio.h"
-#define num 2
+#define num 20
 void genrecttest()
 {
     genrectintest();
@@ -26,7 +26,6 @@ void genrectintest()
     for(S32 i=0;i<num;i++)
     {
         Draw::Rectangle(gray, *(AAA+i), 255);
-        printf("AAA%d:X %d Y %d\n",i,(*(AAA+i)).X,(*(AAA+i)).Y);
     }
     Draw::Rectangle(gray, rect, 0);
     ConvertFormat::Matrix2ImageGray(gray,Im1);
