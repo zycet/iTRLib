@@ -3,9 +3,9 @@
 namespace itr_vision
 {
 
-    void genrectin(RectangleS rect,RectangleS rectR[],S32 num)
+    void GenRect::genrectin(RectangleS rect,RectangleS rectR[],S32 num)
     {
-        S32 off_max,off_x,off_y;//n_w,n_h;
+        S32 off_max,off_x,off_y;
 
         itr_math::Numerical Numerical0;
         Numerical0.Floor(0.1*rect.Width*rect.Height/(rect.Width+rect.Height), off_max);
@@ -22,7 +22,7 @@ namespace itr_vision
 
     }
 
-    void genrectout(RectangleS rect,RectangleS rectR[],S32 num)
+    void GenRect::genrectout(RectangleS rect,RectangleS rectR[],S32 num)
     {
         itr_math::Numerical Numerical0;
         S32 off_x,off_y;

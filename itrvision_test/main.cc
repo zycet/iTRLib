@@ -48,8 +48,8 @@ int main()
 {
     //Init Math
     itr_math::MathObjStandInit();
-    //Test Rotate !
-    rotatetest();
+    //Test Rotate OK!
+    //rotatetest();
     //Test Genrect
     genrecttest();
     //Test Pick OK!

@@ -4,6 +4,7 @@
 #include"itrvision.h"
 using itr_math::RectangleS;
 
+
 void genrecttest();
 void genrectintest();
 void genrectouttest();
