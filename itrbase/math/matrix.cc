@@ -44,7 +44,6 @@ namespace itr_math
   **********************   矩阵初始化只支持以下几种形式，不支持初始化直接等于另一个矩阵 ******************
  ***********************   eg:itr_math::Matrix a = Source (不允许这样用) ************************
  *********************************************************************************************/
-
 /*
  * 初始化一个指定行列数的空矩阵(自动分配内存)
  */
@@ -148,34 +147,34 @@ void Matrix::Init(const Matrix& Mat)
 
 //**********初等变换**********
 /*
- * 将RowNoAdd行加至RowNoResult行
+ * 将RowPosSource行加RowPosTarget行
  */
-void Matrix::AddRow(S32 RowPosAdd, S32 RowPosTarget)
+void Matrix::AddRow(S32 RowPosSource, S32 RowPosTarget)
 {
-    assert(RowPosAdd >= 0 && RowPosAdd < row);
+    assert(RowPosSource >= 0 && RowPosSource < row);
     assert(RowPosTarget >= 0 && RowPosTarget < row);
-    CalculateObj->Add(data + RowPosAdd* col, data + RowPosTarget * col, col,data + RowPosTarget * col);
+    CalculateObj->Add(data + RowPosSource* col, data + RowPosTarget * col, col,data + RowPosTarget * col);
 }
 /*
- * 将Data加至RowNoResult行
+ * 将Data加至RowPosTarget行
  */
-void Matrix::AddRow(F32* Data, S32 RowNoResult)
+void Matrix::AddRow(F32* Data, S32 RowPosTarget)
 {
     assert(Data!=NULL);
-    assert(RowNoResult >= 0 && RowNoResult < row);
-    CalculateObj->Add(Data, data + RowNoResult * col, col, data + RowNoResult * col);
-}
-/*
- * 将RowNoSub行减至RowNoResult行
- */
-void Matrix::SubRow(S32 RowPosSub, S32 RowPosTarget)
-{
-    assert(RowPosSub >= 0 && RowPosSub < row);
     assert(RowPosTarget >= 0 && RowPosTarget < row);
-    CalculateObj->Sub( data + RowPosTarget * col,data + RowPosSub* col, col,data + RowPosTarget * col);
+    CalculateObj->Add(Data, data + RowPosTarget * col, col, data + RowPosTarget * col);
 }
 /*
- * 将Data减至RowNoResult行
+ * 将RowPosSource行减至RowPosTarget行
+ */
+void Matrix::SubRow(S32 RowPosSource, S32 RowPosTarget)
+{
+    assert(RowPosSource >= 0 && RowPosSource < row);
+    assert(RowPosTarget >= 0 && RowPosTarget < row);
+    CalculateObj->Sub( data + RowPosTarget * col,data + RowPosSource* col, col,data + RowPosTarget * col);
+}
+/*
+ * 将Data减至RowPosTarget行
  */
 void Matrix::SubRow(F32* Data, S32 RowPosTarget)
 {
@@ -184,7 +183,7 @@ void Matrix::SubRow(F32* Data, S32 RowPosTarget)
     CalculateObj->Sub(data + RowPosTarget * col, Data, col,data + RowPosTarget  * col);
 }
 /*
- * 将RowNoResult行乘以K
+ * 将RowPosTarget行乘以K
  */
 void Matrix::MulRow(F32 K, S32 RowPosTarget)
 {
@@ -204,14 +203,14 @@ void Matrix::SwapRow(S32 RowPosA, S32 RowPosB)
 /*
  * 将ColNoAdd列加至ColNoResult列
  */
-void Matrix::AddCol(S32 ColPosAdd, S32 ColPosTarget)
+void Matrix::AddCol(S32 ColPosSource, S32 ColPosTarget)
 {
-    assert(ColPosAdd >= 0 && ColPosAdd < col);
+    assert(ColPosSource >= 0 && ColPosSource < col);
     assert(ColPosTarget >= 0 && ColPosTarget < col);
     for (S32 i = 0; i < row; i++)
     {
-        data[ColPosTarget]+=data[ColPosAdd];
-        ColPosAdd+=col;
+        data[ColPosTarget]+=data[ColPosSource];
+        ColPosSource+=col;
         ColPosTarget+=col;
     }
 }
@@ -232,14 +231,14 @@ void Matrix::AddCol(F32* Data, S32 ColPosTarget)
 /*
  * 将ColNoSub列减至ColNoResult列
  */
-void Matrix::SubCol(S32 ColPosSub, S32 ColPosTarget)
+void Matrix::SubCol(S32 ColPosSource, S32 ColPosTarget)
 {
-    assert(ColPosSub >= 0 && ColPosSub < col);
+    assert(ColPosSource >= 0 && ColPosSource < col);
     assert(ColPosTarget >= 0 && ColPosTarget < col);
     for (S32 i = 0; i < row; i++)
     {
-        data[ColPosTarget]-=data[ColPosSub];
-        ColPosSub+=col;
+        data[ColPosTarget]-=data[ColPosSource];
+        ColPosSource+=col;
         ColPosTarget+=col;
     }
 }
@@ -290,7 +289,7 @@ void Matrix::SwapCol(S32 ColPosA, S32 ColPosB)
 /*
  * 全部元素加上K
  */
-void Matrix::Add(F32 K)
+void Matrix::AllAdd(F32 K)
 {
     for (S32 i = 0; i < col; i++)
     {
@@ -300,7 +299,7 @@ void Matrix::Add(F32 K)
 /*
  * 全部元素乘以K
  */
-void Matrix::Mul(F32 K)
+void Matrix::AllMul(F32 K)
 {
     for (S32 i = 0; i < col; i++)
     {
@@ -394,6 +393,10 @@ Matrix Matrix::operator=(const Matrix& Mat)
     this->CopyFrom(Mat.data);
     return *this;
 }
+
+/******************************
+*******Advanced Function*******
+*******************************/
 /*
  * 把Mat设为对角阵Mat[i][i] = value
  */
@@ -512,10 +515,5 @@ Matrix Matrix::Tran() const
     Tran(TranAns);
     return TranAns;
 }
-
-/*
- * 求矩阵行列式值
- */
-//F32 virtual Det() const;
 }
 // namespace itr_math

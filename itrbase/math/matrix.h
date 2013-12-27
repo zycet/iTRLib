@@ -450,17 +450,17 @@ public:
 
     //**********初等变换**********
     /*
-     * 将RowNoAdd行加至RowNoResult行
+     * 将RowPosSource行加RowPosTarget行
      */
-    void virtual AddRow(S32 RowNoAdd, S32 RowNoResult);
+    void virtual AddRow(S32 RowPosSource, S32 RowPosTarget);
     /*
      * 将Data加至RowNoResult行
      */
     void virtual AddRow(F32* Data, S32 RowNoResult);
     /*
-     * 将RowNoSub行减至RowNoResult行
+     * 将RowPosSource行减至RowNoResult行
      */
-    void virtual SubRow(S32 RowNoSub, S32 RowNoResult);
+    void virtual SubRow(S32 RowPosSource, S32 RowNoResult);
     /*
      * 将Data减至RowNoResult行
      */
@@ -477,23 +477,23 @@ public:
     /*
      * 将ColNoAdd列加至ColNoResult列
      */
-    void virtual AddCol(S32 ColNoAdd, S32 ColNoResult);
+    void virtual AddCol(S32 ColPosSource, S32 ColPosTarget);
     /*
      * 将Data加至ColNoResult列
      */
-    void virtual AddCol(F32* Data, S32 ColNoResult);
+    void virtual AddCol(F32* Data, S32 ColPosTarget);
     /*
      * 将ColNoSub列减至ColNoResult列
      */
-    void virtual SubCol(S32 ColNoSub, S32 ColNoResult);
+    void virtual SubCol(S32 ColPosSource, S32 ColPosTarget);
     /*
      * 将Data减至ColNoResult行
      */
-    void virtual SubCol(F32* Data, S32 ColNoResult);
+    void virtual SubCol(F32* Data, S32 ColPosTarget);
     /*
      * 将ColNoResult列乘以K
      */
-    void virtual MulCol(F32 K, S32 ColNoResult);
+    void virtual MulCol(F32 K, S32 ColPosTarget);
     /*
      * 交换ColNoA列和ColNoB列
      */
@@ -503,11 +503,11 @@ public:
     /*
      * 全部元素加上K
      */
-    void virtual Add(F32 K);
+    void virtual AllAdd(F32 K);
     /*
      * 全部元素乘以K
      */
-    void virtual Mul(F32 K);
+    void virtual AllMul(F32 K);
 
     //**********向量相关计算**********
     /*
