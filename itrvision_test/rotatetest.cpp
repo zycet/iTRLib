@@ -24,9 +24,12 @@ void rotateImgGraytest()
     ImageGray grayO2(200,300);                   //2
     RectangleS rect2(600, 200,200,300);             //
 
+/*
     IOHelper::ReadPGMFile("Debug/table1.pgm", grayI);
+    Matrix graym(grayI.GetHeight(),grayI.GetWidth());
+    ConvertFormat::ImageGray2Matrix(grayI,graym);
 
-    Rotate::rotate(grayI, rect, 0, grayO);
+    Rotate::rotate(graym, rect, 0, graym);
     IOHelper::WritePGMFile("Debug/gray00.pgm", grayO);
 
     Rotate::rotate(grayI, rect2, 0, grayO2);                //
@@ -46,6 +49,6 @@ void rotateImgGraytest()
     IOHelper::WritePGMFile("Debug/gray180.pgm", grayO);
     Rotate::rotate(grayI, rect, 360, grayO);
     IOHelper::WritePGMFile("Debug/gray360.pgm", grayO);
-
+*/
     TRACE_INFO("OK Rotate");
 }

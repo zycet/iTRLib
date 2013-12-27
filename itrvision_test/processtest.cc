@@ -38,7 +38,7 @@
 #include "itrvision.h"
 
 void ConvoluteSquareTest()
-{
+{/*
     //Read File
     FILE* file = fopen("Debug/table1.ppm", "rb+");
     assert(file!=NULL);
@@ -81,10 +81,11 @@ void ConvoluteSquareTest()
     assert(fwrite(buffer,1,length2,file2)==(U32)length2);
     fclose(file2);
     delete buffer;
+  */
 }
 
 void ConvoluteSquareTest4Pro()
-{
+{/*
     //Calc Gaussian Filter
     const S32 N = 9;
     const F32 sigma = 1;
@@ -117,6 +118,7 @@ void ConvoluteSquareTest4Pro()
     clock_t endClock = clock();
     double timeSpan = ((double) (endClock - startClock)) / CLOCKS_PER_SEC * 1000;
     PRINT_INFO(timeSpan);
+    */
 }
 
 void FormatPPMTestPGMTest3()

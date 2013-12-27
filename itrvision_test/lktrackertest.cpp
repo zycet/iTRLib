@@ -94,7 +94,7 @@ void printMatrix(Matrix a)
     }
 }
 void lkseq()
-{
+{/*
 printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
     char file[25];
     ImageGray gray,last;
@@ -266,11 +266,11 @@ printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
     }
     delete[] x;
     delete[] y;
-printf("*****End KLT Tracking Sequence Test!*****\n\n");
+printf("*****End KLT Tracking Sequence Test!*****\n\n");*/
 }
 
 void lktest2Img()
-{
+{/*
    printf("*****Begin KLT Tracking 2 Image Test!*****\n\n");
     ImageGray gray1, gray2;
     IOHelper::ReadPGMFile("Debug/green/cap001.pgm", gray1);
@@ -343,5 +343,5 @@ int i=0;
     IOHelper::WritePPMFile("Debug/gray2.ppm", gray2);
     IOHelper::WritePPMFile("Debug/gsub.ppm", sub);
     printf("*****End KLT Tracking 2 Image Test!*****\n\n");
-    getchar();
+    getchar();*/
 }

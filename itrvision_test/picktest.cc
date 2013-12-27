@@ -10,13 +10,14 @@ void picktest()
     pickImgARGBtest();
 }
 void pickImgGraytest()
-{
+{/*
     ImageGray grayI;
     ImageGray grayO(100, 150);
     RectangleS rect(100, 40, 100, 150);
     IOHelper::ReadPGMFile("Debug/table1.pgm", grayI);
     Pick::Rectangle(grayI, rect, grayO);
     IOHelper::WritePGMFile("Debug/grayO.pgm", grayO);
+    */
 }
 void pickImgARGBtest()
 {

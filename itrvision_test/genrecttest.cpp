@@ -9,7 +9,7 @@ void genrecttest()
 }
 void genrectintest()
 {
-    RectangleS rect(100,100,200,100);
+   /* RectangleS rect(100,100,200,100);
     RectangleS AAA[20]=RectangleS(100,100,200,100);
 
     itr_vision::GenRect::genrectin(rect,AAA,10);
@@ -23,24 +23,29 @@ void genrectintest()
     {
         Draw::Rectangle(gray, *(AAA+i), 255);
     }
-    IOHelper::WritePGMFile("Debug/graygenrectin.pgm", gray);
-
+    ConvertFormat::Matrix2ImageGray(gray,Im1);
+    IOHelper::WritePGMFile("Debug/graygenrectin.pgm", Im1);
+*/
     TRACE_INFO("OK genrectin");
 }
 void genrectouttest()
-{
+{/*
     RectangleS rect(100,100,200,100);
-    RectangleS rectR[10];
-    genrectout(rect,rectR[],10);
+    RectangleS AAA[20]=RectangleS(100,100,200,100);
 
-    Matrix gray;
-    IOHelper::ReadPGMFile("Debug/img0.pgm", gray);
+    itr_vision::GenRect::genrectout(rect,AAA,20);
+
+    ImageGray Im1;
+    IOHelper::ReadPGMFile("Debug/img0.pgm", Im1);
+    Matrix gray(Im1.GetHeight(),Im1.GetWidth());
+    ConvertFormat::ImageGray2Matrix(Im1,gray);
     for(S32 i=0;i<10;i++)
     {
-        Draw::Rectangle(gray, rect[i], 255);
+        Draw::Rectangle(gray, *(AAA+i), 255);
     }
-    IOHelper::WritePGMFile("Debug/graygenrectout.pgm", gray);
-
+    ConvertFormat::Matrix2ImageGray(gray,Im1);
+    IOHelper::WritePGMFile("Debug/graygenrectin.pgm", Im1);
+*/
     TRACE_INFO("OK genrectout");
 }
 
