@@ -84,13 +84,13 @@ namespace itr_vision
         }
     }
 
-    void ConvoluteSquare::Convolute(const Matrix &Input, F32 *Filter, Matrix &Output)
+   /*void ConvoluteSquare::Convolute(const Matrix &Input, F32 *Filter, Matrix &Output)
     {
-        assert(Input.MatchWidthHeight(width,height));
-        assert(Output.MatchWidthHeight(width,height));
+        assert(Input.MatchDim(height,width));
+        assert(Output.MatchDim(height,width));
         assert(Filter!=NULL);
-        //S16* input = Input.GetPixels();
-        S16 *output = Output.GetPixels();
+        //S16* input = Input.GetD();
+        S16 *output = Output.GetData();
         S16 *tempP = NULL;
         S16 value = 0;
         for (S32 y = 0; y < height; y++)
@@ -112,7 +112,7 @@ namespace itr_vision
                 output[y * width + x] = value;
             }
         }
-    }
+    }*/
 
     void ConvoluteSquare::_computeKernels(float sigma, ConvolutionKernel *gauss,
                                           ConvolutionKernel *gaussderiv)
@@ -188,12 +188,12 @@ namespace itr_vision
     void ConvoluteSquare::_convolveImageHoriz(const Matrix &imgin, ConvolutionKernel kernel,
             Matrix &imgout)
     {
-        S16 *ptrrow = imgin.GetPixels(); /* Points to row's first pixel */
-        S16 *ptrout = imgout.GetPixels(), /* Points to next output pixel */
+        F32 *ptrrow = imgin.GetData(); /* Points to row's first pixel */
+        F32 *ptrout = imgout.GetData(), /* Points to next output pixel */
              *ppp;
         float sum;
         S32 radius = kernel.width / 2;
-        S32 ncols = imgin.GetWidth(), nrows = imgin.GetHeight();
+        S32 ncols = imgin.GetCol(), nrows = imgin.GetRow();
         S32 i, j, k;
 
         /* Kernel width must be odd */
@@ -202,8 +202,8 @@ namespace itr_vision
         /* Must read from and write to different images */
 //        assert(imgin != imgout);
         /* Output image must be large enough to hold result */
-        assert(imgout.GetWidth() >= imgin.GetWidth());
-        assert(imgout.GetHeight() >= imgin.GetHeight());
+        assert(imgout.GetCol() >= imgin.GetCol());
+        assert(imgout.GetRow() >= imgin.GetRow());
 
         /* For each row, do ... */
         for (j = 0; j < nrows; j++)
@@ -244,12 +244,12 @@ namespace itr_vision
     void ConvoluteSquare::_convolveImageVert(const Matrix &imgin, ConvolutionKernel kernel,
             Matrix &imgout)
     {
-        S16 *ptrcol = imgin.GetPixels(); /* Points to row's first pixel */
-        S16 *ptrout = imgout.GetPixels(), /* Points to next output pixel */
+        F32 *ptrcol = imgin.GetData(); /* Points to row's first pixel */
+        F32 *ptrout = imgout.GetData(), /* Points to next output pixel */
              *ppp;
         S32 sum;
         S32 radius = kernel.width / 2;
-        S32 ncols = imgin.GetWidth(), nrows = imgin.GetHeight();
+        S32 ncols = imgin.GetCol(), nrows = imgin.GetRow();
         S32 i, j, k;
 
         /* Kernel width must be odd */
@@ -258,8 +258,8 @@ namespace itr_vision
         /* Must read from and write to different images */
 //        assert(imgin != imgout);
         /* Output image must be large enough to hold result */
-        assert(imgout.GetWidth() >= imgin.GetWidth());
-        assert(imgout.GetHeight() >= imgin.GetHeight());
+        assert(imgout.GetCol() >= imgin.GetCol());
+        assert(imgout.GetRow() >= imgin.GetRow());
 
         /* For each column, do ... */
         for (i = 0; i < ncols; i++)
@@ -301,8 +301,8 @@ namespace itr_vision
     void ConvoluteSquare::_KLTComputeSmoothedImage(const Matrix &img, float sigma, Matrix &smooth)
     {
         /* Output image must be large enough to hold result */
-        assert(smooth.GetWidth() >= img.GetWidth());
-        assert(smooth.GetHeight() >= img.GetHeight());
+        assert(smooth.GetCol() >= img.GetCol());
+        assert(smooth.GetRow() >= img.GetRow());
 
         /* Compute kernel, if necessary; gauss_deriv is not used */
         if (fabs(sigma - sigma_last) > 0.05)
@@ -328,7 +328,7 @@ namespace itr_vision
     void ConvoluteSquare::_convolveSeparate(const Matrix &imgin, ConvolutionKernel horiz_kernel,
                                             ConvolutionKernel vert_kernel, Matrix &imgout)
     {
-        Matrix tmpimg(imgin.GetWidth(), imgin.GetHeight());
+        Matrix tmpimg(imgin.GetCol(), imgin.GetRow());
         _convolveImageHoriz(imgin, horiz_kernel, tmpimg);
         _convolveImageVert(tmpimg, vert_kernel, imgout);
     }

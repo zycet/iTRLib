@@ -35,5 +35,6 @@
 #define HELPER_H_
 
 #include "iopnm.h"
-
+#include"genrect.h"
+#include"convertformat.h"
 #endif // HELPER_H_

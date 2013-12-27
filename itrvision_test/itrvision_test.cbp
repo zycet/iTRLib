@@ -51,6 +51,8 @@
 		<Unit filename="detectiontest.h" />
 		<Unit filename="drawtest.cc" />
 		<Unit filename="drawtest.h" />
+		<Unit filename="genrecttest.cpp" />
+		<Unit filename="genrecttest.h" />
 		<Unit filename="gmon.out" />
 		<Unit filename="iohelper.cpp" />
 		<Unit filename="iohelper.h" />

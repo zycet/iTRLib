@@ -59,6 +59,13 @@
 		<Unit filename="format/formatppm.cpp" />
 		<Unit filename="format/formatppm.h" />
 		<Unit filename="format/iformat.h" />
+<<<<<<< HEAD
+		<Unit filename="helper/convertformat.cpp" />
+		<Unit filename="helper/convertformat.h" />
+=======
+		<Unit filename="helper/genrect.cpp" />
+		<Unit filename="helper/genrect.h" />
+>>>>>>> 9722c94105653af038f364cc7e6ce9dc8ead802e
 		<Unit filename="helper/helper.h" />
 		<Unit filename="helper/iopnm.cpp" />
 		<Unit filename="helper/iopnm.h" />

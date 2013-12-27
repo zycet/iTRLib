@@ -85,7 +85,7 @@ namespace itr_vision
         trans.Rotate(ang);
 
         S32 Inputw;
-        Inputw=ImgInput.GetCol();
+        Inputw=ImgInput.GetWidth();
 
         Point2D pin,pout;
         S32 x0,y0;

@@ -50,6 +50,7 @@ namespace itr_math
  */
 Matrix::Matrix(S32 Row, S32 Col)
 {
+    data=NULL;
     Init(Row,Col);
 }
 /*
@@ -57,6 +58,7 @@ Matrix::Matrix(S32 Row, S32 Col)
  */
 Matrix::Matrix(S32 Row, S32 Col, F32* Data)
 {
+    data=NULL;
     Init(Row,Col,Data);
 }
 /*
@@ -64,6 +66,7 @@ Matrix::Matrix(S32 Row, S32 Col, F32* Data)
  */
 Matrix::Matrix(S32 RowCol)
 {
+    data=NULL;
     Init(RowCol);
 }
 /*
@@ -71,6 +74,7 @@ Matrix::Matrix(S32 RowCol)
  */
 Matrix::Matrix(const Matrix& Mat)
 {
+    data=NULL;
     Init(Mat);
 }
 /*
@@ -107,7 +111,7 @@ void Matrix::Init(S32 Row, S32 Col, F32* Data)
     assert(data==NULL);
     assert(NumericalObj!=NULL && CalculateObj!=NULL);
     assert(Row>0 && Col>0);
-    data = new F32[Row * Col]();
+    data = Data;
     assert(data != NULL);
     row = Row;
     col = Col;
@@ -168,7 +172,7 @@ void Matrix::SubRow(S32 RowPosSub, S32 RowPosTarget)
 {
     assert(RowPosSub >= 0 && RowPosSub < row);
     assert(RowPosTarget >= 0 && RowPosTarget < row);
-    CalculateObj->Sub(data + RowPosSub* col, data + RowPosTarget * col, col,data + RowPosTarget * col);
+    CalculateObj->Sub( data + RowPosTarget * col,data + RowPosSub* col, col,data + RowPosTarget * col);
 }
 /*
  * 将Data减至RowNoResult行
@@ -218,10 +222,11 @@ void Matrix::AddCol(F32* Data, S32 ColPosTarget)
 {
     assert(Data!=NULL);
     assert(ColPosTarget >= 0 && ColPosTarget<col);
-    
+
     for (S32 i = 0; i < row; i++)
     {
         data[ColPosTarget]+=Data[i];
+        ColPosTarget+=col;
     }
 }
 /*
@@ -233,7 +238,7 @@ void Matrix::SubCol(S32 ColPosSub, S32 ColPosTarget)
     assert(ColPosTarget >= 0 && ColPosTarget < col);
     for (S32 i = 0; i < row; i++)
     {
-        data[ColPosTarget]+=data[ColPosSub];
+        data[ColPosTarget]-=data[ColPosSub];
         ColPosSub+=col;
         ColPosTarget+=col;
     }
@@ -245,10 +250,11 @@ void Matrix::SubCol(F32* Data, S32 ColPosTarget)
 {
     assert(Data!=NULL);
     assert(ColPosTarget >= 0 && ColPosTarget<col);
-        
+
     for (S32 i = 0; i < row; i++)
     {
         data[ColPosTarget]-=Data[i];
+        ColPosTarget+=col;
     }
 }
 /*
@@ -342,7 +348,7 @@ void Matrix::Mul(const Matrix& Mat, Matrix& MatResult) const
         MatResult.ColExtract(Mat.GetData(), i, Mat.col, Mat.row, tempVect);
         for (S32 k = 0; k < MatResult.row; k++)
             CalculateObj->MultiSum(data + k * col, tempVect, Mat.row, tempVectAns[k]);
-        MatResult.CopyColFrom(i + 1, tempVectAns);
+        MatResult.CopyColFrom(i , tempVectAns);
     }
 }
 //**********矩阵运算符重载*********

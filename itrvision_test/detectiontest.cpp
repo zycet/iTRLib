@@ -47,14 +47,14 @@ using std::cout;
 using std::vector;
 void DetectionTest()
 {
-    printf("*****Begin Detection Sequence Test!*****\n\n");
+/*    printf("*****Begin Detection Sequence Test!*****\n\n");
     char file[25];
 
-    ImageGray img;
+    Matrix img;
     IOHelper::ReadPGMFile("Debug/green/pgm/cap000.pgm", img);
     //IOHelper::ReadPGMFile("Debug/david/imgs/img00001.ppm", gray);
-    ImageGray gray(img.GetWidth(),img.GetHeight());
-    ImageGray sample(30,30);
+    Matrix gray(img.GetCol(),img.GetRow());
+    Matrix sample(30,30);
     ConvoluteSquare conv;
     conv._KLTComputeSmoothedImage(img, 2, gray);
     ///Mine
@@ -67,12 +67,12 @@ void DetectionTest()
     RectangleS rectNeg(rect.X, rect.Y, rect.Width, rect.Height);
     RectangleS rectPos(rect.X, rect.Y, rect.Width, rect.Height);
 
-    S32 FeatureNum=sample.GetWidth()*sample.GetHeight();
+    S32 FeatureNum=sample.GetCol()*sample.GetRow();
     F32 data[8000];
     itr_algorithm::NaiveBayes nbc(FeatureNum);
 
     Matrix dataPos(4,FeatureNum),dataNeg(4,FeatureNum);
-    ImageGray patch(rect.Width,rect.Height);
+    Matrix patch(rect.Width,rect.Height);
     itr_vision::Pick::Rectangle(gray,rect,patch);
     itr_vision::Scale::Bilinear(patch,sample);
     IOHelper::WritePPMFile("Debug/0.ppm", sample);
@@ -157,8 +157,8 @@ void DetectionTest()
     nbc.TrainNeg(dataNeg);
 
     ///主循环，对每一帧图像
-    int width=gray.GetWidth();
-    int height=gray.GetHeight();
+    int width=gray.GetCol();
+    int height=gray.GetRow();
     F32 result,best;
     int x,y;
 
@@ -291,5 +291,5 @@ void DetectionTest()
         IOHelper::WritePPMFile(file,gray);
         IOHelper::WritePPMFile("Debug/6.ppm", patch);
     }
-    printf("*****End Detection Sequence Test!*****\n\n");
+    printf("*****End Detection Sequence Test!*****\n\n");*/
 }
