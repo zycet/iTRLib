@@ -93,8 +93,117 @@ public:
      * 初始化完全一样的矩阵(Clone)
      */
     void Init(const Matrix& Mat);
+    //**********初等变换**********
+    /*
+     * 将RowPosSource行加RowPosTarget行
+     */
+    void virtual AddRow(S32 RowPosSource, S32 RowPosTarget);
+    /*
+     * 将Data加至RowNoResult行
+     */
+    void virtual AddRow(F32* Data, S32 RowPosTarget);
+    /*
+     * 将RowPosSource行减至RowNoResult行
+     */
+    void virtual SubRow(S32 RowPosSource, S32 RowPosTarget);
+    /*
+     * 将Data减至RowNoResult行
+     */
+    void virtual SubRow(F32* Data, S32 RowPosTarget);
+    /*
+     * 将RowNoResult行乘以K
+     */
+    void virtual MulRow(F32 K, S32 RowPosTarget);
+    //Swap Row
+    /*
+     * 交换RowNoA行和RowNoB行
+     */
+    void virtual SwapRow(S32 RowNoA, S32 RowNoB);
+    /*
+     * 将ColNoAdd列加至ColNoResult列
+     */
+    void virtual AddCol(S32 ColPosSource, S32 ColPosTarget);
+    /*
+     * 将Data加至ColNoResult列
+     */
+    void virtual AddCol(F32* Data, S32 ColPosTarget);
+    /*
+     * 将ColNoSub列减至ColNoResult列
+     */
+    void virtual SubCol(S32 ColPosSource, S32 ColPosTarget);
+    /*
+     * 将Data减至ColNoResult行
+     */
+    void virtual SubCol(F32* Data, S32 ColPosTarget);
+    /*
+     * 将ColNoResult列乘以K
+     */
+    void virtual MulCol(F32 K, S32 ColPosTarget);
+    /*
+     * 交换ColNoA列和ColNoB列
+     */
+    void virtual SwapCol(S32 ColNoA, S32 ColNoB);
 
-    //**********成员属性**********
+    //**********常量相关计算**********
+    /*
+     * 全部元素加上K
+     */
+    void virtual AllAdd(F32 K);
+    /*
+     * 全部元素乘以K
+     */
+    void virtual AllMul(F32 K);
+
+    //**********矩阵相关计算**********
+
+    /*
+     * 加上矩阵MatrixAdd
+     */
+    void virtual Add(const Matrix& Mat);
+    /*
+     * 减去矩阵MatrixSub
+     */
+    void virtual Sub(const Matrix& Mat);
+    /*
+     * 右乘矩阵Mat并将结果存至MatResult
+     */
+    void virtual Mul(const Matrix& Mat, Matrix& MatResult) const;
+
+    Matrix virtual operator*(const Matrix& Mat) const;
+    Matrix virtual operator+(const Matrix& Mat) const;
+    Matrix virtual operator-(const Matrix& Mat) const;
+    Matrix virtual operator=(const Matrix& Mat);
+    //**********向量相关计算**********
+    Vector virtual operator*(const Vector& vec) const;
+    //**********常用操作**********
+    /*
+     * 用于抽取矩阵中的某列
+     */
+    void virtual ColExtract(F32* Data, S32 Offset, S32 Interval, S32 Length, F32* Result);
+    /******************************
+    *******Advanced Function*******
+    *******************************/
+    /*
+     * 把Mat设为对角阵Mat[i][i] = value
+     */
+    BOOL virtual MatEye(F32 Value);
+    /*
+     * 求矩阵逆并将结果放至MatResult
+     */
+    BOOL virtual Inv(Matrix& MatResult) const;
+    /*
+     * 求矩阵逆
+     */
+    Matrix virtual Inv() const;
+    /*
+     * 求矩阵转置并将结果放至MatResult
+     */
+    void virtual Tran(Matrix& MatResult) const;
+    /*
+    * 求矩阵转置
+    */
+    Matrix virtual Tran() const;
+    //**********内联函数**********
     /*
      * 获取行数
      */
@@ -447,141 +556,6 @@ public:
         else
             return false;
     }
-
-    //**********初等变换**********
-    /*
-     * 将RowPosSource行加RowPosTarget行
-     */
-    void virtual AddRow(S32 RowPosSource, S32 RowPosTarget);
-    /*
-     * 将Data加至RowNoResult行
-     */
-    void virtual AddRow(F32* Data, S32 RowNoResult);
-    /*
-     * 将RowPosSource行减至RowNoResult行
-     */
-    void virtual SubRow(S32 RowPosSource, S32 RowNoResult);
-    /*
-     * 将Data减至RowNoResult行
-     */
-    void virtual SubRow(F32* Data, S32 RowNoResult);
-    /*
-     * 将RowNoResult行乘以K
-     */
-    void virtual MulRow(F32 K, S32 RowNoResult);
-    //Swap Row
-    /*
-     * 交换RowNoA行和RowNoB行
-     */
-    void virtual SwapRow(S32 RowNoA, S32 RowNoB);
-    /*
-     * 将ColNoAdd列加至ColNoResult列
-     */
-    void virtual AddCol(S32 ColPosSource, S32 ColPosTarget);
-    /*
-     * 将Data加至ColNoResult列
-     */
-    void virtual AddCol(F32* Data, S32 ColPosTarget);
-    /*
-     * 将ColNoSub列减至ColNoResult列
-     */
-    void virtual SubCol(S32 ColPosSource, S32 ColPosTarget);
-    /*
-     * 将Data减至ColNoResult行
-     */
-    void virtual SubCol(F32* Data, S32 ColPosTarget);
-    /*
-     * 将ColNoResult列乘以K
-     */
-    void virtual MulCol(F32 K, S32 ColPosTarget);
-    /*
-     * 交换ColNoA列和ColNoB列
-     */
-    void virtual SwapCol(S32 ColNoA, S32 ColNoB);
-
-    //**********常量相关计算**********
-    /*
-     * 全部元素加上K
-     */
-    void virtual AllAdd(F32 K);
-    /*
-     * 全部元素乘以K
-     */
-    void virtual AllMul(F32 K);
-
-    //**********向量相关计算**********
-    /*
-     * 左乘行向量
-     */
-    //void virtual LeftMulRow(const Vector& Vec, Matrix& MatResult) const;
-    /*
-     * 左乘列向量
-     */
-    //void virtual LeftMulCol(const Vector& Vec, Matrix& MatResult) const;
-    /*
-     * 右乘行向量
-     */
-    //void virtual RightMulRow(const Vector& Vec, Matrix& MatResult) const;
-    /*
-     * 左乘行向量
-     */
-    //void virtual RightMulCol(const Vector& Vec, Matrix& MatResult) const;
-    Vector virtual operator*(const Vector& vec) const;
-
-    //**********矩阵相关计算**********
-    /*
-     * 用于抽取矩阵中的某列
-     */
-    void virtual ColExtract(F32* Data, S32 Offset, S32 Interval, S32 Length, F32* Result);
-    /*
-     * 加上矩阵MatrixAdd
-     */
-    void virtual Add(const Matrix& Mat);
-    /*
-     * 减去矩阵MatrixSub
-     */
-    void virtual Sub(const Matrix& Mat);
-    /*
-     * 右乘矩阵Mat并将结果存至MatResult
-     */
-    void virtual Mul(const Matrix& Mat, Matrix& MatResult) const;
-
-    Matrix virtual operator*(const Matrix& Mat) const;
-    Matrix virtual operator+(const Matrix& Mat) const;
-    Matrix virtual operator-(const Matrix& Mat) const;
-    Matrix virtual operator=(const Matrix& Mat);
-    /*
-     * 把Mat设为对角阵Mat[i][i] = value
-     */
-    BOOL virtual MatEye(F32 Value);
-    /*
-     * 求矩阵逆并将结果放至MatResult
-     */
-    BOOL virtual Inv(Matrix& MatResult) const;
-    /*
-     * 求矩阵逆
-     */
-    Matrix virtual Inv() const;
-
-    /*
-     * 求矩阵转置并将结果放至MatResult
-     */
-    void virtual Tran(Matrix& MatResult) const;
-    /*
-    * 求矩阵转置
-    */
-    Matrix virtual Tran() const;
-    /*
-     * 求矩阵行列式值
-     */
-    //F32 virtual Det() const;
-
-    /*
-     *测试用函数
-     */
-
-    //BOOL virtual CompMatrix(Matrix& mat);
-
     inline BOOL CompMatrix(Matrix& mat)
     {
         if (this->col != mat.col)
