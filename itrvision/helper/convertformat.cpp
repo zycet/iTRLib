@@ -26,5 +26,24 @@ namespace itr_vision
         for(int i=0;i<length;++i)
             *matrixptr++=*imageptr++;
     }
-
+    void ConvertFormat::Matrix2ImageARGB(const Matrix &input, ImageARGB& output)
+    {
+        S32 length=input.GetCol()*input.GetRow();
+        F32 *matrixptr=input.GetData();
+        U32 *imageptr=output.GetPixels();
+        U8 data;
+        while(length--)
+            {
+            data=(U8)(*matrixptr++);
+            *imageptr++=(data<<16)|(data<<8)|data;
+            }
+    }
+    void ConvertFormat::Matrix2ImageGray(const Matrix &input, ImageGray& output)
+    {
+     S32 length=input.GetCol()*input.GetRow();
+        F32* matrixptr=input.GetData();
+        S16* imageptr=output.GetPixels();
+        while(length--)
+            *imageptr++=(U8)(*matrixptr++);
+    }
 }

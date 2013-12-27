@@ -13,6 +13,8 @@ namespace itr_vision
         public:
             static void ImageARGB2Matrix(const ImageARGB &input,Matrix &output);
             static void ImageGray2Matrix(const ImageGray &input,Matrix &output);
+            static void Matrix2ImageARGB(const Matrix &input, ImageARGB& output);
+            static void Matrix2ImageGray(const Matrix &input, ImageGray& output);
         protected:
         private:
     };
