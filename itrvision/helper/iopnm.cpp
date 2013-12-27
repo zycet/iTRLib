@@ -80,7 +80,7 @@ namespace itr_vision
         delete[] bufferWrite;
     }
 
-void IOpnm::ReadPPMFile(char *filename, Matrix &img)
+    void IOpnm::ReadPPMFile(char *filename, Matrix &img)
     {
         ImageGray input;
         ReadPPMFile(filename,input);

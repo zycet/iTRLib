@@ -8,15 +8,16 @@
 
 让**codeblocks**启动的时候以英文环境启动，这样它调用GCC时，就不会出现中文了。
 
-1. 找一个习惯的目录，在其中创建文件*codeblocks.sh*
+* 找一个习惯的目录，在其中创建文件*codeblocks.sh*
 
-2. 打开文件，在其中输入如下代码后保存
+* 打开文件，在其中输入如下代码后保存
 
 ```bash
     export LC_ALL=C
     codeblocks %F
 ```
-3. 打开终端，输入命令：`sudo gedit /usr/share/applications/codeblocks.desktop`
-4. 在打开的窗口中找到 *Exec*，把等号后面的部分改成刚才创建的文件。注意这里要写完整的路径加文件名，例如：
+* 打开终端，进入*codeblocks.sh*所在目录，输入命令：`sudo chmod +x codeblocks.sh`
+* 打开终端，输入命令：`sudo gedit /usr/share/applications/codeblocks.desktop`
+* 在打开的窗口中找到 *Exec*，把等号后面的部分改成刚才创建的文件。注意这里要写完整的路径加文件名，例如：
 
 `Exec=/home/ghdawn/software/codeblocks.sh`
