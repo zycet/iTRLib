@@ -7,5 +7,6 @@
 		<Project filename="itralgorithm_test/itralgorithm_test.cbp" />
 		<Project filename="itralgorithm/itralgorithm.cbp" />
 		<Project filename="itrbase/itrbase.cbp" />
+		<Project filename="trackdemo/trackdemo.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
