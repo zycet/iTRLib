@@ -5,5 +5,6 @@ using itr_math::RectangleS;
 
 void rotatetest();
 void rotateImgGraytest();
+void rotateImgARGBtest();
 
 #endif// ROTATETEST_H_
