@@ -365,6 +365,10 @@ void TestMatrix()
     assert(Result.GetData()[0] == 1 && Result.GetData()[4] == 1 && Result.GetData()[8] == 1);
     Result.Add(Source4);
     assert(Result.GetData()[0] == 0 && Result.GetData()[4] == 0 && Result.GetData()[8] == 0);
+    Result.Sub(Source3);
+    assert(Result.GetData()[0] == -1 && Result.GetData()[4] == -1 && Result.GetData()[8] == -1);
+    Result.Sub(Source4);
+    assert(Result.GetData()[0] == 0 && Result.GetData()[4] == 0 && Result.GetData()[8] == 0);
 
     Source3.MulRow(2, 0);
     assert(Source3.GetData()[0] == 2 && Source3.GetData()[1] == 2 && Source3.GetData()[2] == 2);
@@ -390,14 +394,14 @@ void TestMatrix()
     assert(Source1.GetData()[0] == 1 && Source1.GetData()[3] == 16 && Source1.GetData()[6] == 49);
 
     //常量相关运算测试
-    Source1.Add(1);
+    Source1.AllAdd(1);
     assert(Source1.GetData()[0] == 2 && Source1.GetData()[4] == 26 && Source1.GetData()[8] == 82);
-    Source1.Add(-1);
+    Source1.AllAdd(-1);
     assert(Source1.GetData()[0] == 1 && Source1.GetData()[4] == 25 && Source1.GetData()[8] == 81);
 
-    Source3.Mul(2);
+    Source3.AllMul(2);
     assert(Source3.GetData()[0] == 2 && Source3.GetData()[4] == 2 && Source3.GetData()[8] == 2);
-    Source3.Mul(0.5);
+    Source3.AllMul(0.5);
     assert(Source3.GetData()[0] == 1 && Source3.GetData()[4] == 1 && Source3.GetData()[8] == 1);
 
     //常用操作测试
@@ -428,7 +432,6 @@ void TestMatrix()
     Result.MatEye(2);
     assert(Result.GetData()[0] == 2 && Result.GetData()[4] == 2 && Result.GetData()[8] == 2);
     Result.Set(0);
-
 
     //此处测试啦，没有问题啊！！！
     //Source5.Inv(Result);
