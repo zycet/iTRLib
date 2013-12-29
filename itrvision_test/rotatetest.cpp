@@ -15,27 +15,27 @@ void rotatetest()
 
 void rotateImgARGBtest()
 {
-    S32 X=100;
-    S32 Y=110;
-    S32 width=200 ;
-    S32 height=100;
+    S32 X=00;
+    S32 Y=0;
+    S32 width=640 ;
+    S32 height=460;
     RectangleS rect(X, Y,width,height);
 
     ImageARGB ImageI;
     ImageARGB ImageO(width,height);
-    IOpnm::ReadPPMFile("Debug/table1.pgm", ImageI);
+    IOpnm::ReadPPMFile("Debug/table2.ppm", ImageI);
 
     Rotate::rotate(ImageI, rect, 0, ImageO);
-    IOpnm::WritePPMFile("Debug/ImageARGB00.pgm", ImageO);
+    IOpnm::WritePPMFile("Debug/ImageARGB00.ppm", ImageO);
 
     Rotate::rotate(ImageI, rect, 20, ImageO);
-    IOpnm::WritePPMFile("Debug/ImageARGB20.pgm", ImageO);
+    IOpnm::WritePPMFile("Debug/ImageARGB20.ppm", ImageO);
 
     Rotate::rotate(ImageI, rect, 90, ImageO);
-    IOpnm::WritePPMFile("Debug/ImageARGB90.pgm", ImageO);
+    IOpnm::WritePPMFile("Debug/ImageARGB90.ppm", ImageO);
 
     Rotate::rotate(ImageI, rect, 180, ImageO);
-    IOpnm::WritePPMFile("Debug/ImageARGB180.pgm", ImageO);
+    IOpnm::WritePPMFile("Debug/ImageARGB180.ppm", ImageO);
 }
 void rotateImgGraytest()
 {

@@ -49,7 +49,7 @@ int main()
     //Init Math
     itr_math::MathObjStandInit();
     //Test Rotate OK!
-    //rotatetest();
+    rotatetest();
     //Test Genrect OK!
     //genrecttest();
     //Test Pick OK!
