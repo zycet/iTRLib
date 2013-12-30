@@ -27,7 +27,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * calculate.cc
- *  Created on: 2013��9��9��
+ *  Created on: 2013-9-9
  *      Author: ZYC
  */
 
@@ -99,6 +99,8 @@ public:
     virtual void Set(S16* SourceA, S16 Value, S32 Length) const;
     virtual void Set(S32* SourceA, S32 Value, S32 Length) const;
     virtual void Set(F32* SourceA, F32 Value, S32 Length) const;
+
+    virtual void Compare(F32* SourceA, F32* SourceB, F32 Error,S32 Length,BOOL* IsSame) const;
 };
 } // namespace itr_math
 

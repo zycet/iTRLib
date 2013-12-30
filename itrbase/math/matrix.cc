@@ -40,24 +40,26 @@
 
 namespace itr_math
 {
-    /**************************************    矩阵初始化注意事项 ************************************
-      **********************   矩阵初始化只支持以下几种形式，不支持初始化直接等于另一个矩阵 ******************
-     ***********************   eg:itr_math::Matrix a = Source (不允许这样用) ************************
-     *********************************************************************************************/
     /*
      * 初始化一个指定行列数的空矩阵(自动分配内存)
      */
     Matrix::Matrix(S32 Row, S32 Col)
     {
+        row=0;
+        col=0;
         data=NULL;
+        localData=false;
         Init(Row,Col);
     }
     /*
-     * 初始化一个指定行列数的矩阵(以传入的指针为数据区)
+     * 初始化一个指定行列数的矩阵(以传入的指针为数据区,不分配本地内存)
      */
     Matrix::Matrix(S32 Row, S32 Col, F32* Data)
     {
+        row=0;
+        col=0;
         data=NULL;
+        localData=false;
         Init(Row,Col,Data);
     }
     /*
@@ -65,7 +67,10 @@ namespace itr_math
      */
     Matrix::Matrix(S32 RowCol)
     {
+        row=0;
+        col=0;
         data=NULL;
+        localData=false;
         Init(RowCol);
     }
     /*
@@ -73,15 +78,24 @@ namespace itr_math
      */
     Matrix::Matrix(const Matrix& Mat)
     {
-        data=NULL;
-        Init(Mat);
+        assert(NumericalObj!=NULL && CalculateObj!=NULL);
+        data = new F32[Mat.GetRow() * Mat.GetCol()]();
+        assert(data!=NULL);
+        row = Mat.GetRow();
+        col = Mat.GetCol();
+        localData = true;
+        this->CopyFrom(Mat.data);
     }
     /*
-     * 初始化,未分配内存,需要调用Init
+     * 用于初始化列表的空构造函数
+     * 在构造后需手动调用Init函数
      */
     Matrix::Matrix()
     {
+        row=0;
+        col=0;
         data=NULL;
+        localData=false;
     }
     /*
      * 回收自动分配的内存
@@ -136,20 +150,6 @@ namespace itr_math
         row = RowCol;
         col = RowCol;
         localData = true;
-    }
-    /*
-     * 初始化完全一样的矩阵(Clone)
-     */
-    void Matrix::Init(const Matrix& Mat)
-    {
-        assert(data==NULL);
-        assert(NumericalObj!=NULL && CalculateObj!=NULL);
-        data = new F32[Mat.GetRow() * Mat.GetCol()]();
-        assert(data!=NULL);
-        row = Mat.GetRow();
-        col = Mat.GetCol();
-        localData = true;
-        this->CopyFrom(Mat.data);
     }
 
     //**********初等变换**********
@@ -404,23 +404,6 @@ namespace itr_math
     *******Advanced Function*******
     *******************************/
     /*
-     * 把Mat设为对角阵Mat[i][i] = value
-     */
-    BOOL Matrix::MatEye(F32 Value)
-    {
-        if (this->row != this->col)
-            return false;
-        for (S32 i = 0; i < this->row; i++)
-            for (S32 j = 0; j < this->col; j++)
-            {
-                if (i == j)
-                    this->data[i * this->col + j] = Value;
-                else
-                    this->data[i * this->col + j] = 0;
-            }
-        return true;
-    }
-    /*
      * 求矩阵逆并将结果放至MatResult
      */
     BOOL Matrix::Inv(Matrix& MatResult) const
@@ -432,7 +415,8 @@ namespace itr_math
         tempM = MatTemp.row;
         tempN = MatTemp.col;
         MemoryCopy(MatTemp.data, this->data, this->row * this->col * sizeof(F32));
-        MatResult.MatEye(1.0);
+        MatResult.Clear();
+        MatResult.SetDiag(1);
         for (i = 0; i < this->row; i++)
         {
             //寻找主元

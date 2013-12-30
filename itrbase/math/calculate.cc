@@ -545,4 +545,23 @@ void Calculate::Set(F32* SourceA, F32 Value, S32 Length) const
         SourceA[i] = Value;
     }
 }
+
+void Calculate::Compare(F32* SourceA, F32* SourceB, F32 Error,S32 Length,BOOL* IsSame) const
+{
+    assert(SourceA!=NULL);
+    assert(SourceB!=NULL);
+    assert(Length > 0);
+    assert(Error > 0);
+    (*IsSame)=true;
+    F32 error;
+    for (S32 i = 0; i < Length; i++)
+    {
+        error=SourceA[i]-SourceB[i];
+        if(error>Error||error<-Error)
+        {
+            (*IsSame)=false;
+            return;
+        }
+    }
+}
 } // namespace itr_math

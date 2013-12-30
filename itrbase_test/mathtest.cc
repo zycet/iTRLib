@@ -429,7 +429,8 @@ void TestMatrix()
     assert(Result.GetData()[0] == 0 && Result.GetData()[4] == 0 && Result.GetData()[8] == 0);
     Result.Set(0);
 
-    Result.MatEye(2);
+    Result.Clear();
+    Result.SetDiag(2);
     assert(Result.GetData()[0] == 2 && Result.GetData()[4] == 2 && Result.GetData()[8] == 2);
     Result.Set(0);
 

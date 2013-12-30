@@ -35,6 +35,7 @@
 #define MATH_H_
 
 #define PI 3.14159265359
+#define EPS 0.0001
 #define ANG2RAD(x) (x*0.01745329251)
 #define RAD2ANG(x) (x*57.2957795131)
 

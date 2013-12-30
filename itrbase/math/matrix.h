@@ -12,9 +12,6 @@
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
  *    distribution.
- * 3. Neither the name PX4 nor the names of its contributors may be
- *    used to endorse or promote products derived from this software
- *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -45,6 +42,8 @@ namespace itr_math
 {
 /*
  * 矩阵所有操作参数均为先行号(Row=Y=Height)后列号(Col=X=Width)
+ * 矩阵初始化只支持以下几种形式，不支持初始化直接等于另一个矩阵。
+ * eg:Matrix a = Source (不允许这样用)
  */
 class Matrix
 {
@@ -55,7 +54,7 @@ public:
      */
     Matrix(S32 Row, S32 Col);
     /*
-     * 初始化一个指定行列数的矩阵(以传入的指针为数据区)
+     * 初始化一个指定行列数的矩阵(以传入的指针为数据区,不分配本地内存)
      */
     Matrix(S32 Row, S32 Col, F32* Data);
     /*
@@ -78,40 +77,36 @@ public:
 
     //**********后初始化函数**********
     /*
-     * 初始化一个指定行列数的空矩阵(自动分配内存)
+     * 初始化一个指定行列数的空矩阵(自动分配内存，只能在无参数构造对象后调用)
      */
     void Init(S32 Row, S32 Col);
     /*
-     * 初始化一个指定行列数的矩阵(以传入的指针为数据区)
+     * 初始化一个指定行列数的矩阵(以传入的指针为数据区，只能在无参数构造对象后调用)
      */
     void Init(S32 Row, S32 Col, F32* Data);
     /*
-     * 初始化一个指定阶数的方阵(自动分配内存)
+     * 初始化一个指定阶数的方阵(自动分配内存，只能在无参数构造对象后调用)
      */
     void Init(S32 RowCol);
-    /*
-     * 初始化完全一样的矩阵(Clone)
-     */
-    void Init(const Matrix& Mat);
     //**********初等变换**********
     /*
      * 将RowPosSource行加RowPosTarget行
      */
     void virtual AddRow(S32 RowPosSource, S32 RowPosTarget);
     /*
-     * 将Data加至RowNoResult行
+     * 将Data加至RowPosTarget行
      */
     void virtual AddRow(F32* Data, S32 RowPosTarget);
     /*
-     * 将RowPosSource行减至RowNoResult行
+     * 将RowPosSource行减至RowPosTarget行
      */
     void virtual SubRow(S32 RowPosSource, S32 RowPosTarget);
     /*
-     * 将Data减至RowNoResult行
+     * 将Data减至RowNoTarget行
      */
     void virtual SubRow(F32* Data, S32 RowPosTarget);
     /*
-     * 将RowNoResult行乘以K
+     * 将RowNoTarget行乘以K
      */
     void virtual MulRow(F32 K, S32 RowPosTarget);
     //Swap Row
@@ -120,23 +115,23 @@ public:
      */
     void virtual SwapRow(S32 RowNoA, S32 RowNoB);
     /*
-     * 将ColNoAdd列加至ColNoResult列
+     * 将ColNoAdd列加至ColNoTarget列
      */
     void virtual AddCol(S32 ColPosSource, S32 ColPosTarget);
     /*
-     * 将Data加至ColNoResult列
+     * 将Data加至ColNoTarget列
      */
     void virtual AddCol(F32* Data, S32 ColPosTarget);
     /*
-     * 将ColNoSub列减至ColNoResult列
+     * 将ColNoSub列减至ColNoTarget列
      */
     void virtual SubCol(S32 ColPosSource, S32 ColPosTarget);
     /*
-     * 将Data减至ColNoResult行
+     * 将Data减至ColNoTarget行
      */
     void virtual SubCol(F32* Data, S32 ColPosTarget);
     /*
-     * 将ColNoResult列乘以K
+     * 将ColNoTarget列乘以K
      */
     void virtual MulCol(F32 K, S32 ColPosTarget);
     /*
@@ -183,10 +178,7 @@ public:
     /******************************
     *******Advanced Function*******
     *******************************/
-    /*
-     * 把Mat设为对角阵Mat[i][i] = value
-     */
-    BOOL virtual MatEye(F32 Value);
+
     /*
      * 求矩阵逆并将结果放至MatResult
      */
@@ -443,20 +435,19 @@ public:
 
     //**********数据操作**********
     /*
-     * 设置所有元素为0
-     */
-    inline void virtual Clear()
-    {
-        for (S32 i = 0; i < row * col; i++)
-            data[i] = 0;
-    }
-    /*
      * 设置所有元素为K
      */
     inline void virtual Set(F32 K)
     {
         for (S32 i = 0; i < row * col; i++)
             data[i] = K;
+    }
+    /*
+     * 设置所有元素为0
+     */
+    inline void virtual Clear()
+    {
+        Set(0);
     }
     /*
      * 设置主对角线元素为K
@@ -531,7 +522,7 @@ public:
      */
     inline BOOL virtual MatchRightMulCol(const Vector& Vec) const
     {
-        if (col == 1)
+        if (col == 1&&row==Vec.GetDim())
             return true;
         else
             return false;
@@ -551,23 +542,20 @@ public:
      */
     inline BOOL virtual MatchLeftMulCol(const Vector& Vec) const
     {
-        if (row == 1)
+        if (row == 1&&col==Vec.GetDim())
             return true;
         else
             return false;
     }
-    inline BOOL CompMatrix(Matrix& mat)
+
+    inline BOOL CompMatrix(Matrix& Mat)
     {
-        if (this->col != mat.col)
+        BOOL r;
+        r=MatchDim(Mat);
+        if(r==false)
             return false;
-        if (this->row != mat.row)
-            return false;
-        for (S32 i = 0; i < this->col * this->row; i++)
-        {
-            if (this->GetData()[i]== mat.data[i])
-                return false;
-        }
-        return true;
+        itr_math::CalculateObj->Compare(GetData(),Mat.GetData(),1,col*row,&r);
+        return r;
     }
 
 private:
