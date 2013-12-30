@@ -190,7 +190,7 @@ namespace itr_vision
                           const vector<FeaturePoint> &feature1, const vector<FeaturePoint> &feature2,
                           Matrix &Result)
     {
-        Result.Init(Img1.GetCol() * 2 + 10, Img1.GetRow());
+        Result.Init(Img1.GetRow() , Img1.GetCol()* 2 + 10);
         int offset = Img1.GetCol() + 10;
         for (int i = 0; i < Img1.GetCol(); i++)
             for (int j = 0; j < Img1.GetRow(); j++)
