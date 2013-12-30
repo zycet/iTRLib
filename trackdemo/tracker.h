@@ -8,6 +8,4 @@ bool kltTracker(const Matrix &gray,const Matrix &last,RectangleS &rect,F32 &u,F3
 
 void Tracker();
 
-bool Detection(const Matrix &current,RectangleS &rect,F32 &x,F32 &y);
-
 #endif // TRACKER_H

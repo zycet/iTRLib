@@ -1,11 +1,10 @@
 #include "tracker.h"
-
+#include "detection.h"
 #include "itralgorithm.h"
 #include "algorithm"
 #include "iostream"
 #include "stdio.h"
 using namespace itr_vision;
-
 using namespace itr_algorithm;
 using std::cout;
 using std::endl;
@@ -79,7 +78,7 @@ void Tracker()
     kf.x[3]=0;
 
     F32 _x,_y,_u=0,_v=0;
-    Detection(current,rect,_x,_y);
+    Detection detection(current,rect,10);
     for(int k=2; k<200; ++k)
     {
         sprintf(file, path, k);
@@ -89,7 +88,7 @@ void Tracker()
         //kltTracker(current,last,rect,_u,_v);
         rect.X+=_u;
         rect.Y+=_v;
-        Detection(current,rect,_x,_y);
+        detection.Go(current,rect,_x,_y);
         rect.X=_x;
         rect.Y=_y;
         Draw::Rectangle(current,rect,255);
@@ -100,7 +99,7 @@ void Tracker()
     printf("*****End Tracking Test!*****\n\n");
 }
 
-const int Num=10;
+/*const int Num=10;
 bool Detection(const Matrix &current,RectangleS &rect,F32 &x,F32 &y)
 {
     printf("\n*****Begin  Detection !*****\n\n");
@@ -152,7 +151,7 @@ bool Detection(const Matrix &current,RectangleS &rect,F32 &x,F32 &y)
     printf("Detect:%f,%f\n",x,y);
     printf("\n*****End  Detection !*****\n\n");
     return true;
-}
+}*/
 bool kltTracker(const Matrix &current,const Matrix &last,RectangleS &rect,F32 &u,F32 &v)
 {
     printf("*****Begin  Tracking !*****\n\n");
