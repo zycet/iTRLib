@@ -68,7 +68,7 @@ namespace itr_algorithm
         {
             for (int i = 0; i < featureNum; i++)
             {
-                input.CopyColTo(i+1, data);
+                input.CopyColTo(i, data);
                 itr_math::StatisticsObj->Mean(data, length, muPos[i]);
                 itr_math::StatisticsObj->Variance(data, length, sigmaPos[i]);
             }
@@ -78,7 +78,7 @@ namespace itr_algorithm
         {
             for (int i = 0; i < featureNum; i++)
             {
-                input.CopyColTo(i+1, data);
+                input.CopyColTo(i, data);
                 itr_math::StatisticsObj->Mean(data, length, mu);
                 itr_math::StatisticsObj->Variance(data, length, sigma);
 
@@ -102,7 +102,7 @@ namespace itr_algorithm
         {
             for (int i = 0; i < featureNum; i++)
             {
-                input.CopyColTo(i+1, data);
+                input.CopyColTo(i, data);
                 itr_math::StatisticsObj->Mean(data, length, muNeg[i]);
                 itr_math::StatisticsObj->Variance(data, length, sigmaNeg[i]);
             }
@@ -112,7 +112,7 @@ namespace itr_algorithm
         {
             for (int i = 0; i < featureNum; i++)
             {
-                input.CopyColTo(i+1, data);
+                input.CopyColTo(i, data);
                 itr_math::StatisticsObj->Mean(data, length, mu);
                 itr_math::StatisticsObj->Variance(data, length, sigma);
 

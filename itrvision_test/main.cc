@@ -51,7 +51,7 @@ int main()
     //Test Rotate OK!
     rotatetest();
     //Test Genrect OK!
-    //genrecttest();
+    genrecttest();
     //Test Pick OK!
     // picktest();
     //Test Draw OK!

@@ -5,6 +5,6 @@ using namespace std;
 
 int main()
 {
-    kltTracker();
+    Tracker();
     return 0;
 }
