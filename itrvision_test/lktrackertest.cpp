@@ -65,35 +65,7 @@ void lktest()
     lktest2Img();
 }
 
-class DataOper:public Operator
-{
-    public:
-        F32 GetError(F32 a, F32 b)
-        {
-            return fabs(a-b);
-        }
-        F32 GetValue(F32 *data, S32 N)
-        {
-            std::sort(data,data+N);
-            return data[N/2];
-        }
-        bool Remain(F32 error)
-        {
-            return (fabs(error)<1.5);
-        }
-};
 
-void printMatrix(Matrix a)
-{
-    for (int i = 0; i < a.GetRow(); ++i)
-    {
-        for (int j = 0; j < a.GetCol(); ++j)
-        {
-            printf("%f ", a(i, j));
-        }
-        printf("\n");
-    }
-}
 void lkseq()
 {/*
 printf("*****Begin KLT Tracking Sequence Test!*****\n\n");

@@ -42,6 +42,9 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
+					<Add library="../itrvision/libitrvision.a" />
+					<Add library="../itrbase/libitrbase.a" />
+					<Add library="../itralgorithm/libitralgorithm.a" />
 					<Add directory="../itrvision" />
 					<Add directory="../itrbase" />
 				</Linker>

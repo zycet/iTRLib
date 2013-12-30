@@ -50,19 +50,19 @@ namespace itr_vision
         //分配空间
         width[0] = Img.GetCol();
         height[0] = Img.GetRow();
-        img[0].Init(width[0], height[0]);
-        gradx[0].Init(width[0], height[0]);
-        grady[0].Init(width[0], height[0]);
-        Matrix tempimg(width[0], height[0]);
+        img[0].Init(height[0], width[0]);
+        gradx[0].Init(height[0], width[0]);
+        grady[0].Init(height[0], width[0]);
+        Matrix tempimg(height[0], width[0]);
         int L;
 
         for (L = 1; L < level; ++L)
         {
             width[L] = width[L - 1] / subsampling;
             height[L] = height[L - 1] / subsampling;
-            img[L].Init(width[L], height[L]);
-            gradx[L].Init(width[L], height[L]);
-            grady[L].Init(width[L], height[L]);
+            img[L].Init(height[L], width[L]);
+            gradx[L].Init(height[L], width[L]);
+            grady[L].Init(height[L], width[L]);
         }
         ConvoluteSquare conv;
         conv._KLTComputeSmoothedImage(Img, 0.7, img[0]);

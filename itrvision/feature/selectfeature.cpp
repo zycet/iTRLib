@@ -49,9 +49,9 @@ namespace itr_vision
         mineigen = 1;
         width = Img.GetCol();
         height = Img.GetRow();
-        img.Init(Img.GetCol(), Img.GetRow());
-        dx.Init(Img.GetCol(), Img.GetRow());
-        dy.Init(Img.GetCol(), Img.GetRow());
+        img.Init(height, width);
+        dx.Init(height, width);
+        dy.Init(height, width);
         ConvoluteSquare conv;
         conv._KLTComputeSmoothedImage(Img, 0.1f * windowWidth, img);
 
