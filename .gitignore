@@ -2,6 +2,9 @@
 *.slo
 *.lo
 *.o
+bin/
+Debug/
+obj/
 
 # Compiled Dynamic libraries
 *.so
