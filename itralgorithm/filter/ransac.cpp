@@ -2,11 +2,16 @@
 
 namespace itr_algorithm
 {
-    Ransac::Ransac(Operator &Oper):oper(Oper)
+    Ransac::Ransac()
     {
         //ctor
         M=7;
         N=1;
+    }
+
+    void Ransac::Init(Ransac::Operator* Oper)
+    {
+        oper=Oper;
     }
     void Ransac::Process(S32 count, F32 *x, S32 &drop)
     {
@@ -29,11 +34,11 @@ namespace itr_algorithm
                 data[j] = x[index];
             }
 
-            result[i] =oper.GetValue(data,N);
+            result[i] =oper->GetValue(data,N);
             error[i]=0;
             for (int j = 0; j < count; ++j)
             {
-                error[i] += oper.GetError(x[j] , result[i]); //*(x[j]-result[i]);
+                error[i] += oper->GetError(x[j] , result[i]); //*(x[j]-result[i]);
             }
         }
         index = 0;
@@ -52,7 +57,7 @@ namespace itr_algorithm
         for (int i = 0; i < count; ++i)
         {
 //            printf("%0.0f ", fabs(x[i] - key));
-            if (!oper.Remain(x[i] - key))
+            if (!oper->Remain(x[i] - key))
             {
                 x[i] = INF;
                 ++drop;

@@ -23,7 +23,7 @@ void printMatrix(Matrix a)
 }
 
 
-class DataOper:public Operator
+class DataOper:public Ransac::Operator
 {
     public:
         F32 GetError(F32 a, F32 b)
@@ -63,11 +63,12 @@ void Tracker()
     rect.Height-=rect.Y;
 
     ///卡尔曼滤波用
-    KalmanFilter kf(4);
+    KalmanFilter kf;
+    kf.Init(4);
     F32 data[16]= {1 ,0,1,0,0,1,0,1,0,0,1,0,0,0,0,1};
     kf.F_x.CopyFrom(data);
     Matrix H(2,4),R(2,2);
-    R.MatEye(5.012306);
+    R.SetDiag(5.012306);
     H.CopyFrom(data+8);
     printMatrix(H);
     printMatrix(kf.F_x);
@@ -78,7 +79,7 @@ void Tracker()
     kf.x[3]=0;
 
     F32 _x,_y,_u=0,_v=0;
-    Detection detection(current,rect,10);
+    //Detection detection(current,rect,10);
     for(int k=2; k<200; ++k)
     {
         sprintf(file, path, k);
@@ -88,7 +89,7 @@ void Tracker()
         //kltTracker(current,last,rect,_u,_v);
         rect.X+=_u;
         rect.Y+=_v;
-        detection.Go(current,rect,_x,_y);
+        //detection.Go(current,rect,_x,_y);
         rect.X=_x;
         rect.Y=_y;
         Draw::Rectangle(current,rect,255);
@@ -165,8 +166,8 @@ bool kltTracker(const Matrix &current,const Matrix &last,RectangleS &rect,F32 &u
     Matrix gray(current);
     ///随机一致性检测
     DataOper oper;
-    Ransac ransac(oper);
-
+    Ransac ransac;
+    ransac.Init(&oper);
     ///用于临时存放速度值
 
     static S32 count = 0, drop=0;

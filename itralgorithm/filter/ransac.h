@@ -4,20 +4,21 @@
 #include "itrbase.h"
 namespace itr_algorithm
 {
-    class Operator
-    {
-        public:
-            virtual F32 GetError(F32 a, F32 b)=0;
-            virtual F32 GetValue(F32 *data, S32 N)=0;
-            virtual bool Remain(F32 error)=0;
-    };
     class Ransac
     {
         public:
             /** Default constructor */
-            Ransac(Operator &Oper);
+            class Operator
+            {
+                public:
+                    virtual F32 GetError(F32 a, F32 b)=0;
+                    virtual F32 GetValue(F32 *data, S32 N)=0;
+                    virtual bool Remain(F32 error)=0;
+            };
+            Ransac();
+            void Init(Ransac::Operator *oper);
             void Process(S32 count, F32 *x, S32 &drop);
-            Operator &oper;
+            Ransac::Operator *oper;
             static const S32 INF = 9999999;
 
         private:

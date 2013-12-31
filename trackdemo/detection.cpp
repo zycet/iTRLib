@@ -2,7 +2,7 @@
 
 
 Detection::Detection(const Matrix &current,RectangleS &rect,S32 num):
-    patch(rect.Height,rect.Width),FeatureNum(30*30),nbc(FeatureNum),
+    patch(rect.Height,rect.Width),FeatureNum(30*30),nbc(),
     dataPos(num,FeatureNum),dataNeg(num,FeatureNum),sample(30,30)
 {
     Num=num;

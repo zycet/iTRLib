@@ -39,7 +39,7 @@ using std::cout;
 using std::endl;
 namespace itr_algorithm
 {
-    void itr_algorithm::NaiveBayes::NaiveBayes()
+    itr_algorithm::NaiveBayes::NaiveBayes()
     {
         featureNum=-1;
     }
