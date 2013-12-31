@@ -44,6 +44,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="detection.cpp" />
+		<Unit filename="detection.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="tracker.cpp" />
 		<Unit filename="tracker.h" />

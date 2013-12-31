@@ -52,7 +52,7 @@
 		<Unit filename="feature/pyramid.cpp" />
 		<Unit filename="feature/pyramid.h" />
 		<Unit filename="feature/selectfeature.cpp" />
-		<Unit filename="feature/selectseature.h" />
+		<Unit filename="feature/selectfeature.h" />
 		<Unit filename="format/format.h" />
 		<Unit filename="format/formatpgm.cpp" />
 		<Unit filename="format/formatpgm.h" />

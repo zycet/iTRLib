@@ -10,7 +10,8 @@ namespace itr_algorithm
     {
         public:
             /** Default constructor */
-            KalmanFilter(int DimState);
+            KalmanFilter();
+            void Init(int DimState);
             ///观测矩阵,观测向量
             void UpdateModel();
             Vector UpdateMeasure(const Matrix& H,const Matrix &R,const Vector& z);

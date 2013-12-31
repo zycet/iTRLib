@@ -39,6 +39,10 @@ using std::cout;
 using std::endl;
 namespace itr_algorithm
 {
+    void itr_algorithm::NaiveBayes::NaiveBayes()
+    {
+        featureNum=-1;
+    }
     /*
      * 输入矩阵的每一行是一组数据
      * 所以
@@ -46,7 +50,7 @@ namespace itr_algorithm
      * 有多少组数据就有多少行。
      */
 
-    itr_algorithm::NaiveBayes::NaiveBayes(int FeatureNum)
+    void itr_algorithm::NaiveBayes::Init(int FeatureNum)
     {
         featureNum = FeatureNum;
         muPos = new F32[FeatureNum]();

@@ -3,38 +3,46 @@
 #include <stdio.h>
 namespace itr_algorithm
 {
-    KalmanFilter::KalmanFilter(S32 DimState):
-            x(DimState),
-            F_x(DimState,DimState),F_n(DimState,DimState),
-            Q(DimState,DimState),P(DimState,DimState)
+    KalmanFilter::KalmanFilter()
+    {
+        _dimState=-1;
+    }
+    void KalmanFilter::Init(S32 DimState)
 
     {
+        x.Init(DimState);
+        F_x.Init(DimState,DimState);
+        F_n.Init(DimState,DimState);
+        Q.Init(DimState,DimState);
+        P.Init(DimState,DimState);
         _dimState=DimState;
-        F_n.MatEye(1);
-        P.MatEye(0.1);
-        Q.MatEye(0.1);
+        F_n.SetDiag(1);
+        P.SetDiag(0.1);
+        Q.SetDiag(0.1);
 
     }
-void printVec(Vector a)
-{
-        printf("%d : ",a.GetDim());
-        for(int i=0;i<a.GetDim();++i)
-         printf("%.0f,",a[i]);
-         printf("\n");
-}
-
-void printMatrix(Matrix a)
-{
-    for (int i = 0; i < a.GetRow(); ++i)
+    void printVec(Vector a)
     {
-        for (int j = 0; j < a.GetCol(); ++j)
+        printf("%d : ",a.GetDim());
+        for(int i=0; i<a.GetDim(); ++i)
         {
-            printf("%f ", a(i, j));
+            printf("%.0f,",a[i]);
         }
         printf("\n");
     }
-    printf("\n");
-}
+
+    void printMatrix(Matrix a)
+    {
+        for (int i = 0; i < a.GetRow(); ++i)
+        {
+            for (int j = 0; j < a.GetCol(); ++j)
+            {
+                printf("%f ", a(i, j));
+            }
+            printf("\n");
+        }
+        printf("\n");
+    }
     void KalmanFilter::UpdateModel()
     {
         x=F_x*x;
@@ -43,7 +51,7 @@ void printMatrix(Matrix a)
 //        printMatrix(P);
     }
 
-    Vector KalmanFilter::UpdateMeasure(const Matrix &H,const Matrix &R,const Vector& z)
+    Vector KalmanFilter::UpdateMeasure(const Matrix &H,const Matrix &R,const Vector &z)
     {
         Matrix K(H.GetCol(),H.GetRow());
 //        printMatrix(K);
