@@ -42,25 +42,20 @@ namespace itr_math
  */
 Vector::Vector(S32 Dim)
 {
-    assert(CalculateObj!=NULL);
-    assert(Dim > 0);
-    data = new F32[Dim]();
-    assert(data!=NULL);
-    dim = Dim;
-    localData = true;
+    data = NULL;
+    dim = 0;
+    localData = false;
+    Init(Dim);
 }
 /*
  * 初始化维数为Dim的向量(使用Data指向的空间储存数据)
  */
 Vector::Vector(S32 Dim, F32* Data)
 {
-    assert(CalculateObj!=NULL);
-    assert(Dim > 0);
-    data = new F32[Dim]();
-    assert(data!=NULL);
-    dim = Dim;
-    MemoryCopy(data,Data,Dim*sizeof(F32));
+    data = NULL;
+    dim = 0;
     localData = false;
+    Init(Dim,Data);
 }
 /*
  * 构造完全一样的向量(Clone)
@@ -75,6 +70,16 @@ Vector::Vector(const Vector& Vec)
     localData = true;
 }
 /*
+ * 用于初始化列表的空构造函数
+ * 在构造后需手动调用Init函数
+ */
+Vector::Vector()
+{
+    data = NULL;
+    dim = 0;
+    localData = false;
+}
+/*
  * 回收本地空间(如果曾经分配)
  */
 Vector::~Vector()
@@ -84,7 +89,32 @@ Vector::~Vector()
         delete data;
     }
 }
-
+//**********后初始化函数**********
+/*
+* 初始化一个指定行列数的空矩阵(自动分配内存)
+*/
+void Vector::Init(S32 Dim)
+{
+    assert(CalculateObj!=NULL);
+    assert(Dim > 0);
+    data = new F32[Dim]();
+    assert(data!=NULL);
+    dim = Dim;
+    localData = true;
+}
+/*
+ * 初始化一个指定Dim的Vec(以传入的指针为数据区)
+ */
+ void Vector::Init(S32 Dim,F32* Data)
+ {
+    assert(CalculateObj!=NULL);
+    assert(Dim > 0);
+    data = new F32[Dim]();
+    assert(data!=NULL);
+    dim = Dim;
+    MemoryCopy(data,Data,Dim*sizeof(F32));
+    localData = false;
+ }
 void Vector::CopyFrom(S32 Offset, S32 Num, F32* Data)
 {
     assert((Offset + Num) <= dim);
