@@ -65,11 +65,17 @@ namespace itr_vision
             grady[L].Init(height[L], width[L]);
         }
         ConvoluteSquare conv;
-        conv._KLTComputeSmoothedImage(Img, sigma, img[0]);
+        conv._KLTComputeSmoothedImage(Img, 0.7, img[0]);
+        int subhalf = subsampling / 2;
+        int oldncols;
         for (L = 1; L < level; ++L)
         {
             conv._KLTComputeSmoothedImage(img[L - 1], sigma, tempimg);
-            Scale::SubSampling(tempimg, img[L], subsampling);
+            for (int y = 0 ; y < height[L] ; y++)
+                for (int x = 0 ; x < width[L]  ; x++)
+                    img[L][y*width[L]+x] =
+                    tempimg[(subsampling*y+subhalf)*width[L-1] +
+                    (subsampling*x+subhalf)];
         }
         // TODO 增加求微分的部分
         for (L = 0; L < level; ++L)

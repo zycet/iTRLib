@@ -31,12 +31,13 @@ namespace itr_algorithm
 
     }
 
-    void KalmanFilter::UpdateModel()
+    Vector KalmanFilter::UpdateModel()
     {
         x=F_x*x;
 //    printVec(x);
         P=F_x*P*F_x.Tran()+Q;
 //        printMatrix(P);
+        return x;
     }
 
     Vector KalmanFilter::UpdateMeasure(const Matrix &H,const Matrix &R,const Vector &z)

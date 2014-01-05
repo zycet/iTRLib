@@ -89,7 +89,7 @@ void Tracker()
 //        kltTracker(current,last,rect,_u,_v);
 //        rect.X+=_u;
 //        rect.Y+=_v;
-        detection.Go(current,rect,_x,_y);
+        detection.Go(current,rect);
         rect.X=_x;
         rect.Y=_y;
         z[0]=_x;

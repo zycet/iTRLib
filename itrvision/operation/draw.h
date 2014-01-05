@@ -56,7 +56,7 @@ namespace itr_vision
             static void Cross(ImageARGB &bmp, S32 x, S32 y, S32 scale, U32 color);
             static void Rectangle(Matrix &Img,RectangleS rect,S16 color);
             static void Rectangle(ImageARGB &Img,RectangleS rect,U32 color);
-            static void Correspond(const Matrix &Img1,const Matrix &Img2,const vector<FeaturePoint> &feature1,const vector<FeaturePoint> &feature2,Matrix &Result);
+            static void Correspond(const Matrix &Img1,const Matrix &Img2,const vector<FeaturePoint> &feature1,const vector<FeaturePoint> &feature2,S32 FeatureNum,Matrix &Result);
     };
 
 } // namespace itr_vision

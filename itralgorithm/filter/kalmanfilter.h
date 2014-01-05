@@ -14,7 +14,7 @@ namespace itr_algorithm
             KalmanFilter(S32 DimState);
             void Init(S32 DimState);
             ///观测矩阵,观测向量
-            void UpdateModel();
+            Vector UpdateModel();
             Vector UpdateMeasure(const Matrix& H,const Matrix &R,const Vector& z);
             ///状态变量
             Vector x;

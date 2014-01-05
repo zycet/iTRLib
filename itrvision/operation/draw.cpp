@@ -63,44 +63,17 @@ namespace itr_vision
         }
     }
 
-    void Draw::LineOffset(Matrix &Img, S32 x, S32 y, S32 offsetx, S32 offsety, S16 color)
+    void Draw::LineOffset(Matrix &Img, S32 X, S32 Y, S32 offsetx, S32 offsety, S16 color)
     {
-        int i, j;
-        if (offsetx == 0)
+        float l = sqrt(offsetx * offsetx + offsety * offsety);
+        float x = X, y = Y;
+//        printf("X:(%d,%d)\nU:(%d,%d)\n",X,Y,offsetx,offsety);
+        for (int i = 0; i < l; ++i)
         {
-            if (offsety >= 0)
-            {
-                for (i = 0; i <= offsety; i++)
-                {
-                    Img(y + i, x) = color;
-                }
-            }
-            else
-            {
-                for (i = 0; i >= offsety; i--)
-                {
-                    Img(y + i, x) = color;
-                }
-            }
-        }
-        else
-        {
-            j = offsety / offsetx;
-            if (offsetx >= 0)
-            {
-                for (i = 0; i <= offsetx; i++)
-                {
-                    Img(y + i * j, x + i) = color;
-                }
-            }
-            else
-            {
-                for (i = 0; i >= offsetx; i--)
-                {
-                    Img(y + i * j, x + i) = color;
-                }
-            }
-
+            x += (offsetx / l);
+            y += (offsety / l);
+//                printf("%f,%f  ",x,y);
+            Img((int) y, (int) x) = color;
         }
     }
     void Draw::LineOffset(ImageARGB &Img, S32 x, S32 y, S32 offsetx, S32 offsety, U32 color)
@@ -187,7 +160,7 @@ namespace itr_vision
     }
 
     void Draw::Correspond(const Matrix &Img1, const Matrix &Img2,
-                          const vector<FeaturePoint> &feature1, const vector<FeaturePoint> &feature2,
+                          const vector<FeaturePoint> &feature1, const vector<FeaturePoint> &feature2,S32 FeatureNum,
                           Matrix &Result)
     {
         Result.Init(Img1.GetRow() , Img1.GetCol()* 2 + 10);
@@ -198,11 +171,15 @@ namespace itr_vision
                 Result(j, i) = Img1(j, i);
                 Result(j, i + offset) = Img2(j, i);
             }
-        for (int i = 0; i < feature1.size(); i++)
+        for (int i = 0; i < FeatureNum; i++)
         {
             if (feature2[i].value >= 0)
+            {
                 Line(Result, feature1[i].x, feature1[i].y, feature2[i].x + offset, feature2[i].y,
-                     255);
+                255);
+                Circle(Result,feature1[i].x, feature1[i].y,2,255);
+                Circle(Result,feature2[i].x + offset, feature2[i].y,2,255);
+            }
         }
     }
 } // namespace itr_vision

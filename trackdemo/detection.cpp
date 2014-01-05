@@ -6,6 +6,7 @@ Detection::Detection(const Matrix &current,RectangleS &rect,S32 num):
     dataPos(num,FeatureNum),dataNeg(num,FeatureNum),sample(16,16)
 {
     Num=num;
+    Range=15;
     Train(current,rect);
 }
 void Detection::Train(const Matrix &current,RectangleS &rect)
@@ -31,15 +32,16 @@ void Detection::Train(const Matrix &current,RectangleS &rect)
     }
     nbc.TrainNeg(dataNeg);
 }
-bool Detection::Go(const Matrix &current,const RectangleS &rect,F32 &x,F32 &y)
+bool Detection::Go(const Matrix &current,RectangleS &rect)
 {
     int start = clock() / 1000;
     RectangleS  recttmp(rect.X,rect.Y,rect.Width,rect.Height);
     Matrix img(current);
     conv._KLTComputeSmoothedImage(current,1.5,img);
     F32 result=-100,best=-99999;
-    for(int i=rect.X-10; i<rect.X+10; i+=1)
-        for(int j=rect.Y-10; j<rect.Y+10; j+=1)
+    F32 x,y;
+    for(int i=rect.X-Range; i<rect.X+Range; i+=1)
+        for(int j=rect.Y-Range; j<rect.Y+Range; j+=1)
         {
             recttmp.X=i;
             recttmp.Y=j;
@@ -53,10 +55,12 @@ bool Detection::Go(const Matrix &current,const RectangleS &rect,F32 &x,F32 &y)
                 y=j;
             }
         }
-    recttmp.X=x;
-    recttmp.Y=y;
-    Train(current,recttmp);-+
-    printf("Detect:%f,%f\n",x,y);
+    if(best<0)
+        return false;
+    rect.X=x;
+    rect.Y=y;
+    Train(current,rect);
+    printf("Detect:%f,%f; %f\n",x,y,best);
     printf("Detection Time: %d",(clock() / 1000 - start));
     printf("\n*****End  Detection !*****\n\n");
     return true;
