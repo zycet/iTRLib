@@ -87,7 +87,9 @@ public:
     F32 Height;
 
     void SetPoint(Point2D P);
+    RectangleF();
     RectangleF(F32 X, F32 Y, F32 Width, F32 Height);
+    void Init(F32 X, F32 Y, F32 Width, F32 Height);
     Point2D GetPoint() const;
     Point2D GetCenter() const;
     BOOL IsInRectangle(Point2D Point) const;
@@ -101,7 +103,9 @@ public:
     S32 Width;
     S32 Height;
 
+    RectangleS();
     RectangleS(S32 X, S32 Y, S32 Width, S32 Height);
+    void Init(S32 X, S32 Y, S32 Width, S32 Height);
     BOOL IsInRectangle(S32 X, S32 Y) const;
     void Reset();
     BOOL Next(S32& X, S32& Y);

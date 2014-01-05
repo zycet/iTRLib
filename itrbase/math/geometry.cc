@@ -150,14 +150,24 @@ Point3D::Point3D(F32 X, F32 Y, F32 Z)
 }
 
 //**********RectangleF**********
+RectangleF::RectangleF()
+{
+    this->X = 0;
+    this->Y = 0;
+    this->Width = 0;
+    this->Height = 0;
+}
 RectangleF::RectangleF(F32 X, F32 Y, F32 Width, F32 Height)
+{
+    Init(X,Y,Width,Height);
+}
+void RectangleF::Init(F32 X, F32 Y, F32 Width, F32 Height)
 {
     this->X = X;
     this->Y = Y;
     this->Width = Width;
     this->Height = Height;
 }
-
 void RectangleF::SetPoint(Point2D P)
 {
     X = P.X;
@@ -182,7 +192,23 @@ BOOL RectangleF::IsInRectangle(Point2D Point) const
 }
 
 //**********RectangleS**********
+RectangleS::RectangleS()
+{
+    this->X = 0;
+    this->Y = 0;
+    this->Width = 0;
+    this->Height = 0;
+
+    this->_x = 0;
+    this->_y = 0;
+    this->_xEnd = 0;
+    this->_yEnd = 0;
+}
 RectangleS::RectangleS(S32 X, S32 Y, S32 Width, S32 Height)
+{
+    Init(X,Y,Width,Height);
+}
+void RectangleS::Init(S32 X, S32 Y, S32 Width, S32 Height)
 {
     this->X = X;
     this->Y = Y;
@@ -194,7 +220,6 @@ RectangleS::RectangleS(S32 X, S32 Y, S32 Width, S32 Height)
     this->_xEnd = 0;
     this->_yEnd = 0;
 }
-
 BOOL RectangleS::IsInRectangle(S32 X, S32 Y) const
 {
     return (IS_IN_RANGE(X, this->X, this->X + this->Width)
