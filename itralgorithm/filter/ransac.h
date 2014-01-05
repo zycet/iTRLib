@@ -16,6 +16,7 @@ namespace itr_algorithm
                     virtual bool Remain(F32 error)=0;
             };
             Ransac();
+            Ransac(Ransac::Operator *oper);
             void Init(Ransac::Operator *oper);
             void Process(S32 count, F32 *x, S32 &drop);
             Ransac::Operator *oper;

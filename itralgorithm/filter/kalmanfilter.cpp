@@ -8,6 +8,15 @@ namespace itr_algorithm
         _dimState=-1;
     }
 
+    KalmanFilter::KalmanFilter(S32 DimState):
+        x(DimState),
+        F_x(DimState,DimState),
+        F_n(DimState,DimState),
+        Q(DimState,DimState),
+        P(DimState,DimState)
+    {
+        _dimState=-1;
+    }
     void KalmanFilter::Init(S32 DimState)
     {
         x.Init(DimState);

@@ -50,6 +50,10 @@ namespace itr_algorithm
      * 有多少组数据就有多少行。
      */
 
+    itr_algorithm::NaiveBayes::NaiveBayes(S32 FeatureNum)
+    {
+        Init(FeatureNum);
+    }
     void itr_algorithm::NaiveBayes::Init(int FeatureNum)
     {
         featureNum = FeatureNum;

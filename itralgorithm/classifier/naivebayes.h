@@ -47,7 +47,8 @@ namespace itr_algorithm
     {
         public:
             NaiveBayes();
-            void Init(int FeatureNum);
+            NaiveBayes(S32 featureNum);
+            void Init(S32 FeatureNum);
             void TrainPos(const Matrix &input);
             void TrainNeg(const Matrix &input);
             F32 Classify(F32 *Data);

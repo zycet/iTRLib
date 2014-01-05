@@ -65,7 +65,7 @@ namespace itr_vision
             grady[L].Init(height[L], width[L]);
         }
         ConvoluteSquare conv;
-        conv._KLTComputeSmoothedImage(Img, 0.7, img[0]);
+        conv._KLTComputeSmoothedImage(Img, sigma, img[0]);
         for (L = 1; L < level; ++L)
         {
             conv._KLTComputeSmoothedImage(img[L - 1], sigma, tempimg);

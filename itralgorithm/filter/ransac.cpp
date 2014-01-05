@@ -8,7 +8,10 @@ namespace itr_algorithm
         M=7;
         N=1;
     }
-
+    Ransac::Ransac(Ransac::Operator *Oper)
+    {
+        oper=Oper;
+    }
     void Ransac::Init(Ransac::Operator* Oper)
     {
         oper=Oper;

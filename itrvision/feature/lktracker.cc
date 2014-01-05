@@ -37,7 +37,7 @@
 #include <stdio.h>
 namespace itr_vision
 {
-    LKTracker::LKTracker(const Matrix &Img1, const Matrix &Img2)
+    LKTracker::LKTracker()
     {
         windowWidth = 7;
         minDet = 100;
@@ -45,6 +45,10 @@ namespace itr_vision
         stopth = 0.1f;
         max_residue = 10;
         max_iterations=10;
+    }
+    void LKTracker::Init(const Matrix &Img1, const Matrix &Img2)
+    {
+
         S32 length = windowWidth * windowWidth;
         last = new Pyramid();
         current = new Pyramid();
@@ -55,14 +59,8 @@ namespace itr_vision
         Dt = new S32[length]();
         Sum = new S32[length]();
     }
-    LKTracker::LKTracker(const Matrix &Img)
+    void LKTracker::Init(const Matrix &Img)
     {
-        windowWidth = 7;
-        minDet = 100;
-        level = 2;
-        stopth = 0.1f;
-        max_residue = 10;
-        max_iterations=10;
         S32 length = windowWidth * windowWidth;
         last =NULL;
         current = new Pyramid();

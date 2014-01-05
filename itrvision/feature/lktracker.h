@@ -49,8 +49,9 @@ namespace itr_vision
             {
                 Tracked, OOB, SmallDet, LARGE_RESIDUE,MAX_ITERATION
             };
-            LKTracker(const Matrix &Img1, const Matrix &Img2);
-            LKTracker(const Matrix &Img);
+            void Init(const Matrix &Img1, const Matrix &Img2);
+            void Init(const Matrix &Img);
+            LKTracker();
             virtual ~LKTracker();
             TrackResult Compute(Point2D &U, Point2D &V, S32 L);
             void Compute(const vector<FeaturePoint> &fl,vector<FeaturePoint> &flresult, S32 FeatureNum,bool Forward);
