@@ -26,8 +26,8 @@ namespace itr_algorithm
         P.Init(DimState,DimState);
         _dimState=DimState;
         F_n.SetDiag(1);
-        P.SetDiag(0.1);
-        Q.SetDiag(0.1);
+        P.SetDiag(1);
+        Q.SetDiag(1);
 
     }
 
