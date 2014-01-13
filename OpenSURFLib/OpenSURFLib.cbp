@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="OpenSURFLib" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="libOpenSURFLib" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add directory="/home/linaro/opencv-2.4.6.1/include/opencv" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="libOpenSURFLib" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="fasthessian.cpp" />
+		<Unit filename="fasthessian.h" />
+		<Unit filename="integral.cpp" />
+		<Unit filename="integral.h" />
+		<Unit filename="ipoint.cpp" />
+		<Unit filename="ipoint.h" />
+		<Unit filename="kmeans.h" />
+		<Unit filename="responselayer.h" />
+		<Unit filename="surf.cpp" />
+		<Unit filename="surf.h" />
+		<Unit filename="surflib.h" />
+		<Unit filename="utils.cpp" />
+		<Unit filename="utils.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
