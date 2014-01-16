@@ -19,9 +19,9 @@
 					<Add directory="../itralgorithm" />
 				</Compiler>
 				<Linker>
-					<Add library="../itrvision/Debug/libitrvision.a" />
-					<Add library="../itralgorithm/Debug/libitralgorithm.a" />
-					<Add library="../itrbase/Debug/libitrbase.a" />
+					<Add library="../itrvision/bin/debug/libitrvision.a" />
+					<Add library="../itralgorithm/bin/debug/libitralgorithm.a" />
+					<Add library="../itrbase/bin/debug/libitrbase.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -31,12 +31,15 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
+					<Add directory="../itrbase" />
+					<Add directory="../itrvision" />
+					<Add directory="../itralgorithm" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="../itrvision/libitrvision.a" />
-					<Add library="../itralgorithm/libitralgorithm.a" />
-					<Add library="../itrbase/libitrbase.a" />
+					<Add library="../itrvision/bin/release/libitrvision.a" />
+					<Add library="../itralgorithm/bin/release/libitralgorithm.a" />
+					<Add library="../itrbase/bin/release/libitrbase.a" />
 				</Linker>
 			</Target>
 		</Build>

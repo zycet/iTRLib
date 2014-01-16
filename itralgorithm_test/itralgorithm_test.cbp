@@ -7,9 +7,9 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="Debug/itralgorithm_test" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/debug/itralgorithm_test" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="./" />
-				<Option object_output="obj/Debug/" />
+				<Option object_output="obj/debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -19,16 +19,14 @@
 					<Add directory="../itrbase" />
 				</Compiler>
 				<Linker>
-					<Add library="../itralgorithm/Debug/libitralgorithm.a" />
-					<Add library="../itrbase/Debug/libitrbase.a" />
-					<Add directory="../itralgorithm" />
-					<Add directory="../itrvision" />
+					<Add library="../itralgorithm/bin/debug/libitralgorithm.a" />
+					<Add library="../itrbase/bin/debug/libitrbase.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="itralgorithm_test" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/release/itralgorithm_test" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj/Release/" />
+				<Option object_output="obj/release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -40,8 +38,8 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add directory="../itrbase" />
-					<Add directory="../itralgorithm" />
+					<Add library="../itralgorithm/bin/release/libitralgorithm.a" />
+					<Add library="../itrbase/bin/release/libitrbase.a" />
 				</Linker>
 			</Target>
 		</Build>

@@ -7,9 +7,9 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="Debug/itrbase_test" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/debug/itrbase_test" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="./" />
-				<Option object_output="obj/Debug/" />
+				<Option object_output="obj/debug/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -18,14 +18,13 @@
 					<Add directory="../itrbase" />
 				</Compiler>
 				<Linker>
-					<Add library="../itrbase/Debug/libitrbase.a" />
-					<Add directory="../itrbase" />
+					<Add library="../itrbase/bin/debug/libitrbase.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="Release/itrbase_test" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/release/itrbase_test" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="./" />
-				<Option object_output="obj/Release/" />
+				<Option object_output="obj/release/" />
 				<Option type="1" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -35,7 +34,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add directory="../itrbase" />
+					<Add library="../itrbase/bin/release/libitrbase.a" />
 				</Linker>
 			</Target>
 		</Build>
