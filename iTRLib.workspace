@@ -8,5 +8,7 @@
 		<Project filename="itrvision/itrvision.cbp" />
 		<Project filename="itrvision_test/itrvision_test.cbp" />
 		<Project filename="trackdemo/trackdemo.cbp" />
+		<Project filename="itrneon/itrneon.cbp" />
+		<Project filename="itrneon_test/itrneon_test.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
