@@ -258,7 +258,8 @@ void lktest2Img()
     RectangleS rect(0, 0, gray1.GetCol(), gray1.GetRow());
 //    RectangleS rect(126,165,73,53);
     select.SelectGoodFeature(rect, flU);
-    LKTracker tracker(gray1, gray2);
+    LKTracker tracker;
+    tracker.Init(gray1, gray2);
 
     tracker.Compute(flU, flV, 100,true);
     vector<FeaturePoint>::iterator feat = flU.begin();
@@ -309,7 +310,7 @@ int i=0;
     }
 
     Matrix result;
-    Draw::Correspond(gray1, gray2, flU, flV, result);
+    Draw::Correspond(gray1, gray2, flU, flV, 100,result);
     ImageGray imgresult(result.GetCol(),result.GetRow());
     ConvertFormat::Matrix2ImageGray(result,imgresult);
     ConvertFormat::Matrix2ImageGray(gray1,input1);
