@@ -40,7 +40,7 @@ void kftest()
     F32 data[16]= {2 ,0,-1,0,0,2,0,-1,1,0,0,0,0,1,0,0};
     kf.F_x.CopyFrom(data);
     Matrix H(2,4),R(2,2);
-    R.MatEye(5.012306);
+    R.SetDiag(5.012306);
     H.CopyFrom(data+8);
     printMatrix(H);
     printMatrix(kf.F_x);
