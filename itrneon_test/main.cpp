@@ -5,7 +5,7 @@
 using namespace std;
 using namespace itr_math;
 
-#define TESE_NUM 30
+#define TESE_NUM 10
 
 void CalculateNeonTest()
 {
@@ -14,14 +14,16 @@ void CalculateNeonTest()
     F32 r[TESE_NUM];
     for(S32 i=0;i<TESE_NUM;i++)
     {
-        a[i]=1;
+        a[i]=i;
         b[i]=2;
         r[i]=0;
     }
-    itr_math::CalculateObj->Multi(a, b, TESE_NUM, r);
+    //Mul_F32 tested;Sub_F32 tested;Add_F32 tested;Div_F32 undone!
+    //Offset_F32 finished! Scale_F32 finished! Normalization_F32 finished!(jingdu cha dian)
+    itr_math::CalculateObj->Normalization(a,TESE_NUM, r);
     for(S32 i=0;i<TESE_NUM;i++)
     {
-        if(r[i]!=2)
+        if(r[i]!=1/30)
         {
             a[i]=1;
         }
