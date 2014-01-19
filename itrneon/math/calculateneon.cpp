@@ -410,7 +410,7 @@ void CalculateNeon::Normalization(F32* SourceA, S32 Length, F32* Result) const
     MultiSum(SourceA, SourceA, Length, k);
     asm volatile
     (
-        "vld1.f32 d1,[%0] \n\t"
+        "vdup.32 d1,%0 \n\t"
         "vrsqrte.f32 d0,d1  \n\t"
         "vmov.32 %1,d0[0] \n\t"
         :"+r"(k)
@@ -549,17 +549,17 @@ void CalculateNeon::AddSum(F32* SourceA, S32 Length, F32& Result) const
     Result = 0;
     asm volatile
     (
-        "vdup.32 q1,%0 \n\t"
+        "vdup.32 q0,%0 \n\t"
         :"+r"(Result)
         :
-        :"q1","memory"
+        :"q0","memory"
     );
     for(S32 i=0; i<qNum; i++)
     {
         asm volatile
         (
-            "vld1.32  {d0,d1}, [%0]! \n\t"//q0 = f0
-            "vadd.f32 q1, q0, q1     \n\t"//q1 +=q0;
+            "vld1.32  {d2,d3}, [%0]! \n\t"//q1 = f0
+            "vadd.f32 q0, q0, q1     \n\t"//q0 +=q1;
             : "+r"(SourceA)
             :
             : "q0", "q1", "memory"
@@ -572,11 +572,11 @@ void CalculateNeon::AddSum(F32* SourceA, S32 Length, F32& Result) const
     }
     asm volatile
     (
-        "vld1.f32 d4,[%0] \n\t"// load last few sum
-        "vadd.f32 s0,s4,s5 \n\t"
-        "vadd.f32 s1,s6,s7 \n\t"
-        "vadd.f32 s2,s0,s8 \n\t"
-        "vadd.f32 s4,s1,s2 \n\t"   //sum
+        "vdup.32 d2,%0 \n\t"
+        "vadd.f32 s5,s0,s1 \n\t"
+        "vadd.f32 s6,s2,s3 \n\t"
+        "vadd.f32 s3,s5,s4 \n\t"
+        "vadd.f32 s4,s3,s6 \n\t"   //sum
         "vmov.32 %0,d2[0] \n\t"//sum to Result
         :"+r"(Result)
         :
@@ -626,6 +626,13 @@ void CalculateNeon::MultiSum(F32* SourceA, F32* SourceB, S32 Length, F32& Result
     Result = 0;
     F32* endSource=SourceA+Length;
     S32 qNum=Length>>2;
+    asm volatile
+        (
+            "vdup.32 q1,%0 \n\t"
+            : "+r"(Result)
+            :
+            : "q1", "memory"
+        );
     for(S32 i=0; i<qNum; i++)
     {
         asm volatile
@@ -646,12 +653,13 @@ void CalculateNeon::MultiSum(F32* SourceA, F32* SourceB, S32 Length, F32& Result
     }
     asm volatile
     (
-        "vld1.f32 d4,[%0] \n\t"//q2
+        "vdup.32 d4,%0 \n\t"
         "vadd.f32 s0,s4,s5 \n\t"
         "vadd.f32 s1,s6,s7 \n\t"
         "vadd.f32 s2,s0,s8 \n\t"
         "vadd.f32 s4,s1,s2 \n\t"//sum
         "vmov.32 %0,d2[0] \n\t"//k q1
+        //"vdup.32 d2,%0 \n\t"
         :"+r"(Result)
         :
         :"q0","q1","q2","memory"
@@ -712,13 +720,13 @@ void CalculateNeon::Product(F32* SourceA, S32 Length, F32& Result) const
     }
     asm volatile
     (
-        "vld1.f32 d4,[%0] \n\t"//q2
+        "vdup.32 d4,%0 \n\t"
         "vmul.f32 s0,s4,s5 \n\t"
         "vmul.f32 s1,s6,s7 \n\t"
         "vmul.f32 s2,s0,s8 \n\t"
         "vmul.f32 s4,s1,s2 \n\t"
         "vmov.32 %0,d2[0] \n\t"//k q1
-        :"+r"(Result)//,"+r"(k)
+        :"+r"(Result)
         :
         :"q0","q1","q2","memory"
     );
@@ -808,11 +816,10 @@ void CalculateNeon::Compare(F32* SourceA, F32* SourceB, F32 Error,S32 Length,BOO
     }
     asm volatile
     (
-        "vdup.32 q0,%0 \n\t"
-        "vdup.32 q3,%0 \n\t"
         "vmul.f32 s12,s12,s13 \n\t"
         "vmul.f32 s14,s14,s15 \n\t"
         "vmul.f32 s12,s12,s14 \n\t"
+        "vmov.32 %0,d6[0] \n\t"
         :"+r"(err)
         :
         :"q3","memory"
