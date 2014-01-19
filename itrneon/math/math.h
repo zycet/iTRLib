@@ -8,7 +8,7 @@ namespace itr_math
 {
 
 void MathNeonObjStandInit();
-void MathObjStandDeinit();
+void MathNeonObjStandDeinit();
 
 }
 #endif // __MATH_H
