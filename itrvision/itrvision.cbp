@@ -40,10 +40,6 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="Debug/makefile" />
-		<Unit filename="Debug/objects.mk" />
-		<Unit filename="Debug/sources.mk" />
-		<Unit filename="Debug/subdir.mk" />
 		<Unit filename="feature/feature.h" />
 		<Unit filename="feature/featurepoint.h" />
 		<Unit filename="feature/lktracker.cc" />
@@ -76,6 +72,8 @@
 		<Unit filename="operation/rotate.h" />
 		<Unit filename="operation/scale.cpp" />
 		<Unit filename="operation/scale.h" />
+		<Unit filename="process/convolutefast.cc" />
+		<Unit filename="process/convolutefast.h" />
 		<Unit filename="process/convolutesquare.cc" />
 		<Unit filename="process/convolutesquare.h" />
 		<Unit filename="process/gradient.cpp" />

@@ -26,16 +26,59 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * process.h
- *  Created on: 2013-9-26
+ * convolutesquare.cc
+ *  Created on: 2013-9-27
  *      Author: buaa
  */
 
-#ifndef PROCESS_H_
-#define PROCESS_H_
-
-#include "convolutesquare.h"
 #include "convolutefast.h"
-#include "gradient.h"
+#include "itrbase.h"
+#include <math.h>
+#include "../image/image.h"
 
-#endif // PROCESS_H_
+namespace itr_vision
+{
+    ConvoluteFast::ConvoluteFast()
+    {
+        this->colN=0;
+        this->rowN=0;
+        this->calcBuffer=NULL;
+    }
+
+
+    ConvoluteFast::~ConvoluteFast()
+    {
+        if(this->calcBuffer!=NULL)
+        {
+            delete this->calcBuffer;
+        }
+    }
+
+    void ConvoluteFast::Init(S32 FilterN, S32 ColN, S32 RowN)
+    {
+        assert(FilterN>0);
+        assert(IS_ODD(FilterN));
+        assert(ColN>=FilterN);
+        assert(RowN>=FilterN);
+        assert(this->calcBuffer==NULL);
+        this->calcBuffer=new F32[RowN];
+        this->colN=ColN;
+        this->rowN=RowN;
+    }
+
+
+    void ConvoluteFast::Convolute(const Matrix &Input, F32 *Filter, Matrix &Output)
+    {
+        ConvoluteHoriz(Input,Filter,Output);
+        ConvoluteVert(Input,Filter,Output);
+    }
+
+    void ConvoluteFast::ConvoluteHoriz(const Matrix &Input, F32 *Filter, Matrix &Output)
+    {
+    }
+
+    void ConvoluteFast::ConvoluteVert(const Matrix &Input, F32 *Filter, Matrix &Output)
+    {
+    }
+} // namespace itr_image
+

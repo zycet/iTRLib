@@ -26,16 +26,35 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * process.h
- *  Created on: 2013-9-26
+ * convolutefast.h
+ *  Created on: 2014-1-19
  *      Author: buaa
  */
 
-#ifndef PROCESS_H_
-#define PROCESS_H_
+#ifndef CONVOLUTEFAST_H_
+#define CONVOLUTEFAST_H_
 
-#include "convolutesquare.h"
-#include "convolutefast.h"
-#include "gradient.h"
+#include "itrbase.h"
+#include "../image/image.h"
 
-#endif // PROCESS_H_
+using itr_math::Matrix;
+
+namespace itr_vision
+{
+    class ConvoluteFast
+    {
+        public:
+            ConvoluteFast();
+            virtual ~ConvoluteFast();
+            void Init(S32 FilterN, S32 ColN, S32 RowN);
+            void Convolute(const Matrix &Input, F32 *Filter, Matrix &Output);
+            void ConvoluteHoriz(const Matrix &Input, F32 *Filter, Matrix &Output);
+            void ConvoluteVert(const Matrix &Input, F32 *Filter, Matrix &Output);
+        private:
+            S32 colN,rowN;
+            //F32* rowBuffer;
+            F32* calcBuffer;
+    };
+
+} // namespace itr_image
+#endif // CONVOLUTESQUARE_H_
