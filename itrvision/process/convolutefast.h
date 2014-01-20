@@ -52,6 +52,7 @@ namespace itr_vision
             void ConvoluteVert(const Matrix &Input, F32 *Filter, Matrix &Output);
         private:
             S32 colN,rowN;
+            S32 filterN;
             //F32* rowBuffer;
             F32* calcBuffer;
     };

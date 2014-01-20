@@ -42,6 +42,7 @@ namespace itr_vision
     {
         this->colN=0;
         this->rowN=0;
+        this->filterN=0;
         this->calcBuffer=NULL;
     }
 
@@ -64,6 +65,7 @@ namespace itr_vision
         this->calcBuffer=new F32[RowN];
         this->colN=ColN;
         this->rowN=RowN;
+        this->filterN=FilterN;
     }
 
 
@@ -75,10 +77,31 @@ namespace itr_vision
 
     void ConvoluteFast::ConvoluteHoriz(const Matrix &Input, F32 *Filter, Matrix &Output)
     {
+        S32 r = (filterN -1)/2;
+        F32 temp=0;
+        for(S32 col =0; col<colN ; col++)
+        {
+            for(S32 row =0; row<rowN - filterN; row++)
+            {
+                itr_math::CalculateObj->MultiSum(Input.GetData()+col*rowN+row, Filter, filterN, temp);
+                Output[col*rowN+row+r+1] =temp;
+            }
+        }
     }
 
     void ConvoluteFast::ConvoluteVert(const Matrix &Input, F32 *Filter, Matrix &Output)
     {
+        S32 r = (filterN -1)/2;
+        F32 temp=0;
+        for(S32 row =0; row<rowN; row++)
+        {
+            Input.CopyColTo(row, calcBuffer);
+            for(S32 col =0; col<colN-filterN ; col++)
+            {
+                itr_math::CalculateObj->MultiSum(calcBuffer+col, Filter, filterN, temp);
+                Output[(col+r+1)*rowN+row] =temp;
+            }
+        }
     }
 } // namespace itr_image
 
