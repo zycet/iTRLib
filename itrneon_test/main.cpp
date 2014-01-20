@@ -1,11 +1,8 @@
 #include <iostream>
 #include "itrbase.h"
 #include "itrneon.h"
-
-//#include <stdlib.h>
 #include <sys/time.h>
 
-//#include <arm_neon.h>
 using namespace std;
 using namespace itr_math;
 
