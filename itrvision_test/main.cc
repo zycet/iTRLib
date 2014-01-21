@@ -43,15 +43,16 @@
 #include "rotatetest.h"
 #include "detectiontest.h"
 #include"genrecttest.h"
+#include"convolutefasttest.h"
 
 int main()
 {
     //Init Math
     itr_math::MathObjStandInit();
     //Test Rotate OK!
-    rotatetest();
+    //rotatetest();
     //Test Genrect OK!
-    genrecttest();
+    //genrecttest();
     //Test Pick OK!
     // picktest();
     //Test Draw OK!
@@ -67,7 +68,7 @@ int main()
     //Finish
     //itr_math::MathObjStandDeinit();
     //Deint Math
-
+    ConvoluteFastTest();
 
     TRACE_INFO("OK All");
     return 0;

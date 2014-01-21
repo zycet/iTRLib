@@ -66,41 +66,50 @@ namespace itr_vision
         this->colN=ColN;
         this->rowN=RowN;
         this->filterN=FilterN;
+        this->temp=new Matrix(RowN,ColN);
     }
 
 
     void ConvoluteFast::Convolute(const Matrix &Input, F32 *Filter, Matrix &Output)
     {
-        ConvoluteHoriz(Input,Filter,Output);
-        ConvoluteVert(Input,Filter,Output);
+        ConvoluteHoriz(Input,Filter,*temp);
+        ConvoluteVert(*temp,Filter,Output);
     }
 
     void ConvoluteFast::ConvoluteHoriz(const Matrix &Input, F32 *Filter, Matrix &Output)
     {
         S32 r = (filterN -1)/2;
-        F32 temp=0;
-        for(S32 col =0; col<colN ; col++)
+        F32 tempmal=0;
+        F32* Finput =Input.GetData();
+        S32 pos=0;
+        for(S32 row =0; row<rowN ; row++)
         {
-            for(S32 row =0; row<rowN - filterN; row++)
+            for(S32 col =r; col<colN - r; col++)
             {
-                itr_math::CalculateObj->MultiSum(Input.GetData()+col*rowN+row, Filter, filterN, temp);
-                Output[col*rowN+row+r+1] =temp;
+                itr_math::CalculateObj->MultiSum(Finput+pos+col-r, Filter, filterN, tempmal);
+                Output[pos+col] =tempmal;
             }
+            pos+= colN;
         }
     }
 
     void ConvoluteFast::ConvoluteVert(const Matrix &Input, F32 *Filter, Matrix &Output)
     {
         S32 r = (filterN -1)/2;
-        F32 temp=0;
-        for(S32 row =0; row<rowN; row++)
+        F32 tempmal=0;
+        S32 pos0=r*colN;
+        S32 pos=pos0;
+        for(S32 col=0; col<colN; col++)
         {
-            Input.CopyColTo(row, calcBuffer);
-            for(S32 col =0; col<colN-filterN ; col++)
+            pos = pos0+col;
+            Input.CopyColTo(col, calcBuffer);
+            for(S32 row =r; row<rowN-r; row++)
             {
-                itr_math::CalculateObj->MultiSum(calcBuffer+col, Filter, filterN, temp);
-                Output[(col+r+1)*rowN+row] =temp;
+                itr_math::CalculateObj->MultiSum(calcBuffer+row-r, Filter, filterN, tempmal);
+                Output[pos] =tempmal;
+                pos+=colN;
             }
+
         }
     }
 } // namespace itr_image

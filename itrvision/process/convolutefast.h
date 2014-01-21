@@ -55,6 +55,7 @@ namespace itr_vision
             S32 filterN;
             //F32* rowBuffer;
             F32* calcBuffer;
+            Matrix* temp;
     };
 
 } // namespace itr_image
