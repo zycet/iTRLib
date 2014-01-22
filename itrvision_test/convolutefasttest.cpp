@@ -11,7 +11,7 @@
 #define TEST_CYC 50
 
 #define filtervalue 0.33333
-#define  filterN 71
+#define  filterN 5
 //using namespace std;
 //using namespace itr_math;
 void TestComparefast()
@@ -37,9 +37,9 @@ void TestComparefast()
         *(Filter+i)=filtervalue;
     }
     //Calc
-    gettimeofday(&tpstart,NULL);
     ConvoluteFast con;
     con.Init( filterN, grayI.GetWidth(),grayI.GetHeight());
+    gettimeofday(&tpstart,NULL);
     for(S32 i=0;i<TEST_CYC;i++)
     {
         con.Convolute(gray_matrix_in, Filter, graym_matrix_out);
@@ -75,12 +75,10 @@ void TestComparesquare()
         *(Filter+i)=filtervalue;
     }
     //Calc
-    gettimeofday(&tpstart,NULL);
     ConvoluteSquare conv;
+    gettimeofday(&tpstart,NULL);
     for(S32 i=0;i<TEST_CYC;i++)
     {
-        //itr_math::CalculateObj->Compare(a, b, err, TEST_NUM,&IsSame);
-
         conv._KLTComputeSmoothedImage(gray_matrix_in, 0.7, graym_matrix_out);//Input sigma Output
     }
     gettimeofday(&tpend,NULL);
