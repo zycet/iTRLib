@@ -12,9 +12,6 @@
  *    notice, this list of conditions and the following disclaimer in
  *    the documentation and/or other materials provided with the
  *    distribution.
- * 3. Neither the name PX4 nor the names of its contributors may be
- *    used to endorse or promote products derived from this software
- *    without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -29,42 +26,15 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * main.cc
- *  Created on: 2013-9-10
- *      Author: buaa
+ * feature.h
+ *  Created on: 2014-1-23
+ *      Author: ZYC
  */
 
-#include "itrbase.h"
-#include "platform_test.h"
-#include "containertest.h"
-#include "mathtest.h"
-#include "helpertest.h"
-int main()
-{
-    //Platform
-    TestAssistMacro();
-    TestDebugSupport();
-    //TestMemoryOperation();
-    TestTypedef();
-    //Container
-    TestCycleQueue();
-    //Math
-    TestMathInit();
-    TestCalculate();
-    TestNumerical();
-    TestStatistics();
-    //TestVector();
+#ifndef CAMERA_H_INCLUDED
+#define CAMERA_H_INCLUDED
 
-    TestCalculateTest();
-    TestMathdeDeinit();
-    TestMatrix();
-    TestGeometry();
-    TestTransform();
-    //Test Helper
-    TestGaussianGenerate();
-    TestCalcEff();
-    //Finish
-    TRACE_INFO("OK All");
-    return 0;
-}
+#include "cameraintercalc.h"
+#include "cameraextercalc.h"
 
+#endif // CAMERA_H_INCLUDED

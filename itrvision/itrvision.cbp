@@ -17,9 +17,11 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add directory="../itrbase" />
+					<Add directory="feature" />
+					<Add directory="camera" />
 				</Compiler>
 				<Linker>
-					<Add library="../itrbase/bin/debug/libitrbase.a" />
+					<Add library="..\itrbase\bin\debug\libitrbase.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -33,13 +35,22 @@
 					<Add option="-O2" />
 					<Add option="-Wall" />
 					<Add directory="../itrbase" />
+					<Add directory="feature" />
+					<Add directory="camera" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="../itrbase/bin/release/libitrbase.a" />
+					<Add library="..\itrbase\bin\release\libitrbase.a" />
 				</Linker>
 			</Target>
 		</Build>
+		<Unit filename="camera/camera.h" />
+		<Unit filename="camera/cameraextercalc.cpp" />
+		<Unit filename="camera/cameraextercalc.h" />
+		<Unit filename="camera/cameraintercalc.cpp" />
+		<Unit filename="camera/cameraintercalc.h" />
+		<Unit filename="feature/commfeaturepoint.cpp" />
+		<Unit filename="feature/commfeaturepoint.h" />
 		<Unit filename="feature/feature.h" />
 		<Unit filename="feature/featurepoint.h" />
 		<Unit filename="feature/lktracker.cc" />
@@ -63,6 +74,7 @@
 		<Unit filename="helper/iopnm.h" />
 		<Unit filename="image/image.cc" />
 		<Unit filename="image/image.h" />
+		<Unit filename="itrvision.h" />
 		<Unit filename="operation/draw.cpp" />
 		<Unit filename="operation/draw.h" />
 		<Unit filename="operation/operation.h" />
@@ -82,6 +94,7 @@
 		<Extensions>
 			<code_completion />
 			<debugger />
+			<envvars />
 		</Extensions>
 	</Project>
 </CodeBlocks_project_file>

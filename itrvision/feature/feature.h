@@ -38,5 +38,6 @@
 #include "featurepoint.h"
 #include "selectfeature.h"
 #include "lktracker.h"
+#include "commfeaturepoint.h"
 
 #endif // FEATURE_H_
