@@ -59,6 +59,8 @@
 		<Unit filename="feature/pyramid.h" />
 		<Unit filename="feature/selectfeature.cpp" />
 		<Unit filename="feature/selectfeature.h" />
+		<Unit filename="feature/vectorfeaturepoint.cpp" />
+		<Unit filename="feature/vectorfeaturepoint.h" />
 		<Unit filename="format/format.h" />
 		<Unit filename="format/formatpgm.cpp" />
 		<Unit filename="format/formatpgm.h" />

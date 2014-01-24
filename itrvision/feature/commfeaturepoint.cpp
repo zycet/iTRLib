@@ -1,9 +1,12 @@
 #include "CommFeaturePoint.h"
+#include "itrbase.h"
+
+using namespace itr_math;
 
 namespace itr_vision
 {
 
-CommFeaturePoint::CommFeaturePoint()
+CommFeaturePoint::CommFeaturePoint():Point2D()
 {
     //ctor
 }
