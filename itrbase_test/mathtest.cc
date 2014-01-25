@@ -239,8 +239,9 @@ void TestVector()
     assert(*(Data2 + 1) == 25);
     assert(*(Data2 + 2) == 36);
 
+    v2.CopyFrom(Data1);//0 1 2
     resultF32 = v.ProductInner(v2);
-    assert(1921 == resultF32);
+    assert((97) == resultF32);
 
     ve2[0] = 5, ve2[1] = 6, ve2[2] = 7;
     ve1[0] = 1, ve2[1] = 2, ve2[2] = 3;
