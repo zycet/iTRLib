@@ -3,6 +3,8 @@ obj/
 *.layout
 *.o
 *.depend
+*.save
+*.cbTemp
 
 !/doc/
 !/reference/
