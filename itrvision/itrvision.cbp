@@ -21,7 +21,7 @@
 					<Add directory="camera" />
 				</Compiler>
 				<Linker>
-					<Add library="..\itrbase\bin\debug\libitrbase.a" />
+					<Add library="../itrbase/bin/debug/libitrbase.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -40,7 +40,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="..\itrbase\bin\release\libitrbase.a" />
+					<Add library="../itrbase/bin/release/libitrbase.a" />
 				</Linker>
 			</Target>
 		</Build>
@@ -92,6 +92,8 @@
 		<Unit filename="process/convolutesquare.h" />
 		<Unit filename="process/gradient.cpp" />
 		<Unit filename="process/gradient.h" />
+		<Unit filename="process/histogram.cpp" />
+		<Unit filename="process/histogram.h" />
 		<Unit filename="process/process.h" />
 		<Extensions>
 			<code_completion />

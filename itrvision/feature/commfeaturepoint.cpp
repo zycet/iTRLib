@@ -1,4 +1,4 @@
-#include "CommFeaturePoint.h"
+#include "commfeaturepoint.h"
 #include "itrbase.h"
 
 using namespace itr_math;

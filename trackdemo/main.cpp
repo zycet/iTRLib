@@ -19,7 +19,9 @@ int main()
     fscanf(InitInfo,"%d,%d,%d,%d",&rect.X,&rect.Y,&rect.Width,&rect.Height);
     rect.Width-=rect.X;
     rect.Height-=rect.Y;
-
+rect.X=rect.Y=0;
+rect.Width=current.GetCol();
+rect.Height=current.GetRow();
     ///卡尔曼滤波用
     KalmanFilter kf;
     kf.Init(4);
