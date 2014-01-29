@@ -49,6 +49,7 @@
 		<Unit filename="camera/cameraextercalc.h" />
 		<Unit filename="camera/cameraintercalc.cpp" />
 		<Unit filename="camera/cameraintercalc.h" />
+		<Unit filename="feature/block.h" />
 		<Unit filename="feature/commfeaturepoint.cpp" />
 		<Unit filename="feature/commfeaturepoint.h" />
 		<Unit filename="feature/feature.h" />
@@ -86,6 +87,8 @@
 		<Unit filename="operation/rotate.h" />
 		<Unit filename="operation/scale.cpp" />
 		<Unit filename="operation/scale.h" />
+		<Unit filename="process/connectedanalysis.cpp" />
+		<Unit filename="process/connectedanalysis.h" />
 		<Unit filename="process/convolutefast.cc" />
 		<Unit filename="process/convolutefast.h" />
 		<Unit filename="process/convolutesquare.cc" />
@@ -94,6 +97,8 @@
 		<Unit filename="process/gradient.h" />
 		<Unit filename="process/histogram.cpp" />
 		<Unit filename="process/histogram.h" />
+		<Unit filename="process/integralimg.cpp" />
+		<Unit filename="process/integralimg.h" />
 		<Unit filename="process/process.h" />
 		<Extensions>
 			<code_completion />
