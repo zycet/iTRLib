@@ -1,8 +1,5 @@
-/*
- * containertest.h
- *
- *  Created on: 2013Äê9ÔÂ15ÈÕ
- *      Author: ZYC
+/**
+*\ TestCycleQueue æµ‹è¯•å¾ªçŽ¯é˜Ÿåˆ—
  */
 
 #ifndef CONTAINERTEST_H_
