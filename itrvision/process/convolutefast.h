@@ -47,13 +47,18 @@ namespace itr_vision
             ConvoluteFast();
             virtual ~ConvoluteFast();
             void Init(S32 FilterN, S32 ColN, S32 RowN);
+            /**
+            * \brief 图像积分——快速
+            * \param Input 给定的图像
+            * \param Filter 给定的数组
+            * \param Output 积分后的图像
+            */
             void Convolute(const Matrix &Input, F32 *Filter, Matrix &Output);
             void ConvoluteHoriz(const Matrix &Input, F32 *Filter, Matrix &Output);
             void ConvoluteVert(const Matrix &Input, F32 *Filter, Matrix &Output);
         private:
             S32 colN,rowN;
             S32 filterN;
-            //F32* rowBuffer;
             F32* calcBuffer;
             Matrix* temp;
     };
