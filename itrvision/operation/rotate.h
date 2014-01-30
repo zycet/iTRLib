@@ -47,7 +47,13 @@ namespace itr_vision
         public:
             Rotate();
             virtual ~Rotate();
-
+            /**
+            * \brief 将给定的矩形旋转一定角度后对应的图像返回
+            * \param ImgInput 给定的图像
+            * \param rect 给定的矩形
+            * \param ang 给定的角度——逆时针为正，角度
+            * \param ImgOutput 输出的图像
+            */
             static void rotate(const Matrix& ImgInput, RectangleS &rect, F32 ang, Matrix& ImgOutput);
             static void rotate(const ImageARGB& ImgInput, RectangleS &rect, F32 ang, ImageARGB& ImgOutput);
 
