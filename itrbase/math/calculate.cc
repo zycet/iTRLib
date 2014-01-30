@@ -564,4 +564,77 @@ void Calculate::Compare(F32* SourceA, F32* SourceB, F32 Error,S32 Length,BOOL* I
         }
     }
 }
+
+void Calculate::Max(S16* SourceA, S32 Length, S16& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(Length > 0);
+    Result = SourceA[0];
+    for (S32 i = 1; i < Length; i++)
+    {
+        if(SourceA[i] > Result)
+        Result = SourceA[i];
+    }
+}
+
+void Calculate::Max(S32* SourceA, S32 Length, S32& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(Length > 0);
+    Result = SourceA[0];
+    for (S32 i = 1; i < Length; i++)
+    {
+        if(SourceA[i] > Result)
+        Result = SourceA[i];
+    }
+}
+
+void Calculate::Max(F32* SourceA, S32 Length, F32& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(Length > 0);
+    Result = SourceA[0];
+    for (S32 i = 1; i < Length; i++)
+    {
+        if(SourceA[i] > Result)
+        Result = SourceA[i];
+    }
+}
+
+void Calculate::Min(S16* SourceA, S32 Length, S16& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(Length > 0);
+    Result = SourceA[0];
+    for (S32 i = 1; i < Length; i++)
+    {
+        if(SourceA[i] < Result)
+        Result = SourceA[i];
+    }
+}
+
+void Calculate::Min(S32* SourceA, S32 Length, S32& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(Length > 0);
+    Result = SourceA[0];
+    for (S32 i = 1; i < Length; i++)
+    {
+        if(SourceA[i] < Result)
+        Result = SourceA[i];
+    }
+}
+
+void Calculate::Min(F32* SourceA, S32 Length, F32& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(Length > 0);
+    Result = SourceA[0];
+    for (S32 i = 1; i < Length; i++)
+    {
+        if(SourceA[i] < Result)
+        Result = SourceA[i];
+    }
+}
+
 } // namespace itr_math

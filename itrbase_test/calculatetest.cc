@@ -349,4 +349,75 @@ void CalculateTest::Set(F32* SourceA, F32 Value, S32 Length) const
         SourceA[i] = Value;
     }
 }
+void CalculateTest::Max(S16* SourceA, S32 Length, S16& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(Length > 0);
+    Result = SourceA[0];
+    for (S32 i = 1; i < Length; i++)
+    {
+        if(SourceA[i] > Result)
+        Result = SourceA[i];
+    }
+}
+
+void CalculateTest::Max(S32* SourceA, S32 Length, S32& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(Length > 0);
+    Result = SourceA[0];
+    for (S32 i = 1; i < Length; i++)
+    {
+        if(SourceA[i] > Result)
+        Result = SourceA[i];
+    }
+}
+
+void CalculateTest::Max(F32* SourceA, S32 Length, F32& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(Length > 0);
+    Result = SourceA[0];
+    for (S32 i = 1; i < Length; i++)
+    {
+        if(SourceA[i] > Result)
+        Result = SourceA[i];
+    }
+}
+
+void CalculateTest::Min(S16* SourceA, S32 Length, S16& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(Length > 0);
+    Result = SourceA[0];
+    for (S32 i = 1; i < Length; i++)
+    {
+        if(SourceA[i] < Result)
+        Result = SourceA[i];
+    }
+}
+
+void CalculateTest::Min(S32* SourceA, S32 Length, S32& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(Length > 0);
+    Result = SourceA[0];
+    for (S32 i = 1; i < Length; i++)
+    {
+        if(SourceA[i] < Result)
+        Result = SourceA[i];
+    }
+}
+
+void CalculateTest::Min(F32* SourceA, S32 Length, F32& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(Length > 0);
+    Result = SourceA[0];
+    for (S32 i = 1; i < Length; i++)
+    {
+        if(SourceA[i] < Result)
+        Result = SourceA[i];
+    }
+}
 

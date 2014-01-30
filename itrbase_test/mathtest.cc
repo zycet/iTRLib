@@ -172,6 +172,11 @@ void TestCalculate()
     assert(C_S32[0] == 2 && C_S32[1] == 2);
     itr_math::CalculateObj->Set(C_F32, 2, 2);
     assert(C_F32[0] == 2 && C_F32[1] == 2);
+
+    itr_math::CalculateObj->Max(A_F32, 2, CalResultF32);
+    assert(CalResultF32 == 2);
+    itr_math::CalculateObj->Min(A_F32, 2, CalResultF32);
+    assert(CalResultF32 == 2);
     TRACE_INFO("OK TestCalculate()");
 }
 

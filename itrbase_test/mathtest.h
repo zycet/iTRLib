@@ -1,5 +1,5 @@
 /**
-*/TestCalculate 测试statistics函数
+TestCalculate 测试statistics函数
 
 */
 
