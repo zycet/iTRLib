@@ -501,6 +501,20 @@ void TestCompare()
     //Verify
     assert(IsSame==true);
 }
+
+
+void TestMax()
+{
+
+    F32 SoulthAA[10];
+    F32 max_result;
+    for(S32 i = 0; i<10; i++)
+    {
+        SoulthAA[i] = i;
+    }
+    itr_math::CalculateObj->Max(SoulthAA, 10,max_result);
+    assert(max_result==9);
+}
     //Multi             finished
     //Sub               finished
     //Add               finished
@@ -517,6 +531,9 @@ void TestCompare()
     //Compare           finished
 int main()
 {
+    itr_math::MathNeonObjStandInit();
+    TestMax();
+    /*
     //Add
     PRINT_DEBUG("!!!Neon!!!");
     itr_math::MathNeonObjStandInit();
@@ -646,6 +663,7 @@ int main()
     itr_math::MathObjStandInit();
     TestCompare();
     itr_math::MathObjStandDeinit();
+    */
     return 0;
 }
 

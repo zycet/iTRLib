@@ -67,6 +67,9 @@ public:
     virtual void Set(F32* SourceA, F32 Value, S32 Length) const;
 
     virtual void Compare(F32* SourceA, F32* SourceB, F32 Error,S32 Length,BOOL* IsSame) const;
+
+    virtual void Max(F32* SourceA, S32 Length, F32& Result) const;
+    virtual void Min(F32* SourceA, S32 Length, F32& Result) const;
 protected:
 private:
 };
