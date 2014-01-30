@@ -99,11 +99,20 @@ public:
     virtual void Set(S16* SourceA, S16 Value, S32 Length) const;
     virtual void Set(S32* SourceA, S32 Value, S32 Length) const;
     virtual void Set(F32* SourceA, F32 Value, S32 Length) const;
-
+/**
+      * \brief 求数组中的最大值
+      * \param Length 数组长度
+      * \param Result 数组中的最大值
+      */
     virtual void Max(S16* SourceA, S32 Length, S16& Result) const;
     virtual void Max(S32* SourceA, S32 Length, S32& Result) const;
     virtual void Max(F32* SourceA, S32 Length, F32& Result) const;
 
+/**
+      * \brief 求数组中的最小值
+      * \param Length 数组长度
+      * \param Result 数组中的最小值
+      */
     virtual void Min(S16* SourceA, S32 Length, S16& Result) const;
     virtual void Min(S32* SourceA, S32 Length, S32& Result) const;
     virtual void Min(F32* SourceA, S32 Length, F32& Result) const;
