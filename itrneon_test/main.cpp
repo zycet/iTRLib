@@ -505,15 +505,57 @@ void TestCompare()
 
 void TestMax()
 {
-
-    F32 SoulthAA[10];
-    F32 max_result;
-    for(S32 i = 0; i<10; i++)
+//Time
+    struct timeval tpstart;
+    struct timeval tpend;
+    F32 timeuse = 0 ;
+    //Data
+    F32 a[TEST_NUM];
+    F32 r=0;
+    //Init
+    for(S32 i=0;i<TEST_NUM;i++)
     {
-        SoulthAA[i] = i;
+        a[i]=i;
     }
-    itr_math::CalculateObj->Max(SoulthAA, 10,max_result);
-    assert(max_result==9);
+    //Calc
+    gettimeofday(&tpstart,NULL);
+    for(S32 i=0;i<TEST_CYC;i++)
+    {
+        itr_math::CalculateObj->Max(a,TEST_NUM,r);
+    }
+    gettimeofday(&tpend,NULL);
+    timeuse = 1000000*(tpend.tv_sec-tpstart.tv_sec)+tpend.tv_usec-tpstart.tv_usec;
+    timeuse /= 1000;
+    TRACE_DEBUG(timeuse);
+    //Verify
+    assert(r==TEST_NUM - 1);
+}
+void TestMin()
+{
+//Time
+    struct timeval tpstart;
+    struct timeval tpend;
+    F32 timeuse = 0 ;
+    //Data
+    F32 a[TEST_NUM];
+    F32 r=0;
+    //Init
+    for(S32 i=0;i<TEST_NUM;i++)
+    {
+        a[i]=i;
+    }
+    //Calc
+    gettimeofday(&tpstart,NULL);
+    for(S32 i=0;i<TEST_CYC;i++)
+    {
+        itr_math::CalculateObj->Min(a,TEST_NUM,r);
+    }
+    gettimeofday(&tpend,NULL);
+    timeuse = 1000000*(tpend.tv_sec-tpstart.tv_sec)+tpend.tv_usec-tpstart.tv_usec;
+    timeuse /= 1000;
+    TRACE_DEBUG(timeuse);
+    //Verify
+    assert(r==0);
 }
     //Multi             finished
     //Sub               finished
@@ -531,9 +573,27 @@ void TestMax()
     //Compare           finished
 int main()
 {
+
+    //Max
+    PRINT_DEBUG("!!!Neon!!!");
     itr_math::MathNeonObjStandInit();
     TestMax();
-    /*
+    itr_math::MathNeonObjStandDeinit();
+    PRINT_DEBUG("!!!C++!!!");
+    itr_math::MathObjStandInit();
+    TestMax();
+    itr_math::MathObjStandDeinit();
+
+    //Min
+    PRINT_DEBUG("!!!Neon!!!");
+    itr_math::MathNeonObjStandInit();
+    TestMin();
+    itr_math::MathNeonObjStandDeinit();
+    PRINT_DEBUG("!!!C++!!!");
+    itr_math::MathObjStandInit();
+    TestMin();
+    itr_math::MathObjStandDeinit();
+/*
     //Add
     PRINT_DEBUG("!!!Neon!!!");
     itr_math::MathNeonObjStandInit();
