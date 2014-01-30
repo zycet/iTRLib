@@ -1,13 +1,12 @@
-/**
-TestCalculate 测试statistics函数
-
-*/
 
 #ifndef MATHTEST_H_
 #define MATHTEST_H_
 
 void TestMathInit();
 void TestMathdeDeinit();
+/**
+  * \brief  测试statistics函数
+  */
 void TestCalculate();
 void TestNumerical();
 void TestStatistics();
