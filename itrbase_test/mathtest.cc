@@ -177,6 +177,10 @@ void TestCalculate()
     assert(CalResultF32 == 2);
     itr_math::CalculateObj->Min(A_F32, 2, CalResultF32);
     assert(CalResultF32 == 2);
+    itr_math::CalculateObj->Single_dis(A_F32, B_F32,2, CalResultF32);
+    assert(CalResultF32 == 2);
+    itr_math::CalculateObj->Double_dis(A_F32, B_F32,2, CalResultF32);
+    assert(CalResultF32 == 2);
     TRACE_INFO("OK TestCalculate()");
 }
 

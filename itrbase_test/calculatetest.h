@@ -73,6 +73,8 @@ public:
     virtual void Min(S16* SourceA, S32 Length, S16& Result) const;
     virtual void Min(S32* SourceA, S32 Length, S32& Result) const;
     virtual void Min(F32* SourceA, S32 Length, F32& Result) const;
+    virtual void Single_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const;
+    virtual void Double_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const;
 };
 
 #endif // CALCULATETEST_H_

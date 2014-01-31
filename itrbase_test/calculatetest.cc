@@ -420,4 +420,26 @@ void CalculateTest::Min(F32* SourceA, S32 Length, F32& Result) const
         Result = SourceA[i];
     }
 }
+void CalculateTest::Single_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(SourceB!=NULL);
+    assert(Length > 0);
+    Result =0;
+   for (S32 i = 0; i < Length; i++)
+    {
+        Result+= GET_ABS(SourceA[i]-SourceB[i]);
+    }
+}
+void CalculateTest::Double_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(SourceB!=NULL);
+    assert(Length > 0);
+    Result =0;
+   for (S32 i = 0; i < Length; i++)
+    {
+        Result+= (SourceA[i]-SourceB[i])*(SourceA[i]-SourceB[i]);
+    }
+}
 
