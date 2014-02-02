@@ -34,6 +34,17 @@ public:
     */
     void Init(Point2D Pos,F32 Quality,F32 Value);
     /*
+        重载符，比较大小
+    */
+    inline bool operator>(CommFeaturePoint cfpoint)
+    {
+        return this->Quality>cfpoint.Quality;
+    }
+    inline bool operator<(CommFeaturePoint cfpoint)
+    {
+        return this->Quality<cfpoint.Quality;
+    }
+    /*
         用来进行区分或者反向索引的标示
     */
     S32 ID;
