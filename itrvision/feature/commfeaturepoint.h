@@ -33,17 +33,7 @@ public:
         面向一般特征点算法的特征点建立(光流,角点等),可继续添加类似方法.
     */
     void Init(Point2D Pos,F32 Quality,F32 Value);
-    /*
-        重载符，比较大小
-    */
-    inline bool operator>(CommFeaturePoint cfpoint)
-    {
-        return this->Quality>cfpoint.Quality;
-    }
-    inline bool operator<(CommFeaturePoint cfpoint)
-    {
-        return this->Quality<cfpoint.Quality;
-    }
+
     /*
         用来进行区分或者反向索引的标示
     */
@@ -68,8 +58,14 @@ public:
     /*
         比较两个特征点的有效性。即比较Quality
     */
-    bool operator<(const CommFeaturePoint& other) const;
-    bool operator>(const CommFeaturePoint& other) const;
+    bool operator>(const CommFeaturePoint& other) const
+    {
+        return this->Quality>other.Quality;
+    }
+    bool operator<(const CommFeaturePoint& other) const
+    {
+        return this->Quality<other.Quality;
+    }
 protected:
 private:
 };
