@@ -54,6 +54,11 @@ public:
     */
     F32 Value;
 
+    /*
+        比较两个特征点的有效性。即比较Quality
+    */
+    bool operator<(const CommFeaturePoint& other) const;
+    bool operator>(const CommFeaturePoint& other) const;
 protected:
 private:
 };
