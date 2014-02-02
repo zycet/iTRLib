@@ -7,38 +7,49 @@ using namespace itr_math;
 
 namespace itr_vision
 {
-/*
-    提供相机内参数描述及像素坐标与相机坐标间变换
+/**
+* \brief 提供相机内参数描述及像素坐标与相机坐标间变换.
+* \note 像素坐标系定义:原点在图像右上角,X轴向右,Y轴向下.
+* \note 相机坐标系定义:原点在光轴中央,X轴向右,Y轴向上.
 */
 class CameraInterCalc
 {
     public:
-        /*
-            初始化内部数据空间(定长矩阵)
+        /**
+        * \brief 初始化标准的相机内参数矩阵
         */
         CameraInterCalc();
-        /*
-            释放资源
+        /**
+        * \brief 释放
         */
         virtual ~CameraInterCalc();
-        /*
-            对象内容复制
+        /**
+        * \brief 对象Clone构造函数
         */
         CameraInterCalc(const CameraInterCalc& other);
-        /*
-            通过设置焦距的方法生成矩阵
+        /**
+        * \brief 通过设置焦距的方法生成矩阵
+        * \param F 焦距(单位:米)
+        * \param dX 水平方向物理单位分辨率(单位:米/像素)
+        * \param dY 垂直方向物理单位分辨率(单位:米/像素)
+        * \param u0 水平半幅图像的像素数(单位:像素)
+        * \param v0 垂直半幅图像的像素数(单位:像素)
         */
         void SetPara(F32 F,F32 dX,F32 dY,F32 u0,F32 v0);
         /*
-            通过设置归一化矩阵的方式生成矩阵
-        */
-        void SetPara(F32 Fu,F32 Fv,F32 u0,F32 v0);
-        /*
             相机坐标到像素坐标的转换
         */
+        /**
+        * \brief 相机坐标到像素坐标的转换
+        * \param CameraPoint 输入的相机坐标系向量([x,y,z],单位:米)
+        * \param PixelPoint 输出的像素坐标系([u,v,1],单位:像素)
+        */
         BOOL CalcC2P(const Vector& CameraPoint,Vector& PixelPoint);
-        /*
-            像素坐标到相机坐标的转换(Z为相机坐标下的假定距离)
+        /**
+        * \brief 像素坐标到相机坐标的转换
+        * \param PixelPoint 输入的像素坐标系([u,v,1],单位:像素)
+        * \param Z 为相机坐标下的假定距离
+        * \param CameraPoint 输出的相机坐标系向量([x,y,z],单位:米)
         */
         BOOL CalcP2C(const Vector& PixelPoint,F32 Z,Vector& CameraPoint);
         /*
