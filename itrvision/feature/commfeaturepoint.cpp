@@ -27,6 +27,7 @@ void CommFeaturePoint::Init(Point2D Pos,S32 ID,F32 Dir,F32 Quality,F32 Value)
 void CommFeaturePoint::Init(Point2D Pos,F32 Quality,F32 Value)
 {
     this->SetXY(Pos.X, Pos.Y);
+   // this->Point2D(Pos);
     this->ID =0;
     this->Dir=0;
     this->Quality=Quality;
@@ -40,6 +41,7 @@ CommFeaturePoint::~CommFeaturePoint()
 CommFeaturePoint::CommFeaturePoint(const CommFeaturePoint& other)
 {
     //copy ctor
+    this->SetXY(other.X,other.Y);
     this->ID =other.ID;
     this->Tag =other.Tag;
     this->Dir =other.Dir;
