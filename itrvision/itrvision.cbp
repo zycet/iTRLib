@@ -21,7 +21,7 @@
 					<Add directory="camera" />
 				</Compiler>
 				<Linker>
-					<Add library="../itrbase/bin/debug/libitrbase.a" />
+					<Add library="..\itrbase\bin\debug\libitrbase.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -40,7 +40,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="../itrbase/bin/release/libitrbase.a" />
+					<Add library="..\itrbase\bin\release\libitrbase.a" />
 				</Linker>
 			</Target>
 		</Build>
@@ -60,6 +60,8 @@
 		<Unit filename="feature/pyramid.h" />
 		<Unit filename="feature/selectfeature.cpp" />
 		<Unit filename="feature/selectfeature.h" />
+		<Unit filename="feature/surf.cpp" />
+		<Unit filename="feature/surf.h" />
 		<Unit filename="feature/vectorfeaturepoint.cpp" />
 		<Unit filename="feature/vectorfeaturepoint.h" />
 		<Unit filename="format/format.h" />
