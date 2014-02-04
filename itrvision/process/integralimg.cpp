@@ -1,4 +1,6 @@
 #include "integralimg.h"
+#include "itrbase.h"
+#include <math.h>
 
 void IntegralImg::Normal(const Matrix &input,Matrix &output)
 {
