@@ -1,0 +1,9 @@
+函数的注释按照这种格式来写
+/**
+* 直接写函数是干什么的
+* \brief 上一行也可以用这一行来代替：函数简介
+* \param 函数的参数
+* \return 函数的输出
+*/
+static void Do(const Matrix &input,Matrix &output,vector &blocks);
+
