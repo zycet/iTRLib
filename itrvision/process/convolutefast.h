@@ -59,8 +59,8 @@ namespace itr_vision
         private:
             S32 colN,rowN;
             S32 filterN;
-            F32* calcBuffer;
-            Matrix* temp;
+            F32 *calcBuffer;
+            Matrix *temp;
     };
 
 } // namespace itr_image

@@ -85,7 +85,9 @@ namespace itr_vision
         ImageGray input;
         ReadPPMFile(filename,input);
         if(img.GetData()==NULL)
+        {
             img.Init(input.GetHeight(),input.GetWidth());
+        }
         ConvertFormat::ImageGray2Matrix(input,img);
     }
 
@@ -100,7 +102,9 @@ namespace itr_vision
         ImageGray input;
         ReadPGMFile(filename,input);
         if(img.GetData()==NULL)
+        {
             img.Init(input.GetHeight(),input.GetWidth());
+        }
         ConvertFormat::ImageGray2Matrix(input,img);
     }
 

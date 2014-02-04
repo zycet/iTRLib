@@ -54,8 +54,8 @@ namespace itr_vision
             * \param ang 给定的角度——逆时针为正，角度
             * \param ImgOutput 输出的图像
             */
-            static void rotate(const Matrix& ImgInput, RectangleS &rect, F32 ang, Matrix& ImgOutput);
-            static void rotate(const ImageARGB& ImgInput, RectangleS &rect, F32 ang, ImageARGB& ImgOutput);
+            static void rotate(const Matrix &ImgInput, RectangleS &rect, F32 ang, Matrix &ImgOutput);
+            static void rotate(const ImageARGB &ImgInput, RectangleS &rect, F32 ang, ImageARGB &ImgOutput);
 
     };
 

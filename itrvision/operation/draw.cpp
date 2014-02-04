@@ -176,7 +176,7 @@ namespace itr_vision
             if (feature2[i].value >= 0)
             {
                 Line(Result, feature1[i].x, feature1[i].y, feature2[i].x + offset, feature2[i].y,
-                255);
+                     255);
                 Circle(Result,feature1[i].x, feature1[i].y,2,255);
                 Circle(Result,feature2[i].x + offset, feature2[i].y,2,255);
             }

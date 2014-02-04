@@ -7,14 +7,14 @@ using namespace itr_math;
 namespace itr_vision
 {
 
-SURF::SURF()
-{
-    //ctor
-}
+    SURF::SURF()
+    {
+        //ctor
+    }
 
-SURF::~SURF()
-{
-    //dtor
-}
+    SURF::~SURF()
+    {
+        //dtor
+    }
 
 }

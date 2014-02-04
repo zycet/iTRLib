@@ -4,6 +4,7 @@
 #include <vector>
 using std::vector;
 using itr_math::Matrix;
+using itr_math::RectangleS;
 class Histogram
 {
     public:
@@ -20,6 +21,14 @@ class Histogram
         * \param output 直方图均衡后的图像
         */
         static void Euqal(const Matrix &input,Matrix &output);
+
+        /**
+        * \brief 将图像的一个区域直方图均衡化
+        * \param input 输入图像
+        * \param rect 需要均衡的区域
+        * \param output 直方图均衡后的图像
+        */
+        static void Euqal(const Matrix &input,const RectangleS &rect,Matrix &output);
     protected:
     private:
 };
