@@ -67,12 +67,12 @@ public:
     virtual void Product(F32* SourceA, S32 Length, F32& Result) const;
     virtual void Set(S32* SourceA, S32 Value, S32 Length) const;
     virtual void Set(F32* SourceA, F32 Value, S32 Length) const;
-    virtual void Max(S16* SourceA, S32 Length, S16& Result) const;
-    virtual void Max(S32* SourceA, S32 Length, S32& Result) const;
-    virtual void Max(F32* SourceA, S32 Length, F32& Result) const;
-    virtual void Min(S16* SourceA, S32 Length, S16& Result) const;
-    virtual void Min(S32* SourceA, S32 Length, S32& Result) const;
-    virtual void Min(F32* SourceA, S32 Length, F32& Result) const;
+    virtual void Max(S16* SourceA, S32 Length, S16& Result, S32& Order) const;
+    virtual void Max(S32* SourceA, S32 Length, S32& Result, S32& Order) const;
+    virtual void Max(F32* SourceA, S32 Length, F32& Result, S32& Order) const;
+    virtual void Min(S16* SourceA, S32 Length, S16& Result, S32& Order) const;
+    virtual void Min(S32* SourceA, S32 Length, S32& Result, S32& Order) const;
+    virtual void Min(F32* SourceA, S32 Length, F32& Result, S32& Order) const;
     virtual void Single_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const;
     virtual void Double_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const;
 };
