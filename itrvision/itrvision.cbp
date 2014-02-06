@@ -21,7 +21,7 @@
 					<Add directory="camera" />
 				</Compiler>
 				<Linker>
-					<Add library="..\itrbase\bin\debug\libitrbase.a" />
+					<Add library="../itrbase/bin/debug/libitrbase.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -40,7 +40,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="..\itrbase\bin\release\libitrbase.a" />
+					<Add library="../itrbase/bin/release/libitrbase.a" />
 				</Linker>
 			</Target>
 		</Build>
@@ -49,6 +49,8 @@
 		<Unit filename="camera/cameraextercalc.h" />
 		<Unit filename="camera/cameraintercalc.cpp" />
 		<Unit filename="camera/cameraintercalc.h" />
+		<Unit filename="feature/FeatureMatch.cpp" />
+		<Unit filename="feature/FeatureMatch.h" />
 		<Unit filename="feature/block.h" />
 		<Unit filename="feature/commfeaturepoint.cpp" />
 		<Unit filename="feature/commfeaturepoint.h" />
@@ -62,7 +64,6 @@
 		<Unit filename="feature/selectfeature.h" />
 		<Unit filename="feature/surf.cpp" />
 		<Unit filename="feature/surf.h" />
-		<Unit filename="feature/vectorfeaturepoint.cpp" />
 		<Unit filename="feature/vectorfeaturepoint.h" />
 		<Unit filename="format/format.h" />
 		<Unit filename="format/formatpgm.cpp" />
