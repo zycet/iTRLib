@@ -9,6 +9,7 @@
 		<Project filename="trackdemo/trackdemo.cbp" />
 		<Project filename="itrneon/itrneon.cbp" />
 		<Project filename="itrneon_test/itrneon_test.cbp" />
-		<Project filename="itrvision_test/itrvision_test.cbp" active="1" />
+		<Project filename="itrvision_test/itrvision_test.cbp" />
+		<Project filename="ColorTrackDemo/ColorTrackDemo.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
