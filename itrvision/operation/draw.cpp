@@ -160,7 +160,7 @@ namespace itr_vision
     }
 
     void Draw::Correspond(const Matrix &Img1, const Matrix &Img2,
-                          const vector<FeaturePoint> &feature1, const vector<FeaturePoint> &feature2,S32 FeatureNum,
+                          const vector<Point2D> &feature1, const vector<Point2D> &feature2,S32 FeatureNum,
                           Matrix &Result)
     {
         Result.Init(Img1.GetRow() , Img1.GetCol()* 2 + 10);
@@ -173,13 +173,10 @@ namespace itr_vision
             }
         for (int i = 0; i < FeatureNum; i++)
         {
-            if (feature2[i].value >= 0)
-            {
-                Line(Result, feature1[i].x, feature1[i].y, feature2[i].x + offset, feature2[i].y,
-                     255);
-                Circle(Result,feature1[i].x, feature1[i].y,2,255);
-                Circle(Result,feature2[i].x + offset, feature2[i].y,2,255);
-            }
+            Line(Result, feature1[i].X, feature1[i].Y, feature2[i].X + offset, feature2[i].Y,
+                    255);
+            Circle(Result,feature1[i].X, feature1[i].Y,2,255);
+            Circle(Result,feature2[i].X + offset, feature2[i].Y,2,255);
         }
     }
 } // namespace itr_vision

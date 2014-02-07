@@ -35,8 +35,9 @@
 #define FEATURE_H_
 
 #include "pyramid.h"
-#include "featurepoint.h"
-#include "selectfeature.h"
+#include "commfeaturepoint.h"
+#include "vectorfeaturepoint.h"
+#include "selectkltfeature.h"
 #include "lktracker.h"
 #include "commfeaturepoint.h"
 #include "vectorfeaturepoint.h"

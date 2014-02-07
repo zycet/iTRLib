@@ -54,7 +54,7 @@ namespace itr_vision
             LKTracker();
             virtual ~LKTracker();
             TrackResult Compute(Point2D &U, Point2D &V, S32 L);
-            void Compute(const vector<FeaturePoint> &fl,vector<FeaturePoint> &flresult, S32 FeatureNum,bool Forward);
+            void Compute(const vector<CommFeaturePoint> &fl,vector<CommFeaturePoint> &flresult, S32 FeatureNum,bool Forward);
             S32 windowWidth;
             S32 minDet;
             S32 max_residue;

@@ -31,11 +31,11 @@
  *      Author: ghdawn
  */
 
-#ifndef SELECTSEATURE_H_
-#define SELECTSEATURE_H_
+#ifndef SELECTKLTFEATURE_H_
+#define SELECTKLTFEATURE_H_
 
 #include "itrbase.h"
-#include "../feature/featurepoint.h"
+#include "../feature/commfeaturepoint.h"
 #include <vector>
 using std::vector;
 using itr_math::RectangleS;
@@ -43,12 +43,12 @@ using itr_math::Matrix;
 namespace itr_vision
 {
 
-    class SelectFeature
+    class SelectKLTFeature
     {
         public:
-            SelectFeature(const Matrix &Img);
-            S32 SelectGoodFeature(const RectangleS &rect, vector<FeaturePoint> &fl, S32 start=0);
-            virtual ~SelectFeature();
+            SelectKLTFeature(const Matrix &Img);
+            S32 SelectGoodFeature(const RectangleS &rect, vector<CommFeaturePoint> &fl, S32 start=0);
+            virtual ~SelectKLTFeature();
             int mindist, mineigen;
             S32 windowWidth;
         private:

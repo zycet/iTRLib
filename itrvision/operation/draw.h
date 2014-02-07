@@ -1,12 +1,13 @@
 #ifndef DRAW_H_
 #define DRAW_H_
 #include "../itrvision.h"
-#include "../feature/featurepoint.h"
 #include "itrbase.h"
+#include <math.h>
 #include <vector>
 using std::vector;
 using itr_math::RectangleS;
 using itr_math::Matrix;
+using itr_math::Point2D;
 namespace itr_vision
 {
 
@@ -63,7 +64,17 @@ namespace itr_vision
               */
             static void Rectangle(Matrix &Img,RectangleS rect,S16 color);
             static void Rectangle(ImageARGB &Img,RectangleS rect,U32 color);
-            static void Correspond(const Matrix &Img1,const Matrix &Img2,const vector<FeaturePoint> &feature1,const vector<FeaturePoint> &feature2,S32 FeatureNum,Matrix &Result);
+
+            /**
+              * \brief 绘制两幅图像之间特征点的匹配关系
+              * \param Img1 输入图像1
+              * \param Img2 输入图像2
+              * \param feature1 图像1的特征点
+              * \param feature2 图像2的特征点
+              * \param FeatureNum 最多绘制的特征点数
+              * \param 结果图像
+              */
+            static void Correspond(const Matrix &Img1,const Matrix &Img2,const vector<Point2D> &feature1,const vector<Point2D> &feature2,S32 FeatureNum,Matrix &Result);
     };
 
 } // namespace itr_vision
