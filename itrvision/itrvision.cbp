@@ -60,8 +60,8 @@
 		<Unit filename="feature/lktracker.h" />
 		<Unit filename="feature/pyramid.cpp" />
 		<Unit filename="feature/pyramid.h" />
-		<Unit filename="feature/selectfeature.cpp" />
-		<Unit filename="feature/selectfeature.h" />
+		<Unit filename="feature/selectkltfeature.cpp" />
+		<Unit filename="feature/selectkltfeature.h" />
 		<Unit filename="feature/surf.cpp" />
 		<Unit filename="feature/surf.h" />
 		<Unit filename="feature/vectorfeaturepoint.h" />
