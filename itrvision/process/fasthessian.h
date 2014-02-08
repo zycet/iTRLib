@@ -9,10 +9,10 @@ class FastHessian
     public:
         FastHessian(Matrix &img,
                     std::vector<Ipoint> &ipts,
-                    const int octaves ,
-                    const int intervals ,
-                    const int init_sample ,
-                    const float thres );
+                    const int octaves = 5,
+                    const int intervals = 4 ,
+                    const int init_sample = 2,
+                    const float thres = 0.0004f );
 
          ~FastHessian();
 
