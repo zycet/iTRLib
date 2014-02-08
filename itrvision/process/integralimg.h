@@ -1,6 +1,7 @@
 #ifndef INTEGRALIMG_H
 #define INTEGRALIMG_H
 #include "itrbase.h"
+
 using itr_math::Matrix;
 class IntegralImg
 {
