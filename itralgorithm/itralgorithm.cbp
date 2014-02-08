@@ -46,6 +46,8 @@
 		<Unit filename="filter/filter.h" />
 		<Unit filename="filter/kalmanfilter.cpp" />
 		<Unit filename="filter/kalmanfilter.h" />
+		<Unit filename="filter/particlefilter.cpp" />
+		<Unit filename="filter/particlefilter.h" />
 		<Unit filename="filter/ransac.cpp" />
 		<Unit filename="filter/ransac.h" />
 		<Unit filename="itralgorithm.h" />

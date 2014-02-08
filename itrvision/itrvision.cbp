@@ -51,6 +51,7 @@
 		<Unit filename="camera/cameraintercalc.h" />
 		<Unit filename="feature/FeatureMatch.cpp" />
 		<Unit filename="feature/FeatureMatch.h" />
+		<Unit filename="feature/block.cpp" />
 		<Unit filename="feature/block.h" />
 		<Unit filename="feature/commfeaturepoint.cpp" />
 		<Unit filename="feature/commfeaturepoint.h" />
@@ -64,6 +65,7 @@
 		<Unit filename="feature/selectkltfeature.h" />
 		<Unit filename="feature/surf.cpp" />
 		<Unit filename="feature/surf.h" />
+		<Unit filename="feature/vectorfeaturepoint.cpp" />
 		<Unit filename="feature/vectorfeaturepoint.h" />
 		<Unit filename="format/format.h" />
 		<Unit filename="format/formatpgm.cpp" />
