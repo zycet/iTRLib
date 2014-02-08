@@ -56,14 +56,12 @@
 		<Unit filename="feature/commfeaturepoint.h" />
 		<Unit filename="feature/feature.h" />
 		<Unit filename="feature/featurepoint.h" />
-		<Unit filename="feature/ipointImg.cpp" />
-		<Unit filename="feature/ipointImg.h" />
 		<Unit filename="feature/lktracker.cc" />
 		<Unit filename="feature/lktracker.h" />
 		<Unit filename="feature/pyramid.cpp" />
 		<Unit filename="feature/pyramid.h" />
-		<Unit filename="feature/selectfeature.cpp" />
-		<Unit filename="feature/selectfeature.h" />
+		<Unit filename="feature/selectkltfeature.cpp" />
+		<Unit filename="feature/selectkltfeature.h" />
 		<Unit filename="feature/surf.cpp" />
 		<Unit filename="feature/surf.h" />
 		<Unit filename="feature/vectorfeaturepoint.h" />
@@ -98,6 +96,8 @@
 		<Unit filename="process/convolutefast.h" />
 		<Unit filename="process/convolutesquare.cc" />
 		<Unit filename="process/convolutesquare.h" />
+		<Unit filename="process/fasthessian.cpp" />
+		<Unit filename="process/fasthessian.h" />
 		<Unit filename="process/gradient.cpp" />
 		<Unit filename="process/gradient.h" />
 		<Unit filename="process/histogram.cpp" />
