@@ -9,6 +9,8 @@ namespace itr_vision
     CameraInterCalc::CameraInterCalc()
     {
         //ctor
+        MatC2P.Init(3,3);
+        MatP2C.Init(3,3);
         MatC2P.Set(0);
         MatP2C.Set(0);
         isMatC2PAvailable =false;
@@ -43,9 +45,12 @@ namespace itr_vision
     }
     void CameraInterCalc::SetPara(F32 degX,F32 degY,F32 u0,F32 v0)
     {
-        MatC2P(0,0)=degX;   //视场夹角是什么？？？？？？
+        Numerical NumericalObj;
+        NumericalObj.Tan(degX,MatC2P(0,0));
+        MatC2P(0,0)=u0/MatC2P(0,0);
         MatC2P(0,2)=u0;
-        MatC2P(1,1)=degY;
+        NumericalObj.Tan(degX,MatC2P(1,1));
+        MatC2P(1,1)=v0/MatC2P(1,1);
         MatC2P(1,2)=v0;
         MatC2P(2,2)=1;
         isMatC2PAvailable =true;
@@ -59,16 +64,23 @@ namespace itr_vision
         if(isMatC2PAvailable)
         {
             PixelPoint =MatC2P*CameraPoint;
-            PixelPoint=PixelPoint*(1/PixelPoint[2]);
+            PixelPoint[0]/=PixelPoint[2];
+            PixelPoint[1]/=PixelPoint[2];
+            PixelPoint[2]=1;
+            return 1;
         }
+        return 0;
     }
 
     BOOL CameraInterCalc::CalcP2C(const Vector &PixelPoint,F32 Z,Vector &CameraPoint)
     {
         if(isMatP2CAvailable)
         {
-            CameraPoint =MatP2C*PixelPoint*Z;
+            CameraPoint =MatP2C*PixelPoint;
+            CameraPoint=CameraPoint*Z;
+            return 1;
         }
+        return 0;
     }
 
 }

@@ -48,6 +48,7 @@ namespace itr_vision
             * \brief 相机坐标到像素坐标的转换
             * \param CameraPoint 输入的相机坐标系向量([x,y,z],单位:米)
             * \param PixelPoint 输出的像素坐标系([u,v,1],单位:像素)
+            * \param 返回值，1为成功，0为失败
             */
             BOOL CalcC2P(const Vector &CameraPoint,Vector &PixelPoint);
             /**
@@ -55,6 +56,7 @@ namespace itr_vision
             * \param PixelPoint 输入的像素坐标系([u,v,1],单位:像素)
             * \param Z 为相机坐标下的假定距离
             * \param CameraPoint 输出的相机坐标系向量([x,y,z],单位:米)
+            * \param 返回值，1为成功，0为失败
             */
             BOOL CalcP2C(const Vector &PixelPoint,F32 Z,Vector &CameraPoint);
             /**
