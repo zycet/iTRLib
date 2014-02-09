@@ -107,6 +107,7 @@
 		<Unit filename="process/integralimg.cpp" />
 		<Unit filename="process/integralimg.h" />
 		<Unit filename="process/process.h" />
+		<Unit filename="process/responselayer.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
