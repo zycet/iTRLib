@@ -14,9 +14,17 @@ class FastHessian
                     const int init_sample = 2,
                     const float thres = 0.0004f );
 
-         ~FastHessian();
+        ~FastHessian();
 
-         void getIpoints();
+
+        void saveParameters(const int octaves,
+                            const int intervals,
+                            const int init_sample,
+                            const float thres);
+
+        void setIntImage(IplImage *img);
+
+        void getIpoints();
     protected:
     private:
 };
