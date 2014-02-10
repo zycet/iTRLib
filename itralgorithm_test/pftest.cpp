@@ -1,16 +1,10 @@
-#include "kftest.h"
-#include "itrbase.h"
+#include "pftest.h"
 #include "itralgorithm.h"
+#include "itrbase.h"
+#include "kftest.h"
 #include <stdio.h>
-#include <fstream>
-#include <algorithm>
-#include <vector>
-#include <math.h>
-using std::vector;
-using std::ofstream;
-using namespace itr_math;
 using namespace itr_algorithm;
-
+using namespace itr_math;
 
 static void printMatrix(Matrix a)
 {
@@ -34,22 +28,27 @@ static void printVec(Vector a)
     printf("\n");
 }
 
-void kftest()
+
+void pftest()
 {
-    printf("*****Begin Kalman Filter Test!*****\n\n");
-    KalmanFilter kf(4);
-    F32 data[16]= {2 ,0,-1,0,0,2,0,-1,1,0,0,0,0,1,0,0};
-    kf.F_x.CopyFrom(data);
-    Matrix H(2,4),R(2,2);
-    R.SetDiag(5.012306);
-    H.CopyFrom(data+8);
-    printMatrix(H);
-    printMatrix(kf.F_x);
+    printf("*****Begin Particle Filter Test!*****\n\n");
+    ParticleFilter pf;
     Vector z(2),x(4),X(4),v(2),n(4);
     x[0]=1;
     x[1]=1;
     x[2]=0;
     x[3]=0;
+    pf.Init(80,x);
+    F32 data[16]= {2 ,0,-1,0,0,2,0,-1,1,0,0,0,0,1,0,0};
+    pf.F_x.CopyFrom(data);
+    Matrix H(2,4),R(2,2);
+    R.SetDiag(5.012306);
+    H.CopyFrom(data+8);
+    printMatrix(H);
+    printMatrix(pf.F_x);
+
+    FILE* fstate=fopen("pfteststate.txt","w");
+    FILE* festi=fopen("pftestesti.txt","w");
     for(int t=0; t<20; ++t)
     {
         NumericalObj->RandGaussian(data[0]);
@@ -63,16 +62,21 @@ void kftest()
         printf("rand:%f,%f\n",data[0],data[1]);
         v.CopyFrom(data);
         n.CopyFrom(data);
-        x=kf.F_x*x+kf.F_n*n;
+        x=pf.F_x*x;
 //        printVec(x);
         z=H*x+v;
 //        printVec(z);
-        kf.UpdateModel();
-        X=kf.UpdateMeasure(H,R,z);
-        printf("Measu:%.0f,%.0f\n",z[0],z[1]);
-        printf("State:%.0f,%.0f,%.0f,%.0f\n",x[0],x[1],x[2],x[3]);
-        printf("Esti :%.0f,%.0f,%.0f,%.0f\n",X[0],X[1],X[2],X[3]);
+        pf.UpdateModel();
+        pf.UpdateMeasure(H,R,z);
+        pf.GetState(X);
+        printf("Measu:%.1f,%.1f\n",z[0],z[1]);
+        printf("State:%.1f,%.1f,%.1f,%.1f\n",x[0],x[1],x[2],x[3]);
+        printf("Esti :%.1f,%.1f,%.1f,%.1f\n",X[0],X[1],X[2],X[3]);
+        fprintf(fstate,"%.1f %.1f %.1f %.1f\n",x[0],x[1],x[2],x[3]);
+        fprintf(festi,"%.1f %.1f %.1f %.1f\n",X[0],X[1],X[2],X[3]);
         printf("\n");
     }
-    printf("*****End Kalman Filter Test!*****\n\n");
+    fclose(fstate);
+    fclose(festi);
+    printf("*****End Particle Filter Test!*****\n\n");
 }
