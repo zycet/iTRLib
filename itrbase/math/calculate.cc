@@ -660,6 +660,7 @@ void Calculate::Min(F32* SourceA, S32 Length, F32& Result, S32& Order) const
         }
     }
 }
+
 void Calculate::Single_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const
 {
     assert(SourceA!=NULL);
