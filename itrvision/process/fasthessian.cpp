@@ -3,8 +3,7 @@
 #include "./feature.h"
 #include <vector>
 #include "integralimg.h"
-#include "responselayer.h"
-#include <math.h>
+
 
 namespace itr_vision
 {

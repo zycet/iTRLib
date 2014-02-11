@@ -34,6 +34,7 @@
 #ifndef PROCESS_H_
 #define PROCESS_H_
 
+#include "binarization.h"
 #include "convolutesquare.h"
 #include "convolutefast.h"
 #include "gradient.h"

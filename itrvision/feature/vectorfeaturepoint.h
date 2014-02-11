@@ -2,7 +2,7 @@
 #define VECTORFEATUREPOINT_H
 
 #include "itrbase.h"
-#include "./feature.h"
+#include "commfeaturepoint.h"
 
 using namespace itr_math;
 

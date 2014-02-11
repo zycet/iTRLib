@@ -3,6 +3,9 @@
 #include "itrbase.h"
 
 using itr_math::Matrix;
+namespace itr_vision
+{
+
 class IntegralImg
 {
     public:
@@ -21,5 +24,5 @@ class IntegralImg
     protected:
     private:
 };
-
+}
 #endif // INTEGRALIMG_H
