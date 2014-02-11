@@ -71,16 +71,19 @@ int main()
     MathObjStandInit();
     Matrix Input(width, height, data);
     Matrix Output(width, height);
-    vector<Block> blocks(100);
-
-    ConnectedAnalysis CAObject(Input);
-    CAObject.SetPara(4,3);
-    CAObject.Contour(Input,Output,blocks);
+    vector<Block> blocks;
+    //Binarization
+    Binarization BObject;
+    BObject.Threshold(Input,15,5);
+    cout << "**********************"<<endl;
+    PrintMatrix(Input);
+    //ConnectedAnalysis
+    ConnectedAnalysis CAObject;
+    CAObject.Contour(Input,blocks);
     //print the result of the Contour
     cout << endl;
-    PrintMatrix(Output);
-    cout << endl;
     cout << "The blocks information:"<<endl;
+    cout << "There are "<<blocks.size()<<" blocks !"<<endl;
     PrintBlocks(blocks,CAObject.BNum);
     return 0;
 }

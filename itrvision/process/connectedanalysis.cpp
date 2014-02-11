@@ -2,118 +2,81 @@
 #include "itrbase.h"
 #include <vector>
 #include "../feature/block.h"
+#include<algorithm>
 using std::vector;
 using itr_math::Matrix;
 namespace itr_vision
 {
-    ConnectedAnalysis::ConnectedAnalysis(const Matrix& input)
+    ConnectedAnalysis::ConnectedAnalysis()
     {
-        this->Threshold = 0;
-        this->Diff = 0;
-        this->BNum = 0;
-        ImgWidth = input.GetCol();
-        ImgHeight = input.GetRow();
+
     }
     ConnectedAnalysis::~ConnectedAnalysis()
     {
 
     }
     //Do the Contour Analysis work,i.e. get the information of each block, including x,y & area, etc.
-    void ConnectedAnalysis::Contour(const Matrix &input,Matrix &output,vector<Block> &blocks)
+    void ConnectedAnalysis::Contour(const Matrix &input,vector<Block> &blocks)
     {
-        int room = 0;
-        int area = 1;
-        while(++room>0)
+        this->BNum = 0;
+        this->ImgWidth = input.GetCol();
+        this->ImgHeight = input.GetRow();
+        F32 visited[1000*1000] = {0};
+        int x,y;
+        for(int i=0;i<ImgHeight;i++)
         {
-            int x=-1,y=-1;
-            for(int i=0;i<ImgHeight;i++)
+            for(int j=0;j<ImgWidth;j++)
             {
-                for(int j=0;j<ImgWidth;j++)
-                if(Fit(input.GetData()[i*ImgWidth+j]) && f[i*ImgWidth+j] == 0)
+                if(visited[i*ImgWidth+j] == 0)
                 {
                     x = j;
                     y = i;
-                    break;
+                    Block blk;
+                    blk.x = x;
+                    blk.y = y;
+                    blk.Area = 1;
+                    Fill(input,x,y,blk,visited);
+                    blk.x /= blk.Area;
+                    blk.y /= blk.Area;
+                    blocks.push_back(blk);
+                    BNum++;
                 }
-                if(x!=-1||y!=-1)
-                    break;
             }
-            if(x==-1&&y==-1)
-            {
-                //--room;
-                SetPixelVal(output,f);
-                SortBlocks(blocks);
-                return;
-            }
-            blocks[BNum].x = x;
-            blocks[BNum].y = y;
-            Fill(input,x,y,room,blocks[BNum],f,area);
-            blocks[BNum].x /= area;
-            blocks[BNum].y /= area;
-            blocks[BNum].Area = area;
-            BNum++;
-            area = 1;
         }
+        if(BNum>0)
+        {
+            SortBlocks(blocks);
+            return;
+        }
+
     }
     //Fill the connected pixel to form a block
-    void ConnectedAnalysis::Fill(const Matrix &input,S32 x,S32 y,F32 room,Block& blk,F32* f,S32 &area)
+    void ConnectedAnalysis::Fill(const Matrix &input,S32 x,S32 y,Block& blk,F32* visited)
     {
-        f[y*ImgWidth+x] = room;
+        visited[y*ImgWidth+x] = 1;
         for(int i =0;i<8;i++)
         {
             int newx = x + dx[i];
             int newy = y + dy[i];
             if(newx < 0|| newx >= ImgWidth)continue;
             if(newy < 0|| newy >= ImgHeight)continue;
-            if(Fit(input.GetData()[newy*ImgWidth+newx]) && f[newy*ImgWidth+newx]==0)
+            if(PixEql(input(y,x),input(newy,newx)) && visited[newy*ImgWidth+newx]==0)
             {
-                area++;
+                blk.Area++;
                 blk.x += newx;
                 blk.y += newy;
-                Fill(input,newx,newy,room,blk,f,area);
+                Fill(input,newx,newy,blk,visited);
             }
         }
     }
-    //To judge whether the pixel is aroundz the threshold
-    bool ConnectedAnalysis::Fit(F32 Val)
-    {
-        if(Val >= Threshold && Val- Threshold <= Diff)
-            return true;
-        if(Val <= Threshold && Threshold - Val <= Diff)
-            return true;
-        else
-            return false;
-    }
-    //Set the paras
-    void ConnectedAnalysis::SetPara(F32 Threhold,F32 Diff)
-    {
-        this->Threshold = Threhold;
-        this->Diff = Diff;
-    }
-    //Set the Pixel Val of the Output Img
-    void ConnectedAnalysis::SetPixelVal(Matrix& Output,F32* Val)
-    {
-        for(int i = 0;i<Output.GetRow()*Output.GetCol();i++)
-            Output.GetData()[i] = Val[i];
-    }
+
     //Sort the block
+    int BlockCmp(Block a,Block b)
+    {
+        return a.Area > b.Area;
+    }
     void ConnectedAnalysis::SortBlocks(vector<Block> &blocks)
     {
-        Block BTemp;
-        //blob sort
-        for(int i = 0;i<BNum;i++)
-        {
-            for(int j =0;j<BNum - i;j++)
-            if(blocks[j].Area < blocks[j+1].Area)
-            {
-                BTemp = blocks[j];
-                blocks[j] = blocks[j+1];
-                blocks[j+1] = BTemp;
-            }
-        }
-        for(int i = 0;i<BNum;i++)
-        {
-            blocks[i].No = i;
-        }
+        sort(blocks.begin(),blocks.end(),BlockCmp);
     }
 }
