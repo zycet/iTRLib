@@ -22,7 +22,8 @@ class lktracking
     protected:
     private:
 
-
+    void fb_filter();
+    void ncc_filter(const Matrix  &input1,const Matrix  &input2);
 class DataOper:public Ransac::Operator
 {
     public:

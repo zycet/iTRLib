@@ -1,5 +1,5 @@
 #include "lktracking.h"
-
+using itr_math::Vector;
 lktracking::lktracking():
     FeatureNum(100),flU(FeatureNum),flV(FeatureNum),flU2(FeatureNum)
 {
@@ -18,6 +18,60 @@ void lktracking::Init(const Matrix &current,RectangleS &rect)
     FeatureNum=select.SelectGoodFeature(rect,flU);
 }
 
+void lktracking::ncc_filter(const Matrix  &input1,const Matrix  &input2)
+{
+    RectangleS rect;
+    rect.Width=rect.Height=5;
+    int i,length=rect.Width*rect.Height;
+    F32 mean1,mean2;
+
+    Matrix patch1(rect.Width,rect.Height),patch2(rect.Width,rect.Height);
+    Vector v1(length,patch1.GetData());
+    Vector v2(length,patch2.GetData());
+    for (i = 0; i <FeatureNum; ++i)
+    {
+        rect.X=flU[i].X-2;
+        rect.Y=flU[i].Y-2;
+        Pick::Rectangle(input1,rect,patch1);
+        rect.X=flV[i].X-2;
+        rect.Y=flV[i].Y-2;
+        Pick::Rectangle(input2,rect,patch2);
+        itr_math::StatisticsObj->Mean(patch1.GetData(),length,mean1);
+        itr_math::StatisticsObj->Mean(patch2.GetData(),length,mean2);
+        itr_math::CalculateObj->Offset(v1.GetData(),-mean1,length,v1.GetData());
+        itr_math::CalculateObj->Offset(v1.GetData(),-mean2,length,v2.GetData());
+        itr_math::CalculateObj->Normalization(v1.GetData(),length,v1.GetData());
+        itr_math::CalculateObj->Normalization(v2.GetData(),length,v2.GetData());
+        dist[i]=v1*v2;
+    }
+    F32 median;
+    itr_math::StatisticsObj->Median(dist,FeatureNum,median);
+    for (i = 0; i <FeatureNum; ++i)
+    {
+        if(dist[i]>median)
+        {
+            flV[i].Quality=-LKTracker::NCCError;
+        }
+    }
+}
+
+void lktracking::fb_filter()
+{
+    int i;
+    for (i = 0; i <FeatureNum; ++i)
+    {
+        dist[i]=(flU[i]-flV[i]).GetDistance();
+    }
+    F32 median;
+    itr_math::StatisticsObj->Median(dist,FeatureNum,median);
+    for (i = 0; i <FeatureNum; ++i)
+    {
+        if(dist[i]>median)
+        {
+            flV[i].Quality=-LKTracker::FBError;
+        }
+    }
+}
 bool lktracking::Go(const Matrix &current,RectangleS &rect,F32 &u,F32 &v)
 {
     TimeClock clock;
@@ -27,23 +81,11 @@ bool lktracking::Go(const Matrix &current,RectangleS &rect,F32 &u,F32 &v)
     tracker.Compute(flU,flV,FeatureNum,true);
     tracker.Compute(flV,flU2,FeatureNum,false);
 
-
-    ///FB Filter
+    ///Filter
     if(FeatureNum>0)
     {
-        for (i = 0; i <FeatureNum; ++i)
-        {
-            dist[i]=(flU[i]-flV[i]).GetDistance();
-        }
-        F32 median;
-        itr_math::StatisticsObj->Median(dist,FeatureNum,median);
-        for (i = 0; i <FeatureNum; ++i)
-        {
-            if(dist[i]>median)
-            {
-                flV[i].Quality=-LKTracker::FBError;
-            }
-        }
+        //fb_filter();
+        //ncc_filter(tracker.last->img[0],tracker.current->img[0]);
     }
     if(false)
     {
