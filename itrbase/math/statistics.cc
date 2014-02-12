@@ -200,22 +200,32 @@ F32 Statistics::SelectKth(F32 *data,S32 left,S32 right,S32 k)
 
 void Statistics::MaxKth(S32* Source, S32 Length, S32& Result, S32& Order) const
 {
+    assert(Source!=NULL);
+    assert(Length>0);
+    assert(Order<Length);
     Result=StatisticsObj->SelectKth(Source,0,Length-1,Order);
 }
 
 void Statistics::MaxKth(F32* Source, S32 Length, F32& Result, S32& Order) const
 {
+    assert(Source!=NULL);
+    assert(Length>0);
+    assert(Order<Length);
     Result=StatisticsObj->SelectKth(Source,0,Length-1,Order);
 }
 
 bool Statistics::Median(S32 *Source, S32 Length, S32 &Result) const
 {
+    assert(Source!=NULL);
+    assert(Length>0);
     Result=StatisticsObj->SelectKth(Source,0,Length-1,Length>>1);
     return true;
 }
 
 bool Statistics::Median(F32 *Source, S32 Length, F32 &Result) const
 {
+    assert(Source!=NULL);
+    assert(Length>0);
     Result=StatisticsObj->SelectKth(Source,0,Length-1,Length>>1);
     return true;
 }
