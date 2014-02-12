@@ -131,8 +131,8 @@ bool Statistics::Mean(F32 *Source, S32 Length, F32 &Result) const
 S32 Statistics::SelectKth(S32 *data,S32 left,S32 right,S32 k)
 {
     S32 i=left,j=right;
-    S32 pos;
-    NumericalObj->Rand(left,right,pos);
+    S32 pos=(i+j)>>1;
+    //NumericalObj->Rand(left,right,pos);
     S32 key=data[i];
     data[i]=data[pos];
     data[pos]=key;
@@ -166,9 +166,9 @@ S32 Statistics::SelectKth(S32 *data,S32 left,S32 right,S32 k)
 F32 Statistics::SelectKth(F32 *data,S32 left,S32 right,S32 k)
 {
     S32 i=left,j=right;
-    S32 pos;
-    NumericalObj->Rand(left,right,pos);
-    S32 key=data[i];
+    S32 pos=(i+j)>>1;
+    //NumericalObj->Rand(left,right,pos);
+    F32 key=data[i];
     data[i]=data[pos];
     data[pos]=key;
     key=data[i];

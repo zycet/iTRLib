@@ -41,14 +41,14 @@ class DataOper:public Ransac::Operator
         }
 };
     S32 FeatureNum;
-    vector<FeaturePoint> flU;
-    vector<FeaturePoint> flV;
-    vector<FeaturePoint> flU2;
+    vector<CommFeaturePoint> flU;
+    vector<CommFeaturePoint> flV;
+    vector<CommFeaturePoint> flU2;
     DataOper oper;
     Ransac ransac;
     ConvoluteSquare conv;
 
-    F32 *x,*y;
+    F32 *x,*y,*dist;
     LKTracker tracker;
 };
 

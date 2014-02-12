@@ -122,7 +122,7 @@ int i=0;
     }
 
     Matrix result;
-    Point2D* p=new CommFeaturePoint();
+
     vector<Point2D> outU(Amount),outV(Amount);
     int count=0;
     for(i=0;i<Amount;++i)

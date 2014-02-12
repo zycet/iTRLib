@@ -47,8 +47,8 @@ public:
       */
     virtual void MaxKth(S32* Source, S32 Length, S32& Result, S32& Order) const;
     virtual void MaxKth(F32* Source, S32 Length, F32& Result, S32& Order) const;
-    virtual S32 SelectKth(S32 *data,int left,int right,int k);
-    virtual F32 SelectKth(F32 *data,int left,int right,int k);
+    virtual S32 SelectKth(S32 *data,S32 left,S32 right,S32 k);
+    virtual F32 SelectKth(F32 *data,S32 left,S32 right,S32 k);
 
     /**
       * \brief 求数组中的均方根

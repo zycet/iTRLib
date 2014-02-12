@@ -47,7 +47,7 @@ namespace itr_vision
         public:
             enum TrackResult
             {
-                Tracked, OOB, SmallDet, LARGE_RESIDUE,MAX_ITERATION
+                Tracked, OOB, SmallDet, LARGE_RESIDUE,MAX_ITERATION,FBError
             };
             void Init(const Matrix &Img1, const Matrix &Img2);
             void Init(const Matrix &Img);

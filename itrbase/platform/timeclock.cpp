@@ -8,7 +8,7 @@ TimeClock::TimeClock()
 int TimeClock::Tick()
 {
     gettimeofday(&tpend,0);
-    int timeuse = 1000*(tpend.tv_sec-tpstart.tv_sec)+tpend.tv_usec-tpstart.tv_usec;
+    int timeuse = 1000000*(tpend.tv_sec-tpstart.tv_sec)+tpend.tv_usec-tpstart.tv_usec;
     gettimeofday(&tpstart,0);
-    return timeuse;
+    return timeuse/1000;
 }
