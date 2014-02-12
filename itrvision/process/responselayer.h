@@ -73,4 +73,5 @@ class ResponseLayer
         return coords[(scale * row) * width + (scale * column)];
       }
     #endif
-}
+};
+
