@@ -9,9 +9,6 @@ using namespace itr_math;
 
 namespace itr_vision
 {
-    /*
-        相机外参数描述与计算类
-    */
     /**
     * \brief 相机外参数描述与计算类
     * \note 实现通过特征点匹配计算单应性矩阵(H,V)
@@ -32,9 +29,6 @@ namespace itr_vision
             * \brief 对象Clone构造函数
             */
             CameraExterCalc(const CameraExterCalc &other);
-            /*
-                使用两组特征点通过RANSAC计算单应性矩阵(H,V)
-            */
             /**
             * \brief 使用两组特征点通过RANSAC计算单应性矩阵(H,V)
             * \param PointList1 特征点组1
@@ -43,9 +37,6 @@ namespace itr_vision
             * \param List2Num 特征点组2长度
             */
             BOOL CalcHV(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num);
-            /*
-                通过给定的相机内参数和深度参数D计算运动参数(R,T,N)
-            */
             /**
             * \brief 通过给定的相机内参数和深度参数D计算运动参数(R,T,N)
             * \param CameraInterPara 相机内参数
