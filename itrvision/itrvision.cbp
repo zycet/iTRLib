@@ -19,9 +19,11 @@
 					<Add directory="../itrbase" />
 					<Add directory="feature" />
 					<Add directory="camera" />
+					<Add directory="../itralgorithm" />
 				</Compiler>
 				<Linker>
 					<Add library="../itrbase/bin/debug/libitrbase.a" />
+					<Add library="../itralgorithm/bin/debug/libitralgorithm.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
