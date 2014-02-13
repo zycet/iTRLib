@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/debug/libitrvision" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/debug/itrvision" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/debug/" />
 				<Option type="2" />
@@ -19,15 +19,13 @@
 					<Add directory="../itrbase" />
 					<Add directory="feature" />
 					<Add directory="camera" />
-					<Add directory="../itralgorithm" />
 				</Compiler>
 				<Linker>
 					<Add library="../itrbase/bin/debug/libitrbase.a" />
-					<Add library="../itralgorithm/bin/debug/libitralgorithm.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/release/libitrvision" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/release/itrvision" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/release/" />
 				<Option type="2" />

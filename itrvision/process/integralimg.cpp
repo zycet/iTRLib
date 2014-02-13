@@ -5,8 +5,6 @@
 namespace itr_vision
 {
 
-
-
     void IntegralImg::Normal(const Matrix &input,Matrix &output)
     {
 
@@ -56,6 +54,23 @@ namespace itr_vision
             }
         }
 
-}
+    }
 
+    void BoxIntergral(const Matrix &output, S32 row, S32 col, S32 rows, S32 cols,F32 & result)
+    {
+        S32 r1 = std::min(row,          output.GetRow()) - 1;
+        S32 c1 = std::min(col,          output.Getcol())  - 1;
+        S32 r2 = std::min(row + rows,   output.GetRow()) - 1;
+        S32 c2 = std::min(col + cols,   output.Getcol())  - 1;
+
+        F32 *OData = output.GetData();
+
+        F32 A = OData[r1 * output.Getcol() + c1];
+        F32 B = OData[r1 * output.Getcol() + c2];
+        F32 C = OData[r2 * output.Getcol() + c1];
+        F32 D = OData[r2 * output.Getcol() + c2];
+
+        result = A + D - B - C;
+
+    }
 }
