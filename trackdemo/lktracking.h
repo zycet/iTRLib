@@ -27,7 +27,7 @@ class lktracking
     void ncc_filter(const Matrix  &input1,const Matrix  &input2);
 
 template <class T>
-class DataOper:public Ransac<T>::Operator
+class DataOper:public Ransac<T,T>::Operator
 {
     public:
         F32 GetError(T a, T b)
@@ -39,9 +39,9 @@ class DataOper:public Ransac<T>::Operator
             std::sort(data,data+N);
             return data[N/2];
         }
-        bool Remain(F32 error)
+        bool Remain(T a,T b)
         {
-            return (fabs(error)<1.5);
+            return (fabs(a-b)<1.5);
         }
 };
     S32 FeatureNum;
@@ -49,7 +49,7 @@ class DataOper:public Ransac<T>::Operator
     vector<CommFeaturePoint> frame2Feature;
     vector<CommFeaturePoint> fbFeature;
     DataOper<F32> oper;
-    Ransac<F32> ransac;
+    Ransac<F32,F32> ransac;
     ConvoluteSquare conv;
 
     F32 *x,*y,*dist;

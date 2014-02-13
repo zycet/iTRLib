@@ -61,7 +61,14 @@ void lktracking::pairdistance(const vector<Point2D> &feature,vector<F32> &dist)
     for(int i=0; i<n; ++i)
         for(int j=0; j<n; ++j)
         {
-            dist[k]=(feature[i]-feature[j]).GetDistance();
+            if(i==j)
+            {
+                dist[k]=0.1;
+            }
+            else
+            {
+                dist[k]=(feature[i]-feature[j]).GetDistance();
+            }
             ++k;
         }
 }
@@ -74,7 +81,6 @@ F32 lktracking::getScale(S32 pointcount)
     int i,j=0;
     for(i=0; i<FeatureNum; ++i)
     {
-        vector<Point2D> feature1(pointcount),feature2(pointcount);
         for(i=0; i<FeatureNum; ++i)
         {
             if(frame2Feature[i].Quality>=0)
@@ -90,6 +96,8 @@ F32 lktracking::getScale(S32 pointcount)
     itr_math::CalculateObj->Div(&pointDist1[0],&pointDist2[0],n,&distDiv[0]);
     F32 median;
     itr_math::StatisticsObj->Median(&distDiv[0],n,median);
+    itr_math::NumericalObj->Sqrt(median,median);
+
     return median;
 }
 void lktracking::fb_filter()
@@ -122,7 +130,7 @@ bool lktracking::Go(const Matrix &current,RectangleS &rect,F32 &Vx,F32 &Vy)
     if(FeatureNum>0)
     {
         fb_filter();
-        ncc_filter(tracker.last->img[0],tracker.current->img[0]);
+        //ncc_filter(tracker.last->img[0],tracker.current->img[0]);
     }
     if(false)
     {
@@ -172,6 +180,7 @@ bool lktracking::Go(const Matrix &current,RectangleS &rect,F32 &Vx,F32 &Vy)
 
         F32 boxScale=1.0f;
         std::cout<<getScale(amount)<<std::endl;
+        boxScale=getScale(amount);
         rect.X+=Vx-rect.Width*(boxScale-1)/2;
         rect.Y+=Vy-rect.Height*(boxScale-1)/2;
         rect.Width*=boxScale;
