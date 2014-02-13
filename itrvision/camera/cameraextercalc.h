@@ -4,9 +4,10 @@
 #include "itrbase.h"
 #include "../feature/feature.h"
 #include "camera.h"
+#include "itralgorithm.h"
 
 using namespace itr_math;
-
+using namespace itr_algorithm;
 namespace itr_vision
 {
     /**
@@ -67,26 +68,25 @@ namespace itr_vision
             Vector N;
         protected:
         private:
-            /*
-            *
-            */
-            class CameraDataOpt:public Ransac::Operator
-            {
-                public:
-                F32 GetError(F32 a, F32 b)
-                {
-                    return fabs(a-b);
-                }
-                F32 GetValue(F32 *data, S32 N)
-                {
-                    std::sort(data,data+N);
-                    return data[N/2];
-                }
-                bool Remain(F32 error)
-                {
-                    return (fabs(error)<1.5);
-                }
-            };
+ /*           template <class T,class R>
+class CDataOper:public Ransac<T,R>::Operator
+{
+    public:
+        F32 GetError(T a, R b)
+        {
+            return fabs(a-b);
+        }
+        R GetValue(T *data, S32 N)
+        {
+            std::sort(data,data+N);
+            return data[N/2];
+        }
+        bool Remain(T a,T b)
+        {
+            return (fabs(a-b)<1.5);
+        }
+};*/
+
     };
 }
 #endif // CAMERAEXTERCALC_H

@@ -612,6 +612,19 @@ void Calculate::Max(F32* SourceA, S32 Length, F32& Result, S32& Order) const
         }
     }
 }
+void Calculate::Max(F32* SourceA, S32 Length, F32& Result) const
+{
+    assert(SourceA!=NULL);
+    assert(Length > 0);
+    Result = SourceA[0];
+    for (S32 i = 1; i < Length; i++)
+    {
+        if(SourceA[i] > Result)
+        {
+            Result = SourceA[i];
+        }
+    }
+}
 
 void Calculate::Min(S16* SourceA, S32 Length, S16& Result, S32& Order) const
 {

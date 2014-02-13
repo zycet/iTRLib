@@ -15,38 +15,39 @@ namespace itr_vision
     CameraExterCalc::CameraExterCalc(const CameraExterCalc &other)
     {
         //copy ctor
-        this->H=other->H;
-        this->V=other->V;
-        this->R=other->R;
-        this->T=other->T;
-        this->N=other->N;
+        this->H=other.H;
+        this->V=other.V;
+        this->R=other.R;
+        this->T=other.T;
+        this->N=other.N;
     }
     /**
             * \brief 使用两组特征点通过RANSAC计算单应性矩阵(H,V)
             */
-    CameraExterCalc::CalcHV(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num)
+    BOOL CameraExterCalc::CalcHV(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num)
     {
         S32 bucket_counter[16]={0};
         S32 bucket[16];
-        S32 tempvalue_u[List1Num],tempvalue_v[List1Num];
+        F32 tempvalue_u[List1Num],tempvalue_v[List1Num];
         S32 matched_num=0;
         for(S32 i=0; i<List1Num; i++)
         {
-            if(PointList1[i]->ID!=-1)
+            if(PointList1[i].ID!=-1)
             {
-                matched_num;
-                tempvalue_u[i]=PointList1[i]->X;
-                tempvalue_v[i]=PointList1[i]->Y;
+                matched_num++;
+                tempvalue_u[i]=PointList1[i].X;
+                tempvalue_v[i]=PointList1[i].Y;
             }
         }
-        S32 U,V;
+        F32 U,V;
         Calculate CalculateObj;
-        CalculateObj->Max(tempvalue_u,List1Num,U);
-        CalculateObj->Max(tempvalue_v,List1Num,V);
+        CalculateObj.Max(tempvalue_u,List1Num,U);
+        CalculateObj.Max(tempvalue_v,List1Num,V);
 
         for(S32 i=0; i<List1Num; i++)
         {
-            if(PointList1[i]->ID!=-1)
+            if(PointList1[i].ID!=-1)
+            {
                 if(tempvalue_u[i]<=U/4&&tempvalue_v[i]<=V/4)
                 {
                     bucket_counter[0]++;
@@ -157,6 +158,7 @@ namespace itr_vision
                     bucket[15]=i;
                     continue;
                 }
+            }
         }
         F32 ratio[16]={0};
         ratio[0]=bucket_counter[0]/matched_num;
