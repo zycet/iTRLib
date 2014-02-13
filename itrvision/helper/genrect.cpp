@@ -5,7 +5,7 @@ namespace itr_vision
 
     void GenRect::genrectin(RectangleS rect,RectangleS rectR[],S32 num)
     {
-        S32 off_x,off_y;
+        F32 off_x,off_y;
 
         F32 off_max=0.1*rect.Width*rect.Height/(rect.Width+rect.Height);
 
