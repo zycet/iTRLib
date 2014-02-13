@@ -1,4 +1,4 @@
-#include "intefralimgtest.h"
+#include "integralimgtest.h"
 #include "iohelper.h"
 #include "itrvision.h"
 #include "itrbase.h"

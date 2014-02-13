@@ -2,6 +2,9 @@
 #define SURF_H
 
 #include "itrbase.h"
+#include "vectorfeaturepoint.h"
+#include <vector>
+
 
 using namespace itr_math;
 
@@ -26,6 +29,17 @@ namespace itr_vision
             virtual ~SURF();
         protected:
         private:
+        void getOrientation();
+        void getDescriptor(bool bUpright = false);
+        inline float gaussian(int x, int y, float sig);
+        inline float gaussian(float x, float y, float sig);
+        inline float haarX(int row, int column, int size);
+        inline float haarY(int row, int column, int size);
+        float getAngle(float X, float Y);
+
+        Matrix Input;
+        VectorFeaturePoint ipts;
+        int index;
     };
 }
 #endif // SURF_H
