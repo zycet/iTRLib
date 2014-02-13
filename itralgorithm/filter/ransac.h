@@ -4,7 +4,7 @@
 #include "itrbase.h"
 namespace itr_algorithm
 {
-    template <class T>
+    template <class InputType,class ResultType>
     class Ransac
     {
         public:
@@ -15,9 +15,9 @@ namespace itr_algorithm
             class Operator
             {
                 public:
-                    virtual F32 GetError(T a, T b)=0;
-                    virtual T GetValue(T *data, S32 N)=0;
-                    virtual bool Remain(F32 error)=0;
+                    virtual F32 GetError(InputType a, ResultType b)=0;
+                    virtual ResultType GetValue(InputType *data, S32 N)=0;
+                    virtual bool Remain(InputType a, ResultType b)=0;
             };
 
             Ransac();
@@ -25,8 +25,8 @@ namespace itr_algorithm
             * \brief 初始化
             * \param 计算时需要用到的算子
             */
-            Ransac(Ransac<T>::Operator *oper);
-            void Init(Ransac<T>::Operator *oper);
+            Ransac(Ransac<InputType,ResultType>::Operator *oper);
+            void Init(Ransac<InputType,ResultType>::Operator *oper);
 
             /**
             * \brief 执行随机一致性检测
@@ -34,38 +34,38 @@ namespace itr_algorithm
             * \param 传入对象长度
             * \param 输出用，被过滤掉的对象个数
             */
-            void Process( T *x, S32 N,S32 &drop);
+            ResultType Process( InputType *x, S32 N,S32 &drop);
 
             static const S32 INF = 9999999;
 
         private:
-            T *data;
-            T *result;
+            InputType *data;
+            ResultType *result;
             F32 *error;
-            Ransac<T>::Operator *oper;
+            Ransac<InputType,ResultType>::Operator *oper;
             S32 M,N;
     };
 
-    template <class T>
-    Ransac<T>::Ransac()
+    template <class InputType,class ResultType>
+    Ransac<InputType,ResultType>::Ransac()
     {
         //ctor
         M=7;
         N=1;
     }
-    template <class T>
-    Ransac<T>::Ransac(Ransac<T>::Operator *Oper)
+    template <class InputType,class ResultType>
+    Ransac<InputType,ResultType>::Ransac(Ransac<InputType,ResultType>::Operator *Oper)
     {
         oper=Oper;
     }
-    template <class T>
-    void Ransac<T>::Init(Ransac<T>::Operator *Oper)
+    template <class InputType,class ResultType>
+    void Ransac<InputType,ResultType>::Init(Ransac<InputType,ResultType>::Operator *Oper)
     {
         oper=Oper;
     }
 
-    template <class T>
-    void Ransac<T>::Process(T *x, S32 count, S32 &drop)
+    template <class InputType,class ResultType>
+    ResultType Ransac<InputType,ResultType>::Process(InputType *x, S32 count, S32 &drop)
     {
 
         N = count / M;
@@ -73,10 +73,11 @@ namespace itr_algorithm
         {
             N = 1;
         }
-        data = new T[N];
-        result = new T[M];
+        data = new InputType[N];
+        result = new ResultType[M];
         error = new F32[M];
-        int index, key;
+        ResultType key;
+        int index;
         for (int i = 0; i < M; i++)
         {
             //随机抽取N个数据
@@ -109,7 +110,7 @@ namespace itr_algorithm
         for (int i = 0; i < count; ++i)
         {
 //            printf("%0.0f ", fabs(x[i] - key));
-            if (!oper->Remain(x[i] - key))
+            if (!oper->Remain(x[i] , key))
             {
                 x[i] = INF;
                 ++drop;
@@ -119,6 +120,7 @@ namespace itr_algorithm
         delete[] error;
         delete[] data;
         delete[] result;
+        return key;
     }
 
 }
