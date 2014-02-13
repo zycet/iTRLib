@@ -77,7 +77,7 @@ namespace itr_vision
                         tempimg[(subsampling*y+subhalf)*width[L-1] +
                                 (subsampling*x+subhalf)];
         }
-        // TODO 增加求微分的部分
+
         for (L = 0; L < level; ++L)
         {
             conv._KLTComputeGradients(img[L], 1, gradx[L], grady[L]);
