@@ -81,12 +81,15 @@ namespace itr_vision
         S32 r = (filterN -1)/2;
         F32 tempmal=0;
         F32* Finput =Input.GetData();
+        F32* FinputP;
         S32 pos=0;
-        for(S32 row =0; row<rowN ; row++)
+        S32 colN_r=colN - r;
+        for(S32 row =0; row<rowN; row++)
         {
-            for(S32 col =r; col<colN - r; col++)
+            FinputP=Finput+pos-r;
+            for(S32 col =r; col<colN_r; col++)
             {
-                itr_math::CalculateObj->MultiSum(Finput+pos+col-r, Filter, filterN, tempmal);
+                itr_math::CalculateObj->MultiSum(FinputP+col, Filter, filterN, tempmal);
                 Output[pos+col] =tempmal;
             }
             pos+= colN;

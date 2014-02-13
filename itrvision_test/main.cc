@@ -44,11 +44,13 @@
 #include "detectiontest.h"
 #include"genrecttest.h"
 #include"convolutefasttest.h"
+#include "itrneon.h"
 
 int main()
 {
     //Init Math
-    itr_math::MathObjStandInit();
+    //itr_math::MathObjStandInit();
+    itr_math::MathNeonObjStandInit();
     //Test Rotate OK!
     //rotatetest();
     //Test Genrect OK!
