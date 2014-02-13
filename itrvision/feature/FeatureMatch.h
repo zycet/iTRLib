@@ -18,8 +18,7 @@ class FeatureMatch
         *输入：vectorfeaturepoint1[],vectorfeaturepoint2[],已知的两组特征点
         *     num1,num2,两组特征点的长度。
         *
-        *输出：matchnum,匹配的特征点数目
-              pos1[],pos2[],匹配的两组特征点坐标
+        *输出：vectorfeaturepoint ID
         */
         void FeatureMatchDo(VectorFeaturePoint vectorfeaturepoint1[],S32 num1,
             VectorFeaturePoint vectorfeaturepoint2[],S32 num2,S32 matchnum,Point2D pos1[],Point2D pos2[]);
