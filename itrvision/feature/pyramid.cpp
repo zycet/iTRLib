@@ -74,8 +74,8 @@ namespace itr_vision
             for (int y = 0 ; y < height[L] ; y++)
                 for (int x = 0 ; x < width[L]  ; x++)
                     img[L][y*width[L]+x] =
-                    tempimg[(subsampling*y+subhalf)*width[L-1] +
-                    (subsampling*x+subhalf)];
+                        tempimg[(subsampling*y+subhalf)*width[L-1] +
+                                (subsampling*x+subhalf)];
         }
         // TODO 增加求微分的部分
         for (L = 0; L < level; ++L)

@@ -11,6 +11,7 @@ using std::ofstream;
 using namespace itr_math;
 using namespace itr_algorithm;
 
+
 static void printMatrix(Matrix a)
 {
     for (int i = 0; i < a.GetRow(); ++i)

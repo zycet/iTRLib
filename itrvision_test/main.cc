@@ -58,9 +58,9 @@ int main()
     //Test Pick OK!
     // picktest();
     //Test Draw OK!
-    // drawtest();
+    drawtest();
     ///Test LKTracker
-    //lktest();
+    lktest();
     ///Test Detection
    // DetectionTest();
     //Test Process

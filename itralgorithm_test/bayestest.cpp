@@ -39,12 +39,13 @@
 #include <algorithm>
 #include <vector>
 #include <math.h>
+
 using std::vector;
 using std::ofstream;
 using namespace itr_math;
 using namespace itr_algorithm;
 
-void printMatrix(Matrix a)
+static void printMatrix(Matrix a)
 {
     for (int i = 0; i < a.GetRow(); ++i)
     {
@@ -56,7 +57,15 @@ void printMatrix(Matrix a)
     }
     printf("\n");
 }
-
+static void printVec(Vector a)
+{
+    printf("%d : ",a.GetDim());
+    for(int i=0; i<a.GetDim(); ++i)
+    {
+        printf("%.0f,",a[i]);
+    }
+    printf("\n");
+}
 
 void NBCtest()
 {

@@ -79,6 +79,8 @@ void TestCalculate()
     S32 CalResultS32;
     S16 CalResutlS16;
 
+    S32 Order;
+
     //AddTest
     itr_math::CalculateObj->Add(A_S16, B_S16, 2, C_S16);
     assert(C_S16[0] == A_S16[0] + B_S16[0] && C_S16[1] == A_S16[1] + B_S16[1]);
@@ -172,6 +174,15 @@ void TestCalculate()
     assert(C_S32[0] == 2 && C_S32[1] == 2);
     itr_math::CalculateObj->Set(C_F32, 2, 2);
     assert(C_F32[0] == 2 && C_F32[1] == 2);
+
+    itr_math::CalculateObj->Max(A_F32, 2, CalResultF32,Order);
+    assert(CalResultF32 == 2);
+    itr_math::CalculateObj->Min(A_F32, 2, CalResultF32,Order);
+    assert(CalResultF32 == 2);
+    itr_math::CalculateObj->Single_dis(A_F32, B_F32,2, CalResultF32);
+    assert(CalResultF32 == 2);
+    itr_math::CalculateObj->Double_dis(A_F32, B_F32,2, CalResultF32);
+    assert(CalResultF32 == 2);
     TRACE_INFO("OK TestCalculate()");
 }
 
@@ -239,8 +250,9 @@ void TestVector()
     assert(*(Data2 + 1) == 25);
     assert(*(Data2 + 2) == 36);
 
+    v2.CopyFrom(Data1);//0 1 2
     resultF32 = v.ProductInner(v2);
-    assert(1921 == resultF32);
+    assert((97) == resultF32);
 
     ve2[0] = 5, ve2[1] = 6, ve2[2] = 7;
     ve1[0] = 1, ve2[1] = 2, ve2[2] = 3;

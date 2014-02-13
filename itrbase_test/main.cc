@@ -53,17 +53,17 @@ int main()
     TestCalculate();
     TestNumerical();
     TestStatistics();
-    //TestVector();
+    TestVector();
 
     TestCalculateTest();
     TestMathdeDeinit();
     TestMatrix();
-    //TestGeometry();
-    //TestTransform();
+    TestGeometry();
+    TestTransform();
     //Test Helper
-    //TestGaussianGenerate();
-    //Finish
+    TestGaussianGenerate();
     TestCalcEff();
+    //Finish
     TRACE_INFO("OK All");
     return 0;
 }

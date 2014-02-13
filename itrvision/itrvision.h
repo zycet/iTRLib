@@ -40,6 +40,7 @@
 #include "operation/operation.h"
 #include "process/process.h"
 #include "feature/feature.h"
+#include "camera/camera.h"
 
 /*
 #include "../image/image.h"
@@ -48,6 +49,7 @@
 #include "../operation/operation.h"
 #include "../process/process.h"
 #include "../feature/feature.h"
+#include "../camera/camera.h"
 */
 
 #endif // ITRVISION_H_

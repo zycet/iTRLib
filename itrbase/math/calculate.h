@@ -99,16 +99,43 @@ public:
     virtual void Set(S16* SourceA, S16 Value, S32 Length) const;
     virtual void Set(S32* SourceA, S32 Value, S32 Length) const;
     virtual void Set(F32* SourceA, F32 Value, S32 Length) const;
+    /**
+      * \brief 求数组中的最大值
+      * \param Length 数组长度
+      * \param Result 数组中的最大值
+      * \param Order 数组中的最大值所在位置
+      */
+    virtual void Max(S16* SourceA, S32 Length, S16& Result, S32& Order) const;
+    virtual void Max(S32* SourceA, S32 Length, S32& Result, S32& Order) const;
+    virtual void Max(F32* SourceA, S32 Length, F32& Result, S32& Order) const;
 
-    //virtual void Max(S16* SourceA, S32 Length, S16& Result) const;
-    //virtual void Max(S32* SourceA, S32 Length, S32& Result) const;
-    //virtual void Max(F32* SourceA, S32 Length, F32& Result) const;
+    /**
+      * \brief 求数组中的最小值
+      * \param Length 数组长度
+      * \param Result 数组中的最小值
+      * \param Order 数组中的最小值所在位置
+      */
+    virtual void Min(S16* SourceA, S32 Length, S16& Result, S32& Order) const;
+    virtual void Min(S32* SourceA, S32 Length, S32& Result, S32& Order) const;
+    virtual void Min(F32* SourceA, S32 Length, F32& Result, S32& Order) const;
 
-    //virtual void Max(S16* SourceA, S32 Length, S16& Result) const;
-    //virtual void Max(S32* SourceA, S32 Length, S32& Result) const;
-    //virtual void Max(F32* SourceA, S32 Length, F32& Result) const;
+    /**
+      * \brief 求两个向量的一次距离
+      * \param SourceA 向量1
+      * \param SourceB 向量2
+      * \param Result 向量1，2的一次距离和
+      */
+    virtual void Single_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const;
+    /**
+      * \brief 求两个向量的二次距离
+      * \param SourceA 向量1
+      * \param SourceB 向量2
+      * \param Result 向量1，2的二次距离和
+      */
+    virtual void Double_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const;
 
     virtual void Compare(F32* SourceA, F32* SourceB, F32 Error,S32 Length,BOOL* IsSame) const;
+
 };
 } // namespace itr_math
 

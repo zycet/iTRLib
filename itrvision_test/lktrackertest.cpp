@@ -49,22 +49,99 @@ using namespace itr_algorithm;
 using namespace itr_vision;
 void lktest()
 {
-    ImageGray my;
-    IOHelper::ReadPGMFile("select.pgm",my);
-    S16 data[640*480];
-    FILE *fin=fopen("klt.txt","r");
-    for(int i=0;i<640*480;++i)
-        fscanf(fin,"%d ",data+i);
-
-    ImageGray klt(640,480,data),sub(640,480);
-    for(int i=0;i<klt.GetPixelsNumber();++i)
-        sub[i]=(klt[i]-my[i])*10;
-    IOHelper::WritePGMFile("sub.pgm",sub);
-    IOHelper::WritePGMFile("klt.pgm",klt);
-    //lkseq();
     lktest2Img();
 }
 
+
+
+void lktest2Img()
+{
+   printf("*****Begin KLT Tracking 2 Image Test!*****\n\n");
+    ImageGray input1, input2;
+    IOHelper::ReadPGMFile("bin/debug/img00069.pgm", input1);
+    IOHelper::ReadPGMFile("bin/debug/img00070.pgm", input2);
+//    IOHelper::ReadPPMFile("Debug/twinnings/imgs/img00000.ppm", gray1);
+//    IOHelper::ReadPPMFile("Debug/twinnings/imgs/img00000.ppm", gray2);
+    Matrix gray1(input1.GetHeight(),input1.GetWidth()),gray2(input1.GetHeight(),input1.GetWidth());
+    ConvertFormat::ImageGray2Matrix(input1,gray1);
+    ConvertFormat::ImageGray2Matrix(input2,gray2);
+    SelectKLTFeature select(gray1);
+    int Amount=100;
+    vector<CommFeaturePoint> flU(Amount), flV(Amount), flU2(Amount);
+    RectangleS rect(0, 0, gray1.GetCol(), gray1.GetRow());
+//    RectangleS rect(126,165,73,53);
+    select.SelectGoodFeature(rect, flU);
+    LKTracker tracker;
+    tracker.Init(gray1, gray2);
+
+    tracker.Compute(flU, flV, Amount,true);
+    vector<CommFeaturePoint>::iterator feat = flU.begin();
+///Debug
+if(true)
+{
+int i=0;
+ printf("\nIn first image:\n");
+    while (feat != flU.end())
+    {
+        Draw::Circle(gray1, feat->X, feat->Y, 3, 255);
+        printf("Feature #%d:  (%d,%d) with value of %d\n", i++, feat->X, feat->Y, feat->Quality);
+        ++feat;
+    }
+    printf("\nIn Second image:\n");
+    i=0;
+    feat = flV.begin();
+    while (feat != flV.end())
+    {
+        if (feat->Quality >= 0)
+        {
+            Draw::Circle(gray2, feat->X, feat->Y, 3, 255);
+        }
+        printf("Feature #%d:  (%d,%d) with value of %d\n", i++, feat->X, feat->Y, feat->Quality);
+        ++feat;
+    }
+}
+    tracker.Compute(flV, flU2,Amount, false);
+    for (int i = 0; i < flU.size(); ++i)
+    {
+        if ((flU[i] - flU2[i]).GetDistance() > 5)
+            flV[i].Quality = -1;
+        printf("%d,%d\n", (flU[i] - flU2[i]).GetDistance(), flV[i].Quality);
+    }
+
+    int i = 0;
+    feat = flV.begin();
+    i = 0;
+    while (feat != flV.end())
+    {
+        if (feat->Quality >= 0)
+        {
+            Draw::Circle(gray2, feat->X, feat->Y, 3, 255);
+            printf("Feature:%d at(%d,%d) with %d\n", i++, feat->X, feat->Y, feat->Quality);
+        }
+        ++feat;
+    }
+
+    Matrix result;
+
+    vector<Point2D> outU(Amount),outV(Amount);
+    int count=0;
+    for(i=0;i<Amount;++i)
+    {
+        if(flV[i].Quality>=0)
+        {
+            outU[i]=flU[i];
+            outV[i]=flV[i];
+            count++;
+        }
+    }
+    Draw::Correspond(gray1, gray2, outU, outV, count,result);
+
+    IOpnm::WritePGMFile("bin/debug/result.pgm",result);
+    IOpnm::WritePGMFile("bin/debug/gray1.pgm",gray1);
+    IOpnm::WritePGMFile("bin/debug/gray2.pgm",gray2);
+    printf("*****End KLT Tracking 2 Image Test!*****\n\n");
+
+}
 
 void lkseq()
 {/*
@@ -242,82 +319,3 @@ printf("*****Begin KLT Tracking Sequence Test!*****\n\n");
 printf("*****End KLT Tracking Sequence Test!*****\n\n");*/
 }
 
-void lktest2Img()
-{
-   printf("*****Begin KLT Tracking 2 Image Test!*****\n\n");
-    ImageGray input1, input2;
-    IOHelper::ReadPGMFile("Debug/green/cap001.pgm", input1);
-    IOHelper::ReadPGMFile("Debug/green/cap002.pgm", input2);
-//    IOHelper::ReadPPMFile("Debug/twinnings/imgs/img00000.ppm", gray1);
-//    IOHelper::ReadPPMFile("Debug/twinnings/imgs/img00000.ppm", gray2);
-    Matrix gray1(input1.GetHeight(),input1.GetWidth()),gray2(input1.GetHeight(),input1.GetWidth());
-    ConvertFormat::ImageGray2Matrix(input1,gray1);
-    ConvertFormat::ImageGray2Matrix(input2,gray2);
-    SelectFeature select(gray1);
-    vector<FeaturePoint> flU(100), flV(100), flU2(100);
-    RectangleS rect(0, 0, gray1.GetCol(), gray1.GetRow());
-//    RectangleS rect(126,165,73,53);
-    select.SelectGoodFeature(rect, flU);
-    LKTracker tracker;
-    tracker.Init(gray1, gray2);
-
-    tracker.Compute(flU, flV, 100,true);
-    vector<FeaturePoint>::iterator feat = flU.begin();
-///Debug
-if(true)
-{
-int i=0;
- printf("\nIn first image:\n");
-    while (feat != flU.end())
-    {
-        Draw::Circle(gray1, feat->x, feat->y, 3, 255);
-        printf("Feature #%d:  (%d,%d) with value of %d\n", i++, feat->x, feat->y, feat->value);
-        ++feat;
-    }
-    printf("\nIn Second image:\n");
-    i=0;
-    feat = flV.begin();
-    while (feat != flV.end())
-    {
-        if (feat->value >= 0)
-        {
-            Draw::Circle(gray2, feat->x, feat->y, 3, 255);
-        }
-        printf("Feature #%d:  (%d,%d) with value of %d\n", i++, feat->x, feat->y, feat->value);
-        ++feat;
-    }
-    getchar();
-}
-    tracker.Compute(flV, flU2,100, false);
-    for (int i = 0; i < flU.size(); ++i)
-    {
-        if (fabs(flU[i] - flU2[i]) > 5)
-            flV[i].value = -1;
-        printf("%d,%d\n", flU[i] - flU2[i], flV[i].value);
-    }
-
-    int i = 0;
-    feat = flV.begin();
-    i = 0;
-    while (feat != flV.end())
-    {
-        if (feat->value >= 0)
-        {
-            Draw::Circle(gray2, feat->x, feat->y, 3, 255);
-            printf("Feature:%d at(%d,%d) with %d\n", i++, feat->x, feat->y, feat->value);
-        }
-        ++feat;
-    }
-
-    Matrix result;
-    Draw::Correspond(gray1, gray2, flU, flV, 100,result);
-    ImageGray imgresult(result.GetCol(),result.GetRow());
-    ConvertFormat::Matrix2ImageGray(result,imgresult);
-    ConvertFormat::Matrix2ImageGray(gray1,input1);
-    ConvertFormat::Matrix2ImageGray(gray2,input2);
-    IOHelper::WritePPMFile("Debug/result.ppm", imgresult);
-    IOHelper::WritePPMFile("Debug/gray1.ppm", input1);
-    IOHelper::WritePPMFile("Debug/gray2.ppm", input2);
-    printf("*****End KLT Tracking 2 Image Test!*****\n\n");
-    getchar();
-}

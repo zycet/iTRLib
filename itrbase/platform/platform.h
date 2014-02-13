@@ -35,6 +35,7 @@
 #define PLATFORM_H_
 
 #include "typedef.h"
+#include "timeclock.h"
 #include "assistmacro.h"
 #include "debugsupport.h"
 #include "memoryoperation.h"

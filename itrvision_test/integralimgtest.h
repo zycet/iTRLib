@@ -26,40 +26,14 @@
  * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  *
- * selectseature.h
- *  Created on: 2013-10-3
+ * lktrackertest.h
+ *  Created on: 2013-10-9
  *      Author: ghdawn
  */
 
-#ifndef SELECTSEATURE_H_
-#define SELECTSEATURE_H_
+#ifndef INTEGRALIMG_H_
+#define INTEGRALIMG_H_
 
-#include "itrbase.h"
-#include "../feature/featurepoint.h"
-#include <vector>
-using std::vector;
-using itr_math::RectangleS;
-using itr_math::Matrix;
-namespace itr_vision
-{
-
-    class SelectFeature
-    {
-        public:
-            SelectFeature(const Matrix &Img);
-            S32 SelectGoodFeature(const RectangleS &rect, vector<FeaturePoint> &fl, S32 start=0);
-            virtual ~SelectFeature();
-            int mindist, mineigen;
-            S32 windowWidth;
-        private:
-            F32 MinEigenvalue(F32 gxx, F32 gxy, F32 gyy);
-            void fillMap(S32 x, S32 y, BOOL *featuremap);
-            Matrix img;
-            Matrix dx, dy;
-            S32 bw;
-            S32 width, height;
-
-    };
-
-} // namespace itr_vision
-#endif // SELECTSEATURE_H_
+void Testnormal();
+void Testsquare();
+#endif // LKTRACKERTEST_H_

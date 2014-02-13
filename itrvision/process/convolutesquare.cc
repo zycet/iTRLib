@@ -84,35 +84,35 @@ namespace itr_vision
         }
     }
 
-   /*void ConvoluteSquare::Convolute(const Matrix &Input, F32 *Filter, Matrix &Output)
-    {
-        assert(Input.MatchDim(height,width));
-        assert(Output.MatchDim(height,width));
-        assert(Filter!=NULL);
-        //S16* input = Input.GetD();
-        S16 *output = Output.GetData();
-        S16 *tempP = NULL;
-        S16 value = 0;
-        for (S32 y = 0; y < height; y++)
-        {
-            for (S32 x = r; x < width - r; x++)
-            {
-                tempP = Input.GetPixel(y, x - r);
-                itr_math::CalculateObj->MultiSum(tempP, Filter, filterDim, value);
-                imageBufferS16[y * width + x] = value;
-            }
-        }
+    /*void ConvoluteSquare::Convolute(const Matrix &Input, F32 *Filter, Matrix &Output)
+     {
+         assert(Input.MatchDim(height,width));
+         assert(Output.MatchDim(height,width));
+         assert(Filter!=NULL);
+         //S16* input = Input.GetD();
+         S16 *output = Output.GetData();
+         S16 *tempP = NULL;
+         S16 value = 0;
+         for (S32 y = 0; y < height; y++)
+         {
+             for (S32 x = r; x < width - r; x++)
+             {
+                 tempP = Input.GetPixel(y, x - r);
+                 itr_math::CalculateObj->MultiSum(tempP, Filter, filterDim, value);
+                 imageBufferS16[y * width + x] = value;
+             }
+         }
 
-        for (S32 y = r; y < height - r; y++)
-        {
-            for (S32 x = r; x < width - r; x++)
-            {
-                FillMultBufferCol(imageBufferS16, width, x, y, r, multBufferS16);
-                itr_math::CalculateObj->MultiSum(multBufferS16, Filter, filterDim, value);
-                output[y * width + x] = value;
-            }
-        }
-    }*/
+         for (S32 y = r; y < height - r; y++)
+         {
+             for (S32 x = r; x < width - r; x++)
+             {
+                 FillMultBufferCol(imageBufferS16, width, x, y, r, multBufferS16);
+                 itr_math::CalculateObj->MultiSum(multBufferS16, Filter, filterDim, value);
+                 output[y * width + x] = value;
+             }
+         }
+     }*/
 
     void ConvoluteSquare::_computeKernels(float sigma, ConvolutionKernel *gauss,
                                           ConvolutionKernel *gaussderiv)

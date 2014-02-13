@@ -59,6 +59,8 @@
 		<Unit filename="platform/memoryoperation.cc" />
 		<Unit filename="platform/memoryoperation.h" />
 		<Unit filename="platform/platform.h" />
+		<Unit filename="platform/timeclock.cpp" />
+		<Unit filename="platform/timeclock.h" />
 		<Unit filename="platform/typedef.h" />
 		<Extensions>
 			<code_completion />

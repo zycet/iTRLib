@@ -193,11 +193,11 @@ namespace itr_vision
         return result;
     }
 
-    void LKTracker::Compute(const vector<FeaturePoint> &fl, vector<FeaturePoint> &flresult, S32 FeatureNum,
+    void LKTracker::Compute(const vector<CommFeaturePoint> &fl, vector<CommFeaturePoint> &flresult, S32 FeatureNum,
                             bool Forward)
     {
-        vector<FeaturePoint>::const_iterator feat = fl.begin();
-        vector<FeaturePoint>::iterator featr = flresult.begin();
+        vector<CommFeaturePoint>::const_iterator feat = fl.begin();
+        vector<CommFeaturePoint>::iterator featr = flresult.begin();
         Point2D U, V;
         S32 l, i;
         LKTracker::TrackResult result;
@@ -210,14 +210,14 @@ namespace itr_vision
         }
         while (feat != fl.begin()+FeatureNum)
         {
-            if (feat->value < 0)
+            if (feat->Quality < 0)
             {
                 ++feat;
                 ++featr;
                 continue;
             }
-            U.X = (feat->x);
-            U.Y = (feat->y);
+            U.X = (feat->X);
+            U.Y = (feat->Y);
             for (i = 0; i < level; ++i)
             {
                 U.X = U.X / subsampling;
@@ -238,9 +238,9 @@ namespace itr_vision
                 }
             }
 
-            featr->x = V.X;
-            featr->y = V.Y;
-            featr->value = -result;
+            featr->X = V.X;
+            featr->Y = V.Y;
+            featr->Quality = -result;
             ++featr;
             ++feat;
         }

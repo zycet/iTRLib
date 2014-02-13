@@ -6,7 +6,7 @@ Detection::Detection(const Matrix &current,RectangleS &rect,S32 num):
     dataPos(num,FeatureNum),dataNeg(num,FeatureNum),sample(16,16)
 {
     Num=num;
-    Range=15;
+    Range=10;
     Train(current,rect);
 }
 void Detection::Train(const Matrix &current,RectangleS &rect)

@@ -80,8 +80,12 @@ namespace itr_vision
     {
         S32 r = (filterN -1)/2;
         F32 tempmal=0;
+<<<<<<< HEAD
         F32* Finput =Input.GetData();
         F32* FinputP;
+=======
+        F32 *Finput =Input.GetData();
+>>>>>>> 405a782edc1493041607582be071ee0a65e580ca
         S32 pos=0;
         S32 colN_r=colN - r;
         for(S32 row =0; row<rowN; row++)
