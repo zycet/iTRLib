@@ -44,7 +44,6 @@
 #include "detectiontest.h"
 #include"genrecttest.h"
 #include"convolutefasttest.h"
-#include "itrneon.h"
 
 int main()
 {

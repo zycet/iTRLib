@@ -3,7 +3,6 @@
 
 #include "itrbase.h"
 #include "vectorfeaturepoint.h"
-#include "integralimg.h"
 #include <vector>
 
 
