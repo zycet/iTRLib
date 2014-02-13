@@ -44,6 +44,7 @@ namespace itr_vision
             * \note 此计算步骤需已完成单应性矩阵计算(既已成功调用CalcHV())
             */
             BOOL CalcMotion(CameraInterCalc &CameraInterPara,F32 D);
+
             /**
             * \brief 单应性矩阵H[3*3]
             */
@@ -66,6 +67,26 @@ namespace itr_vision
             Vector N;
         protected:
         private:
+            /*
+            *
+            */
+            class CameraDataOpt:public Ransac::Operator
+            {
+                public:
+                F32 GetError(F32 a, F32 b)
+                {
+                    return fabs(a-b);
+                }
+                F32 GetValue(F32 *data, S32 N)
+                {
+                    std::sort(data,data+N);
+                    return data[N/2];
+                }
+                bool Remain(F32 error)
+                {
+                    return (fabs(error)<1.5);
+                }
+            };
     };
 }
 #endif // CAMERAEXTERCALC_H
