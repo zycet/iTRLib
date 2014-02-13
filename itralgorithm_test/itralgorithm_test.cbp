@@ -48,6 +48,7 @@
 		<Unit filename="kftest.cpp" />
 		<Unit filename="kftest.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="pftest.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />
