@@ -179,7 +179,7 @@ public:
     }
     inline Vector operator*(F32 K) const
     {
-        Vector temp(dim,data);
+        Vector temp(*this);
         temp.Mul(K);
         return (temp);
     }

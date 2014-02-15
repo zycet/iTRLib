@@ -23,7 +23,7 @@ void printMatrix(Matrix a)
 }
 
 
-class DataOper:public Ransac::Operator
+class DataOper:public Ransac<F32,F32>::Operator
 {
     public:
         F32 GetError(F32 a, F32 b)

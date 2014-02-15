@@ -56,11 +56,11 @@ void test1()
 //        data[2]=(data[2])*0.1;
 //        data[3]=(data[3])*0.1;
         printf("rand:%f,%f\n",data[0],data[1]);
-        v.CopyFrom(data);
-        n.CopyFrom(data);
+        //v.CopyFrom(data);
+        //n.CopyFrom(data);
         x=pf.F_x*x;
 //        printVec(x);
-        z=H*x+v;
+        z=H*x;//+v;
 //        printVec(z);
         pf.UpdateModel();
         pf.UpdateMeasure(H,R,z);

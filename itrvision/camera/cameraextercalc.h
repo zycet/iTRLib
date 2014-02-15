@@ -4,9 +4,10 @@
 #include "itrbase.h"
 #include "../feature/feature.h"
 #include "camera.h"
+#include "itralgorithm.h"
 
 using namespace itr_math;
-
+using namespace itr_algorithm;
 namespace itr_vision
 {
     /**
@@ -44,6 +45,7 @@ namespace itr_vision
             * \note 此计算步骤需已完成单应性矩阵计算(既已成功调用CalcHV())
             */
             BOOL CalcMotion(CameraInterCalc &CameraInterPara,F32 D);
+
             /**
             * \brief 单应性矩阵H[3*3]
             */
@@ -66,6 +68,25 @@ namespace itr_vision
             Vector N;
         protected:
         private:
+ /*           template <class T,class R>
+class CDataOper:public Ransac<T,R>::Operator
+{
+    public:
+        F32 GetError(T a, R b)
+        {
+            return fabs(a-b);
+        }
+        R GetValue(T *data, S32 N)
+        {
+            std::sort(data,data+N);
+            return data[N/2];
+        }
+        bool Remain(T a,T b)
+        {
+            return (fabs(a-b)<1.5);
+        }
+};*/
+
     };
 }
 #endif // CAMERAEXTERCALC_H

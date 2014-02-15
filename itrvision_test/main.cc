@@ -42,23 +42,25 @@
 #include "picktest.h"
 #include "rotatetest.h"
 #include "detectiontest.h"
-#include"genrecttest.h"
+#include "genrecttest.h"
+#include "integralimgtest.h"
 #include"convolutefasttest.h"
 
 int main()
 {
     //Init Math
-    itr_math::MathObjStandInit();
+    //itr_math::MathObjStandInit();
+//    itr_math::MathNeonObjStandInit();
     //Test Rotate OK!
     //rotatetest();
     //Test Genrect OK!
     //genrecttest();
     //Test Pick OK!
-    // picktest();
+    //picktest();
     //Test Draw OK!
-    drawtest();
+    //drawtest();
     ///Test LKTracker
-    lktest();
+    //lktest();
     ///Test Detection
    // DetectionTest();
     //Test Process
@@ -68,7 +70,8 @@ int main()
     //Finish
     //itr_math::MathObjStandDeinit();
     //Deint Math
-    ConvoluteFastTest();
+    //ConvoluteFastTest();
+    IntegralImgTest();
 
     TRACE_INFO("OK All");
     return 0;
