@@ -17,6 +17,7 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add directory="../itrbase" />
+					<Add directory="../itralgorithm" />
 					<Add directory="feature" />
 					<Add directory="camera" />
 					<Add directory="process" />
