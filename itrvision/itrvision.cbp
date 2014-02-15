@@ -102,8 +102,6 @@
 		<Unit filename="process/convolutefast.h" />
 		<Unit filename="process/convolutesquare.cc" />
 		<Unit filename="process/convolutesquare.h" />
-		<Unit filename="process/fasthessian.cpp" />
-		<Unit filename="process/fasthessian.h" />
 		<Unit filename="process/gradient.cpp" />
 		<Unit filename="process/gradient.h" />
 		<Unit filename="process/histogram.cpp" />
@@ -111,7 +109,6 @@
 		<Unit filename="process/integralimg.cpp" />
 		<Unit filename="process/integralimg.h" />
 		<Unit filename="process/process.h" />
-		<Unit filename="process/responselayer.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
