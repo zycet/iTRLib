@@ -34,11 +34,13 @@
 #ifndef PROCESS_H_
 #define PROCESS_H_
 
-#include "binarization.h"
-#include "convolutesquare.h"
-#include "convolutefast.h"
-#include "gradient.h"
-#include "histogram.h"
-#include "integralimg.h"
-#include "connectedanalysis.h"
+#include "./binarization.h"
+#include "./convolutesquare.h"
+#include "./convolutefast.h"
+#include "./gradient.h"
+#include "./histogram.h"
+#include "./integralimg.h"
+#include "./connectedanalysis.h"
+#include "./boxhessian.h"
+
 #endif // PROCESS_H_
