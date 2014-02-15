@@ -19,9 +19,10 @@
 					<Add directory="../itrbase" />
 					<Add directory="feature" />
 					<Add directory="camera" />
+					<Add directory="process" />
 				</Compiler>
 				<Linker>
-					<Add library="../itrbase/bin/debug/libitrbase.a" />
+					<Add library="..\itrbase\bin\debug\libitrbase.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -37,10 +38,11 @@
 					<Add directory="../itrbase" />
 					<Add directory="feature" />
 					<Add directory="camera" />
+					<Add directory="process" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="../itrbase/bin/release/libitrbase.a" />
+					<Add library="..\itrbase\bin\release\libitrbase.a" />
 				</Linker>
 			</Target>
 		</Build>
@@ -91,6 +93,8 @@
 		<Unit filename="operation/rotate.h" />
 		<Unit filename="operation/scale.cpp" />
 		<Unit filename="operation/scale.h" />
+		<Unit filename="process/boxhessian.cpp" />
+		<Unit filename="process/boxhessian.h" />
 		<Unit filename="process/connectedanalysis.cpp" />
 		<Unit filename="process/connectedanalysis.h" />
 		<Unit filename="process/convolutefast.cc" />
