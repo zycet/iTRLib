@@ -68,25 +68,6 @@ namespace itr_vision
             Vector N;
         protected:
         private:
- /*           template <class T,class R>
-class CDataOper:public Ransac<T,R>::Operator
-{
-    public:
-        F32 GetError(T a, R b)
-        {
-            return fabs(a-b);
-        }
-        R GetValue(T *data, S32 N)
-        {
-            std::sort(data,data+N);
-            return data[N/2];
-        }
-        bool Remain(T a,T b)
-        {
-            return (fabs(a-b)<1.5);
-        }
-};*/
-
     };
 }
 #endif // CAMERAEXTERCALC_H
