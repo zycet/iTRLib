@@ -55,6 +55,8 @@
 		<Unit filename="drawtest.h" />
 		<Unit filename="genrecttest.cpp" />
 		<Unit filename="genrecttest.h" />
+		<Unit filename="integralimgtest.cc" />
+		<Unit filename="integralimgtest.h" />
 		<Unit filename="iohelper.cpp" />
 		<Unit filename="iohelper.h" />
 		<Unit filename="lktrackertest.cpp" />

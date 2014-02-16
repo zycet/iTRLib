@@ -222,10 +222,10 @@ public:
      * 向量内积
      */
     virtual F32 ProductInner(const Vector &Vec) const;
+
     inline F32 operator*(const Vector &Vec)
     {
         return this->ProductInner(Vec);
-
     }
 
     /*

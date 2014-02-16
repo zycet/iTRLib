@@ -24,10 +24,15 @@ int main()
     ///卡尔曼滤波用
     KalmanFilter kf;
     kf.Init(4);
-    F32 data[24]= {1 ,0,1,0,0,1,0,1,0,0,1,0,0,0,0,1,1,0,0,0,0,1,0,0};
+    F32 data[24]= {1,0,1,0,
+                   0,1,0,1,
+                   0,0,1,0,
+                   0,0,0,1,
+                   1,0,0,0,
+                   0,1,0,0};
     kf.F_x.CopyFrom(data);
     Matrix Hx(2,4),Hv(2,4),R(2,2);
-    R.SetDiag(3.012306);
+    R.SetDiag(55.012306);
     Hx.CopyFrom(data+16);
     Hv.CopyFrom(data+8);
     Vector z(2),X(4),v(2);
@@ -40,7 +45,7 @@ int main()
     Detection detection(current,rect,10);
     lktracking tracking;
     tracking.Init(current,rect);
-    for(int k=2; k<200; ++k)
+    for(int k=2; k<300; ++k)
     {
         sprintf(file, path, k);
         printf("%s\n\n",file);
@@ -55,6 +60,8 @@ int main()
             z[0]=_u;
             z[1]=_v;
             X=kf.UpdateMeasure(Hv,R,z);
+            rect.X=X[0];
+            rect.Y=X[1];
         }
 
 //        if(detection.Go(current,rect))
@@ -63,10 +70,11 @@ int main()
 ////        rect.Y=_y;
 //            z[0]=rect.X;
 //            z[1]=rect.Y;
-//            X=kf.UpdateMeasure(H,R,z);
+//            X=kf.UpdateMeasure(Hx,R,z);
+//            rect.X=X[0];
+//            rect.Y=X[1];
 //        }
-        rect.X=X[0];
-        rect.Y=X[1];
+
         Draw::Rectangle(current,rect,255);
         sprintf(file,"bin/Debug/output/%05d.pgm",k);
         IOpnm::WritePGMFile(file,current);

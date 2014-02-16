@@ -46,7 +46,6 @@ namespace itr_vision
         this->calcBuffer=NULL;
     }
 
-
     ConvoluteFast::~ConvoluteFast()
     {
         if(this->calcBuffer!=NULL)
@@ -68,7 +67,6 @@ namespace itr_vision
         this->filterN=FilterN;
         this->temp=new Matrix(RowN,ColN);
     }
-
 
     void ConvoluteFast::Convolute(const Matrix &Input, F32 *Filter, Matrix &Output)
     {
@@ -115,5 +113,5 @@ namespace itr_vision
 
         }
     }
-} // namespace itr_image
+}
 

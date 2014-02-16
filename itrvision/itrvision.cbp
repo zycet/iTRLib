@@ -7,7 +7,7 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/debug/libitrvision" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/debug/itrvision" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/debug/" />
 				<Option type="2" />
@@ -17,17 +17,17 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add directory="../itrbase" />
+					<Add directory="../itralgorithm" />
 					<Add directory="feature" />
 					<Add directory="camera" />
-					<Add directory="../itralgorithm" />
+					<Add directory="process" />
 				</Compiler>
 				<Linker>
-					<Add library="../itrbase/bin/debug/libitrbase.a" />
-					<Add library="../itralgorithm/bin/debug/libitralgorithm.a" />
+					<Add library="..\itrbase\bin\debug\libitrbase.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/release/libitrvision" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/release/itrvision" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
 				<Option object_output="obj/release/" />
 				<Option type="2" />
@@ -39,10 +39,11 @@
 					<Add directory="../itrbase" />
 					<Add directory="feature" />
 					<Add directory="camera" />
+					<Add directory="process" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="../itrbase/bin/release/libitrbase.a" />
+					<Add library="..\itrbase\bin\release\libitrbase.a" />
 				</Linker>
 			</Target>
 		</Build>
@@ -93,14 +94,14 @@
 		<Unit filename="operation/rotate.h" />
 		<Unit filename="operation/scale.cpp" />
 		<Unit filename="operation/scale.h" />
+		<Unit filename="process/boxhessian.cpp" />
+		<Unit filename="process/boxhessian.h" />
 		<Unit filename="process/connectedanalysis.cpp" />
 		<Unit filename="process/connectedanalysis.h" />
 		<Unit filename="process/convolutefast.cc" />
 		<Unit filename="process/convolutefast.h" />
 		<Unit filename="process/convolutesquare.cc" />
 		<Unit filename="process/convolutesquare.h" />
-		<Unit filename="process/fasthessian.cpp" />
-		<Unit filename="process/fasthessian.h" />
 		<Unit filename="process/gradient.cpp" />
 		<Unit filename="process/gradient.h" />
 		<Unit filename="process/histogram.cpp" />
@@ -108,7 +109,6 @@
 		<Unit filename="process/integralimg.cpp" />
 		<Unit filename="process/integralimg.h" />
 		<Unit filename="process/process.h" />
-		<Unit filename="process/responselayer.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

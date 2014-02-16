@@ -130,7 +130,7 @@ bool lktracking::Go(const Matrix &current,RectangleS &rect,F32 &Vx,F32 &Vy)
     if(FeatureNum>0)
     {
         fb_filter();
-        //ncc_filter(tracker.last->img[0],tracker.current->img[0]);
+        ncc_filter(tracker.last->img[0],tracker.current->img[0]);
     }
     if(false)
     {

@@ -1,15 +1,21 @@
 #ifndef SURF_H
 #define SURF_H
 
-#include "itrbase.h"
-#include "vectorfeaturepoint.h"
 #include <vector>
-
+#include "itrbase.h"
+#include "./feature.h"
+#include "../process/process.h"
 
 using namespace itr_math;
 
 namespace itr_vision
 {
+    static const S32 SURF_OCTAVES = 5;
+    static const S32 SURF_INTERVALS = 4;
+    static const S32 SURF_INIT_SAMPLE = 2;
+    static const F32 SURF_THRESHOLD = 0.0004f;
+    static const S32 SURF_Filter_Map [SURF_OCTAVES][SURF_INTERVALS] = {{0,1,2,3}, {1,3,4,5}, {3,5,6,7}, {5,7,8,9}, {7,9,10,11}};
+
     /**
     * /brief 此类实现了SURF算法
     * /note 图像数据基于itr_math::Matrix类型,全部为单精度浮点计算.
@@ -27,19 +33,35 @@ namespace itr_vision
             * /brief 释放动态申请的内存
             */
             virtual ~SURF();
-        protected:
+            /**
+            * /brief 初始化SURF类,内部数据,只有成功调用此函数后才能正常工作.
+            * /param Width 图像宽度
+            * /param Height 图像高度
+            * /param OctaveNum 八度数
+            * /param IntervalNum 间隔数
+            * /param InitSample 初始采样
+            * /param Threshold 过滤阀值
+            */
+            void Init(S32 Width,S32 Height,S32 OctaveNum,S32 IntervalNum,S32 InitSample,F32 Threshold);
+            /**
+            * /brief 处理图像并生成特征点
+            * /param Img 待处理图像
+            * /param FeaturePointList 特征点列表(生成的特征点会储存在内)
+            * /return 找到的特征点数量
+            */
+            S32 Process(const Matrix& Img,std::vector<VectorFeaturePoint> FeaturePointList);
+            /**
+            * /brief 过滤阀值
+            */
+            F32 Threshold;
         private:
-        void getOrientation();
-        void getDescriptor(bool bUpright = false);
-        inline float gaussian(int x, int y, float sig);
-        inline float gaussian(float x, float y, float sig);
-        inline float haarX(int row, int column, int size);
-        inline float haarY(int row, int column, int size);
-        float getAngle(float X, float Y);
-
-        Matrix Input;
-        VectorFeaturePoint ipts;
-        int index;
+            BOOL IsExtremum(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b);
+            void MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b);
+            std::vector<BoxHessian*> OctaveList;
+            Matrix IntImg;
+            S32 OctaveNum;
+            S32 IntervalNum;
+            S32 InitSample;
     };
 }
 #endif // SURF_H

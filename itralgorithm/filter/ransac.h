@@ -37,21 +37,22 @@ namespace itr_algorithm
             ResultType Process( InputType *x, S32 N,S32 &drop);
 
             static const S32 INF = 9999999;
+            S32 Times,Number;
 
         private:
             InputType *data;
             ResultType *result;
             F32 *error;
             Ransac<InputType,ResultType>::Operator *oper;
-            S32 M,N;
+
     };
 
     template <class InputType,class ResultType>
     Ransac<InputType,ResultType>::Ransac()
     {
         //ctor
-        M=7;
-        N=1;
+        Times=7;
+        Number=1;
     }
     template <class InputType,class ResultType>
     Ransac<InputType,ResultType>::Ransac(Ransac<InputType,ResultType>::Operator *Oper)
@@ -68,26 +69,21 @@ namespace itr_algorithm
     ResultType Ransac<InputType,ResultType>::Process(InputType *x, S32 count, S32 &drop)
     {
 
-        N = count / M;
-        if (N < 1)
-        {
-            N = 1;
-        }
-        data = new InputType[N];
-        result = new ResultType[M];
-        error = new F32[M];
+        data = new InputType[Number];
+        result = new ResultType[Times];
+        error = new F32[Times];
         ResultType key;
         int index;
-        for (int i = 0; i < M; i++)
+        for (int i = 0; i < Times; i++)
         {
             //随机抽取N个数据
-            for (int j = 0; j < N; j++)
+            for (int j = 0; j < Number; j++)
             {
                 itr_math::NumericalObj->Rand(0, count, index);
                 data[j] = x[index];
             }
 
-            result[i] =oper->GetValue(data,N);
+            result[i] =oper->GetValue(data,Number);
             error[i]=0;
             for (int j = 0; j < count; ++j)
             {
@@ -96,7 +92,7 @@ namespace itr_algorithm
         }
         index = 0;
         key = error[0];
-        for (int i = 1; i < M; i++)
+        for (int i = 1; i < Times; i++)
         {
             if (key > error[i])
             {

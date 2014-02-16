@@ -34,12 +34,12 @@
 #ifndef FEATURE_H_
 #define FEATURE_H_
 
-#include "pyramid.h"
-#include "commfeaturepoint.h"
-#include "vectorfeaturepoint.h"
-#include "selectkltfeature.h"
-#include "lktracker.h"
-#include "commfeaturepoint.h"
-#include "vectorfeaturepoint.h"
+#include "./commfeaturepoint.h"
+#include "./vectorfeaturepoint.h"
+#include "./pyramid.h"
+#include "./selectkltfeature.h"
+#include "./lktracker.h"
+#include "./commfeaturepoint.h"
+#include "./vectorfeaturepoint.h"
 
 #endif // FEATURE_H_
