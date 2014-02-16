@@ -24,10 +24,10 @@ namespace itr_vision
             */
             void Contour(const Matrix &input,vector<Block> &blocks);
 
-            //const static int dx[8] = {-1,0,1,-1,1,-1,0,1};
-            //const static int dy[8] = {-1,-1,-1,0,0,1,1,1};
-            int dx[8];
-            int dy[8];
+              int dx[8] = {-1,0,1,-1,1,-1,0,1};
+              int dy[8] = {-1,-1,-1,0,0,1,1,1};
+//            int dx[8];
+//            int dy[8];
             S32 ImgWidth;
             S32 ImgHeight;
             S32 BNum;

@@ -39,6 +39,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="TestFuncs.cpp" />
+		<Unit filename="TestFuncs.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
 			<code_completion />
