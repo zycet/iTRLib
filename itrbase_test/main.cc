@@ -39,6 +39,33 @@
 #include "containertest.h"
 #include "mathtest.h"
 #include "helpertest.h"
+
+void testSVD(itr_math::Matrix &M)
+{
+
+}
+void SVD_dec(itr_math::Matrix &A)
+{
+    S32 m,n,p;
+    m=A.GetRow();
+    n=A.GetCol();
+    p=m>n?n:m;
+
+    itr_math::Matrix U(m,p);
+    itr_math::Matrix V(n,p);
+    itr_math::Vector S(p);
+    if(m>=n)
+    {
+        itr_math::Matrix B(A);
+        decomposition(B,U,S,V);
+    }
+    else
+    {
+        F32 K;
+        A.Tr(K);
+        itr_math::Matrix B(K);
+    }
+}
 int main()
 {
     //Platform
@@ -64,6 +91,12 @@ int main()
     TestGaussianGenerate();
     TestCalcEff();
     //Finish
+    /*************************************/
+    itr_math::Matrix M,U,V;
+    itr_math::Vector S;
+
+    testSVD(M);
+    /*************************************/
     TRACE_INFO("OK All");
     return 0;
 }

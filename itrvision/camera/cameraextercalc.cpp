@@ -264,18 +264,18 @@ namespace itr_vision
                 u2 = PointList2[PointList1[c[j]].ID].X;
                 v2 = PointList2[PointList1[c[j]].ID].Y;
                 wght = PointList2[PointList1[c[j]].ID].Quality;
-                M[2*j*9+3]=-u1*wght;
-                M[2*j*9+4]=-v1*wght;
-                M[2*j*9+5]=-wght;
-                M[2*j*9+6]=u1*v2*wght;
-                M[2*j*9+7]=v1*v2*wght;
-                M[2*j*9+8]=v2*wght;
-                M[(2*j+1)*9+0]=-u1*wght;
-                M[(2*j+1)*9+1]=-v1*wght;
-                M[(2*j+1)*9+2]=-wght;
-                M[(2*j+1)*9+6]=u1*u2*wght;
-                M[(2*j+1)*9+7]=v1*u2*wght;
-                M[(2*j+1)*9+8]=u2*wght;
+                M(2*j,3)=-u1*wght;
+                M(2*j,4)=-v1*wght;
+                M(2*j,5)=-wght;
+                M(2*j,6)=u1*v2*wght;
+                M(2*j,7)=v1*v2*wght;
+                M(2*j,8)=v2*wght;
+                M(2*j+1,0)=-u1*wght;
+                M(2*j+1,1)=-v1*wght;
+                M(2*j+1,2)=-wght;
+                M(2*j+1,6)=u1*u2*wght;
+                M(2*j+1,7)=v1*u2*wght;
+                M(2*j+1,8)=u2*wght;
             }
             //svd
 

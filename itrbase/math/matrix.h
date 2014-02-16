@@ -195,6 +195,15 @@ public:
     * 求矩阵转置
     */
     Matrix virtual Tran() const;
+    /*
+    * 求矩阵tr
+    */
+    void virtual Tr(F32 K)
+    {
+        K=0;
+        for (S32 i = 0; i < row&&i<col; i++)
+            K+=data[i * row + i];
+    }
     //**********内联函数**********
     /*
      * 获取行数
