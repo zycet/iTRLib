@@ -6,9 +6,10 @@
 		<Project filename="itrneon/itrneon.cbp" />
 		<Project filename="itrneon_test/itrneon_test.cbp" />
 		<Project filename="itrbase/itrbase.cbp" />
-		<Project filename="itrvision/itrvision.cbp" active="1" />
+		<Project filename="itrvision/itrvision.cbp" />
 		<Project filename="itrvision_test/itrvision_test.cbp" />
 		<Project filename="itralgorithm_test/itralgorithm_test.cbp" />
 		<Project filename="itralgorithm/itralgorithm.cbp" />
+		<Project filename="ColorTrackDemo/ColorTrackDemo.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
