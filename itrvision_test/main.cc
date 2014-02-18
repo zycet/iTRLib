@@ -44,8 +44,8 @@
 #include "detectiontest.h"
 #include "genrecttest.h"
 #include "integralimgtest.h"
-#include"convolutefasttest.h"
-
+#include "convolutefasttest.h"
+#include "hessiantest.h"
 int main()
 {
     //Init Math
@@ -71,7 +71,9 @@ int main()
     //itr_math::MathObjStandDeinit();
     //Deint Math
     //ConvoluteFastTest();
-    IntegralImgTest();
+    //IntegralImgTest();
+    TestBoxHessian();
+
 
     TRACE_INFO("OK All");
     return 0;
