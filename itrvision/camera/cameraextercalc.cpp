@@ -30,9 +30,14 @@ namespace itr_vision
         Numerical NumericalObj;
         //筛选最优 H 时所用
         Matrix best_H(3,3);
+        Matrix M(8,9);  //最小二乘矩阵
+        M.Set(0);
         Vector pos_2s(3),pos_1(3);
-        F32 red_counter=0,tmp_red=0,best_counter=0, best_red=0;
+        F32 red_counter,tmp_red,best_counter=0, best_red=0;
         F32 risde;
+        //svd 使用
+        Matrix matV(9,9);
+        Vector S(9);
         //bucketing
         S32 List1Num_q;
         NumericalObj.Round(List1Num/4,List1Num_q);
@@ -169,11 +174,11 @@ namespace itr_vision
                 continue;
             }
         }
-        F32 ratio[16]={0};
-        ratio[0]=bucket_counter[0]/matched_num;
+        F32 ratio_bucket[16]={0};
+        ratio_bucket[0]=bucket_counter[0]/matched_num;
         for(S32 i=1; i<16; i++)
         {
-            ratio[i]=ratio[i-1] + bucket_counter[i]/matched_num;
+            ratio_bucket[i]=ratio_bucket[i-1] + bucket_counter[i]/matched_num;
         }
         //RANSAC,calculate H
         S16 b[4]={0};
@@ -190,7 +195,7 @@ namespace itr_vision
                 {
                     if(k==0)
                     {
-                        if(p<ratio[0])
+                        if(p<ratio_bucket[0])
                         {
                             q=1;
                             break;
@@ -198,7 +203,7 @@ namespace itr_vision
                     }
                     else
                     {
-                        if(ratio[k-1]<p&&ratio[k]>=p)
+                        if(ratio_bucket[k-1]<p&&ratio_bucket[k]>=p)
                         {
                             if(bucket_counter[k]>0)
                                 q=k;
@@ -224,7 +229,7 @@ namespace itr_vision
                             {
                                 if(k==0)
                                 {
-                                    if(p<ratio[0])
+                                    if(p<ratio_bucket[0])
                                     {
                                         q=1;
                                         break;
@@ -232,7 +237,7 @@ namespace itr_vision
                                 }
                                 else
                                 {
-                                    if(ratio[k-1]<p&&ratio[k]>=p)
+                                    if(ratio_bucket[k-1]<p&&ratio_bucket[k]>=p)
                                     {
                                         if(bucket_counter[k]>0)
                                             q=k;
@@ -260,8 +265,7 @@ namespace itr_vision
                 c[j]=tempID[bucket[b[j]][q]];
             }
             //matrix
-            Matrix M(8,9);
-            M.Set(0);
+
             for(S32 j=0; j<4; j++)
             {
                 u1 = PointList1[c[j]].X;
@@ -283,9 +287,8 @@ namespace itr_vision
                 M(2*j+1,8)=u2*wght;
             }
             //svd
-            Matrix V(9,9);
-            Vector S(9);
-            M.Svdcmp(S,V);
+
+            M.Svdcmp(S,matV);
             for(S32 j=0; j<3; j++)
                 for(S32 k=0; k<3; k++)
                     H(j,k)=M(j*3+k,8);
