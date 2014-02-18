@@ -53,6 +53,7 @@ namespace itr_vision
         if (r2 >= 0 && c1 >= 0) c = input[r2 * colMax + c1];
         if (r2 >= 0 && c2 >= 0) d = input[r2 * colMax + c2];
         return GET_MAX(0,a-c-b+d);
+        S32 i = 3;
     }
 
     F32 IntegralImg::BoxFilterCenter(const Matrix &input,S32 RowPos,S32 ColPos,S32 RowHalfWidth,S32 ColHalfWidth)

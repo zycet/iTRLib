@@ -60,7 +60,7 @@ public:
     * /brief 初始化一个指定行列数的空矩阵(自动分配内存，只能在无参数构造对象后调用)
     * /param Row 行数
     * /param Col 列数
-    * /param Data 数据
+    * /param Data 数据指针
     */
     void Init(S32 Row, S32 Col, F32* Data);
     /**

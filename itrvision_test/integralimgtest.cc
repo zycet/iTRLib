@@ -3,27 +3,44 @@
 #include "itrvision.h"
 #include "itrbase.h"
 #include "stdio.h"
+#include <math.h>
 #include <iostream>
 
 void IntegralImgTest()
 {
-    Testnormal();
-    Testsquare();
+    TestIntegral();
+    TestBoxFilterStarter();
+    TestColHalfWidth();
 }
-void Testnormal()
+void TestIntegral()
 {
-    Matrix InputImg;
-    Matrix OutputImg;
-    IOpnm::ReadPGMFile("table1.pgm", InputImg);
-    IntegralImg::Normal(InputImg,OutputImg);
-    IOpnm::WritePGMFile("gray1.pgm", OutputImg);
+    itr_math::MathObjStandInit();
+    Matrix Input(4, 4);
+    Matrix Output(4, 4);
+    Input.Set(1);
+    IntegralImg::Integral(Input, Output);
+    Input.Set(2);
 }
 
-void Testsquare()
+void TestBoxFilterStarter()
 {
-    Matrix InputImg;
-    Matrix OutputImg;
-    IOpnm::ReadPGMFile("table1.pgm", InputImg);
-    IntegralImg::Square(InputImg,OutputImg);
-    IOpnm::WritePGMFile("gray1.pgm", OutputImg);
+    itr_math::MathObjStandInit();
+    Matrix Input(4, 4);
+    Matrix Output(4, 4);
+    F32 result;
+    Input.Set(1);
+    IntegralImg::Integral(Input, Output);
+    IntegralImg::BoxFilterStarter(Output ,0 ,0 ,2 ,2 );
+    Input.Set(2);
+}
+
+void TestColHalfWidth()
+{
+    itr_math::MathObjStandInit();
+    Matrix Input(5, 5);
+    Matrix Output(5, 5);
+    F32 result;
+    Input.Set(1);
+    IntegralImg::Integral(Input, Output);
+    IntegralImg::BoxFilterCenter(Output,3,3,1,1);
 }
