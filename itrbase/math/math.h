@@ -65,7 +65,13 @@ extern Vector* VectorObj;
 #include "gaussiangenerate.h"
 namespace itr_math
 {
+/**
+* \brief 初始化相关指针
+*/
 void MathObjStandInit();
+/**
+* \brief 删除相关指针
+*/
 void MathObjStandDeinit();
 }
 

@@ -189,7 +189,7 @@ public:
       * \param SourceB 向量2
       * \param Length 向量维数
       * \param Error 阈值
-      * \param IsSame 布尔输出两向量是否相同，0为相同1为不同
+      * \param IsSame 布尔输出两向量是否相同，1为相同0为不同
       */
     virtual void Compare(F32* SourceA, F32* SourceB, F32 Error,S32 Length,BOOL* IsSame) const;
 
