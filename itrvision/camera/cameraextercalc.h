@@ -12,8 +12,8 @@ namespace itr_vision
 {
     /**
     * \brief 相机外参数描述与计算类
-    * \note 实现通过特征点匹配计算单应性矩阵(H,V)
-    * \note 实现通过相机与深度信息计算运动矩阵(R,T,N)
+    * \note 实现通过特征点匹配计算单应性矩阵(H)
+    * \note 实现通过相机与深度信息计算运动矩阵(R,T,N,V)
     */
     class CameraExterCalc
     {
@@ -31,15 +31,15 @@ namespace itr_vision
             */
             CameraExterCalc(const CameraExterCalc &other);
             /**
-            * \brief 使用两组特征点通过RANSAC计算单应性矩阵(H,V)
+            * \brief 使用两组特征点通过RANSAC计算单应性矩阵(H)
             * \param PointList1 特征点组1
             * \param List1Num 特征点组1长度
             * \param PointList2 特征点组2
             * \param List2Num 特征点组2长度
             */
-            BOOL CalcHV(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num);
+            BOOL CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num);
             /**
-            * \brief 通过给定的相机内参数和深度参数D计算运动参数(R,T,N)
+            * \brief 通过给定的相机内参数和深度参数D计算运动参数(R,T,N,V)
             * \param CameraInterPara 相机内参数
             * \param D 深度(单位:米)
             * \note 此计算步骤需已完成单应性矩阵计算(既已成功调用CalcHV())
