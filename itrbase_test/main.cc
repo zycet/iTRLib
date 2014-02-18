@@ -814,7 +814,7 @@ int main()
 
     TestCalculateTest();
 
-    //TestMatrix();
+    TestMatrix();
     //TestGeometry();
     //TestTransform();
     //Test Helper

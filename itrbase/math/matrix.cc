@@ -351,54 +351,57 @@ void Matrix::Mul(const Matrix& Mat, Matrix& MatResult) const
     F32* tempVectAns = new F32[MatResult.row];
     for (S32 i = 0; i < Mat.col; i++)
     {
-        MatResult.ColExtract(Mat.GetData(), i, Mat.col, Mat.row, tempVect);
+        MatResult.CopyColTo(i,tempVect);
         for (S32 k = 0; k < MatResult.row; k++)
             CalculateObj->MultiSum(data + k * col, tempVect, Mat.row, tempVectAns[k]);
         MatResult.CopyColFrom(i , tempVectAns);
     }
+    delete tempVect;
+    delete tempVectAns;
 }
 
 Matrix Matrix::operator*(const Matrix& Mat) const
 {
     assert(Mat.row == col);
-    Matrix MatResult(row, Mat.col);
-    Mul(Mat, MatResult);
-    return MatResult;
+    Matrix* MatResult = new Matrix(row, Mat.col);
+    Mul(Mat, *MatResult);
+    return *MatResult;
 }
 
 Matrix Matrix::operator+(const Matrix& Mat) const
 {
     assert(row == Mat.row);
     assert(col == Mat.col);
-    Matrix Result(*this);
-    Result.Add(Mat);
-    return Result;
+    Matrix* Result = new Matrix(*this);
+    (*Result).Add(Mat);
+    return *Result;
 }
 Matrix Matrix::operator-(const Matrix& Mat) const
 {
     assert(row == Mat.row);
     assert(col == Mat.col);
-    Matrix Result(*this);
-    Result.Sub(Mat);
-    return Result;
+    Matrix* Result = new Matrix(*this);
+    (*Result).Sub(Mat);
+    return *Result;
 }
 Matrix Matrix::operator=(const Matrix& Mat)
 {
     assert(row == Mat.row);
     assert(col == Mat.col);
     this->CopyFrom(Mat.data);
+    //(*this).CopyFrom(Mat.data);
     return *this;
 }
 Vector Matrix::operator*(const Vector& vec) const
 {
     assert(this->col==vec.GetDim());
-    Vector VecResult(this->row);
+    Vector* VecResult = new Vector(this->row);
     for (S32 i = 0; i < this->row; i++)
     {
         CalculateObj->MultiSum(this->data + i * this->col, vec.GetData(), vec.GetDim(),
-                               VecResult.GetData()[i]);
+                               (*VecResult).GetData()[i]);
     }
-    return VecResult;
+    return *VecResult;
 }
 //**********常用操作**********
 /*
@@ -488,9 +491,9 @@ BOOL Matrix::Inv(Matrix& MatResult) const
  */
 Matrix Matrix::Inv() const
 {
-    Matrix MatResult(this->row,this->col);
-    if(Inv(MatResult))
-        return MatResult;
+    Matrix* MatResult = new Matrix(this->row,this->col);
+    if(Inv(*MatResult))
+        return *MatResult;
     else
         return NULL;
 }
@@ -512,9 +515,9 @@ void Matrix::Tran(Matrix& MatResult) const
  */
 Matrix Matrix::Tran() const
 {
-    Matrix TranAns(this->col,this->row);
-    Tran(TranAns);
-    return TranAns;
+    Matrix* TranAns = new Matrix(this->col,this->row);
+    Tran(*TranAns);
+    return *TranAns;
 }
 /*******************************************************************************
 Singular value decomposition program, svdcmp, from "Numerical Recipes in C"
