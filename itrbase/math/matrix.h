@@ -201,10 +201,20 @@ public:
     * /brief
     */
     Matrix virtual Inv() const;
+<<<<<<< HEAD
+    /*
+     * 求矩阵SVD(奇异值分解）
+     */
+    void Svdcmp(Vector &w, itr_math::Matrix &v);
+    /*
+     * 求矩阵转置并将结果放至MatResult
+     */
+=======
     /**
     * /brief 求矩阵的转置
     * /param MatResult 所得结果
     */
+>>>>>>> 88fb77432447dd469c881a7e22b50b6c8dbb9e6c
     void virtual Tran(Matrix& MatResult) const;
     /**
     * /brief 求矩阵的逆
