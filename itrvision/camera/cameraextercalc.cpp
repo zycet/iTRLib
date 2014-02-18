@@ -1,5 +1,5 @@
 #include "cameraextercalc.h"
-
+#define resid_MAX_2 64
 namespace itr_vision
 {
     CameraExterCalc::CameraExterCalc()
@@ -22,12 +22,17 @@ namespace itr_vision
         this->N=other.N;
     }
     /**
-            * \brief 使用两组特征点通过RANSAC计算单应性矩阵(H,V)
+            * \brief 使用两组特征点通过RANSAC计算单应性矩阵(H)
             */
-    BOOL CameraExterCalc::CalcHV(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num)
+    BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num)
     {
         Calculate CalculateObj;
         Numerical NumericalObj;
+        //筛选最优 H 时所用
+        Matrix best_H(3,3);
+        Vector pos_2s(3),pos_1(3);
+        F32 red_counter=0,tmp_red=0,best_counter=0, best_red=0;
+        F32 risde;
         //bucketing
         S32 List1Num_q;
         NumericalObj.Round(List1Num/4,List1Num_q);
@@ -278,10 +283,50 @@ namespace itr_vision
                 M(2*j+1,8)=u2*wght;
             }
             //svd
+            Matrix V(9,9);
+            Vector S(9);
+            M.Svdcmp(S,V);
+            for(S32 j=0; j<3; j++)
+                for(S32 k=0; k<3; k++)
+                    H(j,k)=M(j*3+k,8);
+            //參差量
+            red_counter=0,tmp_red=0;
+            for(S32 j=0; j<matched_num; j++)
+            {
+                pos_1[0]=tempvalue_u[j];
+                pos_1[1]=tempvalue_v[j];
+                pos_1[2]=1;
+                pos_2s=H*pos_1;
+                pos_2s[0]/=pos_2s[2];
+                pos_2s[1]/=pos_2s[2];
+                pos_2s[0]-=PointList2[PointList1[tempID[j]].ID].X;
+                pos_2s[1]-=PointList2[PointList1[tempID[j]].ID].Y;
+                CalculateObj.MultiSum(pos_2s.GetData(),pos_2s.GetData(),2,risde);
 
+                if(j==c[0]||j==c[1]||j==c[2]||j==c[4])
+                    risde=0;
+                if(risde<resid_MAX_2)   //与王论文相比 risde 未开方
+                    red_counter++;
+                tmp_red+=risde;
+            }
+            if(i==0)
+            {
+                best_H=H;
+                best_counter=red_counter;
+                best_red=tmp_red;
+            }
+            else
+            {
+                if((red_counter>best_counter)||((red_counter==best_red)&&(tmp_red<best_red)))
+                {
+                    best_red = tmp_red;
+                    best_counter = red_counter;
+                    best_H = H;
+                }
+            }
         }//end of RANSAC
-
-
+        H=best_H;
+        return true;
     }
             /**
             * \brief 通过给定的相机内参数和深度参数D计算运动参数(R,T,N)
