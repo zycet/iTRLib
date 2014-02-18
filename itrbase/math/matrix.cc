@@ -37,6 +37,17 @@
 #include <stddef.h>
 #include "../platform/platform.h"
 #include "math.h"
+//for SVD use
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+#define NR_END 0
+#define FREE_ARG char*
+#define SIGN(a,b) ((b) >= 0.0 ? fabs(a) : -fabs(a))
+static F32 dmaxarg1,dmaxarg2;
+#define DMAX(a,b) (dmaxarg1=(a),dmaxarg2=(b),(dmaxarg1) > (dmaxarg2) ?(dmaxarg1) : (dmaxarg2))
+static int iminarg1,iminarg2;
+#define IMIN(a,b) (iminarg1=(a),iminarg2=(b),(iminarg1) < (iminarg2) ?(iminarg1) : (iminarg2))
 
 namespace itr_math
 {
@@ -504,6 +515,260 @@ Matrix Matrix::Tran() const
     Matrix TranAns(this->col,this->row);
     Tran(TranAns);
     return TranAns;
+}
+/*******************************************************************************
+Singular value decomposition program, svdcmp, from "Numerical Recipes in C"
+(Cambridge Univ. Press) by W.H. Press, S.A. Teukolsky, W.T. Vetterling,
+and B.P. Flannery
+*******************************************************************************/
+/*
+*SVD 之用
+*/
+F32 pythag(F32 a, F32 b)
+// compute (a2 + b2)^1/2 without destructive underflow or overflow
+{
+    F32 absa,absb;
+    absa=fabs(a);
+    absb=fabs(b);
+    if (absa > absb)
+        return absa*sqrt(1.0+(absb/absa)*(absb/absa));
+    else
+        return (absb == 0.0 ? 0.0 : absb*sqrt(1.0+(absa/absb)*(absa/absb)));
+}
+/*
+* SVD 奇异值分解
+*/
+void Matrix::Svdcmp(itr_math::Vector &w, itr_math::Matrix &v)
+{
+    S32 m=this->row;
+    S32 n=this->col;
+    S32 flag,i,its,j,jj,k,l,nm;
+    F32 anorm,c,f,g,h,s,scale,x,y,z;
+    itr_math::Vector rv1(n);
+    g=scale=anorm=0.0; // Householder reduction to bidiagonal form
+    for (i=1;i<=n;i++)
+    {
+        l=i+1;
+        rv1[i-1]=scale*g;
+        g=s=scale=0.0;
+        if (i <= m)
+        {
+            for (k=i;k<=m;k++)
+                scale += fabs(this->data[(k-1)*this->col+i-1]);
+            if (scale)
+            {
+                for (k=i;k<=m;k++)
+                {
+                    this->data[(k-1)*this->col+i-1] /= scale;
+                    s += this->data[(k-1)*this->col+i-1]*this->data[(k-1)*this->col+i-1];
+                }
+                f=this->data[(i-1)*this->col+i-1];
+                g = -SIGN(sqrt(s),f);
+                h=f*g-s;
+                this->data[(i-1)*this->col+i-1]=f-g;
+                for (j=l;j<=n;j++)
+                {
+                    for (s=0.0,k=i;k<=m;k++)
+                        s += this->data[(k-1)*this->col+i-1]*this->data[(k-1)*this->col+j-1];
+                f=s/h;
+                for (k=i;k<=m;k++)
+                    this->data[(k-1)*this->col+j-1] += f*this->data[(k-1)*this->col+i-1];
+                }
+                for (k=i;k<=m;k++)
+                    this->data[(k-1)*this->col+i-1] *= scale;
+            }
+        }
+        w[i-1]=scale *g;
+        g=s=scale=0.0;
+        if (i<=m&&i!=n)
+        {
+            for (k=l;k<=n;k++)
+                scale += fabs(this->data[(i-1)*this->col+k-1]);
+            if (scale) {
+                for (k=l;k<=n;k++)
+                {
+                    this->data[(i-1)*this->col+k-1]/= scale;
+                    s += this->data[(i-1)*this->col+k-1]*this->data[(i-1)*this->col+k-1];
+                }
+                f=this->data[(i-1)*this->col+l-1];
+                g = -SIGN(sqrt(s),f);
+                h=f*g-s;
+                this->data[(i-1)*this->col+l-1]=f-g;
+                for (k=l;k<=n;k++)
+                    rv1[k-1]=this->data[(i-1)*this->col+k-1]/h;
+                for (j=l;j<=m;j++)
+                {
+                    for (s=0.0,k=l;k<=n;k++)
+                        s += this->data[(j-1)*this->col+k-1]*this->data[(i-1)*this->col+k-1];
+                    for (k=l;k<=n;k++)
+                        this->data[(j-1)*this->col+k-1] += s*rv1[k-1];
+                }
+                for (k=l;k<=n;k++)
+                    this->data[(i-1)*this->col+k-1] *= scale;
+            }
+        }
+        anorm = DMAX(anorm,(fabs(w[i-1])+fabs(rv1[i-1])));
+    }
+
+    for (i=n;i>=1;i--)
+    { // Accumulation of right-hand transformations.
+        if (i < n)
+        {
+            if (g)
+            {
+                for (j=l;j<=n;j++) // Double division to avoid possible underflow.
+                    v(j-1,i-1)=(this->data[(i-1)*this->col+j-1]/this->data[(i-1)*this->col+l-1])/g;
+                for (j=l;j<=n;j++)
+                {
+                    for (s=0.0,k=l;k<=n;k++)
+                        s += this->data[(i-1)*this->col+k-1]*v(k-1,j-1);
+                    for (k=l;k<=n;k++)
+                        v(k-1,j-1) += s*v(k-1,i-1);
+                }
+            }
+            for (j=l;j<=n;j++)
+                v(i-1,j-1)=v(j-1,i-1)=0.0;
+        }
+        v(i-1,i-1)=1.0;
+        g=rv1[i-1];
+        l=i;
+    }
+
+    for (i=IMIN(m,n);i>=1;i--)
+    { // Accumulation of left-hand transformations.
+        l=i+1;
+        g=w[i-1];
+        for (j=l;j<=n;j++)
+            this->data[(i-1)*this->col+j-1]=0.0;
+        if (g)
+        {
+            g=1.0/g;
+            for (j=l;j<=n;j++)
+            {
+                for (s=0.0,k=l;k<=m;k++)
+                    s += this->data[(k-1)*this->col+i-1]*this->data[(k-1)*this->col+j-1];
+                f=(s/this->data[(i-1)*this->col+i-1])*g;
+                for (k=i;k<=m;k++)
+                    this->data[(k-1)*this->col+j-1] += f*this->data[(k-1)*this->col+i-1];
+            }
+            for (j=i;j<=m;j++)
+                this->data[(j-1)*this->col+i-1] *= g;
+        }
+        else
+            for (j=i;j<=m;j++)
+                this->data[(j-1)*this->col+i-1]=0.0;
+        ++this->data[(i-1)*this->col+i-1];
+    }
+
+    for (k=n;k>=1;k--)
+    { // Diagonalization of the bidiagonal form.
+        for (its=1;its<=30;its++)
+        {
+            flag=1;
+            for (l=k;l>=1;l--)
+            { // Test for splitting.
+                nm=l-1; // Note that rv1[1-1] is always zero.
+                if ((F32)(fabs(rv1[l-1])+anorm) == anorm)
+                {
+                    flag=0;
+                    break;
+                }
+                if ((F32)(fabs(w[nm-1])+anorm) == anorm)
+                    break;
+            }
+            if (flag)
+            {
+                c=0.0; // Cancellation of rv1[l-1], if l > 1.
+                s=1.0;
+                for (i=l;i<=k;i++)
+                {
+                    f=s*rv1[i-1];
+                    rv1[i-1]=c*rv1[i-1];
+                    if ((F32)(fabs(f)+anorm) == anorm)
+                        break;
+                    g=w[i-1];
+                    h=pythag(f,g);
+                    w[i-1]=h;
+                    h=1.0/h;
+                    c=g*h;
+                    s = -f*h;
+                    for (j=1;j<=m;j++)
+                    {
+                        y=this->data[(j-1)*this->col+nm-1];
+                        z=this->data[(j-1)*this->col+i-1];
+                        this->data[(j-1)*this->col+nm-1]=y*c+z*s;
+                        this->data[(j-1)*this->col+i-1]=z*c-y*s;
+                    }
+                }
+            }
+            z=w[k-1];
+            if (l == k)
+            { // Convergence.
+                if (z < 0.0)
+                { // Singular value is made nonnegative.
+                    w[k-1] = -z;
+                    for (j=1;j<=n;j++)
+                        v(j-1,k-1) = -v(j-1,k-1);
+                }
+                break;
+            }
+            if (its == 30)
+                printf("no convergence in 30 svdcmp iterations");
+            x=w[l-1]; // Shift from bottom 2-by-2 minor.
+            nm=k-1;
+            y=w[nm-1];
+            g=rv1[nm-1];
+            h=rv1[k-1];
+            f=((y-z)*(y+z)+(g-h)*(g+h))/(2.0*h*y);
+            g=pythag(f,1.0);
+            f=((x-z)*(x+z)+h*((y/(f+SIGN(g,f)))-h))/x;
+            c=s=1.0; // Next QR transformation:
+            for (j=l;j<=nm;j++)
+            {
+                i=j+1;
+                g=rv1[i-1];
+                y=w[i-1];
+                h=s*g;
+                g=c*g;
+                z=pythag(f,h);
+                rv1[j-1]=z;
+                c=f/z;
+                s=h/z;
+                f=x*c+g*s;
+                g = g*c-x*s;
+                h=y*s;
+                y *= c;
+                for (jj=1;jj<=n;jj++)
+                {
+                    x=v(jj-1,j-1);
+                    z=v(jj-1,i-1);
+                    v(jj-1,j-1)=x*c+z*s;
+                    v(jj-1,i-1)=z*c-x*s;
+                }
+                z=pythag(f,h);
+                w[j-1]=z; // Rotation can be arbitrary if z = 0.
+                if (z)
+                {
+                    z=1.0/z;
+                    c=f*z;
+                    s=h*z;
+                }
+                f=c*g+s*y;
+                x=c*y-s*g;
+                for (jj=1;jj<=m;jj++)
+                {
+                    y=this->data[(jj-1)*this->col+j-1];
+                    z=this->data[(jj-1)*this->col+i-1];
+                    this->data[(jj-1)*this->col+j-1]=y*c+z*s;
+                    this->data[(jj-1)*this->col+i-1]=z*c-y*s;
+                }
+            }
+            rv1[l-1]=0.0;
+            rv1[k-1]=f;
+            w[k-1]=x;
+        }
+    }
+   // free_dvector(rv1,1,n);
 }
 }
 // namespace itr_math

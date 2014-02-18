@@ -201,10 +201,23 @@ public:
     * /brief
     */
     Matrix virtual Inv() const;
+
+    /**
+     * /brief求矩阵SVD(奇异值分解）A=U*S*Vt A(n*m)
+     * /param w(n) :存储奇异值，最少为一个，最多为n个非零值，w即为S的对角矩阵
+     * /param v:存储向量V，注意不是V的转置
+     * /param 注意：生成的U替换为A，即改变原矩阵。
+     */
+    void Svdcmp(Vector &w, itr_math::Matrix &v);
+    /*
+     * 求矩阵转置并将结果放至MatResult
+     */
+
     /**
     * /brief 求矩阵的转置
     * /param MatResult 所得结果
     */
+
     void virtual Tran(Matrix& MatResult) const;
     /**
     * /brief 求矩阵的逆
