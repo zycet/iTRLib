@@ -29,11 +29,11 @@ namespace itr_vision
             /*
                 以全面的参数初始化特征点
             */
-            void Init(Point2D Pos,S32 ID,F32 Dir,F32 Quality,F32 Value,S32 FeatureDim,S32 LevelNo);
+            void Init(Point2D Pos,S32 ID,F32 Dir,F32 Quality,F32 Value,S32 FeatureDim,S32 LevelNo,F32 Scale);
             /*
                 以常用参数初始化特征点
             */
-            void Init(Point2D Pos,F32 Dir,S32 FeatureDim,S32 LevelNo);
+            void Init(Point2D Pos,F32 Dir,S32 FeatureDim,S32 LevelNo,F32 Scale);
             /*
                 向量形式的用于区分的特征值可以使用此量
             */
@@ -42,6 +42,10 @@ namespace itr_vision
                 所在层数
             */
             S32 LevelNo;
+            /*
+                尺度系数
+            */
+            F32 Scale;
         protected:
         private:
     };

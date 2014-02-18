@@ -53,6 +53,8 @@ namespace itr_vision
     //Fill the connected pixel to form a block
     void ConnectedAnalysis::Fill(const Matrix &input,S32 x,S32 y,Block& blk,F32* visited)
     {
+        const int dx[] = {-1,0,1,-1,1,-1,0,1};
+        const int dy[] = {-1,-1,-1,0,0,1,1,1};
         visited[y*ImgWidth+x] = 1;
         for(int i =0;i<8;i++)
         {

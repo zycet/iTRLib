@@ -15,6 +15,7 @@ namespace itr_vision
         this->Tag =NULL;
         this->Dir =0;
         this->Quality=0;
+        this->Scale=0;
         this->Value=0;
     }
 
@@ -31,9 +32,10 @@ namespace itr_vision
         this->Tag =other.Tag;
         this->Dir =other.Dir;
         this->Quality=other.Quality;
+        this->Scale=other.Scale;
         this->Value=other.Value;
     }
-    void VectorFeaturePoint::Init(Point2D Pos,S32 ID,F32 Dir,F32 Quality,F32 Value,S32 FeatureDim,S32 LevelNo)
+    void VectorFeaturePoint::Init(Point2D Pos,S32 ID,F32 Dir,F32 Quality,F32 Value,S32 FeatureDim,S32 LevelNo,F32 Scale)
     {
         this->SetXY(Pos.X, Pos.Y);
         this->ID =ID;
@@ -42,12 +44,14 @@ namespace itr_vision
         this->Value=Value;
         this->Feature.Init(FeatureDim);
         this->LevelNo=LevelNo;
+        this->Scale=Scale;
     }
-    void VectorFeaturePoint::Init(Point2D Pos,F32 Dir,S32 FeatureDim,S32 LevelNo)
+    void VectorFeaturePoint::Init(Point2D Pos,F32 Dir,S32 FeatureDim,S32 LevelNo,F32 Scale)
     {
         this->SetXY(Pos.X, Pos.Y);
         this->Dir=Dir;
         this->Feature.Init(FeatureDim);
         this->LevelNo=LevelNo;
+        this->Scale=Scale;
     }
 }
