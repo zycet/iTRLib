@@ -211,7 +211,8 @@ public:
 
     void Svdcmp(Vector &w, Matrix &v);
     /**
-     * /brief求矩阵广义逆
+     * /brief求矩阵广义逆,注意：只能用于方阵，且原始数据改变（变为U，见SVD），不可用。
+           matrix.cc中的 #define tol  0.00001 代表精度
      * /param MatResult 所得的结果
      */
     void virtual pinv(Matrix &MatResult) const;

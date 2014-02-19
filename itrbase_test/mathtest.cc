@@ -310,36 +310,34 @@ void TestMatrix()
     //Init
     itr_math::MathObjStandInit();
     /////////
-    F32 dataaa1[16]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
-    itr_math::Matrix A(4,4,dataaa1);
-    //itr_math::Matrix V(4,4);
-    //itr_math::Vector W(4);
+    F32 dataaa1[72]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+    itr_math::Matrix A(8,9,dataaa1);
+    itr_math::Matrix V(9,9);
+    itr_math::Vector W(9);
     //test svd   /////////////////////////////
 
-    /*Anew.Svdcmp(W,V);
+    A.Svdcmp(W,V);
     printf("matrix V :\n");
     printMatrix(V);
     printf("vector W :\n");
     printVector(W);
     printf("matrix U :\n");
-    printMatrix(Anew);*/
+    printMatrix(A);
     //test pinv   /////////////////////////////
 
     printf("************ pinv test ********************\n");
+    F32 dataaa2[16]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+    itr_math::Matrix AA(4,4,dataaa2);
     itr_math::Matrix X(4,4);
-    itr_math::Matrix B(4,4);
 
-    printf("matrix A (before) :\n");
-    printMatrix(A);
+    AA.pinv(X);
 
-    A.pinv(X);
-    B=X*A;
 
-    printf("matrix X :\n");
+   /* printf("matrix X :\n");
     printMatrix(X);
     printf("matrix B :\n");
     printMatrix(B);
-printf("matrix B :\n");
+    printf("matrix B :\n");*/
     //测试数据
     /* 1   4  9
      * 16 25 36
