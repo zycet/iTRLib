@@ -40,45 +40,45 @@ using itr_math::Matrix;
 namespace itr_vision
 {
 
-    class ConvoluteSquare
+class ConvoluteSquare
+{
+public:
+    static const int MAX_KERNEL_WIDTH = 71;
+    typedef struct
     {
-        public:
-            static const int MAX_KERNEL_WIDTH = 71;
-            typedef struct
-            {
-                int width;
-                float data[MAX_KERNEL_WIDTH];
-            } ConvolutionKernel;
+        int width;
+        float data[MAX_KERNEL_WIDTH];
+    } ConvolutionKernel;
 
-            ConvoluteSquare();
-            ConvoluteSquare(S32 FilterDim, S32 Width, S32 Height);
-            virtual ~ConvoluteSquare();
-            void Convolute(const Matrix &Input, F32 *Filter, Matrix &Output);
+    ConvoluteSquare();
+    ConvoluteSquare(S32 FilterDim, S32 Width, S32 Height);
+    virtual ~ConvoluteSquare();
+    void Convolute(const Matrix &Input, F32 *Filter, Matrix &Output);
 
-            void _computeKernels(float sigma, ConvolutionKernel *gauss,
-                                 ConvolutionKernel *gaussderiv);
+    void _computeKernels(float sigma, ConvolutionKernel *gauss,
+                         ConvolutionKernel *gaussderiv);
 
-            void _convolveImageHoriz(const Matrix &imgin, ConvolutionKernel kernel, Matrix &imgout);
+    void _convolveImageHoriz(const Matrix &imgin, ConvolutionKernel kernel, Matrix &imgout);
 
-            void _convolveImageVert(const Matrix &imgin, ConvolutionKernel kernel, Matrix &imgout);
+    void _convolveImageVert(const Matrix &imgin, ConvolutionKernel kernel, Matrix &imgout);
 
-            void _KLTComputeGradients(const Matrix &img, float sigma, Matrix &gradx,
-                                      Matrix &grady);
+    void _KLTComputeGradients(const Matrix &img, float sigma, Matrix &gradx,
+                              Matrix &grady);
 
-            void _convolveSeparate(const Matrix &imgin, ConvolutionKernel horiz_kernel,
-                                   ConvolutionKernel vert_kernel, Matrix &imgout);
-            void _KLTComputeSmoothedImage(const Matrix &img, float sigma, Matrix &smooth);
-        private:
-            ConvolutionKernel gauss_kernel;
-            ConvolutionKernel gaussderiv_kernel;
-            float sigma_last;
-            S16 *multBufferS16;
-            S16 *imageBufferS16;
-            S32 width;
-            S32 height;
-            S32 filterDim;
-            S32 r;
-    };
+    void _convolveSeparate(const Matrix &imgin, ConvolutionKernel horiz_kernel,
+                           ConvolutionKernel vert_kernel, Matrix &imgout);
+    void _KLTComputeSmoothedImage(const Matrix &img, float sigma, Matrix &smooth);
+private:
+    ConvolutionKernel gauss_kernel;
+    ConvolutionKernel gaussderiv_kernel;
+    float sigma_last;
+    S16 *multBufferS16;
+    S16 *imageBufferS16;
+    S32 width;
+    S32 height;
+    S32 filterDim;
+    S32 r;
+};
 
 } // namespace itr_image
 #endif // CONVOLUTESQUARE_H_

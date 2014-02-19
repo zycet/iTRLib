@@ -40,12 +40,12 @@
 namespace itr_vision
 {
 
-    class Gradient
-    {
-        public:
-            static void Gradientx(const ImageGray &img, ImageGray &dx );
-            static void Gradienty(const ImageGray &img, ImageGray &dy );
-    };
+class Gradient
+{
+public:
+    static void Gradientx(const ImageGray &img, ImageGray &dx );
+    static void Gradienty(const ImageGray &img, ImageGray &dy );
+};
 
 } // namespace itr_vision
 #endif // GRADIENT_H_

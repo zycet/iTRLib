@@ -38,30 +38,30 @@
 using itr_math::Matrix;
 namespace itr_vision
 {
-    class Pyramid
+class Pyramid
+{
+public:
+    Pyramid();
+    virtual ~Pyramid();
+    void Init(const Matrix &Img, int Subsampling, int Level);
+    inline int GetLevel() const
     {
-        public:
-            Pyramid();
-            virtual ~Pyramid();
-            void Init(const Matrix &Img, int Subsampling, int Level);
-            inline int GetLevel() const
-            {
-                return level;
-            }
+        return level;
+    }
 
-            inline int GetSubsampling() const
-            {
-                return subsampling;
-            }
+    inline int GetSubsampling() const
+    {
+        return subsampling;
+    }
 
-            S32 width[3], height[3];
-            Matrix img[3];
-            Matrix gradx[3], grady[3];
-        private:
-            int level;
-            int subsampling;
-            float sigma;
-    };
+    S32 width[3], height[3];
+    Matrix img[3];
+    Matrix gradx[3], grady[3];
+private:
+    int level;
+    int subsampling;
+    float sigma;
+};
 
 } // namespace itr_vision
 #endif // PYRAMID_H_

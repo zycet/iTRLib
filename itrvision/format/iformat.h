@@ -39,32 +39,32 @@
 
 namespace itr_vision
 {
-    class IFormat
+class IFormat
+{
+public:
+    enum ConvertResult
     {
-        public:
-            enum ConvertResult
-            {
-                Success = 0, LengthIllegal = 1, FormatIllegal = 2
-            };
-            struct ImageInfo
-            {
-                S32 Width;
-                S32 Height;
-                S32 PixelSize;
-                S32 ColorChannel;
-            };
-            inline IFormat()
-            {
-            }
-            inline virtual ~IFormat()
-            {
-            }
-            virtual ConvertResult GetInfo(U8 *Data, S32 Length, ImageInfo &ImgInfo)=0;
-            virtual ConvertResult ToImage(U8 *Data, S32 Length, ImageARGB &Img)=0;
-            virtual ConvertResult ToImage(U8 *Data, S32 Length, ImageGray &Img)=0;
-            virtual ConvertResult ToBinary(ImageARGB &Img, U8 *Data, S32 &Length)=0;
-            virtual ConvertResult ToBinary(ImageGray &Img, U8 *Data, S32 &Length)=0;
+        Success = 0, LengthIllegal = 1, FormatIllegal = 2
     };
+    struct ImageInfo
+    {
+        S32 Width;
+        S32 Height;
+        S32 PixelSize;
+        S32 ColorChannel;
+    };
+    inline IFormat()
+    {
+    }
+    inline virtual ~IFormat()
+    {
+    }
+    virtual ConvertResult GetInfo(U8 *Data, S32 Length, ImageInfo &ImgInfo)=0;
+    virtual ConvertResult ToImage(U8 *Data, S32 Length, ImageARGB &Img)=0;
+    virtual ConvertResult ToImage(U8 *Data, S32 Length, ImageGray &Img)=0;
+    virtual ConvertResult ToBinary(ImageARGB &Img, U8 *Data, S32 &Length)=0;
+    virtual ConvertResult ToBinary(ImageGray &Img, U8 *Data, S32 &Length)=0;
+};
 
 } // namespace itr_image
 #endif // IFORMAT_H_

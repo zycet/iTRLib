@@ -41,126 +41,126 @@
 namespace itr_vision
 {
 
-    SelectKLTFeature::SelectKLTFeature(const Matrix &Img)
-    {
-        windowWidth=7;
-        bw = windowWidth >> 1;
-        mindist = 10;
-        mineigen = 1;
-        width = Img.GetCol();
-        height = Img.GetRow();
-        img.Init(height, width);
-        dx.Init(height, width);
-        dy.Init(height, width);
-        ConvoluteSquare conv;
-        conv._KLTComputeSmoothedImage(Img, 0.1f * windowWidth, img);
+SelectKLTFeature::SelectKLTFeature(const Matrix &Img)
+{
+    windowWidth=7;
+    bw = windowWidth >> 1;
+    mindist = 10;
+    mineigen = 1;
+    width = Img.GetCol();
+    height = Img.GetRow();
+    img.Init(height, width);
+    dx.Init(height, width);
+    dy.Init(height, width);
+    ConvoluteSquare conv;
+    conv._KLTComputeSmoothedImage(Img, 0.1f * windowWidth, img);
 
-        // TODO 求微分
-        conv._KLTComputeGradients(img, 1.0f, dx, dy);
-    }
+    // TODO 求微分
+    conv._KLTComputeGradients(img, 1.0f, dx, dy);
+}
 
-    void SelectKLTFeature::fillMap(S32 x, S32 y, BOOL *featuremap)
-    {
-        int ix, iy;
+void SelectKLTFeature::fillMap(S32 x, S32 y, BOOL *featuremap)
+{
+    int ix, iy;
 
-        for (iy = y - mindist; iy <= y + mindist; iy++)
-            for (ix = x - mindist; ix <= x + mindist; ix++)
-                if (ix >= 0 && ix < width && iy >= 0 && iy < height)
-                {
-                    featuremap[iy * width + ix] = 1;
-                }
-    }
-
-    SelectKLTFeature::~SelectKLTFeature()
-    {
-    }
-
-    float SelectKLTFeature::MinEigenvalue(F32 gxx, F32 gxy, F32 gyy)
-    {
-        itr_math::NumericalObj->Sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy, gxy);
-        return (float) ((gxx + gyy - gxy) * 0.5f);
-//        return (float) ((gxx + gyy - sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy)) *0.5f);/// 2.0f);
-    }
-    S32 SelectKLTFeature::SelectGoodFeature(const RectangleS &rect, vector<CommFeaturePoint> &featureOutput,S32 start)
-    {
-        vector<CommFeaturePoint> featurelist(rect.Width * rect.Height);
-        S32 bord = 24,ImgWidth=img.GetCol();
-        S32 bordy = rect.Y + rect.Height;
-        S32 bordx = rect.X + rect.Width;
-        S32 beginy = (rect.Y < bord) ? bord : rect.Y;
-        S32 beginx = (rect.X < bord) ? bord : rect.X;
-        if (bordy >= img.GetRow() - bord)
-        {
-            bordy = img.GetRow() - bord;
-        }
-        if (bordx >= ImgWidth - bord)
-        {
-            bordx = ImgWidth - bord;
-        }
-        S32 x, y, xx, yy;
-        S32 gxx, gxy, gyy, gx, gy;
-        S32 npoints=0;
-
-        vector<CommFeaturePoint>::iterator featptr = featurelist.begin();
-        // 初始化特征列表
-        {
-            for (y = beginy; y < bordy; ++y)
-                for (x = beginx; x < bordx; ++x)
-                {
-                    gxx = gxy = gyy = 0;
-                    for (yy = y - bw; yy <= y + bw; ++yy)
-                        for (xx = x - bw; xx <= x + bw; ++xx)
-                        {
-                            // TODO 改成指针形式的访问
-                            gx = dx[yy*ImgWidth+ xx];
-                            gy = dy[yy*ImgWidth+ xx];
-                            gxx += gx * gx;
-                            gxy += gx * gy;
-                            gyy += gy * gy;
-                        }
-                    featptr->X = x;
-                    featptr->Y = y;
-                    featptr->Quality = MinEigenvalue(gxx, gxy, gyy);
-                    ++featptr;
-                    ++npoints;
-                }
-        }
-
-        std::sort(featurelist.begin(), featurelist.begin()+npoints, std::greater<CommFeaturePoint>());
-        --mindist;
-        //增大最小间距
-        int count=0;
-        {
-            featptr = featurelist.begin();
-            vector<CommFeaturePoint>::iterator flindex = featureOutput.begin()+start;
-            BOOL *featuremap = new BOOL[height* width]();
-            memset(featuremap, 0, sizeof(featuremap));
-            S32 quality;
-            while (npoints>0)
+    for (iy = y - mindist; iy <= y + mindist; iy++)
+        for (ix = x - mindist; ix <= x + mindist; ix++)
+            if (ix >= 0 && ix < width && iy >= 0 && iy < height)
             {
-                x = featptr->X;
-                y = featptr->Y;
-                quality = featptr->Quality;
-                if (featuremap[y * width + x] == 0 && quality >= mineigen)
-                {
-                    flindex->X = x;
-                    flindex->Y = y;
-                    flindex->Quality = quality;
-                    fillMap(x, y, featuremap);
-                    ++flindex;
-                    ++count;
-                }
-                if (flindex == featureOutput.end())
-                {
-                    break;
-                }
-                ++featptr;
-                --npoints;
+                featuremap[iy * width + ix] = 1;
             }
-            delete[] featuremap;
-        }
-        return count;
+}
+
+SelectKLTFeature::~SelectKLTFeature()
+{
+}
+
+float SelectKLTFeature::MinEigenvalue(F32 gxx, F32 gxy, F32 gyy)
+{
+    itr_math::NumericalObj->Sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy, gxy);
+    return (float) ((gxx + gyy - gxy) * 0.5f);
+//        return (float) ((gxx + gyy - sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy)) *0.5f);/// 2.0f);
+}
+S32 SelectKLTFeature::SelectGoodFeature(const RectangleS &rect, vector<CommFeaturePoint> &featureOutput,S32 start)
+{
+    vector<CommFeaturePoint> featurelist(rect.Width * rect.Height);
+    S32 bord = 24,ImgWidth=img.GetCol();
+    S32 bordy = rect.Y + rect.Height;
+    S32 bordx = rect.X + rect.Width;
+    S32 beginy = (rect.Y < bord) ? bord : rect.Y;
+    S32 beginx = (rect.X < bord) ? bord : rect.X;
+    if (bordy >= img.GetRow() - bord)
+    {
+        bordy = img.GetRow() - bord;
     }
+    if (bordx >= ImgWidth - bord)
+    {
+        bordx = ImgWidth - bord;
+    }
+    S32 x, y, xx, yy;
+    S32 gxx, gxy, gyy, gx, gy;
+    S32 npoints=0;
+
+    vector<CommFeaturePoint>::iterator featptr = featurelist.begin();
+    // 初始化特征列表
+    {
+        for (y = beginy; y < bordy; ++y)
+            for (x = beginx; x < bordx; ++x)
+            {
+                gxx = gxy = gyy = 0;
+                for (yy = y - bw; yy <= y + bw; ++yy)
+                    for (xx = x - bw; xx <= x + bw; ++xx)
+                    {
+                        // TODO 改成指针形式的访问
+                        gx = dx[yy*ImgWidth+ xx];
+                        gy = dy[yy*ImgWidth+ xx];
+                        gxx += gx * gx;
+                        gxy += gx * gy;
+                        gyy += gy * gy;
+                    }
+                featptr->X = x;
+                featptr->Y = y;
+                featptr->Quality = MinEigenvalue(gxx, gxy, gyy);
+                ++featptr;
+                ++npoints;
+            }
+    }
+
+    std::sort(featurelist.begin(), featurelist.begin()+npoints, std::greater<CommFeaturePoint>());
+    --mindist;
+    //增大最小间距
+    int count=0;
+    {
+        featptr = featurelist.begin();
+        vector<CommFeaturePoint>::iterator flindex = featureOutput.begin()+start;
+        BOOL *featuremap = new BOOL[height* width]();
+        memset(featuremap, 0, sizeof(featuremap));
+        S32 quality;
+        while (npoints>0)
+        {
+            x = featptr->X;
+            y = featptr->Y;
+            quality = featptr->Quality;
+            if (featuremap[y * width + x] == 0 && quality >= mineigen)
+            {
+                flindex->X = x;
+                flindex->Y = y;
+                flindex->Quality = quality;
+                fillMap(x, y, featuremap);
+                ++flindex;
+                ++count;
+            }
+            if (flindex == featureOutput.end())
+            {
+                break;
+            }
+            ++featptr;
+            --npoints;
+        }
+        delete[] featuremap;
+    }
+    return count;
+}
 
 
 }

@@ -42,39 +42,39 @@ using itr_math::Matrix;
 namespace itr_vision
 {
 
-    class LKTracker
+class LKTracker
+{
+public:
+    enum TrackResult
     {
-        public:
-            enum TrackResult
-            {
-                Tracked, OOB, SmallDet, LARGE_RESIDUE,MAX_ITERATION,FBError,NCCError
-            };
-            void Init(const Matrix &Img1, const Matrix &Img2);
-            void Init(const Matrix &Img);
-            LKTracker();
-            virtual ~LKTracker();
-            TrackResult Compute(Point2D &U, Point2D &V, S32 L);
-            void Compute(const vector<CommFeaturePoint> &fl,vector<CommFeaturePoint> &flresult, S32 FeatureNum,bool Forward);
-            S32 windowWidth;
-            S32 minDet;
-            S32 max_residue;
-            S32 max_iterations;
-            Pyramid *last,*current;
-            void AddNext(const Matrix &Img);
-        private:
-            void _ComputeDt(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dt);
-            void _ComputeGrad(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dx, S32 *dy);
-            void _ComputeGrad2(Point2D &U, S32 L, S32 hw, S32 *dx, S32 *dy);
-            S32 _ComputeSum(S32 *a, S32 *b, S32 *sum, S32 length);
-            S32 _SumDiff(S32 *a, S32 length);
-
-            S32 *Dt;
-            S32 *Dx;
-            S32 *Dy;
-            S32 *Sum;
-            F32 stopth;
-            S32 level;
+        Tracked, OOB, SmallDet, LARGE_RESIDUE,MAX_ITERATION,FBError,NCCError
     };
+    void Init(const Matrix &Img1, const Matrix &Img2);
+    void Init(const Matrix &Img);
+    LKTracker();
+    virtual ~LKTracker();
+    TrackResult Compute(Point2D &U, Point2D &V, S32 L);
+    void Compute(const vector<CommFeaturePoint> &fl,vector<CommFeaturePoint> &flresult, S32 FeatureNum,bool Forward);
+    S32 windowWidth;
+    S32 minDet;
+    S32 max_residue;
+    S32 max_iterations;
+    Pyramid *last,*current;
+    void AddNext(const Matrix &Img);
+private:
+    void _ComputeDt(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dt);
+    void _ComputeGrad(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dx, S32 *dy);
+    void _ComputeGrad2(Point2D &U, S32 L, S32 hw, S32 *dx, S32 *dy);
+    S32 _ComputeSum(S32 *a, S32 *b, S32 *sum, S32 length);
+    S32 _SumDiff(S32 *a, S32 length);
+
+    S32 *Dt;
+    S32 *Dx;
+    S32 *Dy;
+    S32 *Sum;
+    F32 stopth;
+    S32 level;
+};
 
 } // namespace itr_vision
 #endif // TRACKER_H_

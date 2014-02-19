@@ -61,7 +61,8 @@ void TestTrack(ifstream &infile,S32 Width,S32 Height)
     ConnectedAnalysis CAObject;
     vector<Block> blocks;
     Matrix Input(Width, Height);
-    F32 Data[25] = {0};
+    const S32 size = Width*Height;
+    F32 Data[size];
 
     /*1.read from file to Matrix
     /*2.Binarization
@@ -75,6 +76,9 @@ void TestTrack(ifstream &infile,S32 Width,S32 Height)
     }
     BObject.Threshold(Input,15,5);
     CAObject.Contour(Input,blocks);
-    PrintMatrix(Input);
+    //cout << CAObject.BNum << endl;
+    //PrintMatrix(Input);
     PrintTargetInfo(blocks[1]);//打印第二大联通域中心，即目标中心
+    for(int i = 0;i<blocks.size();i++)
+        cout << blocks[i].Area<<endl;
 }
