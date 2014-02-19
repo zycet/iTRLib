@@ -773,8 +773,8 @@ void Matrix::Svdcmp(itr_math::Vector &w, itr_math::Matrix &v)
     }
    // free_dvector(rv1,1,n);
 }
-//void virtual Matrix::pinv(Matrix &MatResult) const{}
-/*{
+/*void virtual Matrix::pinv(Matrix &MatResult) const{}
+{
     assert(row>0);
     assert(col>0);
     assert(row<=col);
@@ -800,6 +800,10 @@ void Matrix::Svdcmp(itr_math::Vector &w, itr_math::Matrix &v)
         Matrix S(i,i),Vt(col,i),Ut(i,row);
         S.SetDiag(s.GetData());
         F32 calcBuffer[col];
+        for(S32 j=0;j<i;j++)
+        {
+
+        }
     }*/
 }
 // namespace itr_math

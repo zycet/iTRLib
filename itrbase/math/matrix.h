@@ -214,7 +214,7 @@ public:
      * /brief求矩阵广义逆
      * /param MatResult 所得的结果
      */
-    void virtual pinv(Matrix &MatResult) const;
+    //void virtual pinv(Matrix &MatResult) const;
     /*
      * 求矩阵转置并将结果放至MatResult
      */
