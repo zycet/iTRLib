@@ -5,9 +5,13 @@
 using std::vector;
 using itr_math::Matrix;
 using itr_math::RectangleS;
-class Histogram
+namespace itr_vision
+{
+   class Histogram
 {
     public:
+        Histogram();
+        ~Histogram();
         /**
         * \brief 求图像的直方图
         * \param img 输入图像
@@ -32,5 +36,7 @@ class Histogram
     protected:
     private:
 };
+}
+
 
 #endif // HISTOGRAM_H
