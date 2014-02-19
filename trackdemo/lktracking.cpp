@@ -36,10 +36,11 @@ void lktracking::ncc_filter(const Matrix  &input1,const Matrix  &input2)
         rect.X=frame2Feature[i].X-2;
         rect.Y=frame2Feature[i].Y-2;
         Pick::Rectangle(input2,rect,patch2);
+        assert(v1.GetData()==patch1.GetData());
         itr_math::StatisticsObj->Mean(patch1.GetData(),length,mean1);
         itr_math::StatisticsObj->Mean(patch2.GetData(),length,mean2);
         itr_math::CalculateObj->Offset(v1.GetData(),-mean1,length,v1.GetData());
-        itr_math::CalculateObj->Offset(v1.GetData(),-mean2,length,v2.GetData());
+        itr_math::CalculateObj->Offset(v2.GetData(),-mean2,length,v2.GetData());
         itr_math::CalculateObj->Normalization(v1.GetData(),length,v1.GetData());
         itr_math::CalculateObj->Normalization(v2.GetData(),length,v2.GetData());
         dist[i]=v1*v2;
@@ -48,11 +49,13 @@ void lktracking::ncc_filter(const Matrix  &input1,const Matrix  &input2)
     itr_math::StatisticsObj->Median(dist,FeatureNum,median);
     for (i = 0; i <FeatureNum; ++i)
     {
-        if(dist[i]>median)
+        printf("%f ",dist[i]);
+        if((dist[i]-median)<-0.1)
         {
             frame2Feature[i].Quality=-LKTracker::NCCError;
         }
     }
+    //getchar();
 }
 
 void lktracking::pairdistance(const vector<Point2D> &feature,vector<F32> &dist)
@@ -129,7 +132,7 @@ bool lktracking::Go(const Matrix &current,RectangleS &rect,F32 &Vx,F32 &Vy)
     ///Filter
     if(FeatureNum>0)
     {
-        fb_filter();
+        //fb_filter();
         ncc_filter(tracker.last->img[0],tracker.current->img[0]);
     }
     if(false)

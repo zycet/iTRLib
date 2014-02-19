@@ -109,10 +109,10 @@ void Vector::Init(S32 Dim)
  {
     assert(CalculateObj!=NULL);
     assert(Dim > 0);
-    data = new F32[Dim]();
+    assert(data==NULL);
+    data=Data;
     assert(data!=NULL);
     dim = Dim;
-    MemoryCopy(data,Data,Dim*sizeof(F32));
     localData = false;
  }
 void Vector::CopyFrom(S32 Offset, S32 Num, F32* Data)

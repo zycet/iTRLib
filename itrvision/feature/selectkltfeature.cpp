@@ -129,7 +129,7 @@ namespace itr_vision
         std::sort(featurelist.begin(), featurelist.begin()+npoints, std::greater<CommFeaturePoint>());
         --mindist;
         //增大最小间距
-        int count=0;
+        int count=start;
         {
             featptr = featurelist.begin();
             vector<CommFeaturePoint>::iterator flindex = featureOutput.begin()+start;

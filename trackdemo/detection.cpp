@@ -6,7 +6,7 @@ Detection::Detection(const Matrix &current,RectangleS &rect,S32 num):
     dataPos(num,FeatureNum),dataNeg(num,FeatureNum),sample(16,16)
 {
     Num=num;
-    Range=10;
+    Range=15;
     Train(current,rect);
 }
 void Detection::Train(const Matrix &current,RectangleS &rect)
@@ -14,7 +14,7 @@ void Detection::Train(const Matrix &current,RectangleS &rect)
     RectangleS rects[20]=RectangleS(100,100,300,300);
     GenRect::genrectin(rect,rects,Num);
     Matrix img(current);
-    conv._KLTComputeSmoothedImage(current,1.5,img);
+    conv._KLTComputeSmoothedImage(current,2.5,img);
     for(int i=0; i<Num; ++i)
     {
         Pick::Rectangle(img,rects[i],patch);
@@ -23,8 +23,8 @@ void Detection::Train(const Matrix &current,RectangleS &rect)
     }
     nbc.TrainPos(dataPos);
 
-    GenRect::genrectout(rect,rects,Num);
-    for(int i=0; i<Num; ++i)
+    GenRect::genrectout(rect,rects,Num/2);
+    for(int i=0; i<Num/2; ++i)
     {
         Pick::Rectangle(img,rects[i],patch);
         Scale::Bilinear(patch,sample);
@@ -34,10 +34,10 @@ void Detection::Train(const Matrix &current,RectangleS &rect)
 }
 bool Detection::Go(const Matrix &current,RectangleS &rect)
 {
-    int start = clock() / 1000;
+    TimeClock clock;
     RectangleS  recttmp(rect.X,rect.Y,rect.Width,rect.Height);
     Matrix img(current);
-    conv._KLTComputeSmoothedImage(current,1.5,img);
+    conv._KLTComputeSmoothedImage(current,2.5,img);
     F32 result=-100,best=-99999;
     F32 x,y;
     for(int i=rect.X-Range; i<rect.X+Range; i+=1)
@@ -59,9 +59,9 @@ bool Detection::Go(const Matrix &current,RectangleS &rect)
         return false;
     rect.X=x;
     rect.Y=y;
-    Train(current,rect);
+    //Train(current,rect);
     printf("Detect:%f,%f; %f\n",x,y,best);
-    printf("Detection Time: %d",(clock() / 1000 - start));
+    printf("Detection Time: %d",clock.Tick());
     printf("\n*****End  Detection !*****\n\n");
     return true;
 }
