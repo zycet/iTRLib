@@ -389,7 +389,7 @@ Matrix Matrix::operator=(const Matrix& Mat)
     assert(row == Mat.row);
     assert(col == Mat.col);
     this->CopyFrom(Mat.data);
-    //(*this).CopyFrom(Mat.data);
+    // (*this).CopyFrom(Mat.data);
     return *this;
 }
 Vector Matrix::operator*(const Vector& vec) const
@@ -773,5 +773,33 @@ void Matrix::Svdcmp(itr_math::Vector &w, itr_math::Matrix &v)
     }
    // free_dvector(rv1,1,n);
 }
+void virtual Matrix::pinv(Matrix &MatResult) const
+{
+    assert(row>0);
+    assert(col>0);
+    assert(row<=col);
+    Matrix V(col,col),A(row,col,data),U(row,row);
+    Vector s(col);
+    A.Svdcmp(s,V);
+    for(S32 j=0; j<row; j++)
+        for(S32 k=0; k<col; k++)
+            U(j,k)=A(j,k);
+    F32 tm;
+    S32 i;
+    for( i=0; i<col; i++)
+    {
+        if(s[i]==0)
+            break;
+    }
+    if(i==0)
+        MatResult.Set(0);
+    else
+    {
+        for(S32 j=0;j<i;j++)
+            s[j]=1/s[j];
+        Matrix S(i,i),Vt(col,i),Ut(i,row);
+        S.SetDiag(s.GetData());
+        F32 calcBuffer[col];
+    }
 }
 // namespace itr_math
