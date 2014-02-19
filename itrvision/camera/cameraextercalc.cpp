@@ -21,9 +21,7 @@ namespace itr_vision
         this->T=other.T;
         this->N=other.N;
     }
-    /**
-            * \brief 使用两组特征点通过RANSAC计算单应性矩阵(H)
-            */
+
     BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num)
     {
         Calculate CalculateObj;
@@ -329,13 +327,17 @@ namespace itr_vision
             }
         }//end of RANSAC
         H=best_H;
+        H.AllMul(1/H(2,2));
         return true;
     }
             /**
-            * \brief 通过给定的相机内参数和深度参数D计算运动参数(R,T,N)
+            * \brief 通过给定的相机内参数和深度参数D计算运动参数(R,T,N,V)
             * \param CameraInterPara 相机内参数
             * \param D 深度(单位:米)
             * \note 此计算步骤需已完成单应性矩阵计算(既已成功调用CalcHV())
             */
-    BOOL CalcMotion(CameraInterCalc &CameraInterPara,F32 D);
+    BOOL CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
+    {
+
+    }
 }

@@ -208,7 +208,13 @@ public:
      * /param v:存储向量V，注意不是V的转置
      * /param 注意：生成的U替换为A，即改变原矩阵。
      */
-    void Svdcmp(Vector &w, itr_math::Matrix &v);
+
+    void Svdcmp(Vector &w, Matrix &v);
+    /**
+     * /brief求矩阵广义逆
+     * /param MatResult 所得的结果
+     */
+    void virtual pinv(Matrix &MatResult) const;
     /*
      * 求矩阵转置并将结果放至MatResult
      */
@@ -224,7 +230,8 @@ public:
     */
     Matrix virtual Tran() const;
     /**
-    * /brief 求矩阵tr
+    * /brief 求矩阵的迹
+    * /param K 矩阵的迹
     */
     void virtual Tr(F32 K)
     {
