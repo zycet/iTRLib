@@ -12,7 +12,7 @@ FeatureMatch::~FeatureMatch()
     //dtor
 }
 void FeatureMatch::FeatureMatchDo(VectorFeaturePoint vectorfeaturepoint1[],S32 num1,
-            VectorFeaturePoint vectorfeaturepoint2[],S32 num2,S32 matchnum,Point2D pos1[],Point2D pos2[])
+                                  VectorFeaturePoint vectorfeaturepoint2[],S32 num2,S32 matchnum,Point2D pos1[],Point2D pos2[])
 {
 
     F32 valuet[num1>num2?num1:num2];
@@ -42,7 +42,7 @@ void FeatureMatch::FeatureMatchDo(VectorFeaturePoint vectorfeaturepoint1[],S32 n
             vectorfeaturepoint1[i].ID= -1;
         }
         if(i>0&&vectorfeaturepoint1[i].ID!= -1)
-            for(S32 j=0;j<i;j++)
+            for(S32 j=0; j<i; j++)
                 if(vectorfeaturepoint1[j].ID!=-1&&vectorfeaturepoint1[i].X==vectorfeaturepoint1[j].X&&vectorfeaturepoint1[i].Y==vectorfeaturepoint1[j].Y)
                     vectorfeaturepoint1[i].ID= -1;
     }
@@ -64,7 +64,7 @@ void FeatureMatch::FeatureMatchDo(VectorFeaturePoint vectorfeaturepoint1[],S32 n
             vectorfeaturepoint2[i].ID=-1;
         }
         if(i>0&&vectorfeaturepoint2[i].ID!=-1)
-            for(S32 j=0;j<i;j++)
+            for(S32 j=0; j<i; j++)
                 if(vectorfeaturepoint2[j].ID!=-1&&vectorfeaturepoint2[i].X==vectorfeaturepoint2[j].X&&vectorfeaturepoint2[i].Y==vectorfeaturepoint2[j].Y)
                     vectorfeaturepoint2[i].ID=-1;
     }

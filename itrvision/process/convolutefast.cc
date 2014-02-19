@@ -38,80 +38,80 @@
 
 namespace itr_vision
 {
-    ConvoluteFast::ConvoluteFast()
-    {
-        this->colN=0;
-        this->rowN=0;
-        this->filterN=0;
-        this->calcBuffer=NULL;
-    }
+ConvoluteFast::ConvoluteFast()
+{
+    this->colN=0;
+    this->rowN=0;
+    this->filterN=0;
+    this->calcBuffer=NULL;
+}
 
-    ConvoluteFast::~ConvoluteFast()
+ConvoluteFast::~ConvoluteFast()
+{
+    if(this->calcBuffer!=NULL)
     {
-        if(this->calcBuffer!=NULL)
+        delete this->calcBuffer;
+    }
+}
+
+void ConvoluteFast::Init(S32 FilterN, S32 ColN, S32 RowN)
+{
+    assert(FilterN>0);
+    assert(IS_ODD(FilterN));
+    assert(ColN>=FilterN);
+    assert(RowN>=FilterN);
+    assert(this->calcBuffer==NULL);
+    this->calcBuffer=new F32[RowN];
+    this->colN=ColN;
+    this->rowN=RowN;
+    this->filterN=FilterN;
+    this->temp=new Matrix(RowN,ColN);
+}
+
+void ConvoluteFast::Convolute(const Matrix &Input, F32 *Filter, Matrix &Output)
+{
+    ConvoluteHoriz(Input,Filter,*temp);
+    ConvoluteVert(*temp,Filter,Output);
+}
+
+void ConvoluteFast::ConvoluteHoriz(const Matrix &Input, F32 *Filter, Matrix &Output)
+{
+    S32 r = (filterN -1)/2;
+    F32 tempmal=0;
+    F32* Finput =Input.GetData();
+    F32* FinputP;
+    S32 pos=0;
+    S32 colN_r=colN - r;
+    for(S32 row =0; row<rowN; row++)
+    {
+        FinputP=Finput+pos-r;
+        for(S32 col =r; col<colN_r; col++)
         {
-            delete this->calcBuffer;
+            itr_math::CalculateObj->MultiSum(FinputP+col, Filter, filterN, tempmal);
+            Output[pos+col] =tempmal;
         }
+        pos+= colN;
     }
+}
 
-    void ConvoluteFast::Init(S32 FilterN, S32 ColN, S32 RowN)
+void ConvoluteFast::ConvoluteVert(const Matrix &Input, F32 *Filter, Matrix &Output)
+{
+    S32 r = (filterN -1)/2;
+    F32 tempmal=0;
+    S32 pos0=r*colN;
+    S32 pos=pos0;
+    for(S32 col=0; col<colN; col++)
     {
-        assert(FilterN>0);
-        assert(IS_ODD(FilterN));
-        assert(ColN>=FilterN);
-        assert(RowN>=FilterN);
-        assert(this->calcBuffer==NULL);
-        this->calcBuffer=new F32[RowN];
-        this->colN=ColN;
-        this->rowN=RowN;
-        this->filterN=FilterN;
-        this->temp=new Matrix(RowN,ColN);
-    }
-
-    void ConvoluteFast::Convolute(const Matrix &Input, F32 *Filter, Matrix &Output)
-    {
-        ConvoluteHoriz(Input,Filter,*temp);
-        ConvoluteVert(*temp,Filter,Output);
-    }
-
-    void ConvoluteFast::ConvoluteHoriz(const Matrix &Input, F32 *Filter, Matrix &Output)
-    {
-        S32 r = (filterN -1)/2;
-        F32 tempmal=0;
-        F32* Finput =Input.GetData();
-        F32* FinputP;
-        S32 pos=0;
-        S32 colN_r=colN - r;
-        for(S32 row =0; row<rowN; row++)
+        pos = pos0+col;
+        Input.CopyColTo(col, calcBuffer);
+        for(S32 row =r; row<rowN-r; row++)
         {
-            FinputP=Finput+pos-r;
-            for(S32 col =r; col<colN_r; col++)
-            {
-                itr_math::CalculateObj->MultiSum(FinputP+col, Filter, filterN, tempmal);
-                Output[pos+col] =tempmal;
-            }
-            pos+= colN;
+            itr_math::CalculateObj->MultiSum(calcBuffer+row-r, Filter, filterN, tempmal);
+            Output[pos] =tempmal;
+            pos+=colN;
         }
-    }
 
-    void ConvoluteFast::ConvoluteVert(const Matrix &Input, F32 *Filter, Matrix &Output)
-    {
-        S32 r = (filterN -1)/2;
-        F32 tempmal=0;
-        S32 pos0=r*colN;
-        S32 pos=pos0;
-        for(S32 col=0; col<colN; col++)
-        {
-            pos = pos0+col;
-            Input.CopyColTo(col, calcBuffer);
-            for(S32 row =r; row<rowN-r; row++)
-            {
-                itr_math::CalculateObj->MultiSum(calcBuffer+row-r, Filter, filterN, tempmal);
-                Output[pos] =tempmal;
-                pos+=colN;
-            }
-
-        }
     }
+}
 }
 
