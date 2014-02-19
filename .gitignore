@@ -7,6 +7,7 @@ obj/
 *.depend
 *.save
 *.cbTemp
+*.txt
 
 !/doc/
 !/reference/
@@ -17,3 +18,10 @@ obj/
 !*.h
 !*.hpp
 !*.cbp
+/ColorTrackDemo/1.pgm
+/ColorTrackDemo/2.pgm
+/ColorTrackDemo/3.pgm
+/ColorTrackDemo/convert
+/ColorTrackDemo/convert.cpp
+/ColorTrackDemo/img0.ppm
+/ColorTrackDemo/img162.ppm

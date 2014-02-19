@@ -42,6 +42,7 @@
 #include <stdio.h>
 #include <math.h>
 #define NR_END 0
+#define tol  0.00001
 #define FREE_ARG char*
 #define SIGN(a,b) ((b) >= 0.0 ? fabs(a) : -fabs(a))
 static F32 dmaxarg1,dmaxarg2;
@@ -791,7 +792,7 @@ void  Matrix::pinv(Matrix &MatResult) const
     Matrix A(row,col,data),U(row,row);
     Vector s(col);
 
-    printf("matrix A(aft in) :\n");
+    printf("matrix A :\n");
     printmat(A);
 
     A.Svdcmp(s,V);
@@ -799,11 +800,11 @@ void  Matrix::pinv(Matrix &MatResult) const
         for(S32 k=0; k<col; k++)
             U(j,k)=A(j,k);
 
-    F32 tm;
+    //F32 tm;
     S32 i;
     for( i=0; i<col; i++)
     {
-        if(s[i]==0)
+        if(fabs(s[i])<tol)
             break;
     }
     if(i==0)
@@ -824,11 +825,10 @@ void  Matrix::pinv(Matrix &MatResult) const
             At.CopyTo(0,0,row,i,Ut.GetData());
 
             MatResult=Vt*S*Ut;
-        printf("matrix V :\n");
+            printf("matrix V :\n");
             printmat(V);
-            printf("matrix Vt :\n");
-            printmat(Vt);
-            printf("matrix A :\n");
+            printf("matrix S :\n");
+            printmat(S);
             printmat(A);
             printf("matrix At :\n");
             printmat(At);
@@ -836,7 +836,7 @@ void  Matrix::pinv(Matrix &MatResult) const
             printmat(U);
             printf("matrix Ut :\n");
             printmat(Ut);
-            printf("matrix X :\n");
+            printf("matrix pinv :\n");
             printmat(MatResult);
 
     }

@@ -32,7 +32,7 @@ int main()
                    0,1,0,0};
     kf.F_x.CopyFrom(data);
     Matrix Hx(2,4),Hv(2,4),R(2,2);
-    R.SetDiag(1.012306);
+    R.SetDiag(20.012306);
     Hx.CopyFrom(data+16);
     Hv.CopyFrom(data+8);
     Vector z(2),X(4),v(2);
@@ -60,8 +60,8 @@ int main()
             X=kf.UpdateMeasure(Hv,R,z);
 
         }
-        rect.X=kf.x[0];
-        rect.Y=kf.x[1];
+        rect.X=X[0];
+        rect.Y=X[1];
 
 //        if(detection.Go(current,rect))
 //        {

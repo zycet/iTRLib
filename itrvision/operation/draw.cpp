@@ -34,149 +34,149 @@
 #include "draw.h"
 namespace itr_vision
 {
-    void Draw::Circle(itr_math::Matrix &Img, S32 x, S32 y, S32 r, S16 color)
+void Draw::Circle(itr_math::Matrix &Img, S32 x, S32 y, S32 r, S16 color)
+{
+    int i, j;
+    int width = Img.GetCol();
+    int height = Img.GetRow();
+    for (i = -r; i < r; i++)
     {
-        int i, j;
-        int width = Img.GetCol();
-        int height = Img.GetRow();
-        for (i = -r; i < r; i++)
-        {
-            j = sqrt(r * r - i * i);
-            Img((j + y + height) % height, (i + x + width) % width) = color;
-            Img((-j + y + height) % height, (i + x + width) % width) = color;
-            Img((i + y + height) % height, (j + x + width) % width) = color;
-            Img((i + y + height) % height, (-j + x + width) % width) = color;
-        }
+        j = sqrt(r * r - i * i);
+        Img((j + y + height) % height, (i + x + width) % width) = color;
+        Img((-j + y + height) % height, (i + x + width) % width) = color;
+        Img((i + y + height) % height, (j + x + width) % width) = color;
+        Img((i + y + height) % height, (-j + x + width) % width) = color;
     }
-    void Draw::Circle(ImageARGB &Img, S32 x, S32 y, S32 r, U32 color)
+}
+void Draw::Circle(ImageARGB &Img, S32 x, S32 y, S32 r, U32 color)
+{
+    int i, j;
+    int width = Img.GetWidth();
+    int height = Img.GetHeight();
+    for (i = -r; i < r; i++)
     {
-        int i, j;
-        int width = Img.GetWidth();
-        int height = Img.GetHeight();
-        for (i = -r; i < r; i++)
-        {
-            j = sqrt(r * r - i * i);
-            Img((j + y + height) % height, (i + x + width) % width) = color;
-            Img((-j + y + height) % height, (i + x + width) % width) = color;
-            Img((i + y + height) % height, (j + x + width) % width) = color;
-            Img((i + y + height) % height, (-j + x + width) % width) = color;
-        }
+        j = sqrt(r * r - i * i);
+        Img((j + y + height) % height, (i + x + width) % width) = color;
+        Img((-j + y + height) % height, (i + x + width) % width) = color;
+        Img((i + y + height) % height, (j + x + width) % width) = color;
+        Img((i + y + height) % height, (-j + x + width) % width) = color;
     }
+}
 
-    void Draw::LineOffset(Matrix &Img, S32 X, S32 Y, S32 offsetx, S32 offsety, S16 color)
-    {
-        float l = sqrt(offsetx * offsetx + offsety * offsety);
-        float x = X, y = Y;
+void Draw::LineOffset(Matrix &Img, S32 X, S32 Y, S32 offsetx, S32 offsety, S16 color)
+{
+    float l = sqrt(offsetx * offsetx + offsety * offsety);
+    float x = X, y = Y;
 //        printf("X:(%d,%d)\nU:(%d,%d)\n",X,Y,offsetx,offsety);
-        for (int i = 0; i < l; ++i)
-        {
-            x += (offsetx / l);
-            y += (offsety / l);
-//                printf("%f,%f  ",x,y);
-            Img((int) y, (int) x) = color;
-        }
-    }
-    void Draw::LineOffset(ImageARGB &Img, S32 x, S32 y, S32 offsetx, S32 offsety, U32 color)
+    for (int i = 0; i < l; ++i)
     {
-        int i, j;
-        if (offsetx == 0)
+        x += (offsetx / l);
+        y += (offsety / l);
+//                printf("%f,%f  ",x,y);
+        Img((int) y, (int) x) = color;
+    }
+}
+void Draw::LineOffset(ImageARGB &Img, S32 x, S32 y, S32 offsetx, S32 offsety, U32 color)
+{
+    int i, j;
+    if (offsetx == 0)
+    {
+        if (offsety >= 0)
         {
-            if (offsety >= 0)
+            for (i = 0; i <= offsety; i++)
             {
-                for (i = 0; i <= offsety; i++)
-                {
-                    Img(y + i, x) = color;
-                }
-            }
-            else
-            {
-                for (i = 0; i >= offsety; i--)
-                {
-                    Img(y + i, x) = color;
-                }
+                Img(y + i, x) = color;
             }
         }
         else
         {
-            j = offsety / offsetx;
-            if (offsetx >= 0)
+            for (i = 0; i >= offsety; i--)
             {
-                for (i = 0; i <= offsetx; i++)
-                {
-                    Img(y + i * j, x + i) = color;
-                }
+                Img(y + i, x) = color;
             }
-            else
-            {
-                for (i = 0; i >= offsetx; i--)
-                {
-                    Img(y + i * j, x + i) = color;
-                }
-            }
-
         }
     }
-    void Draw::Line(Matrix &Img, S32 beginx, S32 beginy, S32 endx, S32 endy, S16 color)
+    else
     {
-        int i, j;
-        i = endx - beginx;
-        j = endy - beginy;
-        LineOffset(Img, beginx, beginy, i, j, color);
-    }
-    void Draw::Line(ImageARGB &Img, S32 beginx, S32 beginy, S32 endx, S32 endy, U32 color)
-    {
-        int i, j;
-        i = endx - beginx;
-        j = endy - beginy;
-        LineOffset(Img, beginx, beginy, i, j, color);
-    }
-    void Draw::Cross(Matrix &bmp, S32 x, S32 y, S32 scale, S16 color)
-    {
-        LineOffset(bmp, x, y, 0, scale, color);
-        LineOffset(bmp, x, y, 0, -scale, color);
-        LineOffset(bmp, x, y, scale, 0, color);
-        LineOffset(bmp, x, y, -scale, 0, color);
-    }
-    void Draw::Cross(ImageARGB &bmp, S32 x, S32 y, S32 scale, U32 color)
-    {
-        LineOffset(bmp, x, y, 0, scale, color);
-        LineOffset(bmp, x, y, 0, -scale, color);
-        LineOffset(bmp, x, y, scale, 0, color);
-        LineOffset(bmp, x, y, -scale, 0, color);
-    }
-    void Draw::Rectangle(Matrix &Img, RectangleS rect, S16 color)
-    {
-        LineOffset(Img, rect.X, rect.Y, rect.Width, 0, color);
-        LineOffset(Img, rect.X, rect.Y, 0, rect.Height, color);
-        LineOffset(Img, rect.X + rect.Width, rect.Y, 0, rect.Height, color);
-        LineOffset(Img, rect.X, rect.Y + rect.Height, rect.Width, 0, color);
-    }
-    void Draw::Rectangle(ImageARGB &Img, RectangleS rect, U32 color)
-    {
-        LineOffset(Img, rect.X, rect.Y, rect.Width, 0, color);
-        LineOffset(Img, rect.X, rect.Y, 0, rect.Height, color);
-        LineOffset(Img, rect.X + rect.Width, rect.Y, 0, rect.Height, color);
-        LineOffset(Img, rect.X, rect.Y + rect.Height, rect.Width, 0, color);
-    }
-
-    void Draw::Correspond(const Matrix &Img1, const Matrix &Img2,
-                          const vector<Point2D> &feature1, const vector<Point2D> &feature2,S32 FeatureNum,
-                          Matrix &Result)
-    {
-        Result.Init(Img1.GetRow() , Img1.GetCol()* 2 + 10);
-        int offset = Img1.GetCol() + 10;
-        for (int i = 0; i < Img1.GetCol(); i++)
-            for (int j = 0; j < Img1.GetRow(); j++)
-            {
-                Result(j, i) = Img1(j, i);
-                Result(j, i + offset) = Img2(j, i);
-            }
-        for (int i = 0; i < FeatureNum; i++)
+        j = offsety / offsetx;
+        if (offsetx >= 0)
         {
-            Line(Result, feature1[i].X, feature1[i].Y, feature2[i].X + offset, feature2[i].Y,
-                    255);
-            Circle(Result,feature1[i].X, feature1[i].Y,2,255);
-            Circle(Result,feature2[i].X + offset, feature2[i].Y,2,255);
+            for (i = 0; i <= offsetx; i++)
+            {
+                Img(y + i * j, x + i) = color;
+            }
         }
+        else
+        {
+            for (i = 0; i >= offsetx; i--)
+            {
+                Img(y + i * j, x + i) = color;
+            }
+        }
+
     }
+}
+void Draw::Line(Matrix &Img, S32 beginx, S32 beginy, S32 endx, S32 endy, S16 color)
+{
+    int i, j;
+    i = endx - beginx;
+    j = endy - beginy;
+    LineOffset(Img, beginx, beginy, i, j, color);
+}
+void Draw::Line(ImageARGB &Img, S32 beginx, S32 beginy, S32 endx, S32 endy, U32 color)
+{
+    int i, j;
+    i = endx - beginx;
+    j = endy - beginy;
+    LineOffset(Img, beginx, beginy, i, j, color);
+}
+void Draw::Cross(Matrix &bmp, S32 x, S32 y, S32 scale, S16 color)
+{
+    LineOffset(bmp, x, y, 0, scale, color);
+    LineOffset(bmp, x, y, 0, -scale, color);
+    LineOffset(bmp, x, y, scale, 0, color);
+    LineOffset(bmp, x, y, -scale, 0, color);
+}
+void Draw::Cross(ImageARGB &bmp, S32 x, S32 y, S32 scale, U32 color)
+{
+    LineOffset(bmp, x, y, 0, scale, color);
+    LineOffset(bmp, x, y, 0, -scale, color);
+    LineOffset(bmp, x, y, scale, 0, color);
+    LineOffset(bmp, x, y, -scale, 0, color);
+}
+void Draw::Rectangle(Matrix &Img, RectangleS rect, S16 color)
+{
+    LineOffset(Img, rect.X, rect.Y, rect.Width, 0, color);
+    LineOffset(Img, rect.X, rect.Y, 0, rect.Height, color);
+    LineOffset(Img, rect.X + rect.Width, rect.Y, 0, rect.Height, color);
+    LineOffset(Img, rect.X, rect.Y + rect.Height, rect.Width, 0, color);
+}
+void Draw::Rectangle(ImageARGB &Img, RectangleS rect, U32 color)
+{
+    LineOffset(Img, rect.X, rect.Y, rect.Width, 0, color);
+    LineOffset(Img, rect.X, rect.Y, 0, rect.Height, color);
+    LineOffset(Img, rect.X + rect.Width, rect.Y, 0, rect.Height, color);
+    LineOffset(Img, rect.X, rect.Y + rect.Height, rect.Width, 0, color);
+}
+
+void Draw::Correspond(const Matrix &Img1, const Matrix &Img2,
+                      const vector<Point2D> &feature1, const vector<Point2D> &feature2,S32 FeatureNum,
+                      Matrix &Result)
+{
+    Result.Init(Img1.GetRow() , Img1.GetCol()* 2 + 10);
+    int offset = Img1.GetCol() + 10;
+    for (int i = 0; i < Img1.GetCol(); i++)
+        for (int j = 0; j < Img1.GetRow(); j++)
+        {
+            Result(j, i) = Img1(j, i);
+            Result(j, i + offset) = Img2(j, i);
+        }
+    for (int i = 0; i < FeatureNum; i++)
+    {
+        Line(Result, feature1[i].X, feature1[i].Y, feature2[i].X + offset, feature2[i].Y,
+             255);
+        Circle(Result,feature1[i].X, feature1[i].Y,2,255);
+        Circle(Result,feature2[i].X + offset, feature2[i].Y,2,255);
+    }
+}
 } // namespace itr_vision

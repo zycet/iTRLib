@@ -130,6 +130,8 @@ namespace itr_vision
         --mindist;
         //增大最小间距
         int count=start;
+        //增大最小间距
+
         {
             featptr = featurelist.begin();
             vector<CommFeaturePoint>::iterator flindex = featureOutput.begin()+start;

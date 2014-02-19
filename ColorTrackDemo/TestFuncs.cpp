@@ -150,13 +150,21 @@ void TestTrack(istream &infile,S32 Width,S32 Height)
     Binarization BObject;
     ConnectedAnalysis CAObject;
     vector<Block> blocks;
+
     Matrix H( Height,Width);
     Matrix S( Height,Width);
     Matrix L( Height,Width);
+
+    Matrix Input(Width, Height);
+    const S32 size = Width*Height;
+    F32 Data[size];
+
+
     /*1.read from file to Matrix
     /*2.Binarization
     /*3.ConnectedAnalysis
     /*4.Output the target coordinate*/
+
 
     ReadFromFile(infile,H.GetData(),S.GetData(),L.GetData(),Width*Height);
     //itr_vision::IOpnm::ReadPPMFile("img82.ppm",Input);
@@ -175,5 +183,8 @@ void TestTrack(istream &infile,S32 Width,S32 Height)
     itr_vision::IOpnm::WritePGMFile("3.pgm",H);
     CAObject.Contour(H,blocks);
     // PrintMatrix(Input);
+
     PrintTargetInfo(blocks[1]);//打印第二大联通域中心，即目标中心
+    for(int i = 0;i<blocks.size();i++)
+        cout << blocks[i].Area<<endl;
 }

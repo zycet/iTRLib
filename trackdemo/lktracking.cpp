@@ -45,12 +45,10 @@ void lktracking::ncc_filter(const Matrix  &input1,const Matrix  &input2)
         itr_math::CalculateObj->Normalization(v2.GetData(),length,v2.GetData());
         dist[i]=v1*v2;
     }
-    F32 median;
-    itr_math::StatisticsObj->Median(dist,FeatureNum,median);
+
     for (i = 0; i <FeatureNum; ++i)
     {
-        printf("%f ",dist[i]);
-        if((dist[i]-median)<-0.1)
+        if(dist[i]<0.8)
         {
             frame2Feature[i].Quality=-LKTracker::NCCError;
         }
@@ -132,7 +130,7 @@ bool lktracking::Go(const Matrix &current,RectangleS &rect,F32 &Vx,F32 &Vy)
     ///Filter
     if(FeatureNum>0)
     {
-        //fb_filter();
+        fb_filter();
         ncc_filter(tracker.last->img[0],tracker.current->img[0]);
     }
     if(false)
