@@ -55,6 +55,8 @@
 		<Unit filename="drawtest.h" />
 		<Unit filename="genrecttest.cpp" />
 		<Unit filename="genrecttest.h" />
+		<Unit filename="hessiantest.cpp" />
+		<Unit filename="hessiantest.h" />
 		<Unit filename="integralimgtest.cc" />
 		<Unit filename="integralimgtest.h" />
 		<Unit filename="iohelper.cpp" />
@@ -68,6 +70,8 @@
 		<Unit filename="processtest.h" />
 		<Unit filename="rotatetest.cpp" />
 		<Unit filename="rotatetest.h" />
+		<Unit filename="surftest.cc" />
+		<Unit filename="surftest.h" />
 		<Extensions>
 			<code_completion>
 				<search_path add="../itrvision" />

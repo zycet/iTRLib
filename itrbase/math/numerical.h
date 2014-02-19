@@ -45,15 +45,67 @@ public:
 
     Numerical();
     virtual ~Numerical();
+    /**
+    * \brief 求正弦值
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL Sin(F32 Source, F32& Result) const;
+    /**
+    * \brief 求余弦值
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL Cos(F32 Source, F32& Result) const;
+    /**
+    * \brief 求正弦值和余弦值
+    * \param Source 输入
+    * \param ResultSin 正弦结果
+    * \param ResultCos 余弦结果
+    */
     virtual BOOL SinCos(F32 Source, F32& ResultSin, F32& ResultCos) const;
+    /**
+    * \brief 求正切值
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL Tan(F32 Source, F32& Result) const;
+    /**
+    * \brief 求反正弦值
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL Asin(F32 Source, F32& Result) const;
+    /**
+    * \brief 求反余弦值
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL Acos(F32 Source, F32& Result) const;
+    /**
+    * \brief 求反正切值
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL Atan(F32 Source, F32& Result) const;
+    /**
+    * \brief 求反正切值
+    * \param SourceA 输入A
+    * \param SourceB 输入B
+    * \param Result 结果
+    */
     virtual BOOL Atan2(F32 SourceA, F32 SourceB, F32& Result) const;
+    /**
+    * \brief 求开方值
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL Sqrt(F32 Source, F32& Result) const;
+    /**
+    * \brief 求开方值的倒数
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL InvSqrt(F32 Source, F32& Result) const;
     virtual BOOL Exp(F32 Source, F32& Result) const;
     virtual BOOL Log(F32 Source, F32& Result) const;
