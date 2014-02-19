@@ -363,26 +363,26 @@ void Matrix::Mul(const Matrix& Mat, Matrix& MatResult) const
 Matrix Matrix::operator*(const Matrix& Mat) const
 {
     assert(Mat.row == col);
-    Matrix* MatResult = new Matrix(row, Mat.col);
-    Mul(Mat, *MatResult);
-    return *MatResult;
+    Matrix MatResult(row, Mat.col);
+    Mul(Mat, MatResult);
+    return MatResult;
 }
 
 Matrix Matrix::operator+(const Matrix& Mat) const
 {
     assert(row == Mat.row);
     assert(col == Mat.col);
-    Matrix* Result = new Matrix(*this);
-    (*Result).Add(Mat);
-    return *Result;
+    Matrix Result(*this);
+    Result.Add(Mat);
+    return Result;
 }
 Matrix Matrix::operator-(const Matrix& Mat) const
 {
     assert(row == Mat.row);
     assert(col == Mat.col);
-    Matrix* Result = new Matrix(*this);
-    (*Result).Sub(Mat);
-    return *Result;
+    Matrix Result(*this);
+    Result.Sub(Mat);
+    return Result;
 }
 Matrix Matrix::operator=(const Matrix& Mat)
 {
@@ -395,13 +395,13 @@ Matrix Matrix::operator=(const Matrix& Mat)
 Vector Matrix::operator*(const Vector& vec) const
 {
     assert(this->col==vec.GetDim());
-    Vector* VecResult = new Vector(this->row);
+    Vector VecResult(this->row);
     for (S32 i = 0; i < this->row; i++)
     {
         CalculateObj->MultiSum(this->data + i * this->col, vec.GetData(), vec.GetDim(),
-                               (*VecResult).GetData()[i]);
+                               VecResult.GetData()[i]);
     }
-    return *VecResult;
+    return VecResult;
 }
 //**********常用操作**********
 /*
@@ -491,9 +491,9 @@ BOOL Matrix::Inv(Matrix& MatResult) const
  */
 Matrix Matrix::Inv() const
 {
-    Matrix* MatResult = new Matrix(this->row,this->col);
-    if(Inv(*MatResult))
-        return *MatResult;
+    Matrix MatResult(this->row,this->col);
+    if(Inv(MatResult))
+        return MatResult;
     else
         return NULL;
 }
@@ -515,9 +515,9 @@ void Matrix::Tran(Matrix& MatResult) const
  */
 Matrix Matrix::Tran() const
 {
-    Matrix* TranAns = new Matrix(this->col,this->row);
-    Tran(*TranAns);
-    return *TranAns;
+    Matrix TranAns(this->col,this->row);
+    Tran(TranAns);
+    return TranAns;
 }
 /*******************************************************************************
 Singular value decomposition program, svdcmp, from "Numerical Recipes in C"
