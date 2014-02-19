@@ -428,8 +428,10 @@ void TestMatrix()
     VecSource.Set(1);
     assert(VecSource[0] == 1 && VecSource[1] == 1 && VecSource[2] == 1);
     printMatrix(Result);
-    printMatrix(Source1 * SourceEye);
+    //printMatrix(Source1);
+    //printMatrix(Source1 * SourceEye);
     Result = Source1 * SourceEye;    //乘单位阵
+    //printMatrix(Result);
     assert(Result.GetData()[0] == 1 && Result.GetData()[4] == 25 && Result.GetData()[8] == 81);
     Result.Set(0);
 

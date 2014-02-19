@@ -351,7 +351,7 @@ void Matrix::Mul(const Matrix& Mat, Matrix& MatResult) const
     F32* tempVectAns = new F32[MatResult.row];
     for (S32 i = 0; i < Mat.col; i++)
     {
-        MatResult.CopyColTo(i,tempVect);
+        Mat.CopyColTo(i,tempVect);
         for (S32 k = 0; k < MatResult.row; k++)
             CalculateObj->MultiSum(data + k * col, tempVect, Mat.row, tempVectAns[k]);
         MatResult.CopyColFrom(i , tempVectAns);
