@@ -309,6 +309,37 @@ void TestMatrix()
 {
     //Init
     itr_math::MathObjStandInit();
+    /////////
+    F32 dataaa1[16]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+    itr_math::Matrix A(4,4,dataaa1);
+    //itr_math::Matrix V(4,4);
+    //itr_math::Vector W(4);
+    //test svd   /////////////////////////////
+
+    /*Anew.Svdcmp(W,V);
+    printf("matrix V :\n");
+    printMatrix(V);
+    printf("vector W :\n");
+    printVector(W);
+    printf("matrix U :\n");
+    printMatrix(Anew);*/
+    //test pinv   /////////////////////////////
+
+    printf("************ pinv test ********************\n");
+    itr_math::Matrix X(4,4);
+    itr_math::Matrix B(4,4);
+
+    printf("matrix A (before) :\n");
+    printMatrix(A);
+
+    A.pinv(X);
+    B=X*A;
+
+    printf("matrix X :\n");
+    printMatrix(X);
+    printf("matrix B :\n");
+    printMatrix(B);
+printf("matrix B :\n");
     //测试数据
     /* 1   4  9
      * 16 25 36
@@ -547,7 +578,8 @@ void TestMatrix()
     printMatrix(GeneralMat);
     printArray(RowData,3);
     GeneralMat.CopyColTo(3,RowData);
-    /*printArray(RowData,3);*/
+    //printArray(RowData,3);
+
     TRACE_INFO("OK TestMatrix()");
     //Test:inline Řvoid virtual CopyColTo(S32 ColNo, F32* Data) const
     //printf("inline void virtual CopyColTo(S32 ColNo, F32* Data) const\n");

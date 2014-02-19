@@ -214,7 +214,7 @@ public:
      * /brief求矩阵广义逆
      * /param MatResult 所得的结果
      */
-    //void virtual pinv(Matrix &MatResult) const;
+    void virtual pinv(Matrix &MatResult) const;
     /*
      * 求矩阵转置并将结果放至MatResult
      */
@@ -226,7 +226,7 @@ public:
 
     void virtual Tran(Matrix& MatResult) const;
     /**
-    * /brief 求矩阵的逆
+    * /brief 求矩阵的转置
     */
     Matrix virtual Tran() const;
     /**
@@ -286,7 +286,7 @@ public:
         assert(Data!=NULL);
         for (S32 i = 0; i < Height; i++)
         {
-            MemoryCopy(data + RowPos  * (col+i) + ColPos, Data + i * Width, Width * sizeof(F32));
+            MemoryCopy(data +   col* (RowPos+i) + ColPos, Data + i * Width, Width * sizeof(F32));
         }
     }
     /**
@@ -315,7 +315,7 @@ public:
         assert(Data!=NULL);
         for (S32 i = 0; i < Height; i++)
         {
-            MemoryCopy(Data + i * Width, data + RowPos  * (col+i) + ColPos, Width * sizeof(F32));
+            MemoryCopy(Data + i * Width, data +  col * (RowPos+i) + ColPos, Width * sizeof(F32));
         }
     }
     /**

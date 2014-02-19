@@ -42,51 +42,12 @@
 #include"math.h"
 
 
-/*******************************************************************************
-Singular value decomposition program, svdcmp, from "Numerical Recipes in C"
-(Cambridge Univ. Press) by W.H. Press, S.A. Teukolsky, W.T. Vetterling,
-and B.P. Flannery
-*******************************************************************************/
-#include <stdlib.h>
-#include <stdio.h>
-#include <math.h>
-#define NR_END 0
-#define FREE_ARG char*
-#define SIGN(a,b) ((b) >= 0.0 ? fabs(a) : -fabs(a))
-static F32 dmaxarg1,dmaxarg2;
-#define DMAX(a,b) (dmaxarg1=(a),dmaxarg2=(b),(dmaxarg1) > (dmaxarg2) ?(dmaxarg1) : (dmaxarg2))
-static int iminarg1,iminarg2;
-#define IMIN(a,b) (iminarg1=(a),iminarg2=(b),(iminarg1) < (iminarg2) ?(iminarg1) : (iminarg2))
-/*F32 **dmatrix(int nrl, int nrh, int ncl, int nch)
-// allocate a F32 matrix with subscript range m[nrl..nrh][ncl..nch]
-{
-    int i,nrow=nrh-nrl+1,ncol=nch-ncl+1;
-    F32 **m;
-
-    m=(F32 **) malloc((size_t)((nrow+NR_END)*sizeof(F32*)));
-    m += NR_END;
-    m -= nrl;
- //  allocate rows and set pointers to them
-    m[nrl]=(F32 *) malloc((size_t)((nrow*ncol+NR_END)*sizeof(F32)));
-    m[nrl] += NR_END;
-    m[nrl] -= ncl;
-    for(i=nrl+1;i<=nrh;i++) m[i]=m[i-1]+ncol;
-    // return pointer to array of pointers to rows
-    return m;
-}*/
-/*F32 *dvector(int nl, int nh)
- allocate a F32 vector with subscript range v[nl..nh]
-{
-    F32 *v;
-    v=(F32 *)malloc((size_t) ((nh-nl+1+NR_END)*sizeof(F32)));
-    return v-nl+NR_END;
-}*/
 /*
-void free_dvector(itr_math::Vector v, int nl, int nh)
-// free a F32 vector allocated with dvector()
-{
-    free((FREE_ARG) (v+nl-NR_END));
-}   */
+//Singular value decomposition program, svdcmp, from "Numerical Recipes in C"
+//(Cambridge Univ. Press) by W.H. Press, S.A. Teukolsky, W.T. Vetterling,
+//and B.P. Flannery
+//////////////////////////////////////////////////////////////////////////////
+
 F32 pythag(F32 a, F32 b)
 // compute (a2 + b2)^1/2 without destructive underflow or overflow
 {
@@ -98,15 +59,15 @@ F32 pythag(F32 a, F32 b)
     else
         return (absb == 0.0 ? 0.0 : absb*sqrt(1.0+(absa/absb)*(absa/absb)));
 }
-/******************************************************************************/
+
 void svdcmp(itr_math::Matrix &a, itr_math::Vector &w, itr_math::Matrix &v)
-/*******************************************************************************
-Given a matrix a[1..m][1..n], this routine computes its singular value
-decomposition, A = U.W.VT.  The matrix U replaces a on output.  The diagonal
-matrix of singular values W is output as a vector w[1..n].  The matrix V (not
-the transpose VT) is output as v[1..n][1..n].
- * U 代替 A 作为输出；并以向量的形式输出W，输出 n*n 大小的V，没有输出V的转置。
-*******************************************************************************/
+
+//Given a matrix a[1..m][1..n], this routine computes its singular value
+//decomposition, A = U.W.VT.  The matrix U replaces a on output.  The diagonal
+//matrix of singular values W is output as a vector w[1..n].  The matrix V (not
+//the transpose VT) is output as v[1..n][1..n].
+// * U 代替 A 作为输出；并以向量的形式输出W，输出 n*n 大小的V，没有输出V的转置。
+//////////////////////////////////////////////////////////////////////////////////
 {
     S32 m=a.GetRow();
     S32 n=a.GetCol();
@@ -178,12 +139,7 @@ the transpose VT) is output as v[1..n][1..n].
         }
         anorm = DMAX(anorm,(fabs(w[i-1])+fabs(rv1[i-1])));
     }
-    /*printf("debug bidialog\n");
-    for(S32 i=0; i<m;i++)
-    {   for(S32 j=0; j<n;j++)
-            printf("%f\t",a(i,j));
-        printf("\n");
-    }*/
+
     for (i=n;i>=1;i--)
     { // Accumulation of right-hand transformations.
         if (i < n)
@@ -793,7 +749,7 @@ void testSVD(itr_math::Matrix &M)
 {
     SVD_dec(M);
 }
-
+*/
 
 
 int main()
@@ -801,26 +757,27 @@ int main()
     //Platform
     TestAssistMacro();
     TestDebugSupport();
-    //TestMemoryOperation();
+    TestMemoryOperation();
     TestTypedef();
     //Container
     TestCycleQueue();
     //Math
     TestMathInit();
-   // TestCalculate();
-    //TestNumerical();
-   // TestStatistics();
-    //TestVector();
+    TestCalculate();
+    TestNumerical();
+    TestStatistics();
+    TestVector();
 
     TestCalculateTest();
 
     TestMatrix();
-    //TestGeometry();
-    //TestTransform();
+    TestGeometry();
+    TestTransform();
     //Test Helper
-   // TestGaussianGenerate();
-    //TestCalcEff();
+    TestGaussianGenerate();
+    TestCalcEff();
     //Finish
+
 
     TestMathdeDeinit();
 

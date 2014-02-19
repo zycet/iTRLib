@@ -771,19 +771,34 @@ void Matrix::Svdcmp(itr_math::Vector &w, itr_math::Matrix &v)
             w[k-1]=x;
         }
     }
-   // free_dvector(rv1,1,n);
 }
-/*void virtual Matrix::pinv(Matrix &MatResult) const{}
+void printmat(Matrix M)
+{
+    S32 m=M.GetRow();
+    S32 n=M.GetCol();
+    for(S32 i=0;i<m;i++)
+    {    for(S32 j=0;j<n;j++)
+            printf("%f\t",M(i,j));
+        printf("\n");
+    }
+}
+void  Matrix::pinv(Matrix &MatResult) const
 {
     assert(row>0);
     assert(col>0);
-    assert(row<=col);
-    Matrix V(col,col),A(row,col,data),U(row,row);
+    assert(row>=col);
+    Matrix V(col,col);
+    Matrix A(row,col,data),U(row,row);
     Vector s(col);
+
+    printf("matrix A(aft in) :\n");
+    printmat(A);
+
     A.Svdcmp(s,V);
     for(S32 j=0; j<row; j++)
         for(S32 k=0; k<col; k++)
             U(j,k)=A(j,k);
+
     F32 tm;
     S32 i;
     for( i=0; i<col; i++)
@@ -800,10 +815,31 @@ void Matrix::Svdcmp(itr_math::Vector &w, itr_math::Matrix &v)
         Matrix S(i,i),Vt(col,i),Ut(i,row);
         S.SetDiag(s.GetData());
         F32 calcBuffer[col];
-        for(S32 j=0;j<i;j++)
-        {
 
-        }
-    }*/
+
+            //ColExtract(V.GetData(), i, col, row, calcBuffer);
+            V.CopyTo(0,0,i,col,Vt.GetData());
+            Matrix At(U.GetCol(),U.GetRow());
+            U.Tran(At);
+            At.CopyTo(0,0,row,i,Ut.GetData());
+
+            MatResult=Vt*S*Ut;
+        printf("matrix V :\n");
+            printmat(V);
+            printf("matrix Vt :\n");
+            printmat(Vt);
+            printf("matrix A :\n");
+            printmat(A);
+            printf("matrix At :\n");
+            printmat(At);
+            printf("matrix U :\n");
+            printmat(U);
+            printf("matrix Ut :\n");
+            printmat(Ut);
+            printf("matrix X :\n");
+            printmat(MatResult);
+
+    }
+}
 }
 // namespace itr_math
