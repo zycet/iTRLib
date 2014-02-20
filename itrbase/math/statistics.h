@@ -1,4 +1,3 @@
-
 #ifndef STATISTICS_H_
 #define STATISTICS_H_
 
@@ -40,11 +39,11 @@ public:
       */
     virtual bool Median(S32* Source, S32 Length, S32& Result) const;
     virtual bool Median(F32* Source, S32 Length, F32& Result) const;
-     /**
-      * \brief 求数组中的第k大的数，会改变输入数组的顺序
-      * \param Length 数组长度
-      * \param Result 数组中的第k大的数值
-      */
+    /**
+     * \brief 求数组中的第k大的数，会改变输入数组的顺序
+     * \param Length 数组长度
+     * \param Result 数组中的第k大的数值
+     */
     virtual void MaxKth(S32* Source, S32 Length, S32& Result, S32& Order) const;
     virtual void MaxKth(F32* Source, S32 Length, F32& Result, S32& Order) const;
     virtual S32 SelectKth(S32 *data,S32 left,S32 right,S32 k);
