@@ -14,11 +14,14 @@ public:
     FeatureMatch();
     virtual ~FeatureMatch();
     /**
-      *特征向量匹配函数
-      *输入：vectorfeaturepoint1[],vectorfeaturepoint2[],已知的两组特征点
-      *     num1,num2,两组特征点的长度。
-      *
-      *输出：vectorfeaturepoint ID
+      * \brief 特征向量匹配函数
+      * \param vectorfeaturepoint1[] 特征点1
+      * \param vectorfeaturepoint2[] 特征点2
+      * \param num1 特征点长度1
+      * \param num2 特征点长度2
+      * \param matchnum 匹配的ID
+      * \param pos1[] 坐标1
+      * \param pos2[] 坐标2
       */
     void FeatureMatchDo(VectorFeaturePoint vectorfeaturepoint1[],S32 num1,
                         VectorFeaturePoint vectorfeaturepoint2[],S32 num2,S32 matchnum,Point2D pos1[],Point2D pos2[]);

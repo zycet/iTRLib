@@ -26,41 +26,41 @@ static const F64 SURF_Gauss25 [7][7] =
     {0.00142946,	0.00131956,	0.00103800,	0.00069579,	0.00039744,	0.00019346,	0.00008024}
 };
 /**
-* /brief 此类实现了SURF算法
-* /note 图像数据基于itr_math::Matrix类型,全部为单精度浮点计算.
-* /note 运算过程尽量基于itr_math::Calculate中的方法,从而实现了计算方式的可替代优化.
-* /note 后期会考虑进行对ARM-Neon的汇编优化.
+* \brief 此类实现了SURF算法
+* \note 图像数据基于itr_math::Matrix类型,全部为单精度浮点计算.
+* \note 运算过程尽量基于itr_math::Calculate中的方法,从而实现了计算方式的可替代优化.
+* \note 后期会考虑进行对ARM-Neon的汇编优化.
 */
 class SURF
 {
 public:
     /**
-    * /brief 完成对象构造后必须调用Init()才能正常工作.
+    * \brief 完成对象构造后必须调用Init()才能正常工作.
     */
     SURF();
     /**
-    * /brief 释放动态申请的内存
+    * \brief 释放动态申请的内存
     */
     virtual ~SURF();
     /**
-    * /brief 初始化SURF类,内部数据,只有成功调用此函数后才能正常工作.
-    * /param Width 图像宽度
-    * /param Height 图像高度
-    * /param OctaveNum 八度数
-    * /param IntervalNum 间隔数
-    * /param InitSample 初始采样
-    * /param Threshold 过滤阀值
+    * \brief 初始化SURF类,内部数据,只有成功调用此函数后才能正常工作.
+    * \param Width 图像宽度
+    * \param Height 图像高度
+    * \param OctaveNum 八度数
+    * \param IntervalNum 间隔数
+    * \param InitSample 初始采样
+    * \param Threshold 过滤阀值
     */
     void Init(S32 Width,S32 Height,S32 OctaveNum,S32 IntervalNum,S32 InitSample,F32 Threshold);
     /**
-    * /brief 处理图像并生成特征点
-    * /param Img 待处理图像
-    * /param FeaturePointList 特征点列表(生成的特征点会储存在内)
-    * /return 找到的特征点数量
+    * \brief 处理图像并生成特征点
+    * \param Img 待处理图像
+    * \param FeaturePointList 特征点列表(生成的特征点会储存在内)
+    * \return 找到的特征点数量
     */
     S32 Process(const Matrix& Img,std::vector<VectorFeaturePoint> FeaturePointList);
     /**
-    * /brief 过滤阀值
+    * \brief 过滤阀值
     */
     F32 Threshold;
 private:
