@@ -211,8 +211,8 @@ public:
 
     void Svdcmp(Vector &w, Matrix &v);
     /**
-     * /brief求矩阵广义逆,注意：只能用于方阵，且原始数据改变（变为U，见SVD），不可用。
-           matrix.cc中的 #define tol  0.00001 代表精度
+     * /brief 求矩阵广义逆,注意：只能用于方阵，且原始数据改变（变为U，见SVD），不可用。
+                matrix.cc中的 #define tol  0.00001 代表精度
      * /param MatResult 所得的结果
      */
     void virtual pinv(Matrix &MatResult) const;
@@ -272,10 +272,10 @@ public:
 
     //**********数据转移**********
     /**
-    * /brief 将传入的数据复制至指定的矩形区域
+    * /brief 将传入的数据复制至this矩阵中的指定的矩形区域
     * /param RowPos 插入位置的行数
-    * /param ColPos 插入位置的列数
-    * /param Width 插入矩阵的宽度
+    * /param ColPos 插入位置的列数     (即往this矩阵写入的起点）
+    * /param Width 插入矩阵的宽度      （！！！要求该宽度等于传入数据的col)
     * /param Height 插入矩阵的高度
     */
     inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height, F32* Data)
@@ -291,7 +291,7 @@ public:
         }
     }
     /**
-    * /brief 将传入的数据全部复制到矩阵中
+    * /brief 将传入的数据全部复制进this矩阵中
     * /param Data 指针
     */
     inline void virtual CopyFrom(F32* Data)
@@ -300,11 +300,11 @@ public:
         MemoryCopy(data, Data, row * col * sizeof(F32));
     }
     /**
-    * /brief 将指定的矩形区域复制出来
-    * /param RowPos 取出的位置的行数
-    * /param ColPos 取出的位置的列数
-    * /param Width 取出矩阵的宽度
-    * /param Height 取出矩阵的高度
+    * /brief 将指定的矩形区域(给定的其他矩阵)复制到this矩阵中来
+    * /param RowPos 复制起始位置的行数
+    * /param ColPos 复制起始位置的列数 （行数和列数就是复制的起点）
+    * /param Width 复制的宽度—— ！！！！该宽度等于给定矩阵的col
+    * /param Height 复制的高度
     */
     inline void virtual CopyTo(S32 RowPos, S32 ColPos, S32 Width, S32 Height,
                                F32* Data) const
@@ -320,7 +320,7 @@ public:
         }
     }
     /**
-    * /brief 将全部数据复制出来
+    * /brief 将矩阵全部数据复制到给定的数组（指针）
     * /param Data 指针
     */
     inline void virtual CopyTo(F32* Data) const

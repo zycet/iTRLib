@@ -390,7 +390,6 @@ Matrix Matrix::operator=(const Matrix& Mat)
     assert(row == Mat.row);
     assert(col == Mat.col);
     this->CopyFrom(Mat.data);
-    // (*this).CopyFrom(Mat.data);
     return *this;
 }
 Vector Matrix::operator*(const Vector& vec) const
@@ -426,8 +425,8 @@ BOOL Matrix::Inv(Matrix& MatResult) const
     S32 i, j, k;
     Matrix MatTemp(this->row, this->col);
     F32 lMax, temp;
-    S32 tempM, tempN;
-    tempM = MatTemp.row;
+    S32 tempN;//,tempM, ;
+    //tempM = MatTemp.row;
     tempN = MatTemp.col;
     MemoryCopy(MatTemp.data, this->data, this->row * this->col * sizeof(F32));
     MatResult.Clear();
@@ -773,34 +772,21 @@ void Matrix::Svdcmp(itr_math::Vector &w, itr_math::Matrix &v)
         }
     }
 }
-void printmat(Matrix M)
-{
-    S32 m=M.GetRow();
-    S32 n=M.GetCol();
-    for(S32 i=0;i<m;i++)
-    {    for(S32 j=0;j<n;j++)
-            printf("%f\t",M(i,j));
-        printf("\n");
-    }
-}
+
 void  Matrix::pinv(Matrix &MatResult) const
 {
     assert(row>0);
     assert(col>0);
     assert(row>=col);
     Matrix V(col,col);
-    Matrix A(row,col,data),U(row,row);
+    Matrix A(row,col),U(row,row);
     Vector s(col);
-
-    printf("matrix A :\n");
-    printmat(A);
-
+    A.CopyFrom(0,0,col,row,data);
     A.Svdcmp(s,V);
     for(S32 j=0; j<row; j++)
         for(S32 k=0; k<col; k++)
             U(j,k)=A(j,k);
 
-    //F32 tm;
     S32 i;
     for( i=0; i<col; i++)
     {
@@ -815,30 +801,13 @@ void  Matrix::pinv(Matrix &MatResult) const
             s[j]=1/s[j];
         Matrix S(i,i),Vt(col,i),Ut(i,row);
         S.SetDiag(s.GetData());
-        F32 calcBuffer[col];
 
+        V.CopyTo(0,0,i,col,Vt.GetData());
+        Matrix At(U.GetCol(),U.GetRow());
+        U.Tran(At);
+        At.CopyTo(0,0,row,i,Ut.GetData());
 
-            //ColExtract(V.GetData(), i, col, row, calcBuffer);
-            V.CopyTo(0,0,i,col,Vt.GetData());
-            Matrix At(U.GetCol(),U.GetRow());
-            U.Tran(At);
-            At.CopyTo(0,0,row,i,Ut.GetData());
-
-            MatResult=Vt*S*Ut;
-            printf("matrix V :\n");
-            printmat(V);
-            printf("matrix S :\n");
-            printmat(S);
-            printmat(A);
-            printf("matrix At :\n");
-            printmat(At);
-            printf("matrix U :\n");
-            printmat(U);
-            printf("matrix Ut :\n");
-            printmat(Ut);
-            printf("matrix pinv :\n");
-            printmat(MatResult);
-
+        MatResult=Vt*S*Ut;
     }
 }
 }

@@ -324,6 +324,7 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
 */
 BOOL CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
 {
-
+    Matrix tmpA(3,3);
+   // CameraInterPara
 }
 }
