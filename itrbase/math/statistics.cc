@@ -161,6 +161,8 @@ S32 Statistics::SelectKth(S32 *data,S32 left,S32 right,S32 k)
         return SelectKth(data,left,i-1,k);
     if(k>i && i<right)
         return SelectKth(data,i+1,right,k);
+    assert(false);
+    return 0;
 }
 
 F32 Statistics::SelectKth(F32 *data,S32 left,S32 right,S32 k)
@@ -196,6 +198,8 @@ F32 Statistics::SelectKth(F32 *data,S32 left,S32 right,S32 k)
         return SelectKth(data,left,i-1,k);
     if(k>i && i<right)
         return SelectKth(data,i+1,right,k);
+    assert(false);
+    return 0;
 }
 
 void Statistics::MaxKth(S32* Source, S32 Length, S32& Result, S32& Order) const

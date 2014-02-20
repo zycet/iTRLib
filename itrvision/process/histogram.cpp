@@ -34,7 +34,7 @@ void Histogram::Euqal(const Matrix &input,Matrix &output)
     }
     for(S32 i = 0; i<256; i++)
     {
-        if(i = 0)
+        if(i == 0)
         {
             eqHistTemp[i] = fpHist[i];
         }

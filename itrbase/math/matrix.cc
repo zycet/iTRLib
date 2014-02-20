@@ -795,7 +795,7 @@ void Matrix::Det(F32 &reslut) /*求矩阵行列式*/
      {
          for(k=0;k<col;k++)
          {
-             for(i=0,j=k;i<row,j<col;i++,j++)
+             for(i=0,j=k;i<row&&j<col;i++,j++)
                 temp*=this->data[i*col+j];
              if(row-i)
              {
@@ -808,7 +808,7 @@ void Matrix::Det(F32 &reslut) /*求矩阵行列式*/
 
          for(k=col-1;k>=0;k--)
          {
-             for(i=0,j=k;i<row,j>=0;i++,j--)
+             for(i=0,j=k;i<row&&j>=0;i++,j--)
                 temp1*=this->data[i*col+j];
              if(row-i)
              {
