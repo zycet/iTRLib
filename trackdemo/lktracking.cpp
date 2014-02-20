@@ -1,4 +1,6 @@
 #include "lktracking.h"
+#include <iostream>
+using namespace std;
 using itr_math::Vector;
 lktracking::lktracking():
     FeatureNum(100),frame1Feature(FeatureNum),frame2Feature(FeatureNum),fbFeature(FeatureNum)
@@ -16,44 +18,6 @@ void lktracking::Init(const Matrix &current,RectangleS &rect)
     select.mindist=7;
     ransac.Init(&oper);
     FeatureNum=select.SelectGoodFeature(rect,frame1Feature);
-}
-
-void lktracking::ncc_filter(const Matrix  &input1,const Matrix  &input2)
-{
-    RectangleS rect;
-    rect.Width=rect.Height=5;
-    int i,length=rect.Width*rect.Height;
-    F32 mean1,mean2;
-
-    Matrix patch1(rect.Width,rect.Height),patch2(rect.Width,rect.Height);
-    Vector v1(length,patch1.GetData());
-    Vector v2(length,patch2.GetData());
-    for (i = 0; i <FeatureNum; ++i)
-    {
-        rect.X=frame1Feature[i].X-2;
-        rect.Y=frame1Feature[i].Y-2;
-        Pick::Rectangle(input1,rect,patch1);
-        rect.X=frame2Feature[i].X-2;
-        rect.Y=frame2Feature[i].Y-2;
-        Pick::Rectangle(input2,rect,patch2);
-        assert(v1.GetData()==patch1.GetData());
-        itr_math::StatisticsObj->Mean(patch1.GetData(),length,mean1);
-        itr_math::StatisticsObj->Mean(patch2.GetData(),length,mean2);
-        itr_math::CalculateObj->Offset(v1.GetData(),-mean1,length,v1.GetData());
-        itr_math::CalculateObj->Offset(v2.GetData(),-mean2,length,v2.GetData());
-        itr_math::CalculateObj->Normalization(v1.GetData(),length,v1.GetData());
-        itr_math::CalculateObj->Normalization(v2.GetData(),length,v2.GetData());
-        dist[i]=v1*v2;
-    }
-
-    for (i = 0; i <FeatureNum; ++i)
-    {
-        if(dist[i]<0.8)
-        {
-            frame2Feature[i].Quality=-LKTracker::NCCError;
-        }
-    }
-    //getchar();
 }
 
 void lktracking::pairdistance(const vector<Point2D> &feature,vector<F32> &dist)
@@ -101,9 +65,51 @@ F32 lktracking::getScale(S32 pointcount)
 
     return median;
 }
-void lktracking::fb_filter()
+
+int lktracking::ncc_filter(const Matrix  &input1,const Matrix  &input2)
 {
-    int i;
+    RectangleS rect;
+    rect.Width=rect.Height=9;
+    int i,length=rect.Width*rect.Height;
+    F32 mean1,mean2;
+    int drop=0;
+    Matrix patch1(rect.Width,rect.Height),patch2(rect.Width,rect.Height);
+    Vector v1(length,patch1.GetData());
+    Vector v2(length,patch2.GetData());
+    for (i = 0; i <FeatureNum; ++i)
+    {
+        rect.X=frame1Feature[i].X-4;
+        rect.Y=frame1Feature[i].Y-4;
+        Pick::Rectangle(input1,rect,patch1);
+        rect.X=frame2Feature[i].X-4;
+        rect.Y=frame2Feature[i].Y-4;
+        Pick::Rectangle(input2,rect,patch2);
+        assert(v1.GetData()==patch1.GetData());
+        itr_math::StatisticsObj->Mean(patch1.GetData(),length,mean1);
+        itr_math::StatisticsObj->Mean(patch2.GetData(),length,mean2);
+        itr_math::CalculateObj->Offset(v1.GetData(),-mean1,length,v1.GetData());
+        itr_math::CalculateObj->Offset(v2.GetData(),-mean2,length,v2.GetData());
+        itr_math::CalculateObj->Normalization(v1.GetData(),length,v1.GetData());
+        itr_math::CalculateObj->Normalization(v2.GetData(),length,v2.GetData());
+        dist[i]=v1*v2;
+    }
+
+    for (i = 0; i <FeatureNum; ++i)
+    {
+        if(dist[i]<0.8)
+        {
+            frame2Feature[i].Quality=-LKTracker::NCCError;
+            ++drop;
+        }
+    }
+    return drop;
+    //getchar();
+}
+
+
+int lktracking::fb_filter()
+{
+    int i,drop=0;
     for (i = 0; i <FeatureNum; ++i)
     {
         dist[i]=(frame1Feature[i]-frame2Feature[i]).GetDistance();
@@ -115,13 +121,16 @@ void lktracking::fb_filter()
         if(dist[i]>median)
         {
             frame2Feature[i].Quality=-LKTracker::FBError;
+            ++drop;
         }
     }
+    return drop;
 }
 bool lktracking::Go(const Matrix &current,RectangleS &rect,F32 &Vx,F32 &Vy)
 {
     TimeClock clock;
     int i;
+    bool Tracked=true;
     clock.Tick();
     tracker.AddNext(current);
     tracker.Compute(frame1Feature,frame2Feature,FeatureNum,true);
@@ -130,10 +139,10 @@ bool lktracking::Go(const Matrix &current,RectangleS &rect,F32 &Vx,F32 &Vy)
     ///Filter
     if(FeatureNum>0)
     {
-        fb_filter();
-        ncc_filter(tracker.last->img[0],tracker.current->img[0]);
+        printf("FBFilter: %d  \n",fb_filter());
+        printf("NCCFilter: %d  \n",ncc_filter(tracker.last->img[0],tracker.current->img[0]));
     }
-    if(false)
+    if(true)
     {
         ///特征点匹配关系输出
         Matrix cor;
@@ -167,36 +176,59 @@ bool lktracking::Go(const Matrix &current,RectangleS &rect,F32 &Vx,F32 &Vy)
             ++amount;
         }
     }
-//    cout << "Points: "<<count << endl;
+    cout << "Points: "<<amount << endl;
+    if(amount==0)
+        Tracked=false;
     if(amount>0)
     {
+        F32 median;
         //RANSAC
         ransac.Process(x,amount, drop);
+        printf("%d ",drop);
         std::sort(x, x + amount);
         Vx=x[(amount - drop) / 2];
 
+        printf("\n");
+        itr_math::StatisticsObj->Median(x,amount-drop,median);
+        if(median>10)
+        {
+            Tracked=false;
+            printf("Failure!!\n");
+            getchar();
+        }
         ransac.Process(y,amount, drop);
+        printf("%d \n",drop);
         std::sort(y, y + amount);
         Vy=y[(amount - drop) / 2];
 
+        printf("\n");
+        itr_math::StatisticsObj->Median(y,amount-drop,median);
+        if(median>10)
+        {
+            Tracked=false;
+            getchar();
+            printf("Failure!!\n");
+        }
+
+    }
+
+    if(Tracked)
+    {
         F32 boxScale=1.0f;
-        std::cout<<getScale(amount)<<std::endl;
         boxScale=getScale(amount);
         rect.X+=Vx-rect.Width*(boxScale-1)/2;
         rect.Y+=Vy-rect.Height*(boxScale-1)/2;
         rect.Width*=boxScale;
         rect.Height*=boxScale;
     }
-
-
     //选择下一帧图像中的特征点
     SelectKLTFeature select(current);
-    select.mindist = 6;
+    select.mindist = 7;
     FeatureNum=select.SelectGoodFeature(rect, frame1Feature,amount);
     printf("Feature: %d\n",FeatureNum);
     printf("Track Time: %d",clock.Tick());
     printf("\n*****End  Track !*****\n\n");
-    return (amount>0);
+    return (Tracked);
 }
 
 lktracking::~lktracking()

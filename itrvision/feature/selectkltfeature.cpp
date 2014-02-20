@@ -127,18 +127,24 @@ namespace itr_vision
         }
 
         std::sort(featurelist.begin(), featurelist.begin()+npoints, std::greater<CommFeaturePoint>());
-        --mindist;
-        //增大最小间距
-        int count=start;
-        //增大最小间距
 
+        --mindist;
+
+        int pcount=0;
+        //增大最小间距
         {
-            featptr = featurelist.begin();
-            vector<CommFeaturePoint>::iterator flindex = featureOutput.begin()+start;
             BOOL *featuremap = new BOOL[height* width]();
             memset(featuremap, 0, sizeof(featuremap));
+            featptr = featurelist.begin();
+            vector<CommFeaturePoint>::iterator flindex = featureOutput.begin();
+            while(pcount<start)
+            {
+                fillMap(flindex->X,flindex->Y,featuremap);
+                ++pcount;
+                ++flindex;
+            }
             S32 quality;
-            while (npoints>0)
+            while (npoints>0 && flindex<featureOutput.end())
             {
                 x = featptr->X;
                 y = featptr->Y;
@@ -150,18 +156,14 @@ namespace itr_vision
                     flindex->Quality = quality;
                     fillMap(x, y, featuremap);
                     ++flindex;
-                    ++count;
+                    ++pcount;
                 }
-                if (flindex == featureOutput.end())
-                {
-                    break;
-                }
-                ++featptr;
+                 ++featptr;
                 --npoints;
             }
             delete[] featuremap;
         }
-        return count;
+        return pcount;
     }
 
 

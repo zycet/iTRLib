@@ -22,9 +22,9 @@ class lktracking
     protected:
     private:
     F32 getScale(S32 count);
-    void fb_filter();
+    int fb_filter();
     void pairdistance(const vector<Point2D>& feature,vector<F32>& dist);
-    void ncc_filter(const Matrix  &input1,const Matrix  &input2);
+    int ncc_filter(const Matrix  &input1,const Matrix  &input2);
 
 template <class T>
 class DataOper:public Ransac<T,T>::Operator
