@@ -119,7 +119,7 @@ S32 SURF::Process(const Matrix& Img,std::vector<VectorFeaturePoint> FeaturePoint
     //Calc Integral Image
     itr_vision::IntegralImg::Integral(Img,IntImg);
     //Calc Hessian in OctaveList
-    for(S32 i=0; i<OctaveList.size(); i++)
+    for(S32 i=0; i<(S32)OctaveList.size(); i++)
     {
         OctaveList[i]->Calc(IntImg);
     }
