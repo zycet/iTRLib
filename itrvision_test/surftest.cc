@@ -26,15 +26,15 @@ void TestIpts()
     ConvertFormat::ImageGray2Matrix(grayI,gray_matrix_in);
 
     SURF surf;
-    surf.Init(grayI.GetWidth(),grayI.GetHeight(),5,4,2,0.0004f);
+    surf.Init(grayI.GetWidth(),grayI.GetHeight(),5,4,2,10.f);
 
     std::vector<VectorFeaturePoint> FeaturePointList;
     surf.Process(gray_matrix_in, FeaturePointList);
-    for(S32 i; i<FeaturePointList.size(); i++ )
+    for(S32 i=0; i<FeaturePointList.size(); i++ )
     {
-        VectorFeaturePoint *p=&FeaturePointList.at(i);
-        PRINT_DEBUG(p->X);
-        PRINT_DEBUG(p->Y);
+        VectorFeaturePoint p=FeaturePointList[i];
+        PRINT_DEBUG(p.X);
+        PRINT_DEBUG(p.Y);
     }
 }
 

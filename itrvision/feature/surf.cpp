@@ -71,50 +71,50 @@ void SURF::Init(S32 Width,S32 Height,S32 OctaveNum,S32 IntervalNum,S32 InitSampl
     if (OctaveNum >= 2)
     {
         bh=new BoxHessian();
-        bh->Init(w/2,h/2,s/2,39);
+        bh->Init(w/2,h/2,s*2,39);
         OctaveList.push_back(bh);
 
         bh=new BoxHessian();
-        bh->Init(w/2,h/2,s/2,51);
+        bh->Init(w/2,h/2,s*2,51);
         OctaveList.push_back(bh);
     }
 
     if (OctaveNum >= 3)
     {
         bh=new BoxHessian();
-        bh->Init(w/4,h/4,s/4,75);
+        bh->Init(w/4,h/4,s*4,75);
         OctaveList.push_back(bh);
 
         bh=new BoxHessian();
-        bh->Init(w/4,h/4,s/4,99);
+        bh->Init(w/4,h/4,s*4,99);
         OctaveList.push_back(bh);
     }
 
     if (OctaveNum >= 4)
     {
         bh=new BoxHessian();
-        bh->Init(w/8,h/8,s/8,147);
+        bh->Init(w/8,h/8,s*8,147);
         OctaveList.push_back(bh);
 
         bh=new BoxHessian();
-        bh->Init(w/8,h/8,s/8,195);
+        bh->Init(w/8,h/8,s*8,195);
         OctaveList.push_back(bh);
     }
 
     if (OctaveNum >= 5)
     {
         bh=new BoxHessian();
-        bh->Init(w/16,h/16,s/16,291);
+        bh->Init(w/16,h/16,s*16,291);
         OctaveList.push_back(bh);
 
         bh=new BoxHessian();
-        bh->Init(w/16,h/16,s/16,387);
+        bh->Init(w/16,h/16,s*16,387);
         OctaveList.push_back(bh);
     }
     IntImg.Init(Width,Height);
 }
 
-S32 SURF::Process(const Matrix& Img,std::vector<VectorFeaturePoint> FeaturePointList)
+S32 SURF::Process(const Matrix& Img,std::vector<VectorFeaturePoint>& FeaturePointList)
 {
     //Calc Integral Image
     itr_vision::IntegralImg::Integral(Img,IntImg);
@@ -143,7 +143,9 @@ S32 SURF::Process(const Matrix& Img,std::vector<VectorFeaturePoint> FeaturePoint
                 {
                     if (IsExtremum(r, c, t, m, b))
                     {
-                        MakeFeaturePoint(r,c,t,m,b);
+                        VectorFeaturePoint vfp;
+                        MakeFeaturePoint(r,c,t,m,b,vfp);
+                        FeaturePointList.push_back(vfp);
                         pointNum++;
                     }
                 }
@@ -181,7 +183,7 @@ BOOL SURF::IsExtremum(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b)
     return true;
 }
 
-void SURF::MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b)
+void SURF::MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b,VectorFeaturePoint& vfp)
 {
     //vfp=pos=Î»ÖÃ
     //vfp.Dir=dir=·½Ïò?
@@ -195,7 +197,7 @@ void SURF::MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessi
     F32 hessian=m->GetHessian(r,c,t);
     F32 laplacian=m->GetLaplacian(r,c,t);
     F32 scale=0.1333f * m->FilterLength;
-    VectorFeaturePoint vfp;
+
     vfp.Init(pos,0,0,laplacian,hessian,64,step,scale);
     GetOrientation(vfp);
     GetDescriptor(vfp);

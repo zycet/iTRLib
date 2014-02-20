@@ -64,8 +64,8 @@ void BoxHessian::Init(S32 Width,S32 Height,S32 Step,S32 FilterLength)
 
 void BoxHessian::Calc(const Matrix& Img)
 {
-    assert(Width==Img.GetCol());
-    assert(Height==Img.GetRow());
+    //assert(Width==Img.GetCol());
+    //assert(Height==Img.GetRow());
 
     int b = (this->FilterLength- 1) / 2;    // border for this filter
     int l = this->FilterLength / 3;         // lobe for this filter (filter size / 3)

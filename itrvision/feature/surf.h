@@ -58,14 +58,14 @@ public:
     * \param FeaturePointList 特征点列表(生成的特征点会储存在内)
     * \return 找到的特征点数量
     */
-    S32 Process(const Matrix& Img,std::vector<VectorFeaturePoint> FeaturePointList);
+    S32 Process(const Matrix& Img,std::vector<VectorFeaturePoint>& FeaturePointList);
     /**
     * \brief 过滤阀值
     */
     F32 Threshold;
 private:
     BOOL IsExtremum(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b);
-    void MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b);
+    void MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b,VectorFeaturePoint &vfp);
     void GetOrientation(VectorFeaturePoint& Point);
     void GetDescriptor(VectorFeaturePoint& Point);
     F32 HaarX(S32 row, S32 column, S32 s);

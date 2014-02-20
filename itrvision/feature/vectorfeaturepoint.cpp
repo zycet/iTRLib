@@ -24,7 +24,7 @@ VectorFeaturePoint::~VectorFeaturePoint()
     //dtor
 }
 
-VectorFeaturePoint::VectorFeaturePoint(const VectorFeaturePoint &other)
+VectorFeaturePoint::VectorFeaturePoint(const VectorFeaturePoint &other):Feature(other.Feature)
 {
     //copy ctor
     this->LevelNo =other.LevelNo;
@@ -34,6 +34,8 @@ VectorFeaturePoint::VectorFeaturePoint(const VectorFeaturePoint &other)
     this->Quality=other.Quality;
     this->Scale=other.Scale;
     this->Value=other.Value;
+    this->X=other.X;
+    this->Y=other.Y;
 }
 void VectorFeaturePoint::Init(Point2D Pos,S32 ID,F32 Dir,F32 Quality,F32 Value,S32 FeatureDim,S32 LevelNo,F32 Scale)
 {
