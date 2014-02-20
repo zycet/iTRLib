@@ -212,11 +212,10 @@ public:
      * /param v:存储向量V，注意不是V的转置
      * /param 注意：生成的U替换为A，即改变原矩阵。
      */
-
     void Svdcmp(Vector &w, Matrix &v) ;
     /**
-     * /brief 求矩阵广义逆,注意：只能用于方阵，且原始数据改变（变为U，见SVD），不可用。
-                matrix.cc中的 #define tol  0.00001 代表精度
+     * /brief 求矩阵广义逆,注意：只能用于方阵
+               matrix.cc中的 #define tol  0.00001 代表精度
      * /param MatResult 所得的结果
      */
     void virtual pinv(Matrix &MatResult) const;
@@ -463,6 +462,7 @@ public:
     }
     /**
     * /brief 读取单个元素(一维线性访问)
+    * /param index 位置
     */
     inline F32 operator[](S32 index) const
     {
@@ -471,7 +471,9 @@ public:
         return data[index];
     }
     /**
-    * /brief 写入单个元素(Y=行数,X=列数),且会自动执行限位。
+    * /brief 写入单个元素,且会自动执行限位。
+    * /param Y 行数
+    * /param X 列数
     */
     inline F32& operator()(S32 Y, S32 X)
     {
@@ -485,8 +487,11 @@ public:
             Y=row-1;
         return data[Y * col + X];
     }
-    /*
-     * 读取单个元素(Y=行数,X=列数),且会自动执行限位。
+    /**
+     * /brief 读取单个元素且会自动执行限位。
+     * /param Y 行数
+     * /param X 列数
+     * /
      */
     inline F32 operator()(S32 Y, S32 X) const
     {
@@ -502,40 +507,43 @@ public:
     }
 
     //**********数据操作**********
-    /*
-     * 设置所有元素为K
-     */
+    /**
+      * /brief 设置所有元素为 K
+      * /param k 将要设置成的数值
+      */
     inline void virtual Set(F32 K)
     {
         for (S32 i = 0; i < row * col; i++)
             data[i] = K;
     }
-    /*
-     * 设置所有元素为0
-     */
+    /**
+      * /brief 设置所有元素为0
+      */
     inline void virtual Clear()
     {
         Set(0);
     }
-    /*
-     * 设置主对角线元素为K
-     */
+    /**
+      * /brief 设置主对角线元素为K
+      */
     inline void virtual SetDiag(F32 K)
     {
         for (S32 i = 0; i < row; i++)
             data[i * row + i] = K;
     }
-    /*
-     * 设置主对角线元素为Data
-     */
+    /**
+      * /brief 设置主对角线元素
+      * /param Data 给定的数组（指针），将其值复制给对角线元素
+      */
     inline void virtual SetDiag(F32* Data)
     {
         assert(Data!=NULL);
         for (S32 i = 0; i < row; i++)
             data[i * row + i] = Data[i];
     }
-    /*
-     * 将主对角线元素放至Data
+    /**
+     * /brief 将主对角线元素复制出来，存储到 Data
+     * /param Data 给定的数组（指针)，用来接受数据。
      */
     inline void virtual GetDiag(F32* Data) const
     {
@@ -545,84 +553,73 @@ public:
     }
 
     //**********维数匹配**********
-    /*
-     * 检查维数与Mat是否一致
+    /**
+     * /brief 检查维数与Mat是否一致，是 返回true,否，返回false
+     * /param Mat 与之匹配的矩阵
      */
     inline BOOL virtual MatchDim(const Matrix& Mat) const
     {
-        if (Mat.row == row && Mat.col == col)
-            return true;
-        else
-            return false;
+        return (Mat.row == row && Mat.col == col);
     }
-    /*
-     * 检查维数是否为Row,Col
+    /**
+     * /brief 检查维数是否为Row,Col,是 返回true,否，返回false
+     * /param 给定的 Row Col
      */
     inline BOOL virtual MatchDim(S32 Row, S32 Col) const
     {
-        if (Row == row && Col == col)
-            return true;
-        else
-            return false;
+       return (Row == row && Col == col);
+
     }
-    /*
-     * 检查维数是否可右乘Mat
+    /**
+     * /brief 检查维数是否可右乘Mat
+     * /param Mat 要右乘的向量
      */
     inline BOOL virtual MatchMul(const Matrix& Mat) const
     {
-        if (col == Mat.row)
-            return true;
-        else
-            return false;
+        return (col == Mat.row);
     }
-    /*
-     * 检查维数是否可右乘行向量Vec
+    /**
+     * /brief 检查维数是否可右乘行向量Vec
+     * /param Vec 要右乘的向量
      */
     inline BOOL virtual MatchRightMulRow(const Vector& Vec) const
     {
-        if (col == Vec.GetDim())
-            return true;
-        else
-            return false;
+        return (col == Vec.GetDim());
     }
-    /*
-     * 检查维数是否可右乘列向量Vec
+    /**
+     * /brief 检查维数是否可右乘列向量Vec
+     * /param Vec 要右乘的向量
      */
     inline BOOL virtual MatchRightMulCol(const Vector& Vec) const
     {
-        if (col == 1&&row==Vec.GetDim())
-            return true;
-        else
-            return false;
+        return (col == 1&&row==Vec.GetDim());
     }
-    /*
-     * 检查维数是否可左乘行向量Vec
+    /**
+     * /brief 检查维数是否可左乘行向量Vec
+     * /param Vec 要左乘的向量
      */
     inline BOOL virtual MatchLeftMulRow(const Vector& Vec) const
     {
-        if (row == Vec.GetDim())
-            return true;
-        else
-            return false;
+        return (row == Vec.GetDim());
     }
-    /*
-     * 检查维数是否可左乘列向量Vec
+    /**
+     * /brief 检查维数是否可左乘列向量Vec
+     * /param Vec 要左乘的向量
      */
     inline BOOL virtual MatchLeftMulCol(const Vector& Vec) const
     {
-        if (row == 1&&col==Vec.GetDim())
-            return true;
-        else
-            return false;
+        return (row == 1&&col==Vec.GetDim());
     }
-
+    /**
+     * /brief 检查矩阵是否与给定矩阵相同
+     * /param Mat 要比较的矩阵
+     */
     inline BOOL CompMatrix(Matrix& Mat)
     {
         BOOL r;
         r=MatchDim(Mat);
-        if(r==false)
-            return false;
-        itr_math::CalculateObj->Compare(GetData(),Mat.GetData(),1,col*row,&r);
+        if(r)
+            itr_math::CalculateObj->Compare(GetData(),Mat.GetData(),1,col*row,&r);
         return r;
     }
 
