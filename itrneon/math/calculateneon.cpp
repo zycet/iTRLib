@@ -939,5 +939,68 @@ void CalculateNeon::Min(F32* SourceA, S32 Length, F32& Result) const
     if(Result > Resulttmp)
         Result = Resulttmp;
 }
+void CalculateNeon::Min(F32* SourceA, S32 Length, F32& Result, S32& Order) const// Order not considered
+{
+    assert(SourceA!=NULL);
+    assert(Length > 0);
+    F32* endSource=SourceA+Length;
+    S32 qNum=Length>>2;
+    Result = *SourceA;
+    F32 Resulttmp = 0;
+    asm volatile
+    (
+        "vdup.32 q0,%0 \n\t"
+        :"+r"(Result)
+        :
+        :"q0","memory"
+    );
+    for(S32 i=0; i<qNum; i++)
+    {
+        asm volatile
+        (
+            "vld1.32  {d2,d3}, [%0]! \n\t"//q1 = f0
+            "vmin.f32 q0, q0, q1     \n\t"//q0 +=q1;
+            : "+r"(SourceA)
+            :
+            : "q0", "q1", "memory"
+        );
+    }
+    while(SourceA<endSource)
+    {
+        if(Result<(*SourceA))
+            Result = SourceA;
+        SourceA++;
+    }
+    asm volatile
+    (
+        "vdup.32 d2,%0 \n\t"
+        "vmin.f32 d0,d0,d1 \n\t"
+        "vmin.f32 d0,d0,d2 \n\t"
+        "vmov.32 %0,d0[0] \n\t"
+        "vmov.32 %1,d0[1] \n\t"
+        :"+r"(Result),"+r"(Resulttmp)
+        :
+        :"q0","q1","q2","memory"
+    );
+    if(Result > Resulttmp)
+        Result = Resulttmp;
+}
+    virtual void Single_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const
+    {
+        F32 tmpResult=new F32[Length];
+        Sub( SourceA,  SourceB,  Length, tmpResult);
+        Abs(tmpResult, Length, tmpResult);
+        AddSum(tmpResult, Length,  Result);
+        delete tmpResult[];
+    }
+
+    virtual void Double_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const
+    {
+        F32 tmpResult=new F32[Length];
+        Sub( SourceA,  SourceB,  Length, tmpResult);
+        Abs(tmpResult, Length, tmpResult);
+        MultiSum(tmpResult, tmpResult,  Length,  Result);
+        delete tmpResult[];
+    }
 
 }

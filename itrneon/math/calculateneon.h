@@ -70,6 +70,23 @@ public:
 
     virtual void Max(F32* SourceA, S32 Length, F32& Result) const;
     virtual void Min(F32* SourceA, S32 Length, F32& Result) const;
+    virtual void Min(F32* SourceA, S32 Length, F32& Result, S32& Order) const;
+    /**
+      * \brief 求两个向量的一次距离
+      * \param SourceA 向量1
+      * \param SourceB 向量2
+      * \param Length 向量维数
+      * \param Result 向量1，2的一次距离和
+      */
+    virtual void Single_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const;
+    /**
+      * \brief 求两个向量的二次距离
+      * \param SourceA 向量1
+      * \param SourceB 向量2
+      * \param Length 向量维数
+      * \param Result 向量1，2的二次距离和
+      */
+    virtual void Double_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const;
 protected:
 private:
 };
