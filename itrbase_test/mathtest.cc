@@ -79,8 +79,6 @@ void TestCalculate()
     S32 CalResultS32;
     S16 CalResutlS16;
 
-    S32 Order;
-
     //AddTest
     itr_math::CalculateObj->Add(A_S16, B_S16, 2, C_S16);
     assert(C_S16[0] == A_S16[0] + B_S16[0] && C_S16[1] == A_S16[1] + B_S16[1]);
@@ -175,9 +173,9 @@ void TestCalculate()
     itr_math::CalculateObj->Set(C_F32, 2, 2);
     assert(C_F32[0] == 2 && C_F32[1] == 2);
 
-    itr_math::CalculateObj->Max(A_F32, 2, CalResultF32,Order);
+    itr_math::CalculateObj->Max(A_F32, 2, CalResultF32);
     assert(CalResultF32 == 2);
-    itr_math::CalculateObj->Min(A_F32, 2, CalResultF32,Order);
+    itr_math::CalculateObj->Min(A_F32, 2, CalResultF32);
     assert(CalResultF32 == 2);
     itr_math::CalculateObj->Single_dis(A_F32, B_F32,2, CalResultF32);
     assert(CalResultF32 == 2);

@@ -17,159 +17,159 @@ class Matrix
 public:
     //**********构造&析构**********
     /**
-    * /brief 初始化一个指定行列数的空矩阵(自动分配内存)
-    * /param Row 行数
-    * /param Col 列数
+    * \brief 初始化一个指定行列数的空矩阵(自动分配内存)
+    * \param Row 行数
+    * \param Col 列数
     */
     Matrix(S32 Row, S32 Col);
     /**
-    * /brief 初始化一个指定行列数的矩阵(以传入的指针为数据区，不分配本地内存)
-    * /param Row 行数
-    * /param Col 列数
-    * /param Data 数据
+    * \brief 初始化一个指定行列数的矩阵(以传入的指针为数据区，不分配本地内存)
+    * \param Row 行数
+    * \param Col 列数
+    * \param Data 数据
     */
     Matrix(S32 Row, S32 Col, F32* Data);
     /**
-    * /brief 初始化一个指定阶数的方阵(自动分配内存)
-    * /param RowCol 行列数
+    * \brief 初始化一个指定阶数的方阵(自动分配内存)
+    * \param RowCol 行列数
     */
     Matrix(S32 RowCol);
     /**
-    * /brief 初始化完全一样的矩阵(Clone)
-    * /param Mat 被复制的矩阵
+    * \brief 初始化完全一样的矩阵(Clone)
+    * \param Mat 被复制的矩阵
     */
     Matrix(const Matrix& Mat);
     /**
-    * /brief 用于初始化列表的空构造函数(Clone)
+    * \brief 用于初始化列表的空构造函数(Clone)
     * /note 在构造后需手动调用Init函数
     */
     Matrix();
     /**
-     * /brief 回收自动分配的内存
+     * \brief 回收自动分配的内存
      */
     virtual ~Matrix();
 
     //**********后初始化函数**********
     /**
-    * /brief 初始化一个指定行列数的空矩阵(自动分配内存，只能在无参数构造对象后调用)
-    * /param Row 行数
-    * /param Col 列数
+    * \brief 初始化一个指定行列数的空矩阵(自动分配内存，只能在无参数构造对象后调用)
+    * \param Row 行数
+    * \param Col 列数
     */
     void Init(S32 Row, S32 Col);
     /**
-    * /brief 初始化一个指定行列数的空矩阵(自动分配内存，只能在无参数构造对象后调用)
-    * /param Row 行数
-    * /param Col 列数
-    * /param Data 数据指针
+    * \brief 初始化一个指定行列数的空矩阵(自动分配内存，只能在无参数构造对象后调用)
+    * \param Row 行数
+    * \param Col 列数
+    * \param Data 数据指针
     */
     void Init(S32 Row, S32 Col, F32* Data);
     /**
-    * /brief 初始化完全一样的矩阵(Clone)
-    * /param Mat 被复制的矩阵
+    * \brief 初始化完全一样的矩阵(Clone)
+    * \param Mat 被复制的矩阵
     */
     void Init(S32 RowCol);
     //**********初等变换**********
     /**
-    * /brief 将RowPosSource行加RowPosTarget行
-    * /param RowPosSource 加数行
-    * /param RowPosTarget 被加行
+    * \brief 将RowPosSource行加RowPosTarget行
+    * \param RowPosSource 加数行
+    * \param RowPosTarget 被加行
     */
     void virtual AddRow(S32 RowPosSource, S32 RowPosTarget);
     /**
-    * /brief 将Data加RowPosTarget行
-    * /param Data 加数
-    * /param RowPosTarget 被加行
+    * \brief 将Data加RowPosTarget行
+    * \param Data 加数
+    * \param RowPosTarget 被加行
     */
     void virtual AddRow(F32* Data, S32 RowPosTarget);
     /**
-    * /brief 将RowPosSource减至RowPosTarget行
-    * /param RowPosSource 减数行
-    * /param RowPosTarget 被减行
+    * \brief 将RowPosSource减至RowPosTarget行
+    * \param RowPosSource 减数行
+    * \param RowPosTarget 被减行
     */
     void virtual SubRow(S32 RowPosSource, S32 RowPosTarget);
     /**
-    * /brief 将Data减至RowPosTarget行
-    * /param Data 减数
-    * /param RowPosTarget 被减行
+    * \brief 将Data减至RowPosTarget行
+    * \param Data 减数
+    * \param RowPosTarget 被减行
     */
     void virtual SubRow(F32* Data, S32 RowPosTarget);
     /**
-    * /brief 将K乘RowPosTarget行
-    * /param K  乘数
-    * /param RowPosTarget 被乘行
+    * \brief 将K乘RowPosTarget行
+    * \param K  乘数
+    * \param RowPosTarget 被乘行
     */
     void virtual MulRow(F32 K, S32 RowPosTarget);
     /**
-    * /brief 交换两行数据
-    * /param RowNoA 行A
-    * /param RowNoB 行B
+    * \brief 交换两行数据
+    * \param RowNoA 行A
+    * \param RowNoB 行B
     */
     void virtual SwapRow(S32 RowNoA, S32 RowNoB);
     /**
-    * /brief 将RowPosSource列加RowPosTarget列
-    * /param RowPosSource 加数列
-    * /param RowPosTarget 被加列
+    * \brief 将RowPosSource列加RowPosTarget列
+    * \param RowPosSource 加数列
+    * \param RowPosTarget 被加列
     */
     void virtual AddCol(S32 ColPosSource, S32 ColPosTarget);
     /**
-    * /brief 将Data加RowPosTarget列
-    * /param Data 加数
-    * /param RowPosTarget 被加列
+    * \brief 将Data加RowPosTarget列
+    * \param Data 加数
+    * \param RowPosTarget 被加列
     */
     void virtual AddCol(F32* Data, S32 ColPosTarget);
     /**
-    * /brief 将RowPosSource减至RowPosTarget列
-    * /param RowPosSource 减数列
-    * /param RowPosTarget 被减列
+    * \brief 将RowPosSource减至RowPosTarget列
+    * \param RowPosSource 减数列
+    * \param RowPosTarget 被减列
     */
     void virtual SubCol(S32 ColPosSource, S32 ColPosTarget);
     /**
-    * /brief 将Data减至RowPosTarget列
-    * /param Data 减数
-    * /param RowPosTarget 被减列
+    * \brief 将Data减至RowPosTarget列
+    * \param Data 减数
+    * \param RowPosTarget 被减列
     */
     void virtual SubCol(F32* Data, S32 ColPosTarget);
     /**
-    * /brief 将K乘RowPosTarget列
-    * /param K  乘数
-    * /param RowPosTarget 被乘列
+    * \brief 将K乘RowPosTarget列
+    * \param K  乘数
+    * \param RowPosTarget 被乘列
     */
     void virtual MulCol(F32 K, S32 ColPosTarget);
     /**
-    * /brief 交换两列数据
-    * /param RowNoA 列A
-    * /param RowNoB 列B
+    * \brief 交换两列数据
+    * \param RowNoA 列A
+    * \param RowNoB 列B
     */
     void virtual SwapCol(S32 ColNoA, S32 ColNoB);
 
     //**********常量相关计算**********
     /**
-    * /brief 全部元素加K
-    * /param K 加数
+    * \brief 全部元素加K
+    * \param K 加数
     */
     void virtual AllAdd(F32 K);
     /**
-    * /brief 全部元素乘K
-    * /param K 乘数
+    * \brief 全部元素乘K
+    * \param K 乘数
     */
     void virtual AllMul(F32 K);
 
     //**********矩阵相关计算**********
 
     /**
-    * /brief 加上矩阵Mat
-    * /param Mat 加上的矩阵
+    * \brief 加上矩阵Mat
+    * \param Mat 加上的矩阵
     */
     void virtual Add(const Matrix& Mat);
     /**
-    * /brief 减去矩阵Mat
-    * /param Mat 减去的矩阵
+    * \brief 减去矩阵Mat
+    * \param Mat 减去的矩阵
     */
     void virtual Sub(const Matrix& Mat);
     /**
-    * /brief 右乘矩阵Mat
-    * /param Mat 右乘的矩阵
-    * /param MatResult 输出矩阵
+    * \brief 右乘矩阵Mat
+    * \param Mat 右乘的矩阵
+    * \param MatResult 输出矩阵
     */
     void virtual Mul(const Matrix& Mat, Matrix& MatResult) const;
 
@@ -181,11 +181,11 @@ public:
     Vector virtual operator*(const Vector& vec) const;
     //**********常用操作**********
     /**
-    * /brief 抽取矩阵中的某列
-    * /param Data 指针
-    * /param Offset 抽取的列位置
-    * /param Interval 列数
-    * /param Length 行数
+    * \brief 抽取矩阵中的某列
+    * \param Data 指针
+    * \param Offset 抽取的列位置
+    * \param Interval 列数
+    * \param Length 行数
     */
     void virtual ColExtract(F32* Data, S32 Offset, S32 Interval, S32 Length, F32* Result);
     /******************************
@@ -193,30 +193,30 @@ public:
     *******************************/
 
     /**
-    * /brief 求矩阵的逆
-    * /param MatResult 所得结果
+    * \brief 求矩阵的逆
+    * \param MatResult 所得结果
     */
     BOOL virtual Inv(Matrix& MatResult) const;
     /**
-    * /brief
+    * \brief
     */
     Matrix virtual Inv() const;
     /**
-    * /brief 求矩阵的行列式
-    * /param det 所得结果
+    * \brief 求矩阵的行列式
+    * \param det 所得结果
     */
     void Det(F32 &reslut);
     /**
-     * /brief求矩阵SVD(奇异值分解）A=U*S*Vt A(n*m)
-     * /param w(n) :存储奇异值，最少为一个，最多为n个非零值，w即为S的对角矩阵
-     * /param v:存储向量V，注意不是V的转置
-     * /param 注意：生成的U替换为A，即改变原矩阵。
+     * \brief 求矩阵SVD(奇异值分解）A=U*S*Vt A(n*m)
+     * \param w(n) :存储奇异值，最少为一个，最多为n个非零值，w即为S的对角矩阵
+     * \param v:存储向量V，注意不是V的转置
+     * \param 注意：生成的U替换为A，即改变原矩阵。
      */
     void Svdcmp(Vector &w, Matrix &v) ;
     /**
-     * /brief 求矩阵广义逆,注意：只能用于方阵
+     * \brief 求矩阵广义逆,注意：只能用于方阵
                matrix.cc中的 #define tol  0.00001 代表精度
-     * /param MatResult 所得的结果
+     * \param MatResult 所得的结果
      */
     void virtual pinv(Matrix &MatResult) const;
     /*
@@ -224,18 +224,18 @@ public:
      */
 
     /**
-    * /brief 求矩阵的转置
-    * /param MatResult 所得结果
+    * \brief 求矩阵的转置
+    * \param MatResult 所得结果
     */
 
     void virtual Tran(Matrix& MatResult) const;
     /**
-    * /brief 求矩阵的转置
+    * \brief 求矩阵的转置
     */
     Matrix virtual Tran() const;
     /**
-    * /brief 求矩阵的迹
-    * /param K 矩阵的迹
+    * \brief 求矩阵的迹
+    * \param K 矩阵的迹
     */
     void virtual Tr(F32 K)
     {
@@ -245,28 +245,28 @@ public:
     }
     //**********内联函数**********
     /**
-    * /brief 获取行数
+    * \brief 获取行数
     */
     inline virtual S32 GetRow() const
     {
         return row;
     }
     /**
-    * /brief 获取列数
+    * \brief 获取列数
     */
     inline virtual S32 GetCol() const
     {
         return col;
     }
     /**
-    * /brief 获取数据地址
+    * \brief 获取数据地址
     */
     inline virtual F32* GetData() const
     {
         return data;
     }
     /**
-    * /brief 是否为初始化自动分配的本地数据
+    * \brief 是否为初始化自动分配的本地数据
     */
     inline virtual BOOL IsLocalData() const
     {
@@ -275,11 +275,11 @@ public:
 
     //**********数据转移**********
     /**
-    * /brief 将传入的数据复制至this矩阵中的指定的矩形区域
-    * /param RowPos 插入位置的行数
-    * /param ColPos 插入位置的列数     (即往this矩阵写入的起点）
-    * /param Width 插入矩阵的宽度      （！！！要求该宽度等于传入数据的col)
-    * /param Height 插入矩阵的高度
+    * \brief 将传入的数据复制至this矩阵中的指定的矩形区域
+    * \param RowPos 插入位置的行数
+    * \param ColPos 插入位置的列数     (即往this矩阵写入的起点）
+    * \param Width 插入矩阵的宽度      （！！！要求该宽度等于传入数据的col)
+    * \param Height 插入矩阵的高度
     */
     inline void virtual CopyFrom(S32 RowPos, S32 ColPos, S32 Width, S32 Height, F32* Data)
     {
@@ -294,8 +294,8 @@ public:
         }
     }
     /**
-    * /brief 将传入的数据全部复制进this矩阵中
-    * /param Data 指针
+    * \brief 将传入的数据全部复制进this矩阵中
+    * \param Data 指针
     */
     inline void virtual CopyFrom(F32* Data)
     {
@@ -303,11 +303,11 @@ public:
         MemoryCopy(data, Data, row * col * sizeof(F32));
     }
     /**
-    * /brief 将指定的矩形区域(给定的其他矩阵)复制到this矩阵中来
-    * /param RowPos 复制起始位置的行数
-    * /param ColPos 复制起始位置的列数 （行数和列数就是复制的起点）
-    * /param Width 复制的宽度—— ！！！！该宽度等于给定矩阵的col
-    * /param Height 复制的高度
+    * \brief 将指定的矩形区域(给定的其他矩阵)复制到this矩阵中来
+    * \param RowPos 复制起始位置的行数
+    * \param ColPos 复制起始位置的列数 （行数和列数就是复制的起点）
+    * \param Width 复制的宽度—— ！！！！该宽度等于给定矩阵的col
+    * \param Height 复制的高度
     */
     inline void virtual CopyTo(S32 RowPos, S32 ColPos, S32 Width, S32 Height,
                                F32* Data) const
@@ -323,8 +323,8 @@ public:
         }
     }
     /**
-    * /brief 将矩阵全部数据复制到给定的数组（指针）
-    * /param Data 指针
+    * \brief 将矩阵全部数据复制到给定的数组（指针）
+    * \param Data 指针
     */
     inline void virtual CopyTo(F32* Data) const
     {
@@ -332,10 +332,10 @@ public:
         MemoryCopy(Data, data, row * col * sizeof(F32));
     }
     /**
-    * /brief 将传入数据复制到指定行的部分区域
-    * /param RowPos 复制到的行的位置
-    * /param ColPos 复制到的列的位置
-    * /param ColNum 复制的列数
+    * \brief 将传入数据复制到指定行的部分区域
+    * \param RowPos 复制到的行的位置
+    * \param ColPos 复制到的列的位置
+    * \param ColNum 复制的列数
     */
     inline void virtual CopyRowFrom(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data)
     {
@@ -346,8 +346,8 @@ public:
         MemoryCopy(data + RowPos * col + ColPos , Data, ColNum * sizeof(F32));
     }
     /**
-    * /brief 将传入数据复制到指定行
-    * /param RowPos 复制到的行的位置
+    * \brief 将传入数据复制到指定行
+    * \param RowPos 复制到的行的位置
     */
     inline void virtual CopyRowFrom(S32 RowPos, F32* Data)
     {
@@ -357,10 +357,10 @@ public:
         MemoryCopy(data + RowPos * col, Data, col * sizeof(F32));
     }
     /**
-    * /brief 复制指定行的部分数据出来
-    * /param RowPos 复制到的行的位置
-    * /param ColPos 复制到的列的位置
-    * /param ColNum 复制的列数
+    * \brief 复制指定行的部分数据出来
+    * \param RowPos 复制到的行的位置
+    * \param ColPos 复制到的列的位置
+    * \param ColNum 复制的列数
     */
     inline void virtual CopyRowTo(S32 RowPos, S32 ColPos, S32 ColNum, F32* Data) const
     {
@@ -371,8 +371,8 @@ public:
         MemoryCopy(Data, data + RowPos * col + ColPos, ColNum * sizeof(F32));
     }
     /**
-    * /brief 复制指定行数据处理
-    * /param RowPos 复制到的行的位置
+    * \brief 复制指定行数据处理
+    * \param RowPos 复制到的行的位置
     */
     inline void virtual CopyRowTo(S32 RowPos, F32* Data) const
     {
@@ -382,10 +382,10 @@ public:
         MemoryCopy(Data, data + RowPos * col, col * sizeof(F32));
     }
     /**
-    * /brief 将数据复制到指定列的部分区域
-    * /param RowPos 复制到的行的位置
-    * /param ColPos 复制到的列的位置
-    * /param RowNum 复制的行数
+    * \brief 将数据复制到指定列的部分区域
+    * \param RowPos 复制到的行的位置
+    * \param ColPos 复制到的列的位置
+    * \param RowNum 复制的行数
     */
     inline void virtual CopyColFrom(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data)
     {
@@ -401,8 +401,8 @@ public:
         }
     }
     /**
-    * /brief 将数据复制到指定列
-    * /param ColPos 复制到的列的位置
+    * \brief 将数据复制到指定列
+    * \param ColPos 复制到的列的位置
     */
     inline void virtual CopyColFrom(S32 ColPos, F32* Data)
     {
@@ -416,10 +416,10 @@ public:
         }
     }
     /**
-    * /brief 复制指定列的部分区域数据出来
-    * /param RowPos 复制到的行的位置
-    * /param ColPos 复制到的列的位置
-    * /param RowNum 复制的行数
+    * \brief 复制指定列的部分区域数据出来
+    * \param RowPos 复制到的行的位置
+    * \param ColPos 复制到的列的位置
+    * \param RowNum 复制的行数
     */
     inline void virtual CopyColTo(S32 ColPos, S32 RowPos, S32 RowNum, F32* Data) const
     {
@@ -435,8 +435,8 @@ public:
         }
     }
     /**
-    * /brief 将数据复制到指定列
-    * /param ColPos 复制到的列的位置
+    * \brief 将数据复制到指定列
+    * \param ColPos 复制到的列的位置
     */
     inline void virtual CopyColTo(S32 ColPos, F32* Data) const
     {
@@ -452,7 +452,7 @@ public:
 
     //**********数据访问**********
     /**
-     * /brief 写入单个元素(一维线性访问)
+     * \brief 写入单个元素(一维线性访问)
      */
     inline F32& operator[](S32 index)
     {
@@ -461,8 +461,8 @@ public:
         return data[index];
     }
     /**
-    * /brief 读取单个元素(一维线性访问)
-    * /param index 位置
+    * \brief 读取单个元素(一维线性访问)
+    * \param index 位置
     */
     inline F32 operator[](S32 index) const
     {
@@ -471,9 +471,9 @@ public:
         return data[index];
     }
     /**
-    * /brief 写入单个元素,且会自动执行限位。
-    * /param Y 行数
-    * /param X 列数
+    * \brief 写入单个元素,且会自动执行限位。
+    * \param Y 行数
+    * \param X 列数
     */
     inline F32& operator()(S32 Y, S32 X)
     {
@@ -488,9 +488,9 @@ public:
         return data[Y * col + X];
     }
     /**
-     * /brief 读取单个元素且会自动执行限位。
-     * /param Y 行数
-     * /param X 列数
+     * \brief 读取单个元素且会自动执行限位。
+     * \param Y 行数
+     * \param X 列数
      * /
      */
     inline F32 operator()(S32 Y, S32 X) const
@@ -508,8 +508,8 @@ public:
 
     //**********数据操作**********
     /**
-      * /brief 设置所有元素为 K
-      * /param k 将要设置成的数值
+      * \brief 设置所有元素为 K
+      * \param k 将要设置成的数值
       */
     inline void virtual Set(F32 K)
     {
@@ -517,14 +517,14 @@ public:
             data[i] = K;
     }
     /**
-      * /brief 设置所有元素为0
+      * \brief 设置所有元素为0
       */
     inline void virtual Clear()
     {
         Set(0);
     }
     /**
-      * /brief 设置主对角线元素为K
+      * \brief 设置主对角线元素为K
       */
     inline void virtual SetDiag(F32 K)
     {
@@ -532,8 +532,8 @@ public:
             data[i * row + i] = K;
     }
     /**
-      * /brief 设置主对角线元素
-      * /param Data 给定的数组（指针），将其值复制给对角线元素
+      * \brief 设置主对角线元素
+      * \param Data 给定的数组（指针），将其值复制给对角线元素
       */
     inline void virtual SetDiag(F32* Data)
     {
@@ -542,8 +542,8 @@ public:
             data[i * row + i] = Data[i];
     }
     /**
-     * /brief 将主对角线元素复制出来，存储到 Data
-     * /param Data 给定的数组（指针)，用来接受数据。
+     * \brief 将主对角线元素复制出来，存储到 Data
+     * \param Data 给定的数组（指针)，用来接受数据。
      */
     inline void virtual GetDiag(F32* Data) const
     {
@@ -554,16 +554,16 @@ public:
 
     //**********维数匹配**********
     /**
-     * /brief 检查维数与Mat是否一致，是 返回true,否，返回false
-     * /param Mat 与之匹配的矩阵
+     * \brief 检查维数与Mat是否一致，是 返回true,否，返回false
+     * \param Mat 与之匹配的矩阵
      */
     inline BOOL virtual MatchDim(const Matrix& Mat) const
     {
         return (Mat.row == row && Mat.col == col);
     }
     /**
-     * /brief 检查维数是否为Row,Col,是 返回true,否，返回false
-     * /param 给定的 Row Col
+     * \brief 检查维数是否为Row,Col,是 返回true,否，返回false
+     * \param 给定的 Row Col
      */
     inline BOOL virtual MatchDim(S32 Row, S32 Col) const
     {
@@ -571,48 +571,48 @@ public:
 
     }
     /**
-     * /brief 检查维数是否可右乘Mat
-     * /param Mat 要右乘的向量
+     * \brief 检查维数是否可右乘Mat
+     * \param Mat 要右乘的向量
      */
     inline BOOL virtual MatchMul(const Matrix& Mat) const
     {
         return (col == Mat.row);
     }
     /**
-     * /brief 检查维数是否可右乘行向量Vec
-     * /param Vec 要右乘的向量
+     * \brief 检查维数是否可右乘行向量Vec
+     * \param Vec 要右乘的向量
      */
     inline BOOL virtual MatchRightMulRow(const Vector& Vec) const
     {
         return (col == Vec.GetDim());
     }
     /**
-     * /brief 检查维数是否可右乘列向量Vec
-     * /param Vec 要右乘的向量
+     * \brief 检查维数是否可右乘列向量Vec
+     * \param Vec 要右乘的向量
      */
     inline BOOL virtual MatchRightMulCol(const Vector& Vec) const
     {
         return (col == 1&&row==Vec.GetDim());
     }
     /**
-     * /brief 检查维数是否可左乘行向量Vec
-     * /param Vec 要左乘的向量
+     * \brief 检查维数是否可左乘行向量Vec
+     * \param Vec 要左乘的向量
      */
     inline BOOL virtual MatchLeftMulRow(const Vector& Vec) const
     {
         return (row == Vec.GetDim());
     }
     /**
-     * /brief 检查维数是否可左乘列向量Vec
-     * /param Vec 要左乘的向量
+     * \brief 检查维数是否可左乘列向量Vec
+     * \param Vec 要左乘的向量
      */
     inline BOOL virtual MatchLeftMulCol(const Vector& Vec) const
     {
         return (row == 1&&col==Vec.GetDim());
     }
     /**
-     * /brief 检查矩阵是否与给定矩阵相同
-     * /param Mat 要比较的矩阵
+     * \brief 检查矩阵是否与给定矩阵相同
+     * \param Mat 要比较的矩阵
      */
     inline BOOL CompMatrix(Matrix& Mat)
     {
