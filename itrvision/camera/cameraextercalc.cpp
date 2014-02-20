@@ -389,14 +389,15 @@ BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
             R1.AllMul(1/q2);
             temp33.AllMul(q3/q1-s);
             R1=R1-temp33;
-            t1=u3*D*(q3/q1-s);
+            t1=u3;
+            t1.Mul(D*(q3/q1-s));
             Vector n(3);
             n=v3;
             Vector Sx(3);
             Matrix Vx(3,3);
             v3mat.Svdcmp(Sx,Vx);
             F32 W_n=Sx[0];
-            t1=t1*W_n;
+            t1.Mul(W_n);
             t1.Mul(-1);
             R.CopyFrom(0,0,3,3,R1.GetData());
             t.CopyFrom(0,0,1,3,t1.GetData());
@@ -414,10 +415,17 @@ BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
             R1=U*temp33*V;
             Matrix v1mat(3,1),n1(3,1);
             V.CopyRowTo(0, v1mat.GetData());
+
             n1=v1mat;
             n1.AllMul(r);
             n1=n1+v3mat;
-            t1=(u1*(-b)+u3*(q3/q2-s*a))*D;
+
+            Vector temp3(3);
+            t1=u1; t1.Mul(-b);
+            temp3=u3; temp3.Mul(q3/q2-s*a);
+            t1=t1+temp3;
+            t1.Mul(D);
+            //t1=(u1*(-b)+u3*(q3/q2-s*a))*D;
             Vector Sx(3);
             Matrix Vx(3,3);
             //
@@ -441,7 +449,10 @@ BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
             n2=n2+v3mat;
 
             Vector t2(3);
-            t2=(u1*(-b)+u3*(q3/q2-s*a));
+            t2=u1; t2.Mul(-b);
+            temp3=u3; temp3.Mul(q3/q2-s*a);
+            t2=t2+temp3; t2.Mul(D);
+            //t2=(u1*(-b)+u3*(q3/q2-s*a))*D;
             //
             N.CopyFrom(0,1,1,3,n2.GetData());
             n2.Svdcmp(Sx,Vx);
@@ -453,5 +464,6 @@ BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
 
         }break;
     }
+    return true;
 }
 }

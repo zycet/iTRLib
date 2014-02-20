@@ -77,7 +77,8 @@ BOOL CameraInterCalc::CalcP2C(const Vector &PixelPoint,F32 Z,Vector &CameraPoint
     if(isMatP2CAvailable)
     {
         CameraPoint =MatP2C*PixelPoint;
-        CameraPoint=CameraPoint*Z;
+        CameraPoint.Mul(Z);
+        //CameraPoint=CameraPoint*Z;
         return 1;
     }
     return 0;
