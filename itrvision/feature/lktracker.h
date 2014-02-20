@@ -49,9 +49,21 @@ public:
     {
         Tracked, OOB, SmallDet, LARGE_RESIDUE,MAX_ITERATION,FBError,NCCError
     };
+    /**
+    * \brief 初始化矩阵
+    * \param Img1 初始化的矩阵1
+    * \param Img2 初始化的矩阵2
+    */
     void Init(const Matrix &Img1, const Matrix &Img2);
+    /**
+    * \brief 初始化矩阵
+    * \param 初始化的矩阵
+    */
     void Init(const Matrix &Img);
     LKTracker();
+    /**
+    * \brief 清空数据
+    */
     virtual ~LKTracker();
     TrackResult Compute(Point2D &U, Point2D &V, S32 L);
     void Compute(const vector<CommFeaturePoint> &fl,vector<CommFeaturePoint> &flresult, S32 FeatureNum,bool Forward);
@@ -60,6 +72,9 @@ public:
     S32 max_residue;
     S32 max_iterations;
     Pyramid *last,*current;
+    /**
+    * \brief 建立新金字塔
+    */
     void AddNext(const Matrix &Img);
 private:
     void _ComputeDt(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dt);
