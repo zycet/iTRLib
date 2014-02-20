@@ -43,112 +43,129 @@ namespace itr_math
 class Vector
 {
 public:
-    /*
-     * 初始化维数为Dim的向量(自动分配本地空间)
+    /**
+     * /brief 初始化维数为Dim的向量(自动分配本地空间)
+     * /param Dim 向量维数
      */
     Vector(S32 Dim);
-    /*
-     * 初始化维数为Dim的向量(使用Data指向的空间储存数据)
+    /**
+     * /brief 初始化维数为Dim的向量(使用Data指向的空间储存数据)
+     * /param Dim 向量维数
+     * /param Data 向量所指向的数组
      */
     Vector(S32 Dim, F32 *Data);
-    /*
-     * 构造完全一样的向量(Clone)
+    /**
+     * /brief 构造完全一样的向量(Clone)
+     * /param Vec clone的对象
      */
     Vector(const Vector &Vec);
-    /*
-     * 用于初始化列表的空构造函数
-     * 在构造后需手动调用Init函数
+    /**
+     * /brief 用于初始化列表的空构造函数
+     * /brief 在构造后需手动调用Init函数
      */
     Vector();
-    /*
+    /**
      * 回收本地空间(如果曾经分配)
      */
     virtual ~Vector();
     //**********后初始化函数**********
-    /*
-     * 初始化一个指定行列数的空Vec(自动分配内存，只能在无参数构造对象后调用)
+    /**
+     * /brief 初始化一个指定行列数的空Vec(自动分配内存，只能在无参数构造对象后调用)
+     * /param Dim 向量维数
      */
     void Init(S32 Dim);
-    /*
-     * 初始化一个指定Dim的Vec(以传入的指针为数据区，只能在无参数构造对象后调用)
+    /**
+     * /brief 初始化一个指定Dim的Vec(以传入的指针为数据区，只能在无参数构造对象后调用)
+     * /param Dim 向量维数
+     * /param Data 向量所指向的数据
      */
     void Init(S32 Dim, F32 *Data);
-    /*
-     * 返回维数
+    /**
+     * /brief 返回维数
      */
     inline S32 GetDim() const
     {
         return dim;
     }
-    /*
-     * 返回内部数据地址
+    /**
+     * /brief 返回内部数据地址
      */
     inline F32 *GetData() const
     {
         return data;
     }
-    /*
-     * 返回是否是采用本地分配的空间
+    /**
+     * /brief 返回是否是采用本地分配的空间
      */
     inline BOOL IsLocalData() const
     {
         return localData;
     }
-    /*
-     * 返回维数是否一致
+    /**
+     * /brief 返回维数是否一致
      */
     inline BOOL MatchDim(const Vector &Vec) const
     {
         return (Vec.GetDim() == dim);
     }
-    /*
-     * 全部元素清零
+    /**
+     * /brief 全部元素清零
      */
     inline virtual void Zero()
     {
         CalculateObj->Set(data, 0, dim);
     }
-    /*
-     * 全部设置为指定值
+    /**
+     * /brief 全部设置为指定值
+     * /param K 指定的数值
      */
     inline virtual void Set(F32 K)
     {
         CalculateObj->Set(data, K, dim);
     }
-    /*
-     * 复制数据至内部指定位置
+    /**
+     * /brief 复制数据至内部指定位置
+     * /param Offset 内部向量的偏移量（写入的起始位置）
+     * /param Num 写入数据数量
+     * /param Data 给定数据
      */
     virtual void CopyFrom(S32 Offset, S32 Num, F32 *Data);
-    /*
-     * 复制数据至内部
+    /**
+     * /brief 复制数据至内部
+     * /param Data 给定数据
      */
     virtual void CopyFrom(F32 *Data);
-    /*
-     * 复制指定位置数据到Data
+    /**
+     * /brief 复制指定位置数据到Data
+     * /param Offset 内部向量的偏移量（读取的起始位置）
+     * /param Num 写入数据数量
+     * /param Data 给定数据
      */
     virtual void CopyTo(S32 Offset, S32 Num, F32 *Data) const;
-    /*
-     * 复制数据至Data
+    /**
+     * /brief 复制数据至Data
      */
     virtual void CopyTo(F32 *Data) const;
-    /*
-     * 写入单个元素
+    /**
+     * /brief 写入单个元素
+     * /param index 位置
      */
     inline F32 &operator[](int index)
     {
         assert(index < dim);
         return data[index];
     }
-    /*
-     * 读取单个元素
+    /**
+     * /brief 读取单个元素
+     * /param index 位置
      */
     inline F32 &operator[](int index) const
     {
         assert(index < dim);
         return data[index];
     }
-    /*
-     * 复制运算符重载
+    /**
+     * /brief 复制运算符重载
      */
     inline Vector &operator=(const Vector &Vec)
     {
@@ -157,8 +174,9 @@ public:
         return *this;
     }
 
-    /*
-     * 全部元素增加K
+    /**
+     * /brief 全部元素增加 K
+     * /param K 加数
      */
     inline virtual void Add(F32 K)
     {
@@ -170,21 +188,27 @@ public:
         this->Add(K);
         return (*this);
     }
-    /*
-     * 全部元素乘以K
+    /**
+     * /brief 全部元素乘以 K
+     * /param K 乘数
      */
     inline virtual void Mul(F32 K)
     {
         CalculateObj->Scale(data, K, dim, data);
     }
+    /**
+     * /brief 全部元素乘以 K
+     * /param K 乘数
+     */
     inline Vector operator*(F32 K) const
     {
         Vector temp(*this);
         temp.Mul(K);
         return (temp);
     }
-    /*
-     * 加上向量Vec(维数需一致)
+    /**
+     * /brief 加上向量Vec(维数需一致)
+     * /param 相加的向量
      */
     inline virtual void Add(const Vector &Vec)
     {
@@ -198,8 +222,9 @@ public:
         return (temp);
     }
 
-    /*
-     * 减去向量Vec(维数需一致)
+    /**
+     * /brief 减去向量Vec(维数需一致)
+     * /param 相减的向量
      */
     inline virtual void Sub(const Vector &Vec)
     {
@@ -214,12 +239,14 @@ public:
     }
 
 
-    /*
-     * 向量元素积
+    /**
+     * /brief 向量元素积
+     * /param 与之相乘的向量
      */
     virtual void Product(const Vector &Vec);
-    /*
-     * 向量内积
+    /**
+     * /brief 向量内积
+     * /param Vec 计算内积的向量
      */
     virtual F32 ProductInner(const Vector &Vec) const;
 
@@ -228,8 +255,10 @@ public:
         return this->ProductInner(Vec);
     }
 
-    /*
-     * 向量外积
+    /**
+     * /brief 向量外积
+     * /param Vec 相乘的向量
+     * /param VecResult 结果
      */
     virtual void ProductOuter(const Vector &Vec, Vector &VecResult) const;
 private:
