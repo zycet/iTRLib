@@ -107,16 +107,73 @@ public:
     * \param Result 结果
     */
     virtual BOOL InvSqrt(F32 Source, F32& Result) const;
+    /**
+    * \brief 计算e为底数source为指数的幂指数
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL Exp(F32 Source, F32& Result) const;
+    /**
+    * \brief 计算e为底数的source的对数
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL Log(F32 Source, F32& Result) const;
+    /**
+    * \brief 计算10为底数的source的对数
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL Log10(F32 Source, F32& Result) const;
+    /**
+    * \brief 计算A为底数的sourceB为指数的幂指数
+    * \param SourceA 底数
+    * \param SourceA 指数
+    * \param Result 结果
+    */
     virtual BOOL Pow(F32 SourceA, F32 SourceB, F32& Result) const;
+    /**
+    * \brief 向下取整
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL Floor(F32 Source, S32& Result) const;
+    /**
+    * \brief 向上取整
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL Ceil(F32 Source, S32& Result) const;
+    /**
+    * \brief 四舍五入
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL Round(F32 Source, S32& Result) const;
+    /**
+    * \brief 求余数
+    * \param Source 输入
+    * \param Result 结果
+    */
     virtual BOOL Mod(S32 SourceA, S32 SourceB, S32& Result) const;
+    /**
+    * \brief 产生0到1.000000之间的随机数
+    * \param Result 结果
+    */
     virtual BOOL Rand(F32& Result) const;
+    /**
+    * \brief 产生low到high之间的随机数
+    * \param low 最小值
+    * \param high 最大值
+    * \param result 结果
+    */
     virtual BOOL Rand(S32 low, S32 high, S32& Result) const;
+    /**
+    * \brief 产生服从高斯分布的随机数
+    * \param low 最小值
+    * \param high 最大值
+    * \param result 结果
+    */
     virtual BOOL RandGaussian(F32& Result) const;
     const static float Pi=3.1415926f;
 };
