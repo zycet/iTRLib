@@ -310,6 +310,7 @@ void TestMatrix()
     //Init
     itr_math::MathObjStandInit();
     /////////
+    printf("************ svd test ********************\n");
     F32 dataaa1[72]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
     itr_math::Matrix A(8,9,dataaa1);
     itr_math::Matrix V(9,9);
@@ -329,15 +330,27 @@ void TestMatrix()
     F32 dataaa2[16]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
     itr_math::Matrix AA(4,4,dataaa2);
     itr_math::Matrix X(4,4);
-
+    itr_math::Matrix XAA(4,4);
     AA.pinv(X);
-
-
-   /* printf("matrix X :\n");
+    XAA=AA*X;
+    printf("matrix AA :\n");
+    printMatrix(AA);
+    printf("matrix X :\n");
     printMatrix(X);
-    printf("matrix B :\n");
-    printMatrix(B);
-    printf("matrix B :\n");*/
+    printf("matrix X*AA :\n");
+    printMatrix(XAA);
+    //test copyto &copyfrom
+    itr_math::Matrix Ac(2,2);
+    AA.CopyTo(2,2,2,2,Ac.GetData());
+    printf("matrix AA :\n");
+    printMatrix(AA);
+    printf("matrix Ac :\n");
+    printMatrix(Ac);
+    AA.CopyFrom(0,1,2,2,Ac.GetData());
+    AA.CopyTo(2,2,2,2,Ac.GetData());
+    printf("matrix AA :\n");
+    printMatrix(AA);
+
     //测试数据
     /* 1   4  9
      * 16 25 36
