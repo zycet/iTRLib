@@ -557,6 +557,62 @@ void TestMin()
     //Verify
     assert(r==0);
 }
+void TestSing_dis()
+{
+//Time
+    struct timeval tpstart;
+    struct timeval tpend;
+    F32 timeuse = 0 ;
+    //Data
+    F32 a[TEST_NUM],b[TEST_NUM];
+    F32 r=0;
+    //Init
+    for(S32 i=0;i<TEST_NUM;i++)
+    {
+        a[i]=2;
+        b[i]=1;
+    }
+    //Calc
+    gettimeofday(&tpstart,NULL);
+    for(S32 i=0;i<TEST_CYC;i++)
+    {
+        itr_math::CalculateObj->Single_dis(a,b,TEST_NUM,r);
+    }
+    gettimeofday(&tpend,NULL);
+    timeuse = 1000000*(tpend.tv_sec-tpstart.tv_sec)+tpend.tv_usec-tpstart.tv_usec;
+    timeuse /= 1000;
+    TRACE_DEBUG(timeuse);
+    //Verify
+    assert(r==TEST_NUM);
+}
+void TestDouble_dis()
+{
+//Time
+    struct timeval tpstart;
+    struct timeval tpend;
+    F32 timeuse = 0 ;
+    //Data
+    F32 a[TEST_NUM],b[TEST_NUM];
+    F32 r=0;
+    //Init
+    for(S32 i=0;i<TEST_NUM;i++)
+    {
+        a[i]=3;
+        b[i]=1;
+    }
+    //Calc
+    gettimeofday(&tpstart,NULL);
+    for(S32 i=0;i<TEST_CYC;i++)
+    {
+        itr_math::CalculateObj->Double_dis(a,b,TEST_NUM,r);
+    }
+    gettimeofday(&tpend,NULL);
+    timeuse = 1000000*(tpend.tv_sec-tpstart.tv_sec)+tpend.tv_usec-tpstart.tv_usec;
+    timeuse /= 1000;
+    TRACE_DEBUG(timeuse);
+    //Verify
+    assert(r==4*TEST_NUM);
+}
     //Multi             finished
     //Sub               finished
     //Add               finished
@@ -574,26 +630,8 @@ void TestMin()
 int main()
 {
 
-    //Max
-    PRINT_DEBUG("!!!Neon!!!");
-    itr_math::MathNeonObjStandInit();
-    TestMax();
-    itr_math::MathNeonObjStandDeinit();
-    PRINT_DEBUG("!!!C++!!!");
-    itr_math::MathObjStandInit();
-    TestMax();
-    itr_math::MathObjStandDeinit();
 
-    //Min
-    PRINT_DEBUG("!!!Neon!!!");
-    itr_math::MathNeonObjStandInit();
-    TestMin();
-    itr_math::MathNeonObjStandDeinit();
-    PRINT_DEBUG("!!!C++!!!");
-    itr_math::MathObjStandInit();
-    TestMin();
-    itr_math::MathObjStandDeinit();
-/*
+
     //Add
     PRINT_DEBUG("!!!Neon!!!");
     itr_math::MathNeonObjStandInit();
@@ -723,7 +761,48 @@ int main()
     itr_math::MathObjStandInit();
     TestCompare();
     itr_math::MathObjStandDeinit();
-    */
+
+    //Max
+    PRINT_DEBUG("!!!Neon!!!");
+    itr_math::MathNeonObjStandInit();
+    TestMax();
+    itr_math::MathNeonObjStandDeinit();
+    PRINT_DEBUG("!!!C++!!!");
+    itr_math::MathObjStandInit();
+    TestMax();
+    itr_math::MathObjStandDeinit();
+
+    //Min
+    PRINT_DEBUG("!!!Neon!!!");
+    itr_math::MathNeonObjStandInit();
+    TestMin();
+    itr_math::MathNeonObjStandDeinit();
+    PRINT_DEBUG("!!!C++!!!");
+    itr_math::MathObjStandInit();
+    TestMin();
+    itr_math::MathObjStandDeinit();
+
+    //Single_dis
+    PRINT_DEBUG("!!!Neon!!!");
+    itr_math::MathNeonObjStandInit();
+    TestSing_dis();
+    itr_math::MathNeonObjStandDeinit();
+    PRINT_DEBUG("!!!C++!!!");
+    itr_math::MathObjStandInit();
+    TestSing_dis();
+    itr_math::MathObjStandDeinit();
+
+    //Double_dis
+    PRINT_DEBUG("!!!Neon!!!");
+    itr_math::MathNeonObjStandInit();
+    TestDouble_dis();
+    itr_math::MathNeonObjStandDeinit();
+    PRINT_DEBUG("!!!C++!!!");
+    itr_math::MathObjStandInit();
+    TestDouble_dis();
+    itr_math::MathObjStandDeinit();
+
+
     return 0;
 }
 
