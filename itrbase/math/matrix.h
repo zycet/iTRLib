@@ -201,7 +201,11 @@ public:
     * /brief
     */
     Matrix virtual Inv() const;
-
+    /**
+    * /brief 求矩阵的行列式
+    * /param det 所得结果
+    */
+    void Det(F32 &reslut);
     /**
      * /brief求矩阵SVD(奇异值分解）A=U*S*Vt A(n*m)
      * /param w(n) :存储奇异值，最少为一个，最多为n个非零值，w即为S的对角矩阵
@@ -209,7 +213,7 @@ public:
      * /param 注意：生成的U替换为A，即改变原矩阵。
      */
 
-    void Svdcmp(Vector &w, Matrix &v);
+    void Svdcmp(Vector &w, Matrix &v) ;
     /**
      * /brief 求矩阵广义逆,注意：只能用于方阵，且原始数据改变（变为U，见SVD），不可用。
                 matrix.cc中的 #define tol  0.00001 代表精度

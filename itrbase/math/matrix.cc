@@ -773,6 +773,55 @@ void Matrix::Svdcmp(itr_math::Vector &w, itr_math::Matrix &v)
     }
 }
 
+void Matrix::Det(F32 &reslut) /*求矩阵行列式*/
+{
+    assert(row>0);
+    assert(col>0);
+    assert(row==col);
+    S32 i,j,k,p,r;
+    F32 temp=1,temp1=1,s=0,s1=0;
+
+     if(col==2)
+     {
+         for(i=0;i<row;i++)
+            for(j=0;j<col;j++)
+                if((i+j)%2)
+                    temp1*=this->data[i*col+j];
+                else
+                    temp*=this->data[i*col+j];
+         reslut=temp-temp1;
+     }
+     else
+     {
+         for(k=0;k<col;k++)
+         {
+             for(i=0,j=k;i<row,j<col;i++,j++)
+                temp*=this->data[i*col+j];
+             if(row-i)
+             {
+                 for(p=row-i,r=row-1;p>0;p--,r--)
+                    temp*=this->data[r*col+p-1];
+             }
+             s+=temp;
+             temp=1;
+         }
+
+         for(k=col-1;k>=0;k--)
+         {
+             for(i=0,j=k;i<row,j>=0;i++,j--)
+                temp1*=this->data[i*col+j];
+             if(row-i)
+             {
+                for(p=row-1,r=i;r<row;p--,r++)
+                    temp1*=this->data[r*col+p];
+             }
+             s1+=temp1;
+             temp1=1;
+         }
+         reslut=s-s1;
+     }
+
+}
 void  Matrix::pinv(Matrix &MatResult) const
 {
     assert(row>0);

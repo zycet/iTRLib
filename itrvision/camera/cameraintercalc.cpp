@@ -10,7 +10,7 @@ CameraInterCalc::CameraInterCalc()
 {
     //ctor
     MatC2P.Init(3,4);
-    MatP2C.Init(3,4);
+    MatP2C.Init(4,3);
     MatC2P.Set(0);
     MatP2C.Set(0);
     isMatC2PAvailable =false;

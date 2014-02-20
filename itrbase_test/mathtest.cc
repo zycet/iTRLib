@@ -328,11 +328,16 @@ void TestMatrix()
 
     printf("************ pinv test ********************\n");
     F32 dataaa2[16]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+    F32 dataaa3[9]={1,3,5,7,9,6,7,8,9};
+    itr_math::Matrix Afdet(3,3,dataaa3);
     itr_math::Matrix AA(4,4,dataaa2);
     itr_math::Matrix X(4,4);
     itr_math::Matrix XAA(4,4);
     AA.pinv(X);
     XAA=AA*X;
+    F32 result_f32;
+    Afdet.Det(result_f32);
+    printf("Det of Afdet: %f\n",result_f32);
     printf("matrix AA :\n");
     printMatrix(AA);
     printf("matrix X :\n");

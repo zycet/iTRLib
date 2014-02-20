@@ -5,6 +5,11 @@ namespace itr_vision
 CameraExterCalc::CameraExterCalc()
 {
     //ctor
+    H.Init(3,3);
+    R.Init(3,6);
+    t.Init(3,2);
+    N.Init(3,2);
+
 }
 
 CameraExterCalc::~CameraExterCalc()
@@ -18,7 +23,7 @@ CameraExterCalc::CameraExterCalc(const CameraExterCalc &other)
     this->H=other.H;
     this->V=other.V;
     this->R=other.R;
-    this->T=other.T;
+    this->t=other.t;
     this->N=other.N;
 }
 
@@ -322,9 +327,131 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
 * \param D 深度(单位:米)
 * \note 此计算步骤需已完成单应性矩阵计算(既已成功调用CalcHV())
 */
-BOOL CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
+BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
 {
     Matrix tmpA(3,3);
-   // CameraInterPara
+    Matrix tmpApinv(3,3);
+    Matrix Hc(3,3);
+    Matrix V(3,3),U(3,3);
+    Vector d(3);
+
+    CameraInterPara.MatC2P.CopyTo(0,0,3,3,tmpA.GetData());
+    tmpA.pinv(tmpApinv);
+    Hc=tmpApinv*H*tmpA;
+
+    Hc.CopyTo(0,0,3,3,U.GetData());
+    U.Svdcmp(d, V);
+
+    Vector u1(3),u3(3),v1(3),v3(3);
+    F32 q1,q2,q3;
+    U.CopyRowTo(0, u1.GetData());
+    U.CopyRowTo(2, u3.GetData());
+    q1=d[0],q2=d[1],q3=d[2];
+    V.CopyRowTo(0, v1.GetData());
+    V.CopyRowTo(2, v3.GetData());
+
+    F32 err1=q1-q2;
+    F32 err2=q2-q3;
+    F32 err_ratio=0.005*q2;
+    S16 state;
+    if (err1<=err_ratio && err2<=err_ratio)
+        state=1;
+    else
+        if(err1>err_ratio&& err2>err_ratio)
+            state=3;
+        else
+            state=2;
+
+    F32 s,stmp;
+    U.Det(s);
+    V.Det(stmp);
+    s*=stmp;
+
+    Matrix R1(3,3);
+    Matrix temp33(3,3),v3mat(3,1),v3t(1,3);
+    V.CopyRowTo(2, v3t.GetData());
+    V.CopyRowTo(2, v3mat.GetData());
+    Vector t1(3);
+    switch (state)
+    {
+        case 1:
+        {
+            R1.CopyFrom(0,0,3,3,H.GetData());
+            R1.AllMul(1/q2);
+            t1.Set(0);
+            R.CopyFrom(0,0,3,3,R1.GetData());
+            t.CopyFrom(0,0,1,3,t1.GetData());
+        }break;
+        case 2:
+        {
+            temp33=v3mat*v3t;
+            R1.CopyFrom(0,0,3,3,H.GetData());
+            R1.AllMul(1/q2);
+            temp33.AllMul(q3/q1-s);
+            R1=R1-temp33;
+            t1=u3*D*(q3/q1-s);
+            Vector n(3);
+            n=v3;
+            Vector Sx(3);
+            Matrix Vx(3,3);
+            v3mat.Svdcmp(Sx,Vx);
+            F32 W_n=Sx[0];
+            t1=t1*W_n;
+            t1.Mul(-1);
+            R.CopyFrom(0,0,3,3,R1.GetData());
+            t.CopyFrom(0,0,1,3,t1.GetData());
+            N.CopyFrom(0,0,1,3,n.GetData());
+        }break;
+        case 3:
+        {
+            F32 r=sqrt((q1*q1-q2*q2)/(q2*q2-q3*q3));
+            F32 a=(q1+s*q3*r*r)/(q2+q2*r*r);
+            F32 b=-sqrt(1-a*a);
+            temp33(0,0)=a;  temp33(0,1)=0;  temp33(0,2)=b;
+            temp33(1,0)=0;  temp33(1,1)=1;  temp33(1,2)=0;
+            temp33(2,0)=-s*b;  temp33(0,1)=0;  temp33(0,2)=s*a;
+            V=V.Tran();
+            R1=U*temp33*V;
+            Matrix v1mat(3,1),n1(3,1);
+            V.CopyRowTo(0, v1mat.GetData());
+            n1=v1mat;
+            n1.AllMul(r);
+            n1=n1+v3mat;
+            t1=(u1*(-b)+u3*(q3/q2-s*a))*D;
+            Vector Sx(3);
+            Matrix Vx(3,3);
+            //
+            N.CopyFrom(0,0,1,3,n1.GetData());
+            n1.Svdcmp(Sx,Vx);
+            F32 W_n=Sx[0];
+            t1.Mul(-1);
+            R.CopyFrom(0,0,3,3,R1.GetData());
+            t.CopyFrom(0,0,1,3,t1.GetData());
+
+
+            r=-r;
+            b=-b;
+            temp33(0,2)=b;
+            temp33(2,0)=-s*b;
+            Matrix R2(3,3);
+            R2=U*temp33*V;
+            Matrix n2(1,3);
+            n2=v1mat;
+            n2.AllMul(r);
+            n2=n2+v3mat;
+
+            Vector t2(3);
+            t2=(u1*(-b)+u3*(q3/q2-s*a));
+            //
+            N.CopyFrom(0,1,1,3,n2.GetData());
+            n2.Svdcmp(Sx,Vx);
+            W_n=Sx[0];
+            t2.Mul(W_n);
+            t2.Mul(-1);
+            R.CopyFrom(0,3,3,3,R2.GetData());
+            t.CopyFrom(0,1,1,3,t2.GetData());
+
+        }break;
+    }
 }
 }

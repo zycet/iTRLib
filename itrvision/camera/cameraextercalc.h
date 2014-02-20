@@ -5,6 +5,7 @@
 #include "../feature/feature.h"
 #include "camera.h"
 #include "itralgorithm.h"
+#include "math.h"
 
 using namespace itr_math;
 using namespace itr_algorithm;
@@ -55,17 +56,17 @@ public:
     */
     Vector V;
     /**
-    * \note 请参考王超磊论文55页,后完成计算并修改此注释
+    * \note 转动矩阵（两列3*3*2）
     */
-    Vector R;
+    Matrix R;
     /**
-    * \note 请参考王超磊论文55页,后完成计算并修改此注释
+    * \note 平移向量（两列3*2）
     */
-    Vector T;
+    Matrix t;
     /**
-    * \note 请参考王超磊论文55页,后完成计算并修改此注释
+    * \note 平面的单位法向量（两列3*2）
     */
-    Vector N;
+    Matrix N;
 protected:
 private:
 };
