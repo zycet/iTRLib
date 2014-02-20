@@ -1,8 +1,3 @@
-/*
- C++循环列队
- BUAA 刘淼
- 2013-9-8
- */
 
 namespace itr_container
 {
