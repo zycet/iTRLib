@@ -39,6 +39,7 @@
 #include "./pyramid.h"
 #include "./selectkltfeature.h"
 #include "./lktracker.h"
+#include "./surf.h"
 #include "./commfeaturepoint.h"
 #include "./vectorfeaturepoint.h"
 

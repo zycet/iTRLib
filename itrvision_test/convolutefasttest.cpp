@@ -7,7 +7,6 @@
 #include <sys/time.h>
 
 
-
 #define TEST_CYC 50
 
 #define filtervalue 0.33333

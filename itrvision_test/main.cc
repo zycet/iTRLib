@@ -46,6 +46,7 @@
 #include "integralimgtest.h"
 #include "convolutefasttest.h"
 #include "hessiantest.h"
+#include "surftest.h"
 int main()
 {
     //Init Math
@@ -72,7 +73,8 @@ int main()
     //Deint Math
     //ConvoluteFastTest();
     //IntegralImgTest();
-    TestBoxHessian();
+    //TestBoxHessian();
+    SurfTest();
 
 
     TRACE_INFO("OK All");
