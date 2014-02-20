@@ -875,7 +875,7 @@ void CalculateNeon::Max(F32* SourceA, S32 Length, F32& Result) const
     while(SourceA<endSource)
     {
         if(Result<(*SourceA))
-            Result = SourceA;
+            Result = *SourceA;
         SourceA++;
     }
     asm volatile
@@ -922,7 +922,7 @@ void CalculateNeon::Min(F32* SourceA, S32 Length, F32& Result) const
     while(SourceA<endSource)
     {
         if(Result<(*SourceA))
-            Result = SourceA;
+            Result = *SourceA;
         SourceA++;
     }
     asm volatile
@@ -968,7 +968,7 @@ void CalculateNeon::Min(F32* SourceA, S32 Length, F32& Result, S32& Order) const
     while(SourceA<endSource)
     {
         if(Result<(*SourceA))
-            Result = SourceA;
+            Result =* SourceA;
         SourceA++;
     }
     asm volatile
@@ -985,22 +985,22 @@ void CalculateNeon::Min(F32* SourceA, S32 Length, F32& Result, S32& Order) const
     if(Result > Resulttmp)
         Result = Resulttmp;
 }
-    virtual void Single_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const
+    void CalculateNeon::Single_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const
     {
-        F32 tmpResult=new F32[Length];
+        F32 *tmpResult=new F32[Length];
         Sub( SourceA,  SourceB,  Length, tmpResult);
         Abs(tmpResult, Length, tmpResult);
         AddSum(tmpResult, Length,  Result);
-        delete tmpResult[];
+        delete[] tmpResult;
     }
 
-    virtual void Double_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const
+    void CalculateNeon::Double_dis(F32* SourceA, F32* SourceB, S32 Length, F32& Result) const
     {
-        F32 tmpResult=new F32[Length];
+        F32 *tmpResult=new F32[Length];
         Sub( SourceA,  SourceB,  Length, tmpResult);
         Abs(tmpResult, Length, tmpResult);
         MultiSum(tmpResult, tmpResult,  Length,  Result);
-        delete tmpResult[];
+        delete[] tmpResult;
     }
 
 }
