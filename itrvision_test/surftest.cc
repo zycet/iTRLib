@@ -29,13 +29,27 @@ void TestIpts()
     surf.Init(grayI.GetWidth(),grayI.GetHeight(),5,4,2,10.f);
 
     std::vector<VectorFeaturePoint> FeaturePointList;
+    gettimeofday(&tpstart,NULL);
     surf.Process(gray_matrix_in, FeaturePointList);
+    gettimeofday(&tpend,NULL);
+    timeuse = 1000000*(tpend.tv_sec-tpstart.tv_sec)+tpend.tv_usec-tpstart.tv_usec;
+    timeuse /= 1000;
+    printf("\n fast : %f\n",timeuse);
+    TRACE_DEBUG(timeuse);
     for(S32 i=0; i<FeaturePointList.size(); i++ )
     {
         VectorFeaturePoint p=FeaturePointList[i];
         PRINT_DEBUG(p.X);
         PRINT_DEBUG(p.Y);
+        PRINT_DEBUG(p.Feature[0]);
+        PRINT_DEBUG(p.Scale);
+        for(S32 j=0; j<64; j++)
+        {
+            PRINT_DEBUG(p.Feature[j]);
+        }
     }
+    int kkk;
+    std::cin>>kkk;
 }
 
 void SurfTest()
