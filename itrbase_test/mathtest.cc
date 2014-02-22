@@ -342,6 +342,7 @@ void TestMatrix()
     printMatrix(X);
     printf("matrix X*AA :\n");
     printMatrix(XAA);
+
     //test copyto &copyfrom
     itr_math::Matrix Ac(2,2);
     AA.CopyTo(2,2,2,2,Ac.GetData());

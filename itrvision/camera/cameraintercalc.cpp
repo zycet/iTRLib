@@ -40,7 +40,11 @@ void CameraInterCalc::SetPara(F32 F,F32 dX,F32 dY,F32 u0,F32 v0)
     MatC2P(2,2)=1;
     isMatC2PAvailable =true;
 
-    MatC2P.pinv(MatP2C);
+    Matrix temp1(3,3),temp2(3,3);
+    MatC2P.CopyTo(0,0,3,3,temp1.GetData());
+    temp1.Inv(temp2);
+
+    MatP2C.CopyFrom(0,0,3,3,temp2.GetData());
     isMatP2CAvailable =true;
 }
 void CameraInterCalc::SetPara(F32 degX,F32 degY,F32 u0,F32 v0)
@@ -54,8 +58,11 @@ void CameraInterCalc::SetPara(F32 degX,F32 degY,F32 u0,F32 v0)
     MatC2P(1,2)=v0;
     MatC2P(2,2)=1;
     isMatC2PAvailable =true;
+    Matrix temp1(3,3),temp2(3,3);
+    MatC2P.CopyTo(0,0,3,3,temp1.GetData());
+    temp1.Inv(temp2);
 
-    MatC2P.Inv(MatP2C);
+    MatP2C.CopyFrom(0,0,3,3,temp2.GetData());
     isMatP2CAvailable =true;
 }
 

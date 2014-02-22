@@ -11,8 +11,7 @@ FeatureMatch::~FeatureMatch()
 {
     //dtor
 }
-void FeatureMatch::FeatureMatchDo(VectorFeaturePoint vectorfeaturepoint1[],S32 num1,
-                                  VectorFeaturePoint vectorfeaturepoint2[],S32 num2,S32 matchnum,Point2D pos1[],Point2D pos2[])
+void FeatureMatch::FeatureMatchDo(VectorFeaturePoint *vectorfeaturepoint1,S32 num1,VectorFeaturePoint *vectorfeaturepoint2,S32 num2,S32 &matchnum)
 {
 
     F32 valuet[num1>num2?num1:num2];

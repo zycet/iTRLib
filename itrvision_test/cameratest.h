@@ -7,7 +7,7 @@
 void CameraTest();
 
 void TestCamerain();
-void TestCameraexternal();
+void TestCameraexternal(itr_vision::CameraInterCalc &camera_in);
 
 
 #endif // TESTCAMERA_H

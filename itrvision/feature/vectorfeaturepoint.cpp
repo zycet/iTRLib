@@ -10,6 +10,7 @@ namespace itr_vision
 VectorFeaturePoint::VectorFeaturePoint()
 {
     //ctor
+    this->Feature.Init(128);
     this->LevelNo =0;
     this->ID =0;
     this->Tag =NULL;
