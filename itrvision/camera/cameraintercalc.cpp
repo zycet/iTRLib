@@ -40,7 +40,7 @@ void CameraInterCalc::SetPara(F32 F,F32 dX,F32 dY,F32 u0,F32 v0)
     MatC2P(2,2)=1;
     isMatC2PAvailable =true;
 
-    MatC2P.Inv(MatP2C);
+    MatC2P.pinv(MatP2C);
     isMatP2CAvailable =true;
 }
 void CameraInterCalc::SetPara(F32 degX,F32 degY,F32 u0,F32 v0)
@@ -78,7 +78,6 @@ BOOL CameraInterCalc::CalcP2C(const Vector &PixelPoint,F32 Z,Vector &CameraPoint
     {
         CameraPoint =MatP2C*PixelPoint;
         CameraPoint.Mul(Z);
-        //CameraPoint=CameraPoint*Z;
         return 1;
     }
     return 0;

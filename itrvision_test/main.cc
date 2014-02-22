@@ -47,34 +47,37 @@
 #include "convolutefasttest.h"
 #include "hessiantest.h"
 #include "surftest.h"
+#include "cameratest.h"
 int main()
 {
     //Init Math
-    //itr_math::MathObjStandInit();
+    itr_math::MathObjStandInit();
 //    itr_math::MathNeonObjStandInit();
-    //Test Rotate OK!
+    ///Test Rotate OK!
     //rotatetest();
-    //Test Genrect OK!
+    ///Test Genrect OK!
     //genrecttest();
-    //Test Pick OK!
+    ///Test Pick OK!
     //picktest();
-    //Test Draw OK!
+    ///Test Draw OK!
     //drawtest();
     ///Test LKTracker
     //lktest();
     ///Test Detection
    // DetectionTest();
-    //Test Process
+    ///Test Process
     //ConvoluteSquareTest();
     //ConvoluteSquareTest4Pro();
     //FormatPPMTestPGMTest3();
-    //Finish
+    CameraTest();
+    ///Finish
     //itr_math::MathObjStandDeinit();
     //Deint Math
     //ConvoluteFastTest();
     //IntegralImgTest();
     //TestBoxHessian();
-    SurfTest();
+
+   // SurfTest();
 
 
     TRACE_INFO("OK All");
