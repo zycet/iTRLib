@@ -76,10 +76,14 @@ LKTracker::~LKTracker()
     delete[] Dx;
     delete[] Dy;
     delete[] Sum;
+    delete last;
+    delete current;
 }
 
 void itr_vision::LKTracker::AddNext(const Matrix &Img)
 {
+    if(last!=NULL)
+        delete last;
     last = current;
     current = new Pyramid();
     current->Init(Img, 4, 2);

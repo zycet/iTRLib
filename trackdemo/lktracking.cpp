@@ -142,7 +142,7 @@ bool lktracking::Go(const Matrix &current,RectangleS &rect,F32 &Vx,F32 &Vy)
         printf("FBFilter: %d  \n",fb_filter());
         printf("NCCFilter: %d  \n",ncc_filter(tracker.last->img[0],tracker.current->img[0]));
     }
-    if(false)
+    if(true)
     {
         ///特征点匹配关系输出
         Matrix cor;
