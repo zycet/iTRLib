@@ -63,6 +63,8 @@ public:
     * \brief ¹ýÂË·§Öµ
     */
     F32 Threshold;
+
+    std::vector<BoxHessian*> OctaveList;
 private:
     BOOL IsExtremum(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b);
     void MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b,VectorFeaturePoint &vfp);
@@ -70,7 +72,7 @@ private:
     void GetDescriptor(VectorFeaturePoint& Point);
     F32 HaarX(S32 row, S32 column, S32 s);
     F32 HaarY(S32 row, S32 column, S32 s);
-    std::vector<BoxHessian*> OctaveList;
+    //std::vector<BoxHessian*> OctaveList;
     Matrix IntImg;
     S32 OctaveNum;
     S32 IntervalNum;

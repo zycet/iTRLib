@@ -86,10 +86,13 @@ public:
     * \brief ÂË²¨Æ÷³¤¶È
     */
     S32 FilterLength;
-private:
-    S32 Width,Height;
+
     F32* Hessian;
     U8* Laplacian;
+private:
+    S32 Width,Height;
+    //F32* Hessian;
+    //U8* Laplacian;
 };
 }
 

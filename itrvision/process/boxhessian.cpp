@@ -17,9 +17,9 @@ BoxHessian::BoxHessian()
 BoxHessian::~BoxHessian()
 {
     if(Hessian!=NULL)
-        delete Hessian;
+        delete[] Hessian;
     if(Laplacian!=NULL)
-        delete Laplacian;
+        delete[] Laplacian;
 }
 
 F32* BoxHessian::GetHessianData() const

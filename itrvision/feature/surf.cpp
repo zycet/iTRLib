@@ -19,7 +19,11 @@ SURF::SURF()
 
 SURF::~SURF()
 {
-    //dtor
+    for(S32 i=0;i<(S32)OctaveList.size();i++)
+    {
+        delete OctaveList[i];
+    }
+    OctaveList.clear();
 }
 void SURF::Init(S32 Width,S32 Height,S32 OctaveNum,S32 IntervalNum,S32 InitSample,F32 Threshold)
 {
