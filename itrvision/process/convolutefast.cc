@@ -52,6 +52,7 @@ ConvoluteFast::~ConvoluteFast()
     {
         delete this->calcBuffer;
     }
+    delete this->temp;
 }
 
 void ConvoluteFast::Init(S32 FilterN, S32 ColN, S32 RowN)
