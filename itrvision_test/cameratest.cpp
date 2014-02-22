@@ -95,10 +95,19 @@ void TestCameraexternal(itr_vision::CameraInterCalc &camera_in)
 //    assert(GET_ABS(pointlist2[1005].Feature[125]-0.13691367)<0.001);
 //    assert(GET_ABS(Hstd(2,2)+0.00485)<0.001);
 
-    itr_vision::featurematch domatch;
+    itr_vision::FeatureMatch domatch;
     S32 matched_num;
     domatch.FeatureMatchDo(pointlist1,end_of_pos1,pointlist2,end_of_pos1,matched_num);
-    printf("matched number: %d\n",matched_num);
+    //printf("matched number: %d\n",matched_num);
+    CameraExterCalc camera_out;
+    camera_out.CalcH(pointlist1,end_of_pos1,pointlist2,end_of_pos1);
+
+    printf("camera_out.H\n");
+    printMatrix(camera_out.H);
+    printf("Hstd\n");
+    printMatrix(Hstd);
+
+    camera_out.CalcMotion(camera_in,10);
 }
 void CameraTest()
 {

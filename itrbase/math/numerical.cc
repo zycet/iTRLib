@@ -57,7 +57,7 @@ namespace itr_math
 
     BOOL Numerical::Cos(F32 Source, F32 &Result) const
     {
-        Result = sin(Source);
+        Result = cos(Source);
         return true;
     }
 

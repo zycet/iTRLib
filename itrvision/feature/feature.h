@@ -41,6 +41,6 @@
 #include "./lktracker.h"
 #include "./surf.h"
 #include "./commfeaturepoint.h"
-#include "./vectorfeaturepoint.h"
+#include "./FeatureMatch.h"
 
 #endif // FEATURE_H_

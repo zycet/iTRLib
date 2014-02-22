@@ -14,25 +14,26 @@ FeatureMatch::~FeatureMatch()
 void FeatureMatch::FeatureMatchDo(VectorFeaturePoint *vectorfeaturepoint1,S32 num1,VectorFeaturePoint *vectorfeaturepoint2,S32 num2,S32 &matchnum)
 {
 
-    F32 valuet[num1>num2?num1:num2];
+    F32 *valuet;
+    valuet=new F32[num1>num2?num1:num2];
     F32 result_ang;
     S32 order;
     Calculate CalculateObj;
     Numerical NumericalObj;
     //dis_Ratio = 0.6;//最优匹配和次优匹配的比例,由于calculate函数中暂无求次小值函数，暂时不实现。？？？？？？？？？？？？？？？？？？
     F32 Max_ang;    //匹配极限偏差，角度的余弦值
-    NumericalObj.Cos(18,Max_ang);
-
+    NumericalObj.Cos(0.31415926,Max_ang);
+   // Max_ang=0.9511;
     //第一副图向第二副图匹配
     for(S32 i=0; i<num1; i++)
     {
 
         for(S32 j=0; j<num2; j++)
         {
-            valuet[j] = vectorfeaturepoint1[i].Feature.ProductInner(vectorfeaturepoint2[j].Feature);
+            valuet[j] = (vectorfeaturepoint1[i].Feature).ProductInner(vectorfeaturepoint2[j].Feature);
         }
-        CalculateObj.Min(valuet, num2, result_ang,order);
-        if(result_ang<Max_ang)
+        CalculateObj.Max(valuet, num2, result_ang,order);
+        if(result_ang>Max_ang)
         {
             vectorfeaturepoint1[i].ID=order;
         }
@@ -53,8 +54,8 @@ void FeatureMatch::FeatureMatchDo(VectorFeaturePoint *vectorfeaturepoint1,S32 nu
         {
             valuet[j] = vectorfeaturepoint2[i].Feature.ProductInner(vectorfeaturepoint1[j].Feature);
         }
-        CalculateObj.Min(valuet, num1, result_ang,order);
-        if(result_ang<Max_ang)
+        CalculateObj.Max(valuet, num1, result_ang,order);
+        if(result_ang>Max_ang)
         {
             vectorfeaturepoint2[i].ID=order;
         }
@@ -82,6 +83,7 @@ void FeatureMatch::FeatureMatchDo(VectorFeaturePoint *vectorfeaturepoint1,S32 nu
                 vectorfeaturepoint1[i].ID= -1;
         }
     }
+    delete[] valuet;
     //匹配结果
     /*S32 tempcounter =0;
     for(S32 i=0; i<num1; i++)

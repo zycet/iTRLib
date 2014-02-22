@@ -155,6 +155,7 @@ public:
     virtual void Max(S16* SourceA, S32 Length, S16& Result) const;
     virtual void Max(S32* SourceA, S32 Length, S32& Result) const;
     virtual void Max(F32* SourceA, S32 Length, F32& Result) const;
+    virtual void Max(F32* SourceA, S32 Length, F32& Result,S32 &Order) const;
     /**
       * \brief 求数组中的最小值
       * \param Length 数组长度
