@@ -184,7 +184,7 @@ public:
     {
         if (pixels == NULL)
         {
-            pixels = new S16[Width * Height]();
+            pixels = new S16[Width * Height];
             assert(this->pixels!=NULL);
             this->width = Width;
             this->height = Height;
