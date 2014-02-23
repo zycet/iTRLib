@@ -546,7 +546,7 @@ void Matrix::Svdcmp(itr_math::Vector &w, itr_math::Matrix &v)
     S32 m=this->row;
     S32 n=this->col;
     S32 flag,i,its,j,jj,k,l,nm;
-    F32 anorm,c,f,g,h,s,scale,x,y,z;
+    double anorm,c,f,g,h,s,scale,x,y,z;
     itr_math::Vector rv1(n);
     g=scale=anorm=0.0; // Householder reduction to bidiagonal form
     for (i=1;i<=n;i++)
@@ -671,12 +671,12 @@ void Matrix::Svdcmp(itr_math::Vector &w, itr_math::Matrix &v)
             for (l=k;l>=1;l--)
             { // Test for splitting.
                 nm=l-1; // Note that rv1[1-1] is always zero.
-                if ((F32)(fabs(rv1[l-1])+anorm) == anorm)
+                if ((double)(fabs(rv1[l-1])+anorm) == anorm)
                 {
                     flag=0;
                     break;
                 }
-                if ((F32)(fabs(w[nm-1])+anorm) == anorm)
+                if ((double)(fabs(w[nm-1])+anorm) == anorm)
                     break;
             }
             if (flag)
@@ -687,7 +687,7 @@ void Matrix::Svdcmp(itr_math::Vector &w, itr_math::Matrix &v)
                 {
                     f=s*rv1[i-1];
                     rv1[i-1]=c*rv1[i-1];
-                    if ((F32)(fabs(f)+anorm) == anorm)
+                    if ((double)(fabs(f)+anorm) == anorm)
                         break;
                     g=w[i-1];
                     h=pythag(f,g);
