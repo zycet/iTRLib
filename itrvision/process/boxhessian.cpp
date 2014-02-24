@@ -73,14 +73,24 @@ void BoxHessian::Calc(const Matrix& Img)
     F32 inverse_area = 1.f/(w*w);         // normalisation factor
     F32 Dxx, Dyy, Dxy;
     S32 r,c;
-
+    S32 offset=GET_MIN(Width/2,Height/2);
+    offset=GET_MIN(offset,5);
     for(S32 ar = 0, index = 0; ar < Height; ++ar)
     {
         for(S32 ac = 0; ac < Width; ++ac, index++)
         {
+            if(ar<offset)
+                continue;
+            if(ac<offset)
+                continue;
+            if(ar>=Height-offset)
+                continue;
+            if(ac>=Width-offset)
+                continue;
             // get the image coordinates
             r = ar * Step;
             c = ac * Step;
+
             // Compute response components
             Dxx = IntegralImg::BoxFilterStarter(Img, r - l + 1, c - b, 2*l - 1, w)
                   - IntegralImg::BoxFilterStarter(Img, r - l + 1, c - l / 2, 2*l - 1, l)*3;
