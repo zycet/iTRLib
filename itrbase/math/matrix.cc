@@ -416,17 +416,6 @@ Vector Matrix::operator*(const Vector& vec) const
     }
     return VecResult;
 }
-//**********常用操作**********
-/*
- * 用于抽取矩阵中的某列
- */
-void Matrix::ColExtract(F32* Data, S32 Offset, S32 Interval, S32 Length, F32* Result)
-{
-    for (S32 i = 0; i < Length; i++)
-    {
-        Result[i] = Data[Offset + Interval * i];
-    }
-}
 /******************************
 *******Advanced Function*******
 *******************************/
