@@ -5,6 +5,6 @@
 #include <vector>
 using itr_math::Matrix;
 
-void MatrixDraw(S32 H,S32 W,F32* Data);
+void MatrixDraw(S32 W,S32 H,F32* Data);
 
 #endif // MATRIXDRAW_H_
