@@ -67,15 +67,16 @@ void BoxHessian::Calc(const Matrix& Img)
     //assert(Width==Img.GetCol());
     //assert(Height==Img.GetRow());
 
-    int b = (this->FilterLength- 1) / 2;    // border for this filter
-    int l = this->FilterLength / 3;         // lobe for this filter (filter size / 3)
-    int w = this->FilterLength;             // filter size
-    float inverse_area = 1.f/(w*w);         // normalisation factor
-    float Dxx, Dyy, Dxy;
+    S32 b = (this->FilterLength- 1) / 2;    // border for this filter
+    S32 l = this->FilterLength / 3;         // lobe for this filter (filter size / 3)
+    S32 w = this->FilterLength;             // filter size
+    F32 inverse_area = 1.f/(w*w);         // normalisation factor
+    F32 Dxx, Dyy, Dxy;
+    S32 r,c;
 
-    for(int r, c, ar = 0, index = 0; ar < Height; ++ar)
+    for(S32 ar = 0, index = 0; ar < Height; ++ar)
     {
-        for(int ac = 0; ac < Width; ++ac, index++)
+        for(S32 ac = 0; ac < Width; ++ac, index++)
         {
             // get the image coordinates
             r = ar * Step;
@@ -109,7 +110,7 @@ F32 BoxHessian::GetHessian(S32 RowPos,S32 ColPos) const
 
 F32 BoxHessian::GetHessian(S32 RowPos,S32 ColPos,BoxHessian* Scale) const
 {
-    int scale = this->GetWidth() / Scale->GetWidth();
+    S32 scale = this->GetWidth() / Scale->GetWidth();
     return this->GetHessian(RowPos*scale,ColPos*scale);
 }
 
@@ -120,7 +121,7 @@ U8 BoxHessian::GetLaplacian(S32 RowPos,S32 ColPos) const
 
 U8 BoxHessian::GetLaplacian(S32 RowPos,S32 ColPos,BoxHessian* Scale) const
 {
-    int scale = this->GetWidth() / Scale->GetWidth();
+    S32 scale = this->GetWidth() / Scale->GetWidth();
     return this->GetLaplacian(RowPos*scale,ColPos*scale);
 }
 }

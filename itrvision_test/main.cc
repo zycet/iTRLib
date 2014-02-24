@@ -48,11 +48,14 @@
 #include "hessiantest.h"
 #include "surftest.h"
 #include "cameratest.h"
+#include "filetest.h"
 int main()
 {
     //Init Math
     itr_math::MathObjStandInit();
 //    itr_math::MathNeonObjStandInit();
+
+    filetest();
     ///Test Rotate OK!
     //rotatetest();
     ///Test Genrect OK!
