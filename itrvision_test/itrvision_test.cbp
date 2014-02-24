@@ -18,11 +18,13 @@
 					<Add directory="../itrbase" />
 					<Add directory="../itrvision" />
 					<Add directory="../itralgorithm" />
+					<Add directory="../3rdparty/alglib" />
 				</Compiler>
 				<Linker>
 					<Add library="../itrvision/bin/debug/libitrvision.a" />
 					<Add library="../itralgorithm/bin/debug/libitralgorithm.a" />
 					<Add library="../itrbase/bin/debug/libitrbase.a" />
+					<Add library="../3rdparty/alglib/bin/debug/libalglib.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">

@@ -206,21 +206,13 @@ public:
     * \param det 所得结果
     */
     void Det(F32 &reslut);
-    /**
-     * \brief 求矩阵SVD(奇异值分解）A=U*S*Vt A(n*m)
-     * \param w(n) :存储奇异值，最少为一个，最多为n个非零值，w即为S的对角矩阵
-     * \param v:存储向量V，注意不是V的转置
-     * \param 注意：生成的U替换为A，即改变原矩阵。
-     */
-    void Svdcmp(Vector &w, Matrix &v) ;
-    int svdcmp( Vector &w, Matrix &v);
-    int svd_frombaidu(Matrix &U, Vector &W, Matrix &V);
+
     /**
      * \brief 求矩阵广义逆,注意：只能用于方阵
                matrix.cc中的 #define tol  0.00001 代表精度
      * \param MatResult 所得的结果
      */
-    void virtual pinv(Matrix &MatResult) const;
+    ///void virtual pinv(Matrix &MatResult) const;
     /*
      * 求矩阵转置并将结果放至MatResult
      */

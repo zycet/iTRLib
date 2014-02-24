@@ -1,5 +1,6 @@
 #include "cameratest.h"
 #include "stdio.h"
+
 #define end_of_pos1 780
 #define end_of_pos2 1006
 
