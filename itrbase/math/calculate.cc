@@ -606,21 +606,7 @@ void Calculate::Max(F32* SourceA, S32 Length, F32& Result) const
         }
     }
 }
-void Calculate::Max(F32* SourceA, S32 Length, F32& Result,S32 &Order) const
-{
-    assert(SourceA!=NULL);
-    assert(Length > 0);
-    Result = SourceA[0];
-    Order=0;
-    for (S32 i = 1; i < Length; i++)
-    {
-        if(SourceA[i] > Result)
-        {
-            Result = SourceA[i];
-            Order=i;
-        }
-    }
-}
+
 
 void Calculate::Min(S16* SourceA, S32 Length, S16& Result) const
 {
@@ -659,21 +645,6 @@ void Calculate::Min(F32* SourceA, S32 Length, F32& Result) const
         if(SourceA[i] < Result)
         {
             Result = SourceA[i];
-        }
-    }
-}
-void Calculate::Min(F32* SourceA, S32 Length, F32& Result, S32& Order) const
-{
-    assert(SourceA!=NULL);
-    assert(Length > 0);
-    Result = SourceA[0];
-    Order =0;
-    for (S32 i = 1; i < Length; i++)
-    {
-        if(SourceA[i] < Result)
-        {
-            Result = SourceA[i];
-            Order =i;
         }
     }
 }

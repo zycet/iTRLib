@@ -47,6 +47,8 @@
 				</Linker>
 			</Target>
 		</Build>
+		<Unit filename="cameratest.cpp" />
+		<Unit filename="cameratest.h" />
 		<Unit filename="convolutefasttest.cpp" />
 		<Unit filename="convolutefasttest.h" />
 		<Unit filename="detectiontest.cpp" />
@@ -64,8 +66,6 @@
 		<Unit filename="lktrackertest.cpp" />
 		<Unit filename="lktrackertest.h" />
 		<Unit filename="main.cc" />
-		<Unit filename="matrixdraw.cpp" />
-		<Unit filename="matrixdraw.h" />
 		<Unit filename="picktest.cc" />
 		<Unit filename="picktest.h" />
 		<Unit filename="processtest.cc" />

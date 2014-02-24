@@ -12,7 +12,7 @@ VectorFeaturePoint::VectorFeaturePoint()
     //ctor
     this->Feature.Init(128);
     this->LevelNo =0;
-    this->ID =0;
+    this->ID =-1;
     this->Tag =NULL;
     this->Dir =0;
     this->Quality=0;
