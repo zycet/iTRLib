@@ -29,8 +29,6 @@ void TestIpts()
     surf.Init(grayI.GetWidth(),grayI.GetHeight(),5,4,2,10.f);
     MatrixDraw(surf.OctaveList[0]->GetHeight(),surf.OctaveList[0]->GetWidth(),surf.OctaveList[0]->Hessian);
 
-
-
     std::vector<VectorFeaturePoint> FeaturePointList;
     gettimeofday(&tpstart,NULL);
 

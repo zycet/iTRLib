@@ -66,6 +66,8 @@
 		<Unit filename="lktrackertest.cpp" />
 		<Unit filename="lktrackertest.h" />
 		<Unit filename="main.cc" />
+		<Unit filename="matrixdraw.cpp" />
+		<Unit filename="matrixdraw.h" />
 		<Unit filename="picktest.cc" />
 		<Unit filename="picktest.h" />
 		<Unit filename="processtest.cc" />

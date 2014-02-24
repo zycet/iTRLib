@@ -7,9 +7,9 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="bin/Debug/alglib" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/debug/alglib" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj/Debug/" />
+				<Option object_output="obj/debug/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
@@ -19,9 +19,9 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="bin/Release/alglib" prefix_auto="1" extension_auto="1" />
+				<Option output="bin/release/alglib" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj/Release/" />
+				<Option object_output="obj/release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />

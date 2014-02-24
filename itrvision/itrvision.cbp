@@ -18,10 +18,12 @@
 					<Add option="-g" />
 					<Add directory="../itrbase" />
 					<Add directory="../itralgorithm" />
+					<Add directory="../3rdparty/alglib" />
 				</Compiler>
 				<Linker>
 					<Add library="../itrbase/bin/debug/libitrbase.a" />
 					<Add library="../itralgorithm/bin/debug/libitralgorithm.a" />
+					<Add library="../3rdparty/alglib/bin/debug/libalglib.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -35,13 +37,14 @@
 					<Add option="-O2" />
 					<Add option="-Wall" />
 					<Add directory="../itrbase" />
-					<Add directory="feature" />
-					<Add directory="camera" />
-					<Add directory="process" />
+					<Add directory="../itralgorithm" />
+					<Add directory="../3rdparty/alglib" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
 					<Add library="../itrbase/bin/release/libitrbase.a" />
+					<Add library="../3rdparty/alglib/bin/release/libalglib.a" />
+					<Add library="../itralgorithm/bin/release/libitralgorithm.a" />
 				</Linker>
 			</Target>
 		</Build>
