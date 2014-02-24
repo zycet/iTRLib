@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
+		<Project filename="3rdparty/alglib/alglib.cbp" />
+		<Project filename="itrbase/itrbase.cbp" />
 		<Project filename="itrbase_test/itrbase_test.cbp" />
-		<Project filename="trackdemo/trackdemo.cbp" />
 		<Project filename="itrneon/itrneon.cbp" />
 		<Project filename="itrneon_test/itrneon_test.cbp" />
-		<Project filename="itrbase/itrbase.cbp" />
+		<Project filename="itralgorithm/itralgorithm.cbp" />
+		<Project filename="itralgorithm_test/itralgorithm_test.cbp" />
 		<Project filename="itrvision/itrvision.cbp" />
 		<Project filename="itrvision_test/itrvision_test.cbp" />
-		<Project filename="itralgorithm_test/itralgorithm_test.cbp" />
-		<Project filename="itralgorithm/itralgorithm.cbp" />
+		<Project filename="trackdemo/trackdemo.cbp" />
 		<Project filename="ColorTrackDemo/ColorTrackDemo.cbp" />
-		<Project filename="3rdparty/alglib/alglib.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

@@ -57,6 +57,8 @@
 		<Unit filename="detectiontest.h" />
 		<Unit filename="drawtest.cc" />
 		<Unit filename="drawtest.h" />
+		<Unit filename="filetest.cpp" />
+		<Unit filename="filetest.h" />
 		<Unit filename="genrecttest.cpp" />
 		<Unit filename="genrecttest.h" />
 		<Unit filename="hessiantest.cpp" />

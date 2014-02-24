@@ -33,9 +33,9 @@ public:
     CameraExterCalc(const CameraExterCalc &other);
     /**
     * \brief 使用两组特征点通过RANSAC计算单应性矩阵(H)
-    * \param PointList1 特征点组1
+    * \param PointList1 特征点组1(图像坐标系)
     * \param List1Num 特征点组1长度
-    * \param PointList2 特征点组2
+    * \param PointList2 特征点组2(图像坐标系)
     * \param List2Num 特征点组2长度
     */
     BOOL CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num,S32 matched_num);
@@ -47,6 +47,24 @@ public:
     * \note 此计算步骤需已完成单应性矩阵计算(既已成功调用CalcHV())
     */
     BOOL CalcMotion(CameraInterCalc &CameraInterPara,F32 D);
+
+    /**
+    * \brief 使用第一张图像中的点坐标计算对应的点在第二张图像上的坐标
+    * \param Point0 第一张图像上的点坐标
+    * \param Point1 对应的第二张图像上的点坐标
+    * \return 计算成功则返回True
+    * \note 调用此函数时需已完成CalcMotion()的调用
+    */
+    BOOL CalcForwardPoint(const Point2D& Point0,Point2D& Point1);
+
+    /**
+    * \brief 使用第而张图像中的点坐标计算对应的点在第一张图像上的坐标
+    * \param Point1 第二张图像上的点坐标
+    * \param Point0 对应的第一张图像上的点坐标
+    * \return 计算成功则返回True
+    * \note 调用此函数时需已完成CalcMotion()的调用
+    */
+    BOOL CalcBackwardPoint(const Point2D& Point1,Point2D& Point0);
 
     /**
     * \brief 单应性矩阵H[3*3]
