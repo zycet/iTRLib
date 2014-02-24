@@ -213,6 +213,8 @@ public:
      * \param 注意：生成的U替换为A，即改变原矩阵。
      */
     void Svdcmp(Vector &w, Matrix &v) ;
+    int svdcmp( Vector &w, Matrix &v);
+    int svd_frombaidu(Matrix &U, Vector &W, Matrix &V);
     /**
      * \brief 求矩阵广义逆,注意：只能用于方阵
                matrix.cc中的 #define tol  0.00001 代表精度

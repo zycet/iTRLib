@@ -129,29 +129,56 @@ void TestCameraexternal(itr_vision::CameraInterCalc &camera_in)
     CameraExterCalc camera_out;
     F32 ratio_x=0,ratio_y=0;
 
-    for(S32 k=0; k<10000; k++)
+    F32 times_test=10;
+    for(S32 k=0; k<times_test; k++)
     {
         camera_out.CalcH(pointlist1,end_of_pos1,pointlist2,end_of_pos1,matched_num);
         //camera_out.CalcH(mpointlist1,72,mpointlist2,72,72);
-    //    printf("camera_out.H\n");
-    //    printMatrix(camera_out.H);
-    //    printf("Hstd\n");
-    //    printMatrix(Hstd);
+        printf("camera_out.H\n");
+        printMatrix(camera_out.H);
+        printf("Hstd\n");
+        printMatrix(Hstd);
 
         pos2=camera_out.H*pos;
         pos2.Mul(1/pos2[2]);
+        printf("my pos:\n");
+        for(S32 tp=0; tp<2; tp++)
+            printf("%f\t",pos2[tp]);
+            printf("\n");
         ratio_x+=GET_ABS(posstd[0]-pos2[0]);
         ratio_y+=GET_ABS(posstd[1]-pos2[1]);
     }
-    ratio_x=ratio_x/(10000*posstd[0]);
-    ratio_y=ratio_y/(10000*posstd[1]);
+    ratio_x=ratio_x/(times_test*posstd[0]);
+    ratio_y=ratio_y/(times_test*posstd[1]);
     printf("std pos:\n");
     printVector(pos1);
-    printf("my pos:\n");
-    printVector(pos2);
-    printf("dis ratio :\nx : %f\ny : %f\n",ratio_x,ratio_y);
 
-    camera_out.CalcMotion(camera_in,10);
+    printf("dis ratio :\nx : %f\ny : %f\n",ratio_x,ratio_y);
+/// /////////////////////////////////////////////////////////////
+    F32 homo[9]={1.009,0.0189,-2.7545,-0.0118,0.9993,17.2303,0.000,-0.0000,1.0000};
+    F32 rr[18]={ 0.9999,  0.0132, 0.0011,  0.9998,  0.0203, -0.0013,
+                -0.0132,  0.9947, 0.1021, -0.0203,  0.9998,  0.0015,
+                 0.0002, -0.1021, 0.9948,  0.0013, -0.0014,  1.0000};
+    F32 tt[6]={ 0.1431,  -0.0567,
+                0.1288,  -2.0251,
+                2.0167,  -0.0073};
+    F32 nn1[3]={-0.0165,
+                -1.4634,
+                -0.0812};
+    F32 nn2[3]={0.1032,
+                0.0191,
+                1.4620};
+    Matrix homog(3,3,homo);
+    camera_out.H=homog;
+    camera_out.CalcMotion(camera_in,20);
+    printf("R:\n");
+    printMatrix(camera_out.R);
+    printf("t:\n");
+    printMatrix(camera_out.t);
+    printf("N:\n");
+    printMatrix(camera_out.N);
+    for(S32 i=0;i<1;i++)
+        ;
 }
 void CameraTest()
 {

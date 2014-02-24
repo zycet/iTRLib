@@ -1,4 +1,5 @@
 #include "cameraextercalc.h"
+#include "stdio.h"
 #define resid_MAX_2 64
 namespace itr_vision
 {
@@ -183,7 +184,8 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
     S32 c[4]= {0};
     F32 p,wght,u1,v1,u2,v2;
     S32 q,tmp_k;
-    for(S32 i=0; i<20; i++)
+    S32 i=0;
+    do//for(S32 i=0; i<20; i++)
     {
         //pick 4 buckets
         for(S32 j=0; j<4; j++)
@@ -256,18 +258,45 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
             M(2*j+1,7)=v1*u2*wght;
             M(2*j+1,8)=u2*wght;
         }
+///     /////////////////////////////////////////////////////////////////////
+
+        FILE *writfp;
+        writfp = fopen("Mwrit.txt", "w");
+        assert(writfp!=NULL);
+        //printf("M:\n");
+        for(S32 j=0; j<8; j++)
+        {   for(S32 k=0; k<9; k++)
+                fprintf(writfp,"%f\t",M(j,k));
+            fprintf(writfp,"\n");
+        }
+//        for(S32 j=0; j<8; j++)
+//        {   for(S32 k=0; k<9; k++)
+//                printf("%f\t",M(j,k));
+//            printf("\n");
+//        }
+        fclose(writfp);
         //svd
-        M.Svdcmp(S,matV);
+        Matrix U(8,8);
+        M.svd_frombaidu(U, S, matV);
+        //M.Svdcmp(S,matV);
         for(S32 j=0; j<3; j++)
             for(S32 k=0; k<3; k++)
                 H(j,k)=matV(j*3+k,8);
 ///     /////////////////////////////////////////////////////////////////////
+
 //        printf("V:\n");
 //        for(S32 j=0; j<9; j++)
 //        {   for(S32 k=0; k<9; k++)
 //                printf("%f\t",matV(j,k));
 //            printf("\n");
 //        }
+//        printf("S:\n");
+//        for(S32 j=0; j<9; j++)
+//        {
+//                printf("%f\t",S[j]);
+//
+//        }
+//         printf("\n");
 //        printf("H_temp:\n");
 //        for(S32 j=0; j<3; j++)
 //        {   for(S32 k=0; k<3; k++)
@@ -298,12 +327,7 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
                 red_counter++;
             tmp_red+=risde;
         }
-///        ////////////////////////////////////////////////////////////////////////
-//        printf("red_counter: %f \n",red_counter);
-//        if(red_counter<4)
-//            printf("wrong!\n");
-//        printf("tmp_red: %f \n",tmp_red);
-///        ////////////////////////////////////////////////////////////////////////
+
         if(i==0)
         {
             best_H=H;
@@ -319,9 +343,18 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
                 best_H = H;
             }
         }
-    }//end of RANSAC
-    H=best_H;
+        i++;
+    }while(best_counter<0.33*matched_num&&i<40);//);//end of RANSAC &&i<40
+    /// /////////////////////
+    printf("ransac times : %d\n",i+1);
 
+    H=best_H;
+///        ////////////////////////////////////////////////////////////////////////
+        printf("best_red: %f \n",best_red);
+        if(best_red<4)
+            printf("wrong!\n");
+        printf("best_counter: %d\t%f \n",best_counter,best_counter/matched_num);
+///        ////////////////////////////////////////////////////////////////////////
     delete[] bucket;
     delete[] tempvalue_u;
     delete[] tempvalue_v;
@@ -344,11 +377,61 @@ BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
 
     CameraInterPara.MatC2P.CopyTo(0,0,3,3,tmpA.GetData());
     tmpA.pinv(tmpApinv);
+    /// //////////////////////////////////////////////////////////////
+printf("tmpApinv:\n");                            /// //////////////////
+        for(S32 j=0; j<3; j++)              /// //////////////////
+        {   for(S32 k=0; k<3; k++)          /// //////////////////
+                printf("%f\t",tmpApinv(j,k));     /// //////////////////
+            printf("\n");                   /// //////////////////
+        }                                   /// //////////////////
+/// //////////////////////////////////////////////////////////////
+    tmpA.Inv(tmpApinv);
+        /// //////////////////////////////////////////////////////////////
+printf("tmpAinv:\n");                            /// //////////////////
+        for(S32 j=0; j<3; j++)              /// //////////////////
+        {   for(S32 k=0; k<3; k++)          /// //////////////////
+                printf("%f\t",tmpApinv(j,k));     /// //////////////////
+            printf("\n");                   /// //////////////////
+        }                                   /// //////////////////
+/// //////////////////////////////////////////////////////////////
     Hc=tmpApinv*H*tmpA;
+/// //////////////////////////////////////////////////////////////
+printf("H:\n");                            /// //////////////////
+        for(S32 j=0; j<3; j++)              /// //////////////////
+        {   for(S32 k=0; k<3; k++)          /// //////////////////
+                printf("%f\t",H(j,k));     /// //////////////////
+            printf("\n");                   /// //////////////////
+        }                                   /// //////////////////
 
+printf("Hc:\n");                            /// //////////////////
+        for(S32 j=0; j<3; j++)              /// //////////////////
+        {   for(S32 k=0; k<3; k++)          /// //////////////////
+                printf("%f\t",Hc(j,k));     /// //////////////////
+            printf("\n");                   /// //////////////////
+        }                                   /// //////////////////
+/// //////////////////////////////////////////////////////////////
     Hc.CopyTo(0,0,3,3,U.GetData());
     U.Svdcmp(d, V);
+/// //////////////////////////////////////////////////////////////
+printf("U:\n");                             /// //////////////////
+        for(S32 j=0; j<3; j++)              /// //////////////////
+        {   for(S32 k=0; k<3; k++)          /// //////////////////
+                printf("%f\t",U(j,k));      /// //////////////////
+            printf("\n");                   /// //////////////////
+        }                                   /// //////////////////
 
+printf("d:\n");                             /// //////////////////
+        for(S32 j=0; j<3; j++)              /// //////////////////
+            printf("%f\t",d[j]);            /// //////////////////
+        printf("\n");                       /// //////////////////
+
+printf("V:\n");                            /// //////////////////
+        for(S32 j=0; j<3; j++)              /// //////////////////
+        {   for(S32 k=0; k<3; k++)          /// //////////////////
+                printf("%f\t",V(j,k));     /// //////////////////
+            printf("\n");                   /// //////////////////
+        }                                   /// //////////////////
+/// //////////////////////////////////////////////////////////////
     Vector u1(3),u3(3),v1(3),v3(3);
     F32 q1,q2,q3;
     U.CopyRowTo(0, u1.GetData());
@@ -375,7 +458,8 @@ BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
     s*=stmp;
 
     Matrix R1(3,3);
-    Matrix temp33(3,3),v3mat(3,1),v3t(1,3);
+    Matrix temp33(3,3),u3mat(3,1),v3mat(3,1),v3t(1,3);
+    U.CopyRowTo(2, u3mat.GetData());
     V.CopyRowTo(2, v3t.GetData());
     V.CopyRowTo(2, v3mat.GetData());
     Vector t1(3);
@@ -391,11 +475,12 @@ BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
         }break;
         case 2:
         {
-            temp33=v3mat*v3t;
+            temp33=u3mat*v3t;
+            temp33.AllMul(q3/q1-s);
             R1.CopyFrom(0,0,3,3,H.GetData());
             R1.AllMul(1/q2);
-            temp33.AllMul(q3/q1-s);
             R1=R1-temp33;
+
             t1=u3;
             t1.Mul(D*(q3/q1-s));
             Vector n(3);
@@ -450,7 +535,7 @@ BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
             temp33(2,0)=-s*b;
             Matrix R2(3,3);
             R2=U*temp33*V;
-            Matrix n2(1,3);
+            Matrix n2(3,1);
             n2=v1mat;
             n2.AllMul(r);
             n2=n2+v3mat;
