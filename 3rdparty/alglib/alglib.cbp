@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="alglib" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/alglib" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/alglib" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/Release/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="alglib.h" />
+		<Unit filename="alglibinternal.cpp" />
+		<Unit filename="alglibinternal.h" />
+		<Unit filename="alglibmisc.cpp" />
+		<Unit filename="alglibmisc.h" />
+		<Unit filename="ap.cpp" />
+		<Unit filename="ap.h" />
+		<Unit filename="dataanalysis.cpp" />
+		<Unit filename="dataanalysis.h" />
+		<Unit filename="diffequations.cpp" />
+		<Unit filename="diffequations.h" />
+		<Unit filename="fasttransforms.cpp" />
+		<Unit filename="fasttransforms.h" />
+		<Unit filename="integration.cpp" />
+		<Unit filename="integration.h" />
+		<Unit filename="interpolation.cpp" />
+		<Unit filename="interpolation.h" />
+		<Unit filename="linalg.cpp" />
+		<Unit filename="linalg.h" />
+		<Unit filename="optimization.cpp" />
+		<Unit filename="optimization.h" />
+		<Unit filename="solvers.cpp" />
+		<Unit filename="solvers.h" />
+		<Unit filename="specialfunctions.cpp" />
+		<Unit filename="specialfunctions.h" />
+		<Unit filename="statistics.cpp" />
+		<Unit filename="statistics.h" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
