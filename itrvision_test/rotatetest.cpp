@@ -8,38 +8,13 @@
 void rotatetest()
 {
    // rotateImgGraytest();
-    rotateImgARGBtest();
-
     TRACE_INFO("OK Rotate");
 }
 
-void rotateImgARGBtest()
-{
-    S32 X=00;
-    S32 Y=0;
-    S32 width=640 ;
-    S32 height=460;
-    RectangleS rect(X, Y,width,height);
 
-    ImageARGB ImageI;
-    ImageARGB ImageO(width,height);
-    IOpnm::ReadPPMFile("Debug/table2.ppm", ImageI);
-
-    Rotate::rotate(ImageI, rect, 0, ImageO);
-    IOpnm::WritePPMFile("Debug/ImageARGB00.ppm", ImageO);
-
-    Rotate::rotate(ImageI, rect, 20, ImageO);
-    IOpnm::WritePPMFile("Debug/ImageARGB20.ppm", ImageO);
-
-    Rotate::rotate(ImageI, rect, 90, ImageO);
-    IOpnm::WritePPMFile("Debug/ImageARGB90.ppm", ImageO);
-
-    Rotate::rotate(ImageI, rect, 180, ImageO);
-    IOpnm::WritePPMFile("Debug/ImageARGB180.ppm", ImageO);
-}
 void rotateImgGraytest()
 {
-    S32 X=100;
+   /* S32 X=100;
     S32 Y=110;
     S32 width=200 ;
     S32 height=100;
@@ -101,5 +76,5 @@ void rotateImgGraytest()
     Rotate::rotate(graym, rect, -145, graym1);
     ConvertFormat::Matrix2ImageGray(graym1,grayO);
     IOHelper::WritePGMFile("Debug/graym145.pgm", grayO);
-
+*/
 }
