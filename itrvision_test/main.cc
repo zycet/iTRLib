@@ -55,7 +55,7 @@ int main()
     itr_math::MathObjStandInit();
 //    itr_math::MathNeonObjStandInit();
 
-    filetest();
+    //filetest();
     ///Test Rotate OK!
     //rotatetest();
     ///Test Genrect OK!

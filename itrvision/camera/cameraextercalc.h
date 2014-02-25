@@ -73,7 +73,7 @@ public:
     /**
     * \brief 单应性向量V[3]={up,vp,1}
     */
-    Vector V;
+    Matrix V;
     /**
     * \note 转动矩阵（两列3*3*2）
     */
