@@ -5,6 +5,7 @@
 #include "itrbase.h"
 #include "./feature.h"
 #include "../process/process.h"
+#include "alglib.h"
 
 using namespace itr_math;
 
@@ -67,7 +68,10 @@ public:
     std::vector<BoxHessian*> OctaveList;
 private:
     BOOL IsExtremum(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b);
-    void MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b,VectorFeaturePoint &vfp);
+    bool MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b,VectorFeaturePoint& vfp);
+    void InterpolateStep(int r, int c, BoxHessian* t, BoxHessian* m,BoxHessian* b, F64* xi,F64* xr, F64* xc);
+    void GetDeriv3DMat(int r, int c, BoxHessian* t, BoxHessian* m,BoxHessian* b,alglib::real_2d_array& dD);
+    void GetHessian3DMat(int r, int c, BoxHessian* t, BoxHessian* m,BoxHessian* b,alglib::real_2d_array& H);
     void GetOrientation(VectorFeaturePoint& Point);
     void GetDescriptor(VectorFeaturePoint& Point);
     F32 HaarX(S32 row, S32 column, S32 s);
