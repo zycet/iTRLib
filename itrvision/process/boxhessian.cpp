@@ -74,7 +74,7 @@ void BoxHessian::Calc(const Matrix& Img)
     F32 Dxx, Dyy, Dxy;
     S32 r,c;
     S32 offset=GET_MIN(Width/2,Height/2);
-    offset=GET_MIN(offset,5);
+    offset=GET_MIN(offset,w);
     for(S32 ar = 0, index = 0; ar < Height; ++ar)
     {
         for(S32 ac = 0; ac < Width; ++ac, index++)

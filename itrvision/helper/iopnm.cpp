@@ -187,7 +187,7 @@ namespace itr_vision
 
     void ReadPGMHeader(FILE *file,int &magic,int &ncols,int &nrows,int &maxval)
     {
-        fscanf(file,"P%d",magic);
+        fscanf(file,"P%d",&magic);
         assert(magic==5);
         fscanf(file,"%d %d",&ncols,&nrows);
         assert(ncols>0);

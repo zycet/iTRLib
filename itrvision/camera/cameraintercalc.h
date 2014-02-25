@@ -9,7 +9,7 @@ namespace itr_vision
 {
 /**
 * \brief 提供相机内参数描述及像素坐标与相机坐标间变换.
-* \note 像素坐标系定义:原点在图像右上角,X轴向右,Y轴向下.
+* \note 像素坐标系定义:原点在图像左上角,X轴向右,Y轴向下.
 * \note 相机坐标系定义:原点在光轴中央,X轴向右,Y轴向上.
 */
 class CameraInterCalc
@@ -60,7 +60,14 @@ public:
     */
     BOOL CalcP2C(const Vector &PixelPoint,F32 Z,Vector &CameraPoint);
     /**
-    * \note 相机坐标到像素坐标的转换矩阵
+    * \brief 根据像素坐标求目标点与光轴的夹角
+    * \param Point 输入的像素坐标
+    * \param Ang_x 目标点与光轴在x方向的夹角
+    * \param Ang_y 目标点与光轴在y方向的夹角
+    */
+    void CalcAng(const Point2D &Point, F32 &Ang_x, F32 &Ang_y);
+    /**
+    * \note 相机坐标到像素坐标的转换矩阵——相机内参数
     */
     Matrix MatC2P;
     /**

@@ -69,9 +69,22 @@ void MatrixDrawTest()
     MatrixDraw(gray_matrix_in.GetCol(),gray_matrix_in.GetRow(),gray_matrix_in.GetData());
 }
 
+void InterBoxTest()
+{
+    Matrix img(64,64);
+    img.Set(1);
+    Matrix imgI(64,64);
+    IntegralImg::Integral(img,imgI);
+    F32 I=0;
+    I=IntegralImg::BoxFilterStarter(imgI,-1,-1,3,3);
+    I=IntegralImg::BoxFilterStarter(imgI,1,1,3,3);
+    I=I;
+}
+
 void SurfTest()
 {
     //PRINT_DEBUG("Find Interesting points!");
     TestIpts();
     //MatrixDrawTest();
+
 }
