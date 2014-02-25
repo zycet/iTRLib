@@ -11,7 +11,7 @@ CameraExterCalc::CameraExterCalc()
     R.Init(3,6);
     t.Init(3,2);
     N.Init(3,2);
-
+    V.Init(3,3);
 }
 
 CameraExterCalc::~CameraExterCalc()
@@ -326,6 +326,7 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
 * \param D 深度(单位:米)
 * \note 此计算步骤需已完成单应性矩阵计算(既已成功调用CalcHV())
 */
+//double*matrixmulti(Matrix &)
 BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
 {
     Matrix tmpA(3,3);
@@ -334,59 +335,61 @@ BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
     CameraInterPara.MatC2P.CopyTo(0,0,3,3,tmpA.GetData());
     tmpA.Inv(tmpApinv);
 /// //////////////////////////////////////////////////////////////
-printf("tmpAinv:\n");                            /// //////////////////
-        for(S32 j=0; j<3; j++)              /// //////////////////
-        {   for(S32 k=0; k<3; k++)          /// //////////////////
-                printf("%f\t",tmpApinv(j,k));    /// //////////////////
-            printf("\n");                   /// //////////////////
-        }                                   /// //////////////////
+//printf("tmpAinv:\n");                            /// //////////////////
+//        for(S32 j=0; j<3; j++)              /// //////////////////
+//        {   for(S32 k=0; k<3; k++)          /// //////////////////
+//                printf("%f\t",tmpApinv(j,k));    /// //////////////////
+//            printf("\n");                   /// //////////////////
+//        }                                   /// //////////////////
 /// //////////////////////////////////////////////////////////////
 
     Hc=tmpApinv*H*tmpA;
 /// //////////////////////////////////////////////////////////////
-printf("H:\n");                            /// //////////////////
-        for(S32 j=0; j<3; j++)              /// //////////////////
-        {   for(S32 k=0; k<3; k++)          /// //////////////////
-                printf("%f\t",H(j,k));     /// //////////////////
-            printf("\n");                   /// //////////////////
-        }                                   /// //////////////////
-printf("Hc:\n");                            /// //////////////////
-        for(S32 j=0; j<3; j++)              /// //////////////////
-        {   for(S32 k=0; k<3; k++)          /// //////////////////
-                printf("%f\t",Hc(j,k));     /// //////////////////
-            printf("\n");                   /// //////////////////
-        }                                   /// //////////////////
+//printf("H(homo):\n");                            /// //////////////////
+//        for(S32 j=0; j<3; j++)              /// //////////////////
+//        {   for(S32 k=0; k<3; k++)          /// //////////////////
+//                printf("%f\t",H(j,k));     /// //////////////////
+//            printf("\n");                   /// //////////////////
+//        }                                   /// //////////////////
+//printf("Hc(H):\n");                            /// //////////////////
+//        for(S32 j=0; j<3; j++)              /// //////////////////
+//        {   for(S32 k=0; k<3; k++)          /// //////////////////
+//                printf("%f\t",Hc(j,k));     /// //////////////////
+//            printf("\n");                   /// //////////////////
+//        }                                   /// //////////////////
 /// //////////////////////////////////////////////////////////////
     //Matrix V(3,3),U(3,3);
     //Vector d(3);
     double Udata[9]={0},Vdata[9]={0},Ddata[3]={0},Hdata[9];
     for(S32 i=0; i<3; i++)
         for(S32 j=0; j<3; j++)
-            Hdata[i*3+j]=(double)Hc(i,j);
+            Hdata[i*3+j]=(double)H(i,j);///          ///////////////////////////////////////
 
     alglib::real_2d_array Harray,Varray,Uarray;
     alglib::real_1d_array Darray;
     Harray.setcontent(3,3,Hdata);
     Varray.setcontent(3,3,Vdata);
     Uarray.setcontent(3,3,Udata);
-    alglib::rmatrixsvd(Harray,8,9,0,2,2,Darray,Uarray,Varray);
+    Darray.setcontent(3,Ddata);
+    alglib::rmatrixsvd(Harray,3,3,2,2,2,Darray,Uarray,Varray);
+
 /// //////////////////////////////////////////////////////////////
 //printf("U:\n");                             /// //////////////////
 //        for(S32 j=0; j<3; j++)              /// //////////////////
 //        {   for(S32 k=0; k<3; k++)          /// //////////////////
-//                printf("%f\t",U(j,k));      /// //////////////////
+//                printf("%f\t",Uarray(j,k));      /// //////////////////
 //            printf("\n");                   /// //////////////////
 //        }                                   /// //////////////////
 //
 //printf("d:\n");                             /// //////////////////
 //        for(S32 j=0; j<3; j++)              /// //////////////////
-//            printf("%f\t",d[j]);            /// //////////////////
+//            printf("%f\t",Darray[j]);            /// //////////////////
 //        printf("\n");                       /// //////////////////
 //
-//printf("V:\n");                            /// //////////////////
+//printf("Vt:\n");                            /// //////////////////
 //        for(S32 j=0; j<3; j++)              /// //////////////////
 //        {   for(S32 k=0; k<3; k++)          /// //////////////////
-//                printf("%f\t",V(j,k));     /// //////////////////
+//                printf("%f\t",Varray(j,k));     /// //////////////////
 //            printf("\n");                   /// //////////////////
 //        }                                   /// //////////////////
 /// //////////////////////////////////////////////////////////////
@@ -448,14 +451,14 @@ printf("Hc:\n");                            /// //////////////////
 
             t1v=u3v;
             t1v.Mul(D*(q3/q1-s));///
-            /// ///////////////////////////
+
             double ndata[3]={Varray(2,0),Varray(2,1),Varray(2,2)},nddata[3]={0};
             alglib::real_2d_array narray,nvarray,nuarray;
             alglib::real_1d_array ndarray;
             narray.setcontent(3,1,ndata);
-
+            ndarray.setcontent(3,nddata);
             alglib::rmatrixsvd(narray,3,1,0,0,2,ndarray,nuarray,nvarray);
-            F32 W_n=(double)ndarray[0]; /// W_n=normest(n),n=v3
+            F32 W_n=(F32)ndarray[0]; /// W_n=normest(n),n=v3
             t1v.Mul(-W_n);
             R.CopyFrom(0,0,3,3,R1m.GetData());
             t.CopyFrom(0,0,1,3,t1v.GetData());
@@ -468,9 +471,16 @@ printf("Hc:\n");                            /// //////////////////
             F32 b=-sqrt(1-a*a);
             temp33(0,0)=a;  temp33(0,1)=0;  temp33(0,2)=b;
             temp33(1,0)=0;  temp33(1,1)=1;  temp33(1,2)=0;
-            temp33(2,0)=-s*b;  temp33(0,1)=0;  temp33(0,2)=s*a;
+            temp33(2,0)=-s*b;  temp33(2,1)=0;  temp33(2,2)=s*a;
 
             R1m=U*temp33*V;
+//printf("r:%f\na:%f\nb:%f\n",r,a,b);
+//printf("R1:\n");                            /// //////////////////
+//        for(S32 j=0; j<3; j++)              /// //////////////////
+//        {   for(S32 k=0; k<3; k++)          /// //////////////////
+//                printf("%f\t",R1m(j,k));     /// //////////////////
+//            printf("\n");                   /// //////////////////
+//        }                                   /// //////////////////
 
             Vector n1v(3);
             n1v=v1v;
@@ -485,37 +495,73 @@ printf("Hc:\n");                            /// //////////////////
 
             N.CopyFrom(0,0,1,3,n1v.GetData());
             /// normest(n1v)
-         /*   n1.Svdcmp(Sx,Vx);
-            F32 W_n=Sx[0];
-            t1.Mul(-1);
-            R.CopyFrom(0,0,3,3,R1.GetData());
-            t.CopyFrom(0,0,1,3,t1.GetData());
+            double ndata[3]={(double)n1v[0],(double)n1v[1],(double)n1v[2]},nddata[3]={0};
+            alglib::real_2d_array narray,nvarray,nuarray;
+            alglib::real_1d_array ndarray;
+            narray.setcontent(3,1,ndata);
+            ndarray.setcontent(3,nddata);
+            alglib::rmatrixsvd(narray,3,1,0,0,2,ndarray,nuarray,nvarray);
+
+            F32 W_n=ndarray[0];
+//printf("W_n:%f\n",W_n);
+            t1v.Mul(-W_n);
+            R.CopyFrom(0,0,3,3,R1m.GetData());
+            t.CopyFrom(0,0,1,3,t1v.GetData());
 
 
             r=-r;
             b=-b;
             temp33(0,2)=b;
             temp33(2,0)=-s*b;
-            Matrix R2(3,3);
-            R2=U*temp33*V;
-            Matrix n2(3,1);
-            n2=v1mat;
-            n2.AllMul(r);
-            n2=n2+v3mat;
+            Matrix R2m(3,3);
+            R2m=U*temp33*V;
+//printf("R2:\n");                            /// //////////////////
+//        for(S32 j=0; j<3; j++)              /// //////////////////
+//        {   for(S32 k=0; k<3; k++)          /// //////////////////
+//                printf("%f\t",R2m(j,k));     /// //////////////////
+//            printf("\n");                   /// //////////////////
+//        }
+//printf("temp33:\n");                            /// //////////////////
+//        for(S32 j=0; j<3; j++)              /// //////////////////
+//        {   for(S32 k=0; k<3; k++)          /// //////////////////
+//                printf("%f\t",temp33(j,k));     /// //////////////////
+//            printf("\n");                   /// //////////////////
+//        }
+            Matrix n2m(3,1);
+            for(S32 j=0; j<3; j++)//n2m = Vrow1
+                n2m(j,0)=(F32)Varray(0,j);
+//printf("v1:\n");
+// for(S32 j=0; j<3; j++)              /// //////////////////
+//        {            /// //////////////////
+//                printf("%f\t",n2m(j,0));     /// //////////////////
+//                              /// //////////////////
+//        }
+//printf("\nr: %f\n",r);
+//printf("v3:\n");
+// for(S32 j=0; j<3; j++)              /// //////////////////
+//        {            /// //////////////////
+//                printf("%f\t",v3m(j,0));     /// //////////////////
+//                              /// //////////////////
+//        }
+            n2m.AllMul(r);
+            n2m=n2m+v3m;
 
-            Vector t2(3);
-            t2=u1; t2.Mul(-b);
-            temp3=u3; temp3.Mul(q3/q2-s*a);
-            t2=t2+temp3; t2.Mul(D);
+            Vector t2v(3);
+            t2v=u1v; t2v.Mul(-b);
+
+            temp3v=u3v; temp3v.Mul(q3/q2-s*a);
+            t2v=t2v+temp3v; t2v.Mul(D);
             //t2=(u1*(-b)+u3*(q3/q2-s*a))*D;
             //
-            N.CopyFrom(0,1,1,3,n2.GetData());
-            n2.Svdcmp(Sx,Vx);
-            W_n=Sx[0];
-            t2.Mul(W_n);
-            t2.Mul(-1);
-            R.CopyFrom(0,3,3,3,R2.GetData());
-            t.CopyFrom(0,1,1,3,t2.GetData());*/
+            N.CopyFrom(0,1,1,3,n2m.GetData());
+            for(S32 j=0; j<3; j++)
+                narray(j,0)=(double)n2m(j,0);
+            alglib::rmatrixsvd(narray,3,1,0,0,2,ndarray,nuarray,nvarray);
+            W_n=ndarray[0];
+            t2v.Mul(W_n);
+            t2v.Mul(-1);
+            R.CopyFrom(0,3,3,3,R2m.GetData());
+            t.CopyFrom(0,1,1,3,t2v.GetData());
 
         }break;
     }
