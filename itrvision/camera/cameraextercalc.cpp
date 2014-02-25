@@ -8,6 +8,7 @@ CameraExterCalc::CameraExterCalc()
 {
     //ctor
     H.Init(3,3);
+    Hinv.Init(3,3);
     R.Init(3,6);
     t.Init(3,2);
     N.Init(3,2);
@@ -312,6 +313,7 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
     }while(best_counter<0.33*matched_num&&i<10);//);//end of RANSAC &&i<40
 
     H=best_H;
+    Hinv=H.Inv();
 
     delete[] bucket;
     delete[] tempvalue_u;
@@ -514,5 +516,45 @@ BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
     V=V.Tran();
     return true;
 }
+ /**
+    * \brief 使用第一张图像中的点坐标计算对应的点在第二张图像上的坐标
+    * \param Point0 第一张图像上的点坐标
+    * \param Point1 对应的第二张图像上的点坐标
+    * \return 计算成功则返回True
+    * \note 调用此函数时需已完成CalcMotion()的调用
+    */
+    BOOL CameraExterCalc::CalcForwardPoint(const Point2D& Point0,Point2D& Point1)
+    {
+        Matrix pos1(3,1);
+        Matrix pos2(3,1);
+
+        pos1[0]=Point0.X;
+        pos1[1]=Point0.Y;
+        pos1[2]=1;
+        pos2=H*pos1;
+        Point1.X=pos2[0]/pos2[2];
+        Point1.Y=pos2[1]/pos2[2];
+    }
+
+    /**
+    * \brief 使用第二张图像中的点坐标计算对应的点在第一张图像上的坐标
+    * \param Point1 第二张图像上的点坐标
+    * \param Point0 对应的第一张图像上的点坐标
+    * \return 计算成功则返回True
+    * \note 调用此函数时需已完成CalcMotion()的调用
+    */
+BOOL CameraExterCalc::CalcBackwardPoint(const Point2D& Point1,Point2D& Point0)
+{
+    Matrix pos1(3,1);
+    Matrix pos2(3,1);
+
+    pos2[0]=Point1.X;
+    pos2[1]=Point1.Y;
+    pos2[2]=1;
+    pos1=Hinv*pos2;
+    Point0.X=pos1[0]/pos1[2];
+    Point0.Y=pos1[1]/pos1[2];
+}
+
 
 }
