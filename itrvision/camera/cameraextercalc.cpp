@@ -170,7 +170,8 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
     for(S32 i=0; i<16; i++)
         if(bucket_counter[i]==0)
             amptybucket++;
-    assert(amptybucket<=12);
+    if(amptybucket>12)
+        return false;
 
     F32 ratio_bucket[16]= {0};
     ratio_bucket[0]=((F32)bucket_counter[0])/matched_num;
@@ -181,8 +182,8 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
     /// RANSAC,calculate H
     S16 b[4]= {0};
     S32 c[4]= {0};
-    F32 p,wght,u1,v1,u2,v2;
-    S32 q,tmp_k;
+    F32 p=0,wght,u1,v1,u2,v2;
+    S32 q=0,tmp_k=0;
     S32 i=0;
     do      ///for(S32 i=0; i<20; i++)     /// RANSAC begin:
     {
@@ -228,6 +229,9 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
             }
             if(q!=-1)
                 b[j]=q;
+                /// /////////////////////////////////////////////////////////////
+                //printf("\nrand: %f\n",p);
+                /// /////////////////////////////////////////////////////////////
         }
         //pick 4 feature point
         for(S32 j=0; j<4; j++)
@@ -236,6 +240,9 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
             NumericalObj.Ceil(p*bucket_counter[b[j]],q);
             c[j]=tempID[*(bucket+(b[j]*matched_num+q))];
         }
+/// ///////////////////////////////////////////////////////////////////////////
+//printf("\nbucket:%d\t%d\t%d\t%d\t ID:%d\t%d\t%d\t%d\t",b[0],b[1],b[2],b[3],c[0],c[1],c[2],c[3]);
+/// ///////////////////////////////////////////////////////////////////////////
         //matrix
         double M[72]={0};  //最小二乘矩阵
         for(S32 j=0; j<4; j++)
@@ -275,20 +282,22 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
         pos_1[2]=1;
         for(S32 j=0; j<matched_num; j++)
         {
-            pos_1[0]=tempvalue_u[j];
-            pos_1[1]=tempvalue_v[j];
-
-            pos_2s=H*pos_1;
-
-            pos_2s[0]/=pos_2s[2];
-            pos_2s[1]/=pos_2s[2];
-
-            pos_2s[0]-=PointList2[PointList1[tempID[j]].ID].X;
-            pos_2s[1]-=PointList2[PointList1[tempID[j]].ID].Y;
-            CalculateObj.MultiSum(pos_2s.GetData(),pos_2s.GetData(),2,risde);
-
             if(tempID[j]==c[0]||tempID[j]==c[1]||tempID[j]==c[2]||tempID[j]==c[3])
                 risde=0;
+            else
+            {
+                pos_1[0]=tempvalue_u[j];
+                pos_1[1]=tempvalue_v[j];
+
+                pos_2s=H*pos_1;
+
+                pos_2s[0]/=pos_2s[2];
+                pos_2s[1]/=pos_2s[2];
+
+                pos_2s[0]-=PointList2[PointList1[tempID[j]].ID].X;
+                pos_2s[1]-=PointList2[PointList1[tempID[j]].ID].Y;
+                CalculateObj.MultiSum(pos_2s.GetData(),pos_2s.GetData(),2,risde);
+            }
             if(risde<resid_MAX_2)   /// 与王论文相比 risde 未开方
                 red_counter++;
             tmp_red+=risde;
@@ -310,7 +319,13 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
             }
         }
         i++;
-    }while(best_counter<0.33*matched_num&&i<10);//);//end of RANSAC &&i<40
+    }while(best_counter<0.5*matched_num&&i<10);        ///end of RANSAC
+
+/// /////////////////////////////////////////////////
+//printf("ransac times:%d\tcorrect_counter:%f\t%f\t red:%f\n",i,best_counter,best_counter/matched_num,best_red);
+/// /////////////////////////////////////////////////
+
+
 
     H=best_H;
     Hinv=H.Inv();
