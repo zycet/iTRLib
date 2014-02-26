@@ -67,7 +67,7 @@ void Pyramid::Init(const Matrix &Img, int Subsampling, int Level)
     ConvoluteSquare conv;
     conv._KLTComputeSmoothedImage(Img, 0.7, img[0]);
     int subhalf = subsampling / 2;
-    int oldncols;
+    //int oldncols;
     for (L = 1; L < level; ++L)
     {
         conv._KLTComputeSmoothedImage(img[L - 1], sigma, tempimg);

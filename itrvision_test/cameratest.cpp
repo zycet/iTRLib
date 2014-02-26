@@ -100,24 +100,11 @@ void TestCameraexternal(itr_vision::CameraInterCalc &camera_in)
     fclose(FP_matched);
 
 ///     qualify data
-//    assert(pointlist1[779].X==739&&pointlist1[779].Y==644);
-//    assert(pointlist2[1005].X==233&&pointlist2[1005].Y==673);
-//    assert(GET_ABS(pointlist2[1005].Quality-2.8284)<0.0001);
-//    assert(GET_ABS(pointlist1[779].Feature[125]-0.036629044)<0.001);
-//    assert(GET_ABS(pointlist2[1005].Feature[125]-0.13691367)<0.001);
-//    assert(GET_ABS(Hstd(2,2)+0.00485)<0.001);
 
     itr_vision::FeatureMatch domatch;
     S32 matched_num;
     domatch.FeatureMatchDo(pointlist1,end_of_pos1,pointlist2,end_of_pos1,matched_num);
-//    printf("matched number: %d\n",matched_num);
-//    for(S32 i=0; i<end_of_pos1; i++)
-//    {
-//        if(pointlist1[i].ID!=-1)
-//        {   printf("matched ID: %d\n",pointlist1[i].ID);
-//            printf("pos1 : %f\t%f\tpos2 : %f\t%f\n",pointlist1[i].X,pointlist1[i].Y,pointlist2[pointlist1[i].ID].X,pointlist2[pointlist1[i].ID].Y);
-//        }
-//    }
+
 
     Vector pos(3),pos1(3),pos2(3),posstd(2);
     posstd[0]=583;
@@ -130,15 +117,15 @@ void TestCameraexternal(itr_vision::CameraInterCalc &camera_in)
     CameraExterCalc camera_out;
     F32 ratio_x=0,ratio_y=0;
 
-    F32 times_test=10;
+    F32 times_test=100;
     for(S32 k=0; k<times_test; k++)
     {
         camera_out.CalcH(pointlist1,end_of_pos1,pointlist2,end_of_pos1,matched_num);
         //camera_out.CalcH(mpointlist1,72,mpointlist2,72,72);
-        printf("camera_out.H\n");
-        printMatrix(camera_out.H);
-        printf("Hstd\n");
-        printMatrix(Hstd);
+//        printf("camera_out.H\n");
+//        printMatrix(camera_out.H);
+//        printf("Hstd\n");
+//        printMatrix(Hstd);
 
         pos2=camera_out.H*pos;
         pos2.Mul(1/pos2[2]);
@@ -151,12 +138,32 @@ void TestCameraexternal(itr_vision::CameraInterCalc &camera_in)
     }
     ratio_x=ratio_x/(times_test*posstd[0]);
     ratio_y=ratio_y/(times_test*posstd[1]);
-    printf("std pos:\n");
-    printVector(pos1);
+//    printf("std pos:\n");
+//    printVector(pos1);
 
     printf("dis ratio :\nx : %f\ny : %f\n",ratio_x,ratio_y);
 /// /////////////////////////////////////////////////////////////
-    F32 homo[9]={1.009,0.0189,-2.7545,-0.0118,0.9993,17.2303,0.000,-0.0000,1.0000};
+itr_math::Point2D point1,point2;
+S32 i=10;
+do
+{    point1.X=638;
+    point1.Y=59;
+    camera_out.CalcForwardPoint(point1,point2);
+    assert(GET_ABS(point2.X-583)<5);
+    assert(GET_ABS(point2.Y-269)<5);
+    printf("point2: %f\t%f\n",point2.X,point2.Y);
+    point2.X=583;
+    point2.Y=269;
+    camera_out.CalcBackwardPoint(point2,point1);
+    printf("point1: %f\t%f\n",point1.X,point1.Y);
+    assert(GET_ABS(point1.X-638)<5);
+    assert(GET_ABS(point1.Y-59)<5);
+    i--;
+}while(i>0);
+/// //////////////////////////////////////////////////////////////
+    F32 homo[9]={ 1.0010,0.0189,-2.7588,
+   -0.0118,0.9993,17.2300,
+    0.0000,-0.0000,1.0000};
     F32 rr[18]={ 0.9999,  0.0132, 0.0011,  0.9998,  0.0203, -0.0013,
                 -0.0132,  0.9947, 0.1021, -0.0203,  0.9998,  0.0015,
                  0.0002, -0.1021, 0.9948,  0.0013, -0.0014,  1.0000};
@@ -178,8 +185,8 @@ void TestCameraexternal(itr_vision::CameraInterCalc &camera_in)
     printMatrix(camera_out.t);
     printf("N:\n");
     printMatrix(camera_out.N);
-    for(S32 i=0;i<1;i++)
-        ;
+    /// ////////////////////////////////////////////////
+
 }
 void CameraTest()
 {

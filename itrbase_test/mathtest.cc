@@ -264,6 +264,15 @@ void TestVector()
     //assert(*(Data2)==(-4));             //计算结果出错，找不到问题所在
     // assert(*(Data2+1) == 8 );
     //assert(*(Data2+2)==-4);
+    itr_math::Vector v1v(3),v3v(3);
+    F32 r=-1.0713;
+    v1v[0]=-0.0557;  v1v[1]=-0.6914;  v1v[2]=-0.7203;
+    v3v[0]=0.0434;   v3v[1]=-0.7224;  v3v[2]=0.6901;
+    v1v.Mul(r);
+    v1v=v1v+v3v;
+    for(S32 i=0; i<3; i++)
+        printf("%f\t",v1v[i]);
+    printf("\n");
     TRACE_INFO("OK TestVector()");
 }
 
@@ -309,51 +318,51 @@ void TestMatrix()
     itr_math::MathObjStandInit();
     /////////
     printf("************ svd test ********************\n");
-    F32 dataaa1[72]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
-    itr_math::Matrix A(8,9,dataaa1);
-    itr_math::Matrix V(9,9);
-    itr_math::Vector W(9);
-    //test svd   /////////////////////////////
-
-    A.Svdcmp(W,V);
-    printf("matrix V :\n");
-    printMatrix(V);
-    printf("vector W :\n");
-    printVector(W);
-    printf("matrix U :\n");
-    printMatrix(A);
+//    F32 dataaa1[72]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+//    itr_math::Matrix A(8,9,dataaa1);
+//    itr_math::Matrix V(9,9);
+//    itr_math::Vector W(9);
+//    //test svd   /////////////////////////////
+//
+//    A.Svdcmp(W,V);
+//    printf("matrix V :\n");
+//    printMatrix(V);
+//    printf("vector W :\n");
+//    printVector(W);
+//    printf("matrix U :\n");
+//    printMatrix(A);
     //test pinv   /////////////////////////////
 
     printf("************ pinv test ********************\n");
-    F32 dataaa2[16]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
-    F32 dataaa3[9]={1,3,5,7,9,6,7,8,9};
-    itr_math::Matrix Afdet(3,3,dataaa3);
-    itr_math::Matrix AA(4,4,dataaa2);
-    itr_math::Matrix X(4,4);
-    itr_math::Matrix XAA(4,4);
-    AA.pinv(X);
-    XAA=AA*X;
-    F32 result_f32;
-    Afdet.Det(result_f32);
-    printf("Det of Afdet: %f\n",result_f32);
-    printf("matrix AA :\n");
-    printMatrix(AA);
-    printf("matrix X :\n");
-    printMatrix(X);
-    printf("matrix X*AA :\n");
-    printMatrix(XAA);
+//    F32 dataaa2[16]={1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16};
+//    F32 dataaa3[9]={1,3,5,7,9,6,7,8,9};
+//    itr_math::Matrix Afdet(3,3,dataaa3);
+//    itr_math::Matrix AA(4,4,dataaa2);
+//    itr_math::Matrix X(4,4);
+//    itr_math::Matrix XAA(4,4);
+//    AA.pinv(X);
+//    XAA=AA*X;
+//    F32 result_f32;
+//    Afdet.Det(result_f32);
+//    printf("Det of Afdet: %f\n",result_f32);
+//    printf("matrix AA :\n");
+//    printMatrix(AA);
+//    printf("matrix X :\n");
+//    printMatrix(X);
+//    printf("matrix X*AA :\n");
+//    printMatrix(XAA);
 
     //test copyto &copyfrom
-    itr_math::Matrix Ac(2,2);
-    AA.CopyTo(2,2,2,2,Ac.GetData());
-    printf("matrix AA :\n");
-    printMatrix(AA);
-    printf("matrix Ac :\n");
-    printMatrix(Ac);
-    AA.CopyFrom(0,1,2,2,Ac.GetData());
-    AA.CopyTo(2,2,2,2,Ac.GetData());
-    printf("matrix AA :\n");
-    printMatrix(AA);
+//    itr_math::Matrix Ac(2,2);
+//    AA.CopyTo(2,2,2,2,Ac.GetData());
+//    printf("matrix AA :\n");
+//    printMatrix(AA);
+//    printf("matrix Ac :\n");
+//    printMatrix(Ac);
+//    AA.CopyFrom(0,1,2,2,Ac.GetData());
+//    AA.CopyTo(2,2,2,2,Ac.GetData());
+//    printf("matrix AA :\n");
+//    printMatrix(AA);
 
     //测试数据
     /* 1   4  9

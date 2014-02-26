@@ -18,37 +18,45 @@ void TestIpts()
     itr_math::MathObjStandInit();
 
     ImageGray grayI;
-    IOHelper::ReadPGMFile("img2.pgm", grayI);
+    IOHelper::ReadPGMFile("img3.pgm", grayI);
     ImageGray grayO(grayI.GetWidth(),grayI.GetHeight());
 
     Matrix gray_matrix_in(grayI.GetWidth(),grayI.GetHeight());
 
     ConvertFormat::ImageGray2Matrix(grayI,gray_matrix_in);
-
+    gray_matrix_in.AllMul(1/255.f);
     SURF surf;
-    surf.Init(grayI.GetWidth(),grayI.GetHeight(),5,4,2,10.f);
-    MatrixDraw(surf.OctaveList[0]->GetHeight(),surf.OctaveList[0]->GetWidth(),surf.OctaveList[0]->Hessian);
+    surf.Init(grayI.GetWidth(),grayI.GetHeight(),5,4,2,0.0004f);
+
 
     std::vector<VectorFeaturePoint> FeaturePointList;
     gettimeofday(&tpstart,NULL);
 
     surf.Process(gray_matrix_in, FeaturePointList);
+    MatrixDraw(surf.OctaveList[0]->GetWidth(),surf.OctaveList[0]->GetHeight(),surf.OctaveList[0]->Hessian);
+
     gettimeofday(&tpend,NULL);
     timeuse = 1000000*(tpend.tv_sec-tpstart.tv_sec)+tpend.tv_usec-tpstart.tv_usec;
     timeuse /= 1000;
     printf("\n fast : %f\n",timeuse);
+    PRINT_DEBUG(FeaturePointList.size());
     TRACE_DEBUG(timeuse);
     for(S32 i=0; i<FeaturePointList.size(); i++ )
     {
         VectorFeaturePoint p=FeaturePointList[i];
         PRINT_DEBUG(p.X);
         PRINT_DEBUG(p.Y);
-        /* PRINT_DEBUG(p.Feature[0]);
-         PRINT_DEBUG(p.Scale);
-           for(S32 j=0; j<64; j++)
-         {
-             PRINT_DEBUG(p.Feature[j]);
-         }*/
+        PRINT_DEBUG(p.LevelNo);
+        PRINT_DEBUG(p.Dir);
+        PRINT_DEBUG(p.Value);
+        PRINT_DEBUG(p.Quality);
+        PRINT_DEBUG(p.Dir);
+        for(S32 j=0; j<64; j++)
+        {
+            PRINT_DEBUG(p.Feature[j]);
+        }
+
+
     }
     int kkk;
     std::cin>>kkk;
@@ -56,16 +64,27 @@ void TestIpts()
 
 void MatrixDrawTest()
 {
-    ImageGray grayI;
-    IOHelper::ReadPGMFile("img2.pgm", grayI);
-    Matrix gray_matrix_in(grayI.GetHeight(),grayI.GetWidth());
-    ConvertFormat::ImageGray2Matrix(grayI,gray_matrix_in);
+    Matrix gray_matrix_in;
+    IOpnm::ReadPGMFile("img2.pgm", gray_matrix_in);
     MatrixDraw(gray_matrix_in.GetCol(),gray_matrix_in.GetRow(),gray_matrix_in.GetData());
+}
+
+void InterBoxTest()
+{
+    Matrix img(64,64);
+    img.Set(1);
+    Matrix imgI(64,64);
+    IntegralImg::Integral(img,imgI);
+    F32 I=0;
+    I=IntegralImg::BoxFilterStarter(imgI,-1,-1,3,3);
+    I=IntegralImg::BoxFilterStarter(imgI,1,1,3,3);
+    I=I;
 }
 
 void SurfTest()
 {
     //PRINT_DEBUG("Find Interesting points!");
-    //TestIpts();
-    MatrixDrawTest();
+    TestIpts();
+    //MatrixDrawTest();
+
 }

@@ -298,20 +298,14 @@ void Matrix::SwapCol(S32 ColPosA, S32 ColPosB)
  */
 void Matrix::AllAdd(F32 K)
 {
-    for (S32 i = 0; i < col; i++)
-    {
-        CalculateObj->Offset(data + i * col, K, col, data + i * col);
-    }
+    CalculateObj->Offset(data , K, col*row, data );
 }
 /*
  * 全部元素乘以K
  */
 void Matrix::AllMul(F32 K)
 {
-    for (S32 i = 0; i < col; i++)
-    {
-        CalculateObj->Scale(data + i * col, K, col, data + i * col);
-    }
+    CalculateObj->Scale(data , K, col*row, data);
 }
 //**********矩阵相关计算**********
 /*
@@ -390,17 +384,6 @@ Vector Matrix::operator*(const Vector& vec) const
                                VecResult.GetData()[i]);
     }
     return VecResult;
-}
-//**********常用操作**********
-/*
- * 用于抽取矩阵中的某列
- */
-void Matrix::ColExtract(F32* Data, S32 Offset, S32 Interval, S32 Length, F32* Result)
-{
-    for (S32 i = 0; i < Length; i++)
-    {
-        Result[i] = Data[Offset + Interval * i];
-    }
 }
 /******************************
 *******Advanced Function*******

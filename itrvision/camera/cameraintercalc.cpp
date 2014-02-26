@@ -90,4 +90,15 @@ BOOL CameraInterCalc::CalcP2C(const Vector &PixelPoint,F32 Z,Vector &CameraPoint
     return 0;
 }
 
+void CameraInterCalc::CalcAng(const Point2D &Point, F32 &Ang_x, F32 &Ang_y)
+{
+    Numerical NumericalObj;
+
+    F32 temp=(Point.X-MatC2P(0,2))/MatC2P(0,0);
+    NumericalObj.Atan(temp,Ang_x);
+
+    temp=(Point.Y-MatC2P(1,2))/MatC2P(1,1);
+    NumericalObj.Atan(temp,Ang_y);
+}
+
 }

@@ -180,14 +180,6 @@ public:
     //**********向量相关计算**********
     Vector virtual operator*(const Vector& vec) const;
     //**********常用操作**********
-    /**
-    * \brief 抽取矩阵中的某列
-    * \param Data 指针
-    * \param Offset 抽取的列位置
-    * \param Interval 列数
-    * \param Length 行数
-    */
-    void virtual ColExtract(F32* Data, S32 Offset, S32 Interval, S32 Length, F32* Result);
     /******************************
     *******Advanced Function*******
     *******************************/

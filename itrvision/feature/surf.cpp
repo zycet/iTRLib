@@ -1,6 +1,8 @@
-#include "./surf.h"
 #include <vector>
+
+#include "alglib.h"
 #include "itrbase.h"
+#include "./surf.h"
 #include "./feature.h"
 #include "../process/process.h"
 
@@ -19,7 +21,7 @@ SURF::SURF()
 
 SURF::~SURF()
 {
-    for(S32 i=0;i<(S32)OctaveList.size();i++)
+    for(S32 i=0; i<(S32)OctaveList.size(); i++)
     {
         delete OctaveList[i];
     }
@@ -187,8 +189,23 @@ BOOL SURF::IsExtremum(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b)
     return true;
 }
 
-void SURF::MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b,VectorFeaturePoint& vfp)
+bool SURF::MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b,VectorFeaturePoint& vfp)
 {
+    // get the step distance between filters
+    // check the middle filter is mid way between top and bottom
+    S32 dFilterStep = (m->FilterLength - b->FilterLength);
+    assert(dFilterStep > 0 && t->FilterLength - m->FilterLength == m->FilterLength - b->FilterLength);
+
+    F64 xi=0,xr=0,xc=0;
+    InterpolateStep(r, c, t, m, b, &xi, &xr, &xc );
+
+    if(GET_ABS(xi)>0.5f)
+        return false;
+    if(GET_ABS(xr)>0.5f)
+        return false;
+    if(GET_ABS(xc)>0.5f)
+        return false;
+
     //vfp=pos=位置
     //vfp.Dir=dir=方向?
     //vfp.LevleNo=step=尺度
@@ -196,15 +213,89 @@ void SURF::MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessi
     //vfp.Quality=laplacian
     //vfp.Feature=向量
 
-    Point2D pos=Point2D(c*t->Step,r*t->Step);//?
+    Point2D pos=Point2D((c+xc)*t->Step,(r+xr)*t->Step);//?
     S32 step=m->Step;
     F32 hessian=m->GetHessian(r,c,t);
     F32 laplacian=m->GetLaplacian(r,c,t);
-    F32 scale=0.1333f * m->FilterLength;
+    F32 scale=0.1333f * (m->FilterLength+xi*dFilterStep);
 
     vfp.Init(pos,0,0,laplacian,hessian,64,step,scale);
     GetOrientation(vfp);
     GetDescriptor(vfp);
+
+    return true;
+}
+
+//! Performs one step of extremum interpolation.
+void SURF::InterpolateStep(int r, int c, BoxHessian* t, BoxHessian* m,BoxHessian* b, F64* xi,F64* xr, F64* xc)
+{
+    alglib::real_2d_array dD;
+    alglib::real_2d_array H;
+    alglib::real_2d_array X;
+
+    dD.allocate_own(3,1,alglib_impl::DT_COMPLEX);
+    H.allocate_own(3,3,alglib_impl::DT_COMPLEX);
+    X.allocate_own(3,1,alglib_impl::DT_COMPLEX);
+
+    GetDeriv3DMat(r,c,t,m,b,dD);
+    GetHessian3DMat(r,c,t,m,b,H);
+
+    alglib::ae_int_t info;
+    alglib::matinvreport rep;
+    alglib::rmatrixinverse(H, info, rep);
+
+    alglib::rmatrixgemm(3,1,3,-1,H,0,0,0,dD,0,0,0,0,X,0,0);
+
+    *xi=X(2,0);
+    *xr=X(1,0);
+    *xc=X(0,0);
+}
+
+//-------------------------------------------------------
+
+//! Computes the partial derivatives in x, y, and scale of a pixel.
+void SURF::GetDeriv3DMat(int r, int c, BoxHessian* t, BoxHessian* m,BoxHessian* b,alglib::real_2d_array& dD)
+{
+    F64 dx, dy, ds;
+
+    dx = (m->GetHessian(r, c + 1, t) - m->GetHessian(r, c - 1, t)) / 2.0;
+    dy = (m->GetHessian(r + 1, c, t) - m->GetHessian(r - 1, c, t)) / 2.0;
+    ds = (t->GetHessian(r, c) - b->GetHessian(r, c, t)) / 2.0;
+
+    dD(0,0)=dx;
+    dD(1,0)=dy;
+    dD(2,0)=ds;
+}
+
+//-------------------------------------------------------
+
+//! Computes the 3D Hessian matrix for a pixel.
+void SURF::GetHessian3DMat(int r, int c, BoxHessian* t, BoxHessian* m,BoxHessian* b,alglib::real_2d_array& H)
+{
+    F64 v, dxx, dyy, dss, dxy, dxs, dys;
+
+    v = m->GetHessian(r, c, t);
+    dxx = m->GetHessian(r, c + 1, t) + m->GetHessian(r, c - 1, t) - 2 * v;
+    dyy = m->GetHessian(r + 1, c, t) + m->GetHessian(r - 1, c, t) - 2 * v;
+    dss = t->GetHessian(r, c) + b->GetHessian(r, c, t) - 2 * v;
+    dxy = ( m->GetHessian(r + 1, c + 1, t) - m->GetHessian(r + 1, c - 1, t) -
+            m->GetHessian(r - 1, c + 1, t) + m->GetHessian(r - 1, c - 1, t) ) / 4.0;
+    dxs = ( t->GetHessian(r, c + 1) - t->GetHessian(r, c - 1) -
+            b->GetHessian(r, c + 1, t) + b->GetHessian(r, c - 1, t) ) / 4.0;
+    dys = ( t->GetHessian(r + 1, c) - t->GetHessian(r - 1, c) -
+            b->GetHessian(r + 1, c, t) + b->GetHessian(r - 1, c, t) ) / 4.0;
+
+    H(0,0)=dxx;
+    H(0,1)=dxy;
+    H(0,2)=dxs;
+
+    H(1,0)=dxy;
+    H(1,1)=dyy;
+    H(1,2)=dys;
+
+    H(2,0)=dxs;
+    H(2,1)=dys;
+    H(2,2)=dss;
 }
 
 S32 fRound(float flt)

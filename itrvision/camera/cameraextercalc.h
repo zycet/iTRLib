@@ -70,6 +70,7 @@ public:
     * \brief 单应性矩阵H[3*3]
     */
     Matrix H;
+    Matrix Hinv;
     /**
     * \brief 单应性向量V[3]={up,vp,1}
     */
