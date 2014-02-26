@@ -76,42 +76,4 @@ void Rotate::rotate(const Matrix &ImgInput, RectangleS &rect, F32 ang, Matrix &I
     }
 }
 
-void Rotate::rotate(const ImageARGB &ImgInput, RectangleS &rect, F32 ang, ImageARGB &ImgOutput)
-{
-    assert(rect.Width>0&&rect.Height>0);
-    Point2D center(rect.Width/2,rect.Height/2);
-
-    Transform2D trans;
-    trans.Reset();
-    trans.Rotate(ang);
-
-    S32 Inputw=ImgInput.GetWidth();
-    S32 Inputh=ImgInput.GetHeight();
-
-    Point2D pin,pout;
-    S32 x0,y0;
-
-    for(int i=0; i<rect.Width; i++)
-    {
-        for(int j=0; j<rect.Height; j++)
-        {
-            pin.X=i-center.X;
-            pin.Y=j-center.Y;
-            trans.Transform(pin,pout);
-
-            x0=pout.X+center.X+rect.X;
-            y0=pout.Y+center.Y+rect.X;
-
-            if((x0>0&&x0<Inputw)&&(y0<Inputh&&y0>0))
-            {
-                ImgOutput(j,i)=Scale::Interpolation(ImgInput,y0,x0);
-            }
-
-            else
-            {
-                ImgOutput(j,i)=0;
-            }
-        }
-    }
-}
 } // namespace itr_vision

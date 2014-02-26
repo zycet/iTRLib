@@ -34,7 +34,6 @@
 #include "convolutesquare.h"
 #include "itrbase.h"
 #include <math.h>
-#include "../image/image.h"
 
 namespace itr_vision
 {

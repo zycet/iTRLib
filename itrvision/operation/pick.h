@@ -22,7 +22,7 @@ public:
       * \param RectangleS 选取的矩形参数
       * \param ImgOutput 输出图像
       */
-    static void Rectangle(const ImageARGB &ImgInput,RectangleS &rect,ImageARGB &ImgOutput);
+
     static void Rectangle(const Matrix &ImgInput,RectangleS &rect,Matrix &ImgOutput);
 };
 

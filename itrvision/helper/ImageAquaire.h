@@ -7,6 +7,11 @@ class ImageAquaire
 {
     public:
 
+        /**
+        * \brief 回调函数定义
+        */
+        typedef void (*OnFetchFrame)(ImageAquaire&,Matrix*);
+
         virtual void Init(int Width,int Height,int BufferNum);
         /**
         * \brief 获取一帧图像
@@ -41,10 +46,6 @@ class ImageAquaire
         virtual void PushBack(Matrix*);
 
 
-        /**
-        * \brief 回调函数定义
-        */
-        typedef void (*OnFetchFrame)(ImageAquaire&,Matrix*);
 
     protected:
     private:

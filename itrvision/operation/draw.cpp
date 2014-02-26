@@ -48,20 +48,7 @@ void Draw::Circle(itr_math::Matrix &Img, S32 x, S32 y, S32 r, S16 color)
         Img((i + y + height) % height, (-j + x + width) % width) = color;
     }
 }
-void Draw::Circle(ImageARGB &Img, S32 x, S32 y, S32 r, U32 color)
-{
-    int i, j;
-    int width = Img.GetWidth();
-    int height = Img.GetHeight();
-    for (i = -r; i < r; i++)
-    {
-        j = sqrt(r * r - i * i);
-        Img((j + y + height) % height, (i + x + width) % width) = color;
-        Img((-j + y + height) % height, (i + x + width) % width) = color;
-        Img((i + y + height) % height, (j + x + width) % width) = color;
-        Img((i + y + height) % height, (-j + x + width) % width) = color;
-    }
-}
+
 
 void Draw::LineOffset(Matrix &Img, S32 X, S32 Y, S32 offsetx, S32 offsety, S16 color)
 {
@@ -76,54 +63,8 @@ void Draw::LineOffset(Matrix &Img, S32 X, S32 Y, S32 offsetx, S32 offsety, S16 c
         Img((int) y, (int) x) = color;
     }
 }
-void Draw::LineOffset(ImageARGB &Img, S32 x, S32 y, S32 offsetx, S32 offsety, U32 color)
-{
-    int i, j;
-    if (offsetx == 0)
-    {
-        if (offsety >= 0)
-        {
-            for (i = 0; i <= offsety; i++)
-            {
-                Img(y + i, x) = color;
-            }
-        }
-        else
-        {
-            for (i = 0; i >= offsety; i--)
-            {
-                Img(y + i, x) = color;
-            }
-        }
-    }
-    else
-    {
-        j = offsety / offsetx;
-        if (offsetx >= 0)
-        {
-            for (i = 0; i <= offsetx; i++)
-            {
-                Img(y + i * j, x + i) = color;
-            }
-        }
-        else
-        {
-            for (i = 0; i >= offsetx; i--)
-            {
-                Img(y + i * j, x + i) = color;
-            }
-        }
 
-    }
-}
 void Draw::Line(Matrix &Img, S32 beginx, S32 beginy, S32 endx, S32 endy, S16 color)
-{
-    int i, j;
-    i = endx - beginx;
-    j = endy - beginy;
-    LineOffset(Img, beginx, beginy, i, j, color);
-}
-void Draw::Line(ImageARGB &Img, S32 beginx, S32 beginy, S32 endx, S32 endy, U32 color)
 {
     int i, j;
     i = endx - beginx;
@@ -137,21 +78,7 @@ void Draw::Cross(Matrix &bmp, S32 x, S32 y, S32 scale, S16 color)
     LineOffset(bmp, x, y, scale, 0, color);
     LineOffset(bmp, x, y, -scale, 0, color);
 }
-void Draw::Cross(ImageARGB &bmp, S32 x, S32 y, S32 scale, U32 color)
-{
-    LineOffset(bmp, x, y, 0, scale, color);
-    LineOffset(bmp, x, y, 0, -scale, color);
-    LineOffset(bmp, x, y, scale, 0, color);
-    LineOffset(bmp, x, y, -scale, 0, color);
-}
 void Draw::Rectangle(Matrix &Img, RectangleS rect, S16 color)
-{
-    LineOffset(Img, rect.X, rect.Y, rect.Width, 0, color);
-    LineOffset(Img, rect.X, rect.Y, 0, rect.Height, color);
-    LineOffset(Img, rect.X + rect.Width, rect.Y, 0, rect.Height, color);
-    LineOffset(Img, rect.X, rect.Y + rect.Height, rect.Width, 0, color);
-}
-void Draw::Rectangle(ImageARGB &Img, RectangleS rect, U32 color)
 {
     LineOffset(Img, rect.X, rect.Y, rect.Width, 0, color);
     LineOffset(Img, rect.X, rect.Y, 0, rect.Height, color);

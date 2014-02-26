@@ -65,8 +65,6 @@
 		<Unit filename="hessiantest.h" />
 		<Unit filename="integralimgtest.cc" />
 		<Unit filename="integralimgtest.h" />
-		<Unit filename="iohelper.cpp" />
-		<Unit filename="iohelper.h" />
 		<Unit filename="lktrackertest.cpp" />
 		<Unit filename="lktrackertest.h" />
 		<Unit filename="main.cc" />

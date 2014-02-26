@@ -34,7 +34,7 @@
 #ifndef ROTATE_H_
 #define ROTATE_H_
 #include "itrbase.h"
-#include "../image/image.h"
+
 using itr_math::RectangleS;
 using itr_math::Transform2D;        //void Rotate(F32 Angle)；坐标旋转（原点为中心），逆时针正，角度
 using itr_math::Point2D;
@@ -55,7 +55,6 @@ public:
     * \param ImgOutput 输出的图像
     */
     static void rotate(const Matrix &ImgInput, RectangleS &rect, F32 ang, Matrix &ImgOutput);
-    static void rotate(const ImageARGB &ImgInput, RectangleS &rect, F32 ang, ImageARGB &ImgOutput);
 
 };
 

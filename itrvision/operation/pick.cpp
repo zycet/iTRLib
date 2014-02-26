@@ -38,18 +38,6 @@ namespace itr_vision
 
 // namespace itr_vision
 
-void itr_vision::Pick::Rectangle(const ImageARGB &ImgInput,RectangleS &rect,ImageARGB &ImgOutput)
-{
-    int i ,j;
-    for(i = 0; i <= rect.Height; i ++)
-    {
-        for(j = 0; j <= rect.Width; j ++)
-        {
-            ImgOutput(i,j) = ImgInput(rect.Y + i, rect.X + j);
-        }
-    }
-}
-
 void itr_vision::Pick::Rectangle(const Matrix &ImgInput, RectangleS &rect, Matrix &ImgOutput)
 {
     int i ,j;
