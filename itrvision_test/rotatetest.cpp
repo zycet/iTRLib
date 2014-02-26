@@ -1,5 +1,4 @@
 #include "rotatetest.h"
-#include "iohelper.h"
 #include "itrvision.h"
 #include "itrbase.h"
 #include <math.h>

@@ -1,5 +1,5 @@
 #include "hessiantest.h"
-#include "iohelper.h"
+//#include "iohelper.h"
 #include "itrvision.h"
 #include "itrbase.h"
 #include "stdio.h"
@@ -21,8 +21,8 @@ void TestCalBoxHessian()
     Matrix Output(80, 80);
     F32 result;
     Input.Set(2);
-    IntegralImg::Integral(Input, Output);
-    BoxHessian bh;
+    itr_vision::IntegralImg::Integral(Input, Output);
+    itr_vision::BoxHessian bh;
     bh.Init(80,80,2,9);
     bh.Calc(Output);
     Input.Set(2);
@@ -36,8 +36,8 @@ void TestGetHessian()
     Matrix Output(80, 80);
     F32 result;
     Input.Set(1);
-    IntegralImg::Integral(Input, Output);
-    BoxHessian bh;
+    itr_vision::IntegralImg::Integral(Input, Output);
+    itr_vision::BoxHessian bh;
     bh.Init(80,80,2,9);
     bh.Calc(Output);
     bh.GetHessian(30,30);

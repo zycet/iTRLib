@@ -32,7 +32,7 @@
  */
 
 #include "lktrackertest.h"
-#include "iohelper.h"
+//#include "iohelper.h"
 #include "itralgorithm.h"
 #include "itrvision.h"
 #include "itrbase.h"
@@ -56,8 +56,8 @@ void lktest()
 
 void lktest2Img()
 {
-   printf("*****Begin KLT Tracking 2 Image Test!*****\n\n");
-    ImageGray input1, input2;
+  /* printf("*****Begin KLT Tracking 2 Image Test!*****\n\n");
+    itr_vision::Matrix input1, input2;
     IOHelper::ReadPGMFile("bin/debug/img00069.pgm", input1);
     IOHelper::ReadPGMFile("bin/debug/img00070.pgm", input2);
 //    IOHelper::ReadPPMFile("Debug/twinnings/imgs/img00000.ppm", gray1);
@@ -139,7 +139,7 @@ int i=0;
     IOpnm::WritePGMFile("bin/debug/result.pgm",result);
     IOpnm::WritePGMFile("bin/debug/gray1.pgm",gray1);
     IOpnm::WritePGMFile("bin/debug/gray2.pgm",gray2);
-    printf("*****End KLT Tracking 2 Image Test!*****\n\n");
+    printf("*****End KLT Tracking 2 Image Test!*****\n\n");*/
 
 }
 

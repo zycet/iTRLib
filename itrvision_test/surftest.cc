@@ -1,6 +1,5 @@
 #include "surftest.h"
 #include "matrixdraw.h"
-#include "iohelper.h"
 #include "itrvision.h"
 #include "itrbase.h"
 #include "stdio.h"
@@ -17,23 +16,24 @@ void TestIpts()
 
     itr_math::MathObjStandInit();
 
-    ImageGray grayI;
-    IOHelper::ReadPGMFile("img3.pgm", grayI);
-    ImageGray grayO(grayI.GetWidth(),grayI.GetHeight());
+    Matrix grayI;
+    itr_vision::IOpnm::ReadPGMFile("img3.pgm", grayI);
+    Matrix grayO(grayI.GetCol(),grayI.GetRow());
 
-    Matrix gray_matrix_in(grayI.GetWidth(),grayI.GetHeight());
+    Matrix gray_matrix_in(grayI.GetCol(),grayI.GetRow());
 
-    ConvertFormat::ImageGray2Matrix(grayI,gray_matrix_in);
+    //ConvertFormat::ImageGray2Matrix(grayI,gray_matrix_in);
+    gray_matrix_in=grayI;
     gray_matrix_in.AllMul(1/255.f);
-    SURF surf;
-    surf.Init(grayI.GetWidth(),grayI.GetHeight(),5,4,2,0.0004f);
+    itr_vision::SURF surf;
+    surf.Init(grayI.GetCol(),grayI.GetRow(),5,4,2,0.0004f);
 
 
     std::vector<VectorFeaturePoint> FeaturePointList;
     gettimeofday(&tpstart,NULL);
 
     surf.Process(gray_matrix_in, FeaturePointList);
-    MatrixDraw(surf.OctaveList[0]->GetWidth(),surf.OctaveList[0]->GetHeight(),surf.OctaveList[0]->Hessian);
+    MatrixDraw(surf.OctaveList[0]->GetCol(),surf.OctaveList[0]->GetRow(),surf.OctaveList[0]->Hessian);
 
     gettimeofday(&tpend,NULL);
     timeuse = 1000000*(tpend.tv_sec-tpstart.tv_sec)+tpend.tv_usec-tpstart.tv_usec;

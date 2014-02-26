@@ -123,6 +123,7 @@ void ConvoluteSquareTest4Pro()
 
 void FormatPPMTestPGMTest3()
 {
+/*
     //Read File
     FILE* file = fopen("Debug/table1.ppm", "rb+");
     assert(file!=NULL);
@@ -155,5 +156,6 @@ void FormatPPMTestPGMTest3()
     fflush(file2);
     fclose(file2);
     delete[] bufferRead;
+    */
 }
 

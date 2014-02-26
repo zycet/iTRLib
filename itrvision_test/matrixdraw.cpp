@@ -1,5 +1,5 @@
 #include "matrixdraw.h"
-#include "iohelper.h"
+
 #include "itrvision.h"
 #include "itrbase.h"
 #include "stdio.h"
@@ -15,5 +15,5 @@ void MatrixDraw(S32 W,S32 H,F32* Data)
     itr_math::CalculateObj->Max(Img.GetData(),H*W, resultM);
     Img.AllMul(1/resultM*255);
 
-    IOpnm::WritePGMFile("graylm.pgm", Img);
+    itr_vision::IOpnm::WritePGMFile("graylm.pgm", Img);
 }
