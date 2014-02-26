@@ -1,6 +1,5 @@
 #include"genrecttest.h"
 #include "itrvision.h"
-#include "iohelper.h"
 #include "itrbase.h"
 #include <math.h>
 #include"stdio.h"
