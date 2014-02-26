@@ -32,8 +32,8 @@ CameraExterCalc::CameraExterCalc(const CameraExterCalc &other)
 
 BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num, S32 matched_num)
 {
-    Calculate CalculateObj;
-    Numerical NumericalObj;
+//    Calculate CalculateObj;
+//    Numerical NumericalObj;
     //筛选最优 H 时所用
     Matrix best_H(3,3);
 
@@ -64,8 +64,8 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
         }
     }
     F32 U,V;
-    CalculateObj.Max(tempvalue_u,matched_num,U);
-    CalculateObj.Max(tempvalue_v,matched_num,V);
+    itr_math::CalculateObj->Max(tempvalue_u,matched_num,U);
+    itr_math::CalculateObj->Max(tempvalue_v,matched_num,V);
     /// bucket for 16 bucket
     for(S32 i=0; i<matched_num; i++)
     {
@@ -190,7 +190,7 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
         //pick 4 buckets
         for(S32 j=0; j<4; j++)
         {
-            NumericalObj.Rand(p);
+            itr_math::NumericalObj->Rand(p);
             for(S32 k=0; k<16; k++)
             {
                 if(k==0)
@@ -229,21 +229,15 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
             }
             if(q!=-1)
                 b[j]=q;
-                /// /////////////////////////////////////////////////////////////
-                //printf("\nrand: %f\n",p);
-                /// /////////////////////////////////////////////////////////////
         }
         //pick 4 feature point
         for(S32 j=0; j<4; j++)
         {
-            NumericalObj.Rand(p);
-            NumericalObj.Ceil(p*bucket_counter[b[j]],q);
+            itr_math::NumericalObj->Rand(p);
+            itr_math::NumericalObj->Ceil(p*bucket_counter[b[j]],q);
             c[j]=tempID[*(bucket+(b[j]*matched_num+q))];
         }
-/// ///////////////////////////////////////////////////////////////////////////
-//printf("\nbucket:%d\t%d\t%d\t%d\t ID:%d\t%d\t%d\t%d\t",b[0],b[1],b[2],b[3],c[0],c[1],c[2],c[3]);
-/// ///////////////////////////////////////////////////////////////////////////
-        //matrix
+
         double M[72]={0};  //最小二乘矩阵
         for(S32 j=0; j<4; j++)
         {
@@ -296,7 +290,7 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
 
                 pos_2s[0]-=PointList2[PointList1[tempID[j]].ID].X;
                 pos_2s[1]-=PointList2[PointList1[tempID[j]].ID].Y;
-                CalculateObj.MultiSum(pos_2s.GetData(),pos_2s.GetData(),2,risde);
+                itr_math::CalculateObj->MultiSum(pos_2s.GetData(),pos_2s.GetData(),2,risde);
             }
             if(risde<resid_MAX_2)   /// 与王论文相比 risde 未开方
                 red_counter++;
@@ -319,10 +313,10 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
             }
         }
         i++;
-    }while(best_counter<0.5*matched_num&&i<10);        ///end of RANSAC
+    }while(best_counter<0.8*matched_num&&i<10);        ///end of RANSAC
 
 /// /////////////////////////////////////////////////
-//printf("ransac times:%d\tcorrect_counter:%f\t%f\t red:%f\n",i,best_counter,best_counter/matched_num,best_red);
+printf("ransac times:%d\tcorrect_counter:%f\t%f\t red:%f\n",i,best_counter,best_counter/matched_num,best_red);
 /// /////////////////////////////////////////////////
 
 
@@ -549,6 +543,7 @@ BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
         pos2=H*pos1;
         Point1.X=pos2[0]/pos2[2];
         Point1.Y=pos2[1]/pos2[2];
+        return true;
     }
 
     /**
@@ -569,6 +564,7 @@ BOOL CameraExterCalc::CalcBackwardPoint(const Point2D& Point1,Point2D& Point0)
     pos1=Hinv*pos2;
     Point0.X=pos1[0]/pos1[2];
     Point0.Y=pos1[1]/pos1[2];
+    return true;
 }
 
 

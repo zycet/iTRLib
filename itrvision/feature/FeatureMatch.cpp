@@ -18,10 +18,8 @@ void FeatureMatch::FeatureMatchDo(VectorFeaturePoint *vectorfeaturepoint1,S32 nu
     valuet=new F32[num1>num2?num1:num2];
     F32 resultM,resultC;
     S32 order;
-    Calculate CalculateObj;
-    Numerical NumericalObj;
     F32 dis_Ratio = 0.927;//最优匹配和次优匹配的比例,由于calculate函数中暂无求次小值函数
-    F32 Min_angcos=0.9511;    //匹配极限偏差，角度的余弦值
+    F32 Min_angcos=0.9511;    //匹配极限偏差，角度的余弦值Cos(pi/10);
     //NumericalObj.Cos(0.314159,Min_angcos);
 
     //第一副图向第二副图匹配
