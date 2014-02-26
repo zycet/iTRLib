@@ -1,5 +1,5 @@
 #include "picktest.h"
-#include "iohelper.h"
+
 #include "itrvision.h"
 #include "itrbase.h"
 #include <math.h>
@@ -21,8 +21,7 @@ void pickImgGraytest()
 }
 void pickImgARGBtest()
 {
-    ImageARGB ARGBI;
-    ImageARGB ARGBO;
+
     RectangleS rect(10, 40, 100, 150);
     //IOHelper::ReadPPMFile("Debug/table1.ppm", ARGBI);
     //Pick::Rectangle(ARGBI, rect, ARGBO);

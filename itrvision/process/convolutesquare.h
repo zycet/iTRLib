@@ -35,7 +35,7 @@
 #define CONVOLUTESQUARE_H_
 
 #include "itrbase.h"
-#include "../image/image.h"
+
 using itr_math::Matrix;
 namespace itr_vision
 {

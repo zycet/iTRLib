@@ -117,15 +117,15 @@ void TestCameraexternal(itr_vision::CameraInterCalc &camera_in)
     CameraExterCalc camera_out;
     F32 ratio_x=0,ratio_y=0;
 
-    F32 times_test=10;
+    F32 times_test=100;
     for(S32 k=0; k<times_test; k++)
     {
         camera_out.CalcH(pointlist1,end_of_pos1,pointlist2,end_of_pos1,matched_num);
         //camera_out.CalcH(mpointlist1,72,mpointlist2,72,72);
-        printf("camera_out.H\n");
-        printMatrix(camera_out.H);
-        printf("Hstd\n");
-        printMatrix(Hstd);
+//        printf("camera_out.H\n");
+//        printMatrix(camera_out.H);
+//        printf("Hstd\n");
+//        printMatrix(Hstd);
 
         pos2=camera_out.H*pos;
         pos2.Mul(1/pos2[2]);
@@ -138,8 +138,8 @@ void TestCameraexternal(itr_vision::CameraInterCalc &camera_in)
     }
     ratio_x=ratio_x/(times_test*posstd[0]);
     ratio_y=ratio_y/(times_test*posstd[1]);
-    printf("std pos:\n");
-    printVector(pos1);
+//    printf("std pos:\n");
+//    printVector(pos1);
 
     printf("dis ratio :\nx : %f\ny : %f\n",ratio_x,ratio_y);
 /// /////////////////////////////////////////////////////////////

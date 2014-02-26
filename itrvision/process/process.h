@@ -37,7 +37,6 @@
 #include "./binarization.h"
 #include "./convolutesquare.h"
 #include "./convolutefast.h"
-#include "./gradient.h"
 #include "./histogram.h"
 #include "./integralimg.h"
 #include "./connectedanalysis.h"

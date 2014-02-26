@@ -22,7 +22,6 @@ public:
       * \param r 圆的半径
       * \param color 图像灰度值
       */
-    static void Circle(ImageARGB &Img, S32 x, S32 y, S32 r, U32 color);
     static void Circle(Matrix &Img, S32 x, S32 y, S32 r, S16 color);
     /**
       * \brief 在输入图像中绘制直线
@@ -34,7 +33,7 @@ public:
       * \param color 图像灰度值
       */
     static void LineOffset(Matrix &Img,S32 x, S32 y, S32 offsetx ,S32 offsety,S16 color);
-    static void LineOffset(ImageARGB &Img,S32 x, S32 y, S32 offsetx ,S32 offsety,U32 color);
+    
     /**
       * \brief 在输入图像中绘制线段
       * \param Img 输入图像
@@ -45,7 +44,7 @@ public:
       * \param color 图像灰度值
       */
     static void Line(Matrix &Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,S16 color);
-    static void Line(ImageARGB &Img,S32 beginx, S32 beginy, S32 endx ,S32 endy,U32 color);
+    
     /**
       * \brief 在输入图像中绘制十字
       * \param bmp 输入图像
@@ -55,7 +54,7 @@ public:
       * \param color 图像灰度值
       */
     static void Cross(Matrix &bmp, S32 x, S32 y, S32 scale, S16 color);
-    static void Cross(ImageARGB &bmp, S32 x, S32 y, S32 scale, U32 color);
+    
     /**
       * \brief 在输入图像中绘制矩形
       * \param Img 输入图像
@@ -63,7 +62,7 @@ public:
       * \param color 图像灰度值
       */
     static void Rectangle(Matrix &Img,RectangleS rect,S16 color);
-    static void Rectangle(ImageARGB &Img,RectangleS rect,U32 color);
+    
 
     /**
       * \brief 绘制两幅图像之间特征点的匹配关系

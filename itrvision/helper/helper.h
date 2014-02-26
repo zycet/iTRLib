@@ -36,5 +36,5 @@
 
 #include "iopnm.h"
 #include"genrect.h"
-#include"convertformat.h"
+#include"ImageAquaire.h"
 #endif // HELPER_H_

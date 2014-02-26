@@ -1,6 +1,5 @@
 #include "surftest.h"
 #include "matrixdraw.h"
-#include "iohelper.h"
 #include "itrvision.h"
 #include "itrbase.h"
 #include "stdio.h"
@@ -21,7 +20,7 @@ void TestIpts()
     IOHelper::ReadPGMFile("SurfStandTest.pgm", grayI);
     ImageGray grayO(grayI.GetWidth(),grayI.GetHeight());
 
-    Matrix gray_matrix_in(grayI.GetWidth(),grayI.GetHeight());
+    Matrix gray_matrix_in(grayI.GetCol(),grayI.GetRow());
 
     ConvertFormat::ImageGray2Matrix(grayI,gray_matrix_in);
     gray_matrix_in.AllMul(1/255.f);
@@ -33,6 +32,8 @@ void TestIpts()
     std::vector<VectorFeaturePoint> FeaturePointList;
     gettimeofday(&tpstart,NULL);
     surf.Process(gray_matrix_in, FeaturePointList);
+    MatrixDraw(surf.OctaveList[0]->GetCol(),surf.OctaveList[0]->GetRow(),surf.OctaveList[0]->Hessian);
+
     gettimeofday(&tpend,NULL);
     timeuse = 1000000*(tpend.tv_sec-tpstart.tv_sec)+tpend.tv_usec-tpstart.tv_usec;
     timeuse*=0.0001f;
@@ -56,10 +57,8 @@ void TestIpts()
 
 void MatrixDrawTest()
 {
-    ImageGray grayI;
-    IOHelper::ReadPGMFile("img2.pgm", grayI);
-    Matrix gray_matrix_in(grayI.GetHeight(),grayI.GetWidth());
-    ConvertFormat::ImageGray2Matrix(grayI,gray_matrix_in);
+    Matrix gray_matrix_in;
+    IOpnm::ReadPGMFile("img2.pgm", gray_matrix_in);
     MatrixDraw(gray_matrix_in.GetCol(),gray_matrix_in.GetRow(),gray_matrix_in.GetData());
 }
 
@@ -80,5 +79,6 @@ void SurfTest()
     //PRINT_DEBUG("Find Interesting points!");
     TestIpts();
     //MatrixDrawTest();
+
     //InterBoxTest();
 }

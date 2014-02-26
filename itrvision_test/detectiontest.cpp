@@ -31,7 +31,6 @@
  *      Author: ghdawn
  */
 #include "lktrackertest.h"
-#include "iohelper.h"
 #include "itralgorithm.h"
 #include "itrvision.h"
 #include "itrbase.h"

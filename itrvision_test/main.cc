@@ -72,7 +72,7 @@ int main()
     //ConvoluteSquareTest();
     //ConvoluteSquareTest4Pro();
     //FormatPPMTestPGMTest3();
-    //CameraTest();
+    CameraTest();
     ///Finish
     //itr_math::MathObjStandDeinit();
     //Deint Math
@@ -80,7 +80,7 @@ int main()
     //IntegralImgTest();
     //TestBoxHessian();
 
-    SurfTest();
+    //SurfTest();
 
 
     TRACE_INFO("OK All");
