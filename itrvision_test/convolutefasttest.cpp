@@ -19,14 +19,14 @@ void TestComparefast()
     struct timeval tpend;
     F32 timeuse = 0 ;
     //Data
-    ImageGray grayI;
-    IOHelper::ReadPGMFile("table1.pgm", grayI);
-    ImageGray grayO(grayI.GetWidth(),grayI.GetHeight());
+    Matrix  grayI;
+    itr_vision::IOpnm::ReadPGMFile("table1.pgm", grayI);
+    Matrix grayO(grayI.GetCol(),grayI.GetRow());
 
-    Matrix gray_matrix_in(grayI.GetWidth(),grayI.GetHeight());
-    Matrix graym_matrix_out(grayI.GetWidth(),grayI.GetHeight());
+    Matrix gray_matrix_in(grayI.GetCol(),grayI.GetRow());
+    Matrix graym_matrix_out(grayI.GetCol(),grayI.GetRow());
 
-    ConvertFormat::ImageGray2Matrix(grayI,gray_matrix_in);
+    //ConvertFormat::ImageGray2Matrix(grayI,gray_matrix_in);
 
     //Init
     F32 Filter[filterN];
@@ -35,8 +35,8 @@ void TestComparefast()
         *(Filter+i)=filtervalue;
     }
     //Calc
-    ConvoluteFast con;
-    con.Init( filterN, grayI.GetWidth(),grayI.GetHeight());
+    itr_vision::ConvoluteFast con;
+    con.Init( filterN, grayI.GetCol(),grayI.GetRow());
     gettimeofday(&tpstart,NULL);
     for(S32 i=0;i<TEST_CYC;i++)
     {
@@ -57,14 +57,14 @@ void TestComparesquare()
     struct timeval tpend;
     F32 timeuse = 0 ;
     //Data
-    ImageGray grayI;
-    IOHelper::ReadPGMFile("table1.pgm", grayI);
-    ImageGray grayO(grayI.GetWidth(),grayI.GetHeight());
+    Matrix grayI;
+    itr_vision::IOpnm::ReadPGMFile("table1.pgm", grayI);
+    Matrix grayO(grayI.GetCol(),grayI.GetRow());
 
-    Matrix gray_matrix_in(grayI.GetWidth(),grayI.GetHeight());
-    Matrix graym_matrix_out(grayI.GetWidth(),grayI.GetHeight());
+    Matrix gray_matrix_in(grayI.GetCol(),grayI.GetRow());
+    Matrix graym_matrix_out(grayI.GetCol(),grayI.GetRow());
 
-    ConvertFormat::ImageGray2Matrix(grayI,gray_matrix_in);
+    //ConvertFormat::ImageGray2Matrix(grayI,gray_matrix_in);
 
     //Init
     F32 Filter[filterN];
@@ -73,7 +73,7 @@ void TestComparesquare()
         *(Filter+i)=filtervalue;
     }
     //Calc
-    ConvoluteSquare conv;
+    itr_vision::ConvoluteSquare conv;
     gettimeofday(&tpstart,NULL);
     for(S32 i=0;i<TEST_CYC;i++)
     {
