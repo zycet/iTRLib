@@ -197,7 +197,7 @@ bool SURF::MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessi
     assert(dFilterStep > 0 && t->FilterLength - m->FilterLength == m->FilterLength - b->FilterLength);
 
     F64 xi=0,xr=0,xc=0;
-    InterpolateStep(r, c, t, m, b, &xi, &xr, &xc );
+    //InterpolateStep(r, c, t, m, b, &xi, &xr, &xc );
 
     if(GET_ABS(xi)>0.5f)
         return false;
@@ -239,12 +239,17 @@ void SURF::InterpolateStep(int r, int c, BoxHessian* t, BoxHessian* m,BoxHessian
 
     GetDeriv3DMat(r,c,t,m,b,dD);
     GetHessian3DMat(r,c,t,m,b,H);
+    std::cout<<"dD:"<<dD.tostring(0)<<std::endl;
+    std::cout<<"H:"<<H.tostring(0)<<std::endl;
 
     alglib::ae_int_t info;
     alglib::matinvreport rep;
     alglib::rmatrixinverse(H, info, rep);
+    std::cout<<"H_inv:"<<H.tostring(0)<<std::endl;
 
     alglib::rmatrixgemm(3,1,3,-1,H,0,0,0,dD,0,0,0,0,X,0,0);
+
+    std::cout<<"X:"<<X.tostring(0)<<std::endl;
 
     *xi=X(2,0);
     *xr=X(1,0);
@@ -321,7 +326,7 @@ float getAngle(float X, float Y)
     return 0;
 }
 
-F32 gaussian(int x, int y, float sig)
+F32 gaussian(float x, float y, float sig)
 {
     const F32 pi = 3.14159f;
     return (1.0f/(2.0f*pi*sig*sig)) * exp( -(x*x+y*y)/(2.0f*sig*sig));
@@ -408,7 +413,7 @@ void SURF::GetOrientation(VectorFeaturePoint& Point)
 
 void SURF::GetDescriptor(VectorFeaturePoint& Point)
 {
-    S32 y, x, sample_x, sample_y, count=0;
+    S32 x, y, sample_x, sample_y, count=0;
     S32 i = 0, ix = 0, j = 0, jx = 0, xs = 0, ys = 0;
     F32 scale, *desc, dx, dy, mdx, mdy, co, si;
     F32 gauss_s1 = 0.f, gauss_s2 = 0.f;
@@ -416,8 +421,8 @@ void SURF::GetDescriptor(VectorFeaturePoint& Point)
     F32 cx = -0.5f, cy = 0.f; //Subregion centers for the 4x4 gaussian weighting
 
     scale = Point.Scale;
-    x =Point.X;
-    y =Point.Y;
+    x =fRound(Point.X);
+    y =fRound(Point.Y);
     desc = Point.Feature.GetData();
 
     co = cos(Point.Dir);
@@ -428,14 +433,19 @@ void SURF::GetDescriptor(VectorFeaturePoint& Point)
     //Calculate descriptor for this interest point
     while(i < 12)
     {
+        PRINT_DEBUG(i);
+
         j = -8;
         i = i-4;
 
         cx += 1.f;
         cy = -0.5f;
 
+
         while(j < 12)
         {
+            PRINT_DEBUG(j);
+
             dx=dy=mdx=mdy=0.f;
             cy += 1.f;
 
@@ -449,6 +459,7 @@ void SURF::GetDescriptor(VectorFeaturePoint& Point)
 
             for (int k = i; k < i + 9; ++k)
             {
+                PRINT_DEBUG(k);
                 for (int l = j; l < j + 9; ++l)
                 {
                     //Get coords of sample point on the rotated axis
@@ -469,11 +480,25 @@ void SURF::GetDescriptor(VectorFeaturePoint& Point)
                     mdx += fabs(rrx);
                     mdy += fabs(rry);
 
+                    PRINT_DEBUG(l);
+                    PRINT_DEBUG(sample_x);
+                    PRINT_DEBUG(sample_y);
+                    PRINT_DEBUG(gauss_s1);
+                    PRINT_DEBUG(rx);
+                    PRINT_DEBUG(ry);
+                    PRINT_DEBUG(rrx);
+                    PRINT_DEBUG(rry);
+                    PRINT_DEBUG(dx);
+                    PRINT_DEBUG(dy);
+                    PRINT_DEBUG(mdx);
+                    PRINT_DEBUG(mdy);
                 }
             }
 
             //Add the values to the descriptor vector
             gauss_s2 = gaussian(cx-2.0f,cy-2.0f,1.5f);
+
+            PRINT_DEBUG(gauss_s2);
 
             desc[count++] = dx*gauss_s2;
             desc[count++] = dy*gauss_s2;
