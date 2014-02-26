@@ -18,17 +18,17 @@ void genrectintest()
     itr_vision::GenRect::genrectin(rect,AAA,num);
 
 
-    ImageGray Im1;
-    IOHelper::ReadPGMFile("Debug/table1.pgm", Im1);
-    Matrix gray(Im1.GetHeight(),Im1.GetWidth());
-    ConvertFormat::ImageGray2Matrix(Im1,gray);
+    Matrix Im1;
+    itr_vision::IOpnm::ReadPGMFile("Debug/table1.pgm", Im1);
+    Matrix gray(Im1.GetCol(),Im1.GetRow());
+    //ConvertFormat::ImageGray2Matrix(Im1,gray);
     for(S32 i=0;i<num;i++)
     {
-        Draw::Rectangle(gray, *(AAA+i), 255);
+        itr_vision::Draw::Rectangle(gray, *(AAA+i), 255);
     }
-    Draw::Rectangle(gray, rect, 0);
-    ConvertFormat::Matrix2ImageGray(gray,Im1);
-    IOHelper::WritePGMFile("Debug/graygenrectin.pgm", Im1);
+    itr_vision::Draw::Rectangle(gray, rect, 0);
+   // ConvertFormat::Matrix2ImageGray(gray,Im1);
+    itr_vision::IOpnm::WritePGMFile("Debug/graygenrectin.pgm", Im1);
 
     TRACE_INFO("OK genrectin");
 }
@@ -39,17 +39,17 @@ void genrectouttest()
 
     itr_vision::GenRect::genrectout(rect,AAA,num);
 
-    ImageGray Im1;
-    IOHelper::ReadPGMFile("Debug/table1.pgm", Im1);
-    Matrix gray(Im1.GetHeight(),Im1.GetWidth());
-    ConvertFormat::ImageGray2Matrix(Im1,gray);
+    Matrix Im1;
+    itr_vision::IOpnm::ReadPGMFile("Debug/table1.pgm", Im1);
+    Matrix gray(Im1.GetCol(),Im1.GetRow());
+    //ConvertFormat::ImageGray2Matrix(Im1,gray);
     for(S32 i=0;i<num;i++)
     {
-        Draw::Rectangle(gray, *(AAA+i), 255);
+        itr_vision::Draw::Rectangle(gray, *(AAA+i), 255);
     }
-    Draw::Rectangle(gray, rect, 0);
-    ConvertFormat::Matrix2ImageGray(gray,Im1);
-    IOHelper::WritePGMFile("Debug/graygenrectout.pgm", Im1);
+    itr_vision::Draw::Rectangle(gray, rect, 0);
+    //ConvertFormat::Matrix2ImageGray(gray,Im1);
+    itr_vision::IOpnm::WritePGMFile("Debug/graygenrectout.pgm", Im1);
 
     TRACE_INFO("OK genrectout");
 }
