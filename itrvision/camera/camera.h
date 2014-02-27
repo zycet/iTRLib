@@ -34,7 +34,8 @@
 #ifndef CAMERA_H_INCLUDED
 #define CAMERA_H_INCLUDED
 
-#include "cameraintercalc.h"
-#include "cameraextercalc.h"
+#include "./cameraintercalc.h"
+#include "./cameraextercalc.h"
+#include "./camerastereocalc.h"
 
 #endif // CAMERA_H_INCLUDED

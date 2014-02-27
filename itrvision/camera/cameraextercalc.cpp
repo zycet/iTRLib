@@ -30,7 +30,7 @@ CameraExterCalc::CameraExterCalc(const CameraExterCalc &other)
     this->N=other.N;
 }
 
-BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num, S32 matched_num)
+BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num, S32 MatchedNum)
 {
     //筛选最优 H 时所用
     Matrix best_H(3,3);
@@ -42,125 +42,125 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
     //bucketing
     S32 bucket_counter[16]= {0};
     S32 *bucket;
-    bucket=new S32 [16*matched_num]();
+    bucket=new S32 [16*MatchedNum]();
     //bucket={0};
 
     F32 *tempvalue_u, *tempvalue_v;
     S32 *tempID;
-    tempvalue_u=new F32[matched_num]();
-    tempvalue_v=new F32[matched_num]();
-    tempID=new S32[matched_num]();
-    matched_num=0;
+    tempvalue_u=new F32[MatchedNum]();
+    tempvalue_v=new F32[MatchedNum]();
+    tempID=new S32[MatchedNum]();
+    MatchedNum=0;
     for(S32 i=0; i<List1Num; i++)
     {
         if(PointList1[i].ID!=-1)
         {
-            tempID[matched_num]=i;
-            tempvalue_u[matched_num]=PointList1[i].X;
-            tempvalue_v[matched_num]=PointList1[i].Y;
-            matched_num++;
+            tempID[MatchedNum]=i;
+            tempvalue_u[MatchedNum]=PointList1[i].X;
+            tempvalue_v[MatchedNum]=PointList1[i].Y;
+            MatchedNum++;
         }
     }
     F32 U,V;
-    itr_math::CalculateObj->Max(tempvalue_u,matched_num,U);
-    itr_math::CalculateObj->Max(tempvalue_v,matched_num,V);
+    itr_math::CalculateObj->Max(tempvalue_u,MatchedNum,U);
+    itr_math::CalculateObj->Max(tempvalue_v,MatchedNum,V);
     /// bucket for 16 bucket
-    for(S32 i=0; i<matched_num; i++)
+    for(S32 i=0; i<MatchedNum; i++)
     {
         if(tempvalue_u[i]<=U/4&&tempvalue_v[i]<=V/4)
         {
             bucket_counter[0]++;
-            *(bucket+(0*matched_num+bucket_counter[0]))=i;
+            *(bucket+(0*MatchedNum+bucket_counter[0]))=i;
             continue;
         }
         else if(tempvalue_u[i]<=U/4&&tempvalue_v[i]<=V/2)
         {
             bucket_counter[1]++;
-            *(bucket+(1*matched_num+bucket_counter[1]))=i;
+            *(bucket+(1*MatchedNum+bucket_counter[1]))=i;
             continue;
         }
         else if(tempvalue_u[i]<=U/4&&tempvalue_v[i]<=3*V/4)
         {
             bucket_counter[2]++;
-            *(bucket+(2*matched_num+bucket_counter[2]))=i;
+            *(bucket+(2*MatchedNum+bucket_counter[2]))=i;
             continue;
         }
         else if(tempvalue_u[i]<=U/4)
         {
             bucket_counter[3]++;
-            *(bucket+(3*matched_num+bucket_counter[3]))=i;
+            *(bucket+(3*MatchedNum+bucket_counter[3]))=i;
             continue;
         }
         else if(tempvalue_u[i]<=U/2&&tempvalue_v[i]<=V/4)
         {
             bucket_counter[4]++;
-            *(bucket+(4*matched_num+bucket_counter[4]))=i;
+            *(bucket+(4*MatchedNum+bucket_counter[4]))=i;
             continue;
         }
         else if(tempvalue_u[i]<=U/2&&tempvalue_v[i]<=V/2)
         {
             bucket_counter[5]++;
-            *(bucket+(5*matched_num+bucket_counter[5]))=i;
+            *(bucket+(5*MatchedNum+bucket_counter[5]))=i;
             continue;
         }
         else if(tempvalue_u[i]<=U/2&&tempvalue_v[i]<=3*V/4)
         {
             bucket_counter[6]++;
-            *(bucket+(6*matched_num+bucket_counter[6]))=i;
+            *(bucket+(6*MatchedNum+bucket_counter[6]))=i;
             continue;
         }
         else if(tempvalue_u[i]<=U/2)
         {
             bucket_counter[7]++;
-            *(bucket+(7*matched_num+bucket_counter[7]))=i;
+            *(bucket+(7*MatchedNum+bucket_counter[7]))=i;
             continue;
         }
         else if(tempvalue_u[i]<=3*U/4&&tempvalue_v[i]<=V/4)
         {
             bucket_counter[8]++;
-            *(bucket+(8*matched_num+bucket_counter[8]))=i;
+            *(bucket+(8*MatchedNum+bucket_counter[8]))=i;
             continue;
         }
         else if(tempvalue_u[i]<=3*U/4&&tempvalue_v[i]<=V/2)
         {
             bucket_counter[9]++;
-            *(bucket+(9*matched_num+bucket_counter[9]))=i;
+            *(bucket+(9*MatchedNum+bucket_counter[9]))=i;
             continue;
         }
         else if(tempvalue_u[i]<=3*U/4&&tempvalue_v[i]<=3*V/4)
         {
             bucket_counter[10]++;
-            *(bucket+(10*matched_num+bucket_counter[10]))=i;
+            *(bucket+(10*MatchedNum+bucket_counter[10]))=i;
             continue;
         }
         else if(tempvalue_u[i]<=3*U/4)
         {
             bucket_counter[11]++;
-            *(bucket+(11*matched_num+bucket_counter[11]))=i;
+            *(bucket+(11*MatchedNum+bucket_counter[11]))=i;
             continue;
         }
         else if(tempvalue_v[i]<=V/4)
         {
             bucket_counter[12]++;
-            *(bucket+(12*matched_num+bucket_counter[12]))=i;
+            *(bucket+(12*MatchedNum+bucket_counter[12]))=i;
             continue;
         }
         else if(tempvalue_v[i]<=V/2)
         {
             bucket_counter[13]++;
-            *(bucket+(13*matched_num+bucket_counter[13]))=i;
+            *(bucket+(13*MatchedNum+bucket_counter[13]))=i;
             continue;
         }
         else if(tempvalue_v[i]<=3*V/4)
         {
             bucket_counter[14]++;
-            *(bucket+(14*matched_num+bucket_counter[14]))=i;
+            *(bucket+(14*MatchedNum+bucket_counter[14]))=i;
             continue;
         }
         else
         {
             bucket_counter[15]++;
-            *(bucket+(15*matched_num+bucket_counter[15]))=i;
+            *(bucket+(15*MatchedNum+bucket_counter[15]))=i;
             continue;
         }
     }
@@ -172,10 +172,10 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
         return false;
 
     F32 ratio_bucket[16]= {0};
-    ratio_bucket[0]=((F32)bucket_counter[0])/matched_num;
+    ratio_bucket[0]=((F32)bucket_counter[0])/MatchedNum;
     for(S32 i=1; i<16; i++)
     {
-        ratio_bucket[i]=ratio_bucket[i-1] + (F32)bucket_counter[i]/matched_num;
+        ratio_bucket[i]=ratio_bucket[i-1] + (F32)bucket_counter[i]/MatchedNum;
     }
     /// RANSAC,calculate H
     S16 b[4]= {0};
@@ -233,7 +233,7 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
         {
             itr_math::NumericalObj->Rand(p);
             itr_math::NumericalObj->Ceil(p*bucket_counter[b[j]],q);
-            c[j]=tempID[*(bucket+(b[j]*matched_num+q))];
+            c[j]=tempID[*(bucket+(b[j]*MatchedNum+q))];
         }
 
         double M[72]={0};  //最小二乘矩阵
@@ -272,7 +272,7 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
         //残差量
         red_counter=0,tmp_red=0;
         pos_1[2]=1;
-        for(S32 j=0; j<matched_num; j++)
+        for(S32 j=0; j<MatchedNum; j++)
         {
             if(tempID[j]==c[0]||tempID[j]==c[1]||tempID[j]==c[2]||tempID[j]==c[3])
                 risde=0;
@@ -311,7 +311,7 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
             }
         }
         i++;
-    }while(best_counter<0.8*matched_num&&i<10);        ///end of RANSAC
+    }while(best_counter<0.8*MatchedNum&&i<10);        ///end of RANSAC
 
 ///// /////////////////////////////////////////////////
 //printf("ransac times:%d\tcorrect_counter:%f\t%f\t red:%f\n",i,best_counter,best_counter/matched_num,best_red);

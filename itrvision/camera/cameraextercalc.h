@@ -38,7 +38,7 @@ public:
     * \param PointList2 特征点组2(图像坐标系)
     * \param List2Num 特征点组2长度
     */
-    BOOL CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num,S32 matched_num);
+    BOOL CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num,S32 MatchedNum);
 
     /**
     * \brief 通过给定的相机内参数和深度参数D计算运动参数(R,T,N,V)

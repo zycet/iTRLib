@@ -19,6 +19,7 @@
 					<Add directory="../itrbase" />
 					<Add directory="../itralgorithm" />
 					<Add directory="../3rdparty/alglib" />
+					<Add directory="camera" />
 				</Compiler>
 				<Linker>
 					<Add library="..\itrbase\bin\debug\libitrbase.a" />
@@ -39,6 +40,7 @@
 					<Add directory="../itrbase" />
 					<Add directory="../itralgorithm" />
 					<Add directory="../3rdparty/alglib" />
+					<Add directory="camera" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -53,6 +55,8 @@
 		<Unit filename="camera/cameraextercalc.h" />
 		<Unit filename="camera/cameraintercalc.cpp" />
 		<Unit filename="camera/cameraintercalc.h" />
+		<Unit filename="camera/camerastereocalc.cpp" />
+		<Unit filename="camera/camerastereocalc.h" />
 		<Unit filename="feature/FeatureMatch.cpp" />
 		<Unit filename="feature/FeatureMatch.h" />
 		<Unit filename="feature/block.h" />
