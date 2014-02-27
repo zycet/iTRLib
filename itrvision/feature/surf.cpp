@@ -462,9 +462,16 @@ void SURF::GetDescriptor(VectorFeaturePoint& Point)
                 PRINT_DEBUG(k);
                 for (int l = j; l < j + 9; ++l)
                 {
+
                     //Get coords of sample point on the rotated axis
                     sample_x = fRound(x + (-l*scale*si + k*scale*co));
                     sample_y = fRound(y + ( l*scale*co + k*scale*si));
+
+                    if(sample_x==73&&sample_y==72)
+                    {
+                        int kkk=0;
+                        kkk=kkk;
+                    }
 
                     //Get the gaussian weighted x and y responses
                     gauss_s1 = gaussian(xs-sample_x,ys-sample_y,2.5f*scale);
