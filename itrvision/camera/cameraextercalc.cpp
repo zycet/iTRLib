@@ -32,8 +32,6 @@ CameraExterCalc::CameraExterCalc(const CameraExterCalc &other)
 
 BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num, S32 matched_num)
 {
-//    Calculate CalculateObj;
-//    Numerical NumericalObj;
     //筛选最优 H 时所用
     Matrix best_H(3,3);
 
@@ -315,9 +313,9 @@ BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFe
         i++;
     }while(best_counter<0.8*matched_num&&i<10);        ///end of RANSAC
 
-/// /////////////////////////////////////////////////
-printf("ransac times:%d\tcorrect_counter:%f\t%f\t red:%f\n",i,best_counter,best_counter/matched_num,best_red);
-/// /////////////////////////////////////////////////
+///// /////////////////////////////////////////////////
+//printf("ransac times:%d\tcorrect_counter:%f\t%f\t red:%f\n",i,best_counter,best_counter/matched_num,best_red);
+///// /////////////////////////////////////////////////
 
 
 
