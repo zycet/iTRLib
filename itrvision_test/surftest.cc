@@ -19,7 +19,7 @@ void TestIpts()
     itr_math::MathObjStandInit();
 
     Matrix gray_matrix_in;
-    IOpnm::ReadPGMFile("SurfStandTest.pgm", gray_matrix_in);
+    IOpnm::ReadPGMFile("img3.pgm", gray_matrix_in);
     S32 w=gray_matrix_in.GetCol();
     S32 h=gray_matrix_in.GetRow();
     gray_matrix_in.AllMul(1/255.f);
