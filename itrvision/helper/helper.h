@@ -34,7 +34,8 @@
 #ifndef HELPER_H_
 #define HELPER_H_
 
-#include "iopnm.h"
-#include"genrect.h"
-#include"ImageAquaire.h"
+#include "./iopnm.h"
+#include "./genrect.h"
+#include "./imageaquaire.h"
+#include "./formatconverter.h"
 #endif // HELPER_H_
