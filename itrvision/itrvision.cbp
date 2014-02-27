@@ -21,9 +21,9 @@
 					<Add directory="../3rdparty/alglib" />
 				</Compiler>
 				<Linker>
-					<Add library="../itrbase/bin/debug/libitrbase.a" />
-					<Add library="../itralgorithm/bin/debug/libitralgorithm.a" />
-					<Add library="../3rdparty/alglib/bin/debug/libalglib.a" />
+					<Add library="..\itrbase\bin\debug\libitrbase.a" />
+					<Add library="..\itralgorithm\bin\debug\libitralgorithm.a" />
+					<Add library="..\3rdparty\alglib\bin\debug\libalglib.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -42,9 +42,9 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="../itrbase/bin/release/libitrbase.a" />
-					<Add library="../3rdparty/alglib/bin/release/libalglib.a" />
-					<Add library="../itralgorithm/bin/release/libitralgorithm.a" />
+					<Add library="..\itrbase\bin\release\libitrbase.a" />
+					<Add library="..\3rdparty\alglib\bin\release\libalglib.a" />
+					<Add library="..\itralgorithm\bin\release\libitralgorithm.a" />
 				</Linker>
 			</Target>
 		</Build>
@@ -70,10 +70,11 @@
 		<Unit filename="feature/surf.h" />
 		<Unit filename="feature/vectorfeaturepoint.cpp" />
 		<Unit filename="feature/vectorfeaturepoint.h" />
-		<Unit filename="helper/ImageAquaire.h" />
+		<Unit filename="helper/formatconverter.h" />
 		<Unit filename="helper/genrect.cpp" />
 		<Unit filename="helper/genrect.h" />
 		<Unit filename="helper/helper.h" />
+		<Unit filename="helper/imageaquaire.h" />
 		<Unit filename="helper/iopnm.cpp" />
 		<Unit filename="helper/iopnm.h" />
 		<Unit filename="itrvision.h" />
