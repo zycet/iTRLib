@@ -117,7 +117,7 @@ void SURF::Init(S32 Width,S32 Height,S32 OctaveNum,S32 IntervalNum,S32 InitSampl
         bh->Init(w/16,h/16,s*16,387);
         OctaveList.push_back(bh);
     }
-    IntImg.Init(Width,Height);
+    IntImg.Init(Height,Width);
 }
 
 S32 SURF::Process(const Matrix& Img,std::vector<VectorFeaturePoint>& FeaturePointList)
@@ -433,7 +433,7 @@ void SURF::GetDescriptor(VectorFeaturePoint& Point)
     //Calculate descriptor for this interest point
     while(i < 12)
     {
-        PRINT_DEBUG(i);
+       // PRINT_DEBUG(i);
 
         j = -8;
         i = i-4;
@@ -459,7 +459,7 @@ void SURF::GetDescriptor(VectorFeaturePoint& Point)
 
             for (int k = i; k < i + 9; ++k)
             {
-                PRINT_DEBUG(k);
+                //PRINT_DEBUG(k);
                 for (int l = j; l < j + 9; ++l)
                 {
 
@@ -487,7 +487,7 @@ void SURF::GetDescriptor(VectorFeaturePoint& Point)
                     mdx += fabs(rrx);
                     mdy += fabs(rry);
 
-                    PRINT_DEBUG(l);
+                   /* PRINT_DEBUG(l);
                     PRINT_DEBUG(sample_x);
                     PRINT_DEBUG(sample_y);
                     PRINT_DEBUG(gauss_s1);
@@ -498,14 +498,14 @@ void SURF::GetDescriptor(VectorFeaturePoint& Point)
                     PRINT_DEBUG(dx);
                     PRINT_DEBUG(dy);
                     PRINT_DEBUG(mdx);
-                    PRINT_DEBUG(mdy);
+                    PRINT_DEBUG(mdy);*/
                 }
             }
 
             //Add the values to the descriptor vector
             gauss_s2 = gaussian(cx-2.0f,cy-2.0f,1.5f);
 
-            PRINT_DEBUG(gauss_s2);
+            //PRINT_DEBUG(gauss_s2);
 
             desc[count++] = dx*gauss_s2;
             desc[count++] = dy*gauss_s2;
