@@ -433,7 +433,6 @@ void SURF::GetDescriptor(VectorFeaturePoint& Point)
     //Calculate descriptor for this interest point
     while(i < 12)
     {
-       // PRINT_DEBUG(i);
 
         j = -8;
         i = i-4;
@@ -444,7 +443,6 @@ void SURF::GetDescriptor(VectorFeaturePoint& Point)
 
         while(j < 12)
         {
-            PRINT_DEBUG(j);
 
             dx=dy=mdx=mdy=0.f;
             cy += 1.f;
@@ -459,7 +457,7 @@ void SURF::GetDescriptor(VectorFeaturePoint& Point)
 
             for (int k = i; k < i + 9; ++k)
             {
-                //PRINT_DEBUG(k);
+
                 for (int l = j; l < j + 9; ++l)
                 {
 
@@ -487,25 +485,11 @@ void SURF::GetDescriptor(VectorFeaturePoint& Point)
                     mdx += fabs(rrx);
                     mdy += fabs(rry);
 
-                   /* PRINT_DEBUG(l);
-                    PRINT_DEBUG(sample_x);
-                    PRINT_DEBUG(sample_y);
-                    PRINT_DEBUG(gauss_s1);
-                    PRINT_DEBUG(rx);
-                    PRINT_DEBUG(ry);
-                    PRINT_DEBUG(rrx);
-                    PRINT_DEBUG(rry);
-                    PRINT_DEBUG(dx);
-                    PRINT_DEBUG(dy);
-                    PRINT_DEBUG(mdx);
-                    PRINT_DEBUG(mdy);*/
                 }
             }
 
             //Add the values to the descriptor vector
             gauss_s2 = gaussian(cx-2.0f,cy-2.0f,1.5f);
-
-            //PRINT_DEBUG(gauss_s2);
 
             desc[count++] = dx*gauss_s2;
             desc[count++] = dy*gauss_s2;
