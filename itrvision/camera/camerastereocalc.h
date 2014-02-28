@@ -50,13 +50,11 @@ public:
     /**
     * \brief 使用两组特征点通过RANSAC计算平面方程
     * \param PointList1 特征点组1(图像坐标系)
-    * \param List1Num 特征点组1长度
     * \param PointList2 特征点组2(图像坐标系)
-    * \param List2Num 特征点组2长度
     * \param DeepZero 坐标X=0,Y=0处Z的值
     * \return 是否成功计算
     */
-    bool Calc(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num,F32* DeepZero);
+    bool Calc(const std::vector<VectorFeaturePoint>& PointList0,const std::vector<VectorFeaturePoint>& PointList1,F32* DeepZero);
     /**
     * \brief 在成功执行Calc后可通过此函数获得附加的计算结果信息
     */

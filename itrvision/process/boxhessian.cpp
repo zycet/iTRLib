@@ -64,9 +64,6 @@ void BoxHessian::Init(S32 Width,S32 Height,S32 Step,S32 FilterLength)
 
 void BoxHessian::Calc(const Matrix& Img)
 {
-    //assert(Width==Img.GetCol());
-    //assert(Height==Img.GetRow());
-
     S32 b = (this->FilterLength- 1) / 2;    // border for this filter
     S32 l = this->FilterLength / 3;         // lobe for this filter (filter size / 3)
     S32 w = this->FilterLength;             // filter size
@@ -135,5 +132,3 @@ U8 BoxHessian::GetLaplacian(S32 RowPos,S32 ColPos,BoxHessian* Scale) const
     return this->GetLaplacian(RowPos*scale,ColPos*scale);
 }
 }
-
-

@@ -53,22 +53,56 @@ public:
     * \param Threshold 过滤阀值
     */
     void Init(S32 Width,S32 Height,S32 OctaveNum,S32 IntervalNum,S32 InitSample,F32 Threshold);
+
     /**
-    * \brief 处理图像并生成特征点
+    * \brief 计算积分图像
+    * \param Img 传入的待积分图像
+    * \note 此函数为分步处理的第一步.
+    */
+    void CalcIntegralImg(const Matrix& Img);
+
+    /**
+    * \brief 获取总共的HessianImg数量
+    */
+    S32 GetHessianImgNum();
+
+    /**
+    * \brief 计算指定的Hessian图像
+    * \param No 图像号
+    * \note 此函数为分步处理的第二步,需将所有Hessian图像都处理(可多线程调用).
+    */
+    void CalcHessianImg(S32 No);
+
+    /**
+    * \brief 搜索兴趣点(但不生成描述)
+    * \param FeaturePointList 返回特征点列表
+    * \return 找到的特征点数量
+    * \note 此函数为分步处理的第三步.
+    */
+    S32 SearchPoint(std::vector<VectorFeaturePoint>& FeaturePointList);
+
+    /**
+    * \brief 描述指定的特征点
+    * \param Point 需要描述的特征点
+    * \param IsCalcOri 是否继续方向不变计算
+    * \note 此函数为分步处理的第四步,可将需要描述的特征点进行描述(可多线程调用).
+    */
+    void DescribePoint(VectorFeaturePoint& Point,bool IsCalcOri);
+
+    /**
+    * \brief 处理图像并生成特征点(此函数可一次性完成所有操作)
     * \param Img 待处理图像
     * \param FeaturePointList 特征点列表(生成的特征点会储存在内)
     * \return 找到的特征点数量
     */
-    S32 Process(const Matrix& Img,std::vector<VectorFeaturePoint>& FeaturePointList);
+    S32 ProcessAll(const Matrix& Img,std::vector<VectorFeaturePoint>& FeaturePointList);
     /**
     * \brief 过滤阀值
     */
     F32 Threshold;
-
-    std::vector<BoxHessian*> OctaveList;
 private:
     BOOL IsExtremum(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b);
-    bool MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b,VectorFeaturePoint& vfp);
+    bool MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b,VectorFeaturePoint& vfp,bool IsCalcFeature);
     void InterpolateStep(int r, int c, BoxHessian* t, BoxHessian* m,BoxHessian* b, F64* xi,F64* xr, F64* xc);
     void GetDeriv3DMat(int r, int c, BoxHessian* t, BoxHessian* m,BoxHessian* b,alglib::real_2d_array& dD);
     void GetHessian3DMat(int r, int c, BoxHessian* t, BoxHessian* m,BoxHessian* b,alglib::real_2d_array& H);
@@ -76,7 +110,7 @@ private:
     void GetDescriptor(VectorFeaturePoint& Point);
     F32 HaarX(S32 row, S32 column, S32 s);
     F32 HaarY(S32 row, S32 column, S32 s);
-    //std::vector<BoxHessian*> OctaveList;
+    std::vector<BoxHessian*> OctaveList;
     Matrix IntImg;
     S32 OctaveNum;
     S32 IntervalNum;

@@ -30,7 +30,7 @@ CameraExterCalc::CameraExterCalc(const CameraExterCalc &other)
     this->N=other.N;
 }
 
-BOOL CameraExterCalc::CalcH(VectorFeaturePoint *PointList1,S32 List1Num,VectorFeaturePoint *PointList2,S32 List2Num, S32 MatchedNum)
+BOOL CameraExterCalc::CalcH(const std::vector<VectorFeaturePoint>& PointList0,const std::vector<VectorFeaturePoint>& PointList1,S32 MatchedNum)
 {
     //筛选最优 H 时所用
     Matrix best_H(3,3);

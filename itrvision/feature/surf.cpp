@@ -120,7 +120,65 @@ void SURF::Init(S32 Width,S32 Height,S32 OctaveNum,S32 IntervalNum,S32 InitSampl
     IntImg.Init(Height,Width);
 }
 
-S32 SURF::Process(const Matrix& Img,std::vector<VectorFeaturePoint>& FeaturePointList)
+void SURF::CalcIntegralImg(const Matrix& Img)
+{
+    //Calc Integral Image
+    itr_vision::IntegralImg::Integral(Img,IntImg);
+}
+
+
+S32 SURF::GetHessianImgNum()
+{
+    return (S32)OctaveList.size();
+}
+
+void SURF::CalcHessianImg(S32 No)
+{
+    OctaveList[No]->Calc(IntImg);
+}
+
+S32 SURF::SearchPoint(std::vector<VectorFeaturePoint>& FeaturePointList)
+{
+    S32 pointNum=0;
+    BoxHessian *b, *m, *t;//Get the response layers
+    for (S32 o = 0; o < OctaveNum; ++o)
+    {
+        for (S32 i = 0; i <= 1; ++i)
+        {
+            b = OctaveList.at(SURF_Filter_Map[o][i]);
+            m = OctaveList.at(SURF_Filter_Map[o][i+1]);
+            t = OctaveList.at(SURF_Filter_Map[o][i+2]);
+
+            // loop over middle response layer at density of the most
+            // sparse layer (always top), to find maxima across scale and space
+            for (S32 r = 0; r < t->GetHeight(); r++)
+            {
+                for (S32 c = 0; c < t->GetWidth(); c++)
+                {
+                    if (IsExtremum(r, c, t, m, b))
+                    {
+                        VectorFeaturePoint vfp;
+                        MakeFeaturePoint(r,c,t,m,b,vfp,false);
+                        FeaturePointList.push_back(vfp);
+                        pointNum++;
+                    }
+                }
+            }
+        }
+    }
+    return pointNum;
+}
+
+void SURF::DescribePoint(VectorFeaturePoint& Point,bool IsCalcOri)
+{
+    if(IsCalcOri)
+    {
+        GetOrientation(Point);
+    }
+    GetDescriptor(Point);
+}
+
+S32 SURF::ProcessAll(const Matrix& Img,std::vector<VectorFeaturePoint>& FeaturePointList)
 {
     //Calc Integral Image
     itr_vision::IntegralImg::Integral(Img,IntImg);
@@ -150,7 +208,7 @@ S32 SURF::Process(const Matrix& Img,std::vector<VectorFeaturePoint>& FeaturePoin
                     if (IsExtremum(r, c, t, m, b))
                     {
                         VectorFeaturePoint vfp;
-                        MakeFeaturePoint(r,c,t,m,b,vfp);
+                        MakeFeaturePoint(r,c,t,m,b,vfp,true);
                         FeaturePointList.push_back(vfp);
                         pointNum++;
                     }
@@ -189,7 +247,7 @@ BOOL SURF::IsExtremum(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b)
     return true;
 }
 
-bool SURF::MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b,VectorFeaturePoint& vfp)
+bool SURF::MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessian *b,VectorFeaturePoint& vfp,bool IsCalcFeature)
 {
     // get the step distance between filters
     // check the middle filter is mid way between top and bottom
@@ -220,9 +278,12 @@ bool SURF::MakeFeaturePoint(S32 r, S32 c, BoxHessian *t, BoxHessian *m, BoxHessi
     F32 scale=0.1333f * (m->FilterLength+xi*dFilterStep);
 
     vfp.Init(pos,0,0,laplacian,hessian,64,step,scale);
-    GetOrientation(vfp);
-    GetDescriptor(vfp);
 
+    if(IsCalcFeature)
+    {
+        GetOrientation(vfp);
+        GetDescriptor(vfp);
+    }
     return true;
 }
 
