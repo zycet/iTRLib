@@ -1,9 +1,7 @@
 #ifndef IMAGEAQUAIRE_H
 #define IMAGEAQUAIRE_H
-#include "itrbase.h"
-#include "itrvision.h"
 
-using itr_math::Matrix;
+#include "itrbase.h"
 
 namespace itr_device
 {
@@ -14,12 +12,34 @@ namespace itr_device
 class ImageAquaire
 {
 public:
+    enum RawFormat
+    {
+        RawMono8,
+        RawMono16,
+        RawYUV444,
+        RawYUV422,
+        RawYUV411,
+        RawYUV420,
+        RawRGB24,
+        RawRGB48,
+        RawBGR24,
+        RawRGBA32,
+        RawBGRA32,
+        RawBayer8RGGB,
+        RawBayer8GBRG,
+        RawBayer8GRBG,
+        RawBayer8BGGR,
+        RawBayer16RGGB,
+        RawBayer16GBRG,
+        RawBayer16GRBG,
+        RawBayer16BGGR,
+    };
     struct AquairePara
     {
         F32 AquaireFreq;
         F32 Exposure;
         F32 Gain;
-        FormatConverter::RawFormat Format;
+        RawFormat Format;
     };
     /**
     * \brief 回调函数定义
