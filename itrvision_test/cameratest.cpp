@@ -101,10 +101,11 @@ void TestCameraexternal(itr_vision::CameraInterCalc &camera_in)
 
 ///     qualify data
 
-    itr_vision::FeatureMatch domatch;
+/*    itr_vision::FeatureMatch domatch;
     S32 matched_num;
+    S32 end_of_pos1;
     domatch.FeatureMatchDo(pointlist1,end_of_pos1,pointlist2,end_of_pos1,matched_num);
-
+    end_of_pos1=FeaturePointList.size();
 
     Vector pos(3),pos1(3),pos2(3),posstd(2);
     posstd[0]=583;
@@ -142,24 +143,25 @@ void TestCameraexternal(itr_vision::CameraInterCalc &camera_in)
 //    printVector(pos1);
 
     printf("dis ratio :\nx : %f\ny : %f\n",ratio_x,ratio_y);
+*/
 /// /////////////////////////////////////////////////////////////
-itr_math::Point2D point1,point2;
-S32 i=10;
-do
-{    point1.X=638;
-    point1.Y=59;
-    camera_out.CalcForwardPoint(point1,point2);
-    assert(GET_ABS(point2.X-583)<5);
-    assert(GET_ABS(point2.Y-269)<5);
-    printf("point2: %f\t%f\n",point2.X,point2.Y);
-    point2.X=583;
-    point2.Y=269;
-    camera_out.CalcBackwardPoint(point2,point1);
-    printf("point1: %f\t%f\n",point1.X,point1.Y);
-    assert(GET_ABS(point1.X-638)<5);
-    assert(GET_ABS(point1.Y-59)<5);
-    i--;
-}while(i>0);
+//itr_math::Point2D point1,point2;
+//S32 i=10;
+//do
+//{    point1.X=638;
+//    point1.Y=59;
+//    camera_out.CalcForwardPoint(point1,point2);
+//    assert(GET_ABS(point2.X-583)<5);
+//    assert(GET_ABS(point2.Y-269)<5);
+//    printf("point2: %f\t%f\n",point2.X,point2.Y);
+//    point2.X=583;
+//    point2.Y=269;
+//    camera_out.CalcBackwardPoint(point2,point1);
+//    printf("point1: %f\t%f\n",point1.X,point1.Y);
+//    assert(GET_ABS(point1.X-638)<5);
+//    assert(GET_ABS(point1.Y-59)<5);
+//    i--;
+//}while(i>0);
 /// //////////////////////////////////////////////////////////////
     F32 homo[9]={ 1.0010,0.0189,-2.7588,
    -0.0118,0.9993,17.2300,
@@ -178,15 +180,15 @@ do
                 0.0191,
                 1.4620};
                 */
-    Matrix homog(3,3,homo);
-    camera_out.H=homog;
-    camera_out.CalcMotion(camera_in,20);
-    printf("R:\n");
-    printMatrix(camera_out.R);
-    printf("t:\n");
-    printMatrix(camera_out.t);
-    printf("N:\n");
-    printMatrix(camera_out.N);
+//    Matrix homog(3,3,homo);
+//    camera_out.H=homog;
+//    camera_out.CalcMotion(camera_in,20);
+//    printf("R:\n");
+//    printMatrix(camera_out.R);
+//    printf("t:\n");
+//    printMatrix(camera_out.t);
+//    printf("N:\n");
+//    printMatrix(camera_out.N);
     /// ////////////////////////////////////////////////
 
 }

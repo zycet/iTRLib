@@ -22,7 +22,7 @@ public:
       * \param pos1[] 坐标1
       * \param pos2[] 坐标2
       */
-    void FeatureMatchDo(VectorFeaturePoint *vectorfeaturepoint1,S32 num1,VectorFeaturePoint *vectorfeaturepoint2,S32 num2,S32 &matchnum);
+    void FeatureMatchDo( std::vector<VectorFeaturePoint>& vectorfeaturepoint1, std::vector<VectorFeaturePoint>&vectorfeaturepoint2,S32 &matchnum);
     virtual void Max(F32* SourceA, S32 Length, F32& ResultM, F32& ResultC,S32 &Order) const;
 protected:
 private:
