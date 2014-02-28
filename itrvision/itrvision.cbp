@@ -78,7 +78,6 @@
 		<Unit filename="helper/genrect.cpp" />
 		<Unit filename="helper/genrect.h" />
 		<Unit filename="helper/helper.h" />
-		<Unit filename="helper/imageaquaire.h" />
 		<Unit filename="helper/iopnm.cpp" />
 		<Unit filename="helper/iopnm.h" />
 		<Unit filename="itrvision.h" />

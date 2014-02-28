@@ -12,5 +12,6 @@
 		<Project filename="itrvision_test/itrvision_test.cbp" />
 		<Project filename="trackdemo/trackdemo.cbp" />
 		<Project filename="ColorTrackDemo/ColorTrackDemo.cbp" />
+		<Project filename="itrdevice/itrdevice.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

@@ -1,11 +1,11 @@
 #ifndef IMAGEAQUAIRE_H
 #define IMAGEAQUAIRE_H
 #include "itrbase.h"
-#include "./formatconverter.h"
+#include "itrvision.h"
 
 using itr_math::Matrix;
 
-namespace itr_vision
+namespace itr_device
 {
 /**
 * \brief 此类为实时图像数据采集的基类,会同时输出原始数据及灰度的Matrix.
