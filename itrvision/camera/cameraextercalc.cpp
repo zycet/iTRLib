@@ -51,13 +51,14 @@ BOOL CameraExterCalc::CalcH(const std::vector<VectorFeaturePoint>& PointList0,co
     tempvalue_v=new F32[MatchedNum]();
     tempID=new S32[MatchedNum]();
     MatchedNum=0;
+    S32 List1Num=PointList0.size();
     for(S32 i=0; i<List1Num; i++)
     {
-        if(PointList1[i].ID!=-1)
+        if(PointList0[i].ID!=-1)
         {
             tempID[MatchedNum]=i;
-            tempvalue_u[MatchedNum]=PointList1[i].X;
-            tempvalue_v[MatchedNum]=PointList1[i].Y;
+            tempvalue_u[MatchedNum]=PointList0[i].X;
+            tempvalue_v[MatchedNum]=PointList0[i].Y;
             MatchedNum++;
         }
     }
@@ -239,11 +240,11 @@ BOOL CameraExterCalc::CalcH(const std::vector<VectorFeaturePoint>& PointList0,co
         double M[72]={0};  //最小二乘矩阵
         for(S32 j=0; j<4; j++)
         {
-            u1 = PointList1[c[j]].X;
-            v1 = PointList1[c[j]].Y;
-            u2 = PointList2[PointList1[c[j]].ID].X;
-            v2 = PointList2[PointList1[c[j]].ID].Y;
-            wght = PointList2[PointList1[c[j]].ID].Quality;
+            u1 = PointList0[c[j]].X;
+            v1 = PointList0[c[j]].Y;
+            u2 = PointList1[PointList0[c[j]].ID].X;
+            v2 = PointList1[PointList0[c[j]].ID].Y;
+            wght = PointList1[PointList0[c[j]].ID].Quality;
             M[2*j*9+3]=-u1*wght;
             M[2*j*9+4]=-v1*wght;
             M[2*j*9+5]=-wght;
@@ -286,8 +287,8 @@ BOOL CameraExterCalc::CalcH(const std::vector<VectorFeaturePoint>& PointList0,co
                 pos_2s[0]/=pos_2s[2];
                 pos_2s[1]/=pos_2s[2];
 
-                pos_2s[0]-=PointList2[PointList1[tempID[j]].ID].X;
-                pos_2s[1]-=PointList2[PointList1[tempID[j]].ID].Y;
+                pos_2s[0]-=PointList1[PointList0[tempID[j]].ID].X;
+                pos_2s[1]-=PointList1[PointList0[tempID[j]].ID].Y;
                 itr_math::CalculateObj->MultiSum(pos_2s.GetData(),pos_2s.GetData(),2,risde);
             }
             if(risde<resid_MAX_2)   /// 与王论文相比 risde 未开方

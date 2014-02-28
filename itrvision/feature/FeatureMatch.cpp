@@ -11,9 +11,10 @@ FeatureMatch::~FeatureMatch()
 {
     //dtor
 }
-void FeatureMatch::FeatureMatchDo(VectorFeaturePoint *vectorfeaturepoint1,S32 num1,VectorFeaturePoint *vectorfeaturepoint2,S32 num2,S32 &matchnum)
+void FeatureMatch::FeatureMatchDo(std::vector<VectorFeaturePoint>& vectorfeaturepoint1,std::vector<VectorFeaturePoint>&vectorfeaturepoint2,S32 &matchnum)
 {
-
+    S32 num1=vectorfeaturepoint1.size();
+    S32 num2=vectorfeaturepoint2.size();
     F32 *valuet;
     valuet=new F32[num1>num2?num1:num2];
     F32 resultM,resultC;

@@ -29,7 +29,7 @@ void TestIpts()
 
     std::vector<VectorFeaturePoint> FeaturePointList;
     gettimeofday(&tpstart,NULL);
-    surf.Process(gray_matrix_in, FeaturePointList);
+    surf.ProcessAll(gray_matrix_in, FeaturePointList);
     //MatrixDraw(surf.OctaveList[0]->GetCol(),surf.OctaveList[0]->GetRow(),surf.OctaveList[0]->Hessian);
 
     gettimeofday(&tpend,NULL);
