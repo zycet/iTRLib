@@ -16,3 +16,5 @@ void PrintTargetInfo(Block blk);
 void CheckOpennable(istream &infile);
 void AddFileName(istream &infile,string filename,vector<string> &filenames);
 void TestTrack(istream &InFiles,S32 Width,S32 Height);
+void Takeoff();
+void Land();

@@ -47,7 +47,7 @@ class SelectKLTFeature
 {
 public:
     SelectKLTFeature(const Matrix &Img);
-    S32 SelectGoodFeature(const RectangleS &rect, vector<CommFeaturePoint> &fl, S32 start=0);
+    S32 SelectGoodFeature(const RectangleF &rect, vector<CommFeaturePoint> &fl, S32 start=0);
     virtual ~SelectKLTFeature();
     int mindist, mineigen;
     S32 windowWidth;

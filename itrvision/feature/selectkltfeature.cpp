@@ -81,7 +81,7 @@ namespace itr_vision
         return (float) ((gxx + gyy - gxy) * 0.5f);
 //        return (float) ((gxx + gyy - sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy)) *0.5f);/// 2.0f);
     }
-    S32 SelectKLTFeature::SelectGoodFeature(const RectangleS &rect, vector<CommFeaturePoint> &featureOutput,S32 start)
+    S32 SelectKLTFeature::SelectGoodFeature(const RectangleF &rect, vector<CommFeaturePoint> &featureOutput,S32 start)
     {
         vector<CommFeaturePoint> featurelist(rect.Width * rect.Height);
         S32 bord = 24,ImgWidth=img.GetCol();
