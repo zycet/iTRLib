@@ -1,12 +1,12 @@
-#ifndef JOYSTICK_H
-#define JOYSTICK_H
+#ifndef IJOYSTICK_H
+#define IJOYSTICK_H
 
 #include "itrbase.h"
 
 namespace itr_device
 {
 
-    class JoyStick
+    class IJoyStick
     {
         public:
             /**
@@ -50,4 +50,4 @@ namespace itr_device
 
 }
 
-#endif // JOYSTICK_H
+#endif // IJOYSTICK_H

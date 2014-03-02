@@ -19,7 +19,7 @@
 					<Add directory="../itrbase" />
 				</Compiler>
 				<Linker>
-					<Add library="..\itrbase\bin\debug\libitrbase.a" />
+					<Add library="../itrbase/bin/debug/libitrbase.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -36,11 +36,11 @@
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add library="..\itrbase\bin\release\libitrbase.a" />
+					<Add library="../itrbase/bin/release/libitrbase.a" />
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="camera/imageaquaire.h" />
+		<Unit filename="Icamera/Iimageaquaire.h" />
 		<Unit filename="joystick/joystick.h" />
 		<Extensions>
 			<code_completion />

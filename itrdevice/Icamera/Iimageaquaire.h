@@ -1,5 +1,5 @@
-#ifndef IMAGEAQUAIRE_H
-#define IMAGEAQUAIRE_H
+#ifndef IIMAGEAQUAIRE_H
+#define IIMAGEAQUAIRE_H
 
 #include "itrbase.h"
 
@@ -9,7 +9,7 @@ namespace itr_device
 * \brief 此类为实时图像数据采集的基类,会同时输出原始数据及灰度的Matrix.
 * \note 此类支持同步采集和异步数据采集.
 */
-class ImageAquaire
+class IImageAquaire
 {
 public:
     enum RawFormat
@@ -43,12 +43,12 @@ public:
     };
     /**
     * \brief 回调函数定义
-    * \param ImageAquaireObj 图像采集器本身
+    * \param IImageAquaireObj 图像采集器本身
     * \param Raw 图像原始数据
     * \param Length 图像原始数据长度
     * \param ExInfo 图像附加信息
     */
-    typedef void (*ReceiveFrameCallBack)(ImageAquaire& ImageAquaireObj,U8* Raw,S32 Length,void* ExInfo);
+    typedef void (*ReceiveFrameCallBack)(IImageAquaire& IImageAquaireObj,U8* Raw,S32 Length,void* ExInfo);
 
     /**
     * \brief 打开摄像头
