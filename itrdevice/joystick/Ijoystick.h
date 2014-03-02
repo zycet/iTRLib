@@ -23,7 +23,7 @@ namespace itr_device
             * \param 按钮编号
             * \return 1/0 表示按钮是/否按下
             */
-            virtual S32 GetButtonStatus(S32 index)=0;
+            virtual bool GetButtonStatus(S32 index)=0;
             /**
             * \brief 获得指定轴的杆量
             * \param 轴编号

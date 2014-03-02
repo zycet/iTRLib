@@ -41,7 +41,7 @@
 			</Target>
 		</Build>
 		<Unit filename="Icamera/Iimageaquaire.h" />
-		<Unit filename="joystick/joystick.h" />
+		<Unit filename="Ijoystick/Ijoystick.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
