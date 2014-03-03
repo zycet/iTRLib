@@ -15,7 +15,6 @@ namespace itr_device
             virtual S32 GetAxisCount()=0;
             /**
             * \brief 获得摇杆按钮的数量
-
             */
             virtual S32 GetButtonCount()=0;
             /**

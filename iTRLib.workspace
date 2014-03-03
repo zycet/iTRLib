@@ -13,5 +13,6 @@
 		<Project filename="trackdemo/trackdemo.cbp" />
 		<Project filename="ColorTrackDemo/ColorTrackDemo.cbp" />
 		<Project filename="itrdevice/itrdevice.cbp" />
+		<Project filename="itrdevice_test/itrdevice_test.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
