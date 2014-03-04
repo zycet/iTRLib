@@ -191,13 +191,14 @@ void PrintTargetInfo(Block blk)
     cout << "x: " << blk.x << " " << "y: " << blk.y << endl;
 //    cout << endl;
     float  x,y;
+    float speed=0.1;
     if( blk.x>35 )
     {
-        x=-0.05;
+        x=-speed;
     }
     else if(blk.x<29)
     {
-        x=0.05;
+        x=speed;
     }
     else
     {
@@ -205,11 +206,11 @@ void PrintTargetInfo(Block blk)
     }
     if( blk.y>20 )
     {
-        y=-0.05;
+        y=-speed;
     }
     else if(blk.y<15)
     {
-        y=0.05;
+        y=speed;
     }
     else
     {
