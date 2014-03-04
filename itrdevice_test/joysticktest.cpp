@@ -15,7 +15,7 @@ void JoyStickTest()
         while(1)
         {
             Joyst.Update();
-
+usleep(1000);
             axiscount=Joyst.GetAxisCount();
             for(S32 i=0; i<axiscount; i++)
             {
