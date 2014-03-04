@@ -66,7 +66,7 @@ class StdJoyStick:public IJoyStick
         U8 number;   /* axis/button number */
     }jse;
     struct wwvi_js_event {
-        S32 button[20];
+        S32 button[11];
         S32 stick[10];
     }wjse;
 

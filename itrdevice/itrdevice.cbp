@@ -42,6 +42,7 @@
 		</Build>
 		<Unit filename="camera/Iimageaquaire.h" />
 		<Unit filename="itrdevice.h" />
+		<Unit filename="joystick/Ijoystick.cpp" />
 		<Unit filename="joystick/Ijoystick.h" />
 		<Unit filename="joystick/stdjoystick.cpp" />
 		<Unit filename="joystick/stdjoystick.h" />

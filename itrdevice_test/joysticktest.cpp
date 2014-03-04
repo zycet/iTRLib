@@ -47,6 +47,4 @@ void JoyStickTest()
     else
         printf("fail to open!\n");
 
-    for(S32 i=0; i<1000000000; i++)
-    ;
 }

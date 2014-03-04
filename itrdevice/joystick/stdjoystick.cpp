@@ -51,7 +51,7 @@ bool StdJoyStick::GetButtonStatus(S32 index)
  */
 F32 StdJoyStick::GetAxisValue(S32 index)
 {
-    return ((F32)wjse.stick[index]);
+    return ((F32)wjse.stick[index]/32767);
 }
 /**
  * \brief 更新手柄数据
@@ -67,11 +67,8 @@ void StdJoyStick::Update()
     for(S32 i=0; i<20; i++)
         wjse.button[i]=0;
 
-    S32 i=0;
     while (( bytes==1))//rc = joystick_fd ==
     {
-        i++;
-
         ioctl( joystick_fd, JSIOCGBUTTONS, &ButtonCount );
         ioctl( joystick_fd, JSIOCGAXES, &AxisCount );
         fcntl( joystick_fd, F_SETFL, O_NONBLOCK );   /* use non-blocking mode */
@@ -81,10 +78,12 @@ void StdJoyStick::Update()
         printf("%d\t",jse.time);
         printf("%d\n",jse.value);
 
-       bytes= read (joystick_fd, &jse , sizeof(struct js_event));
+        bytes= read (joystick_fd, &jse , sizeof(struct js_event));
+        if(bytes==sizeof(struct js_event))
+            bytes=1;
 
-        jse.type &= ~JS_EVENT_INIT;     /* ignore synthetic events */
-        // see what to do with the event
+        jse.type &= ~JS_EVENT_INIT;     /// ignore synthetic events
+        /// see what to do with the event
         switch(jse.type & ~ JS_EVENT_INIT)
         {
             case JS_EVENT_AXIS :
@@ -96,6 +95,7 @@ void StdJoyStick::Update()
                 wjse.button [jse.number ] = jse.value;
         }
     }
+    usleep(1000);
 }
 /**
  * \brief 打开设备
@@ -104,7 +104,7 @@ void StdJoyStick::Update()
 bool StdJoyStick::Open(char *device)
 {
     joystick_fd=-1;
-    joystick_fd=open(device,O_RDONLY); /// read write for force feedback ?| O_NONBLOCK
+    joystick_fd=open(device,O_RDONLY|O_NONBLOCK); /// read write for force feedback ?| O_NONBLOCK
     return (joystick_fd!=-1);
 }
 /**
