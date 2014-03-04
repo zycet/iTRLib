@@ -62,9 +62,9 @@ void StdJoyStick::Update()
     //int rc;
     AxisCount=0;
     ButtonCount=0;
-    for(S32 i=0; i<4; i++)
+    for(S32 i=0; i<10; i++)
         wjse.stick[i]=0;
-    for(S32 i=0; i<20; i++)
+    for(S32 i=0; i<11; i++)
         wjse.button[i]=0;
 
     ioctl( joystick_fd, JSIOCGBUTTONS, &ButtonCount );
@@ -72,8 +72,7 @@ void StdJoyStick::Update()
     fcntl( joystick_fd, F_SETFL, O_NONBLOCK );   /* use non-blocking mode */
     while (( bytes==1))//rc = joystick_fd ==
     {
-
-        usleep(10000);
+        usleep(18000);
 //        printf("jse:%d\t",jse.type);
 //        printf("%d\t",jse.number);
 //        printf("%d\t",jse.time);
@@ -112,7 +111,6 @@ void StdJoyStick::Update()
             }
         }
     }
-    usleep(1000);
 }
 /**
  * \brief 打开设备
