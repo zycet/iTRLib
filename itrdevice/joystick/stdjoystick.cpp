@@ -87,28 +87,17 @@ void StdJoyStick::Update()
         /// see what to do with the event
         if (jse.type == JS_EVENT_AXIS) {
             wjse.stick[jse.number]=jse.value;
-//            switch (jse.number) {
-//            case 0: wjse->stick1_x = jse.value;
-//                break;
-//            case 1: wjse->stick1_y = jse.value;
-//                break;
-//            case 2: wjse->stick2_x = jse.value;
-//                break;
-//            case 3: wjse->stick2_y = jse.value;
-//                break;
-//            default:
-//                break;
-//            }
         } else if (jse.type == JS_EVENT_BUTTON) {
-            if (jse.number < 11) {
-                switch (jse.value) {
-                case 0:;break;
-                case 1: wjse.button[jse.number] = jse.value;
-                    break;
-                default:
-                    break;
-                }
-            }
+            wjse.button[jse.number]=jse.value;
+//            if (jse.number < 11) {
+////                switch (jse.value) {
+////                case 0:;break;
+////                case 1: wjse.button[jse.number] = jse.value;
+////                    break;
+////                default:
+////                    break;
+//                }
+ //           }
         }
     }
 }
