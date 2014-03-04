@@ -1,54 +1,51 @@
-#ifndef IJOYSTICK_H
-#define IJOYSTICK_H
-
-#include "itrbase.h"
+#include "Ijoystick.h"
 
 namespace itr_device
 {
-
-    class IJoyStick
-    {
-        public:
-            IJoyStick();
-            virtual ~IJoyStick();
+        IJoyStick::IJoyStick()
+        {}
+         IJoyStick::~IJoyStick()
+        {}
             /**
             * \brief 获得摇杆轴的数量
             */
-            virtual S32 GetAxisCount()=0;
+             S32 IJoyStick::GetAxisCount()
+            {return 0;}
             /**
             * \brief 获得摇杆按钮的数量
             */
-            virtual S32 GetButtonCount()=0;
+             S32 IJoyStick::GetButtonCount()
+            {return 0;}
             /**
             * \brief 获得指定按钮的状态
             * \param index 按钮编号
             * \return 1/0 表示按钮是/否按下
             */
-            virtual bool GetButtonStatus(S32 index)=0;
+             bool IJoyStick::GetButtonStatus(S32 index)
+            {return true;}
             /**
             * \brief 获得指定轴的杆量
             * \param index 轴编号
             * \return [0,1],表示杆量
             */
-            virtual F32 GetAxisValue(S32 index)=0;
+             F32 IJoyStick::GetAxisValue(S32 index)
+            {return 0;}
             /**
             * \brief 更新手柄数据
             */
-            virtual void Update()=0;
+             void IJoyStick::Update()
+            {}
             /**
             * \brief 打开设备
             * \param device 设备完整路径名称
             */
-            virtual bool Open(char *device)=0;
+             bool IJoyStick::Open(char *device)
+            {return true;}
             /**
             * \brief 关闭设备
             */
-            virtual void Close();
-        protected:
-        private:
+             void IJoyStick::Close()
+            {}
 
-    };
 
 }
-
-#endif // IJOYSTICK_H

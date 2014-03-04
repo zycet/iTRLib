@@ -5,7 +5,6 @@
 #include <sys/ioctl.h>
 #include <linux/joystick.h>
 
-//#define JOYSTICK_DEVNAME "/dev/input/js0"
 #define JS_EVENT_BUTTON         0x01    // button pressed/released
 #define JS_EVENT_AXIS           0x02    // joystick moved
 #define JS_EVENT_INIT           0x80    // initial state of device
@@ -15,7 +14,7 @@ namespace itr_device
 StdJoyStick::StdJoyStick()
 {
     //ctor
-    joystick_fd=-1;
+
 }
 
 StdJoyStick::~StdJoyStick()
@@ -52,62 +51,49 @@ bool StdJoyStick::GetButtonStatus(S32 index)
  */
 F32 StdJoyStick::GetAxisValue(S32 index)
 {
-    return wjse.stick[index];
+    return ((F32)wjse.stick[index]);
 }
 /**
  * \brief 更新手柄数据
  */
 void StdJoyStick::Update()
 {
-    S32 bytes;
-    int rc;
-	//struct js_event ;
-    //struct wwvi_js_event ;
+    //S32 bytes;
+    //int rc;
+    AxisCount=0;
+    ButtonCount=0;
+    for(S32 i=0; i<4; i++)
+        wjse.stick[i]=0;
+    for(S32 i=0; i<20; i++)
+        wjse.button[i]=0;
 
-	bytes = read(joystick_fd, &jse, sizeof(jse));
+    S32 i=0;
+    while (( i<100))//rc = joystick_fd ==
+    {
+        i++;
 
-	if (bytes <0)
-    {
-        printf( "Couldn't open joystick\n" );
-		exit(0);
-    }
-    else
-    {
         ioctl( joystick_fd, JSIOCGBUTTONS, &ButtonCount );
         ioctl( joystick_fd, JSIOCGAXES, &AxisCount );
         fcntl( joystick_fd, F_SETFL, O_NONBLOCK );   /* use non-blocking mode */
-        while ((rc = bytes == 1))
+
+        printf("jse:%d\t",jse.type);
+        printf("%d\t",jse.number);
+        printf("%d\t",jse.time);
+        printf("%d\n",jse.value);
+
+        read (joystick_fd, &jse , sizeof(struct js_event));
+
+        jse.type &= ~JS_EVENT_INIT;     /* ignore synthetic events */
+        // see what to do with the event
+        switch(jse.type & ~ JS_EVENT_INIT)
         {
-            jse.type &= ~JS_EVENT_INIT;     /* ignore synthetic events */
-            if (jse.type == JS_EVENT_AXIS)
-            {
-                switch (jse.number)
-                {
-                    case 0: wjse.stick[0] = jse.value;
-                        break;
-                    case 1: wjse.stick[1] = jse.value;
-                        break;
-                    case 2: wjse.stick[2] = jse.value;
-                        break;
-                    case 3: wjse.stick[3] = jse.value;
-                        break;
-                    default:
-                        break;
-                }
-            } else if (jse.type == JS_EVENT_BUTTON)
-            {
-                if (jse.number < 10)
-                {
-                    switch (jse.value)
-                    {
-                        case 0:
-                        case 1: wjse.button[jse.number] = jse.value;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-            }
+            case JS_EVENT_AXIS :
+
+                wjse.stick [ jse.number ] = jse.value;
+
+            case JS_EVENT_BUTTON :
+
+                wjse.button [jse.number ] = jse.value;
         }
     }
 }
@@ -117,7 +103,8 @@ void StdJoyStick::Update()
  */
 bool StdJoyStick::Open(char *device)
 {
-    joystick_fd=open(device,O_RDONLY | O_NONBLOCK); /// read write for force feedback ?
+    joystick_fd=-1;
+    joystick_fd=open(device,O_RDONLY); /// read write for force feedback ?| O_NONBLOCK
     return (joystick_fd!=-1);
 }
 /**

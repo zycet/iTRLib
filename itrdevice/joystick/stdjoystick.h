@@ -1,5 +1,6 @@
 #ifndef STDJOYSTICK_H
 #define STDJOYSTICK_H
+
 #include "Ijoystick.h"
 #include <stdio.h>
 #include <sys/types.h>
@@ -54,20 +55,19 @@ class StdJoyStick:public IJoyStick
     protected:
     private:
 
-   S16 joystick_fd;
+   S32 joystick_fd;
    S32 AxisCount;
     S32 ButtonCount;
 
     struct js_event {
         U32 time;	    /* event timestamp in milliseconds */
         S16 value;              /* value */
-        unsigned char type;     /* event type */
-        unsigned char number;   /* axis/button number */
+        U8 type;     /* event type */
+        U8 number;   /* axis/button number */
     }jse;
     struct wwvi_js_event {
-        S32 button[11];
+        S32 button[20];
         S32 stick[10];
-//        S32 stick_y[10];
     }wjse;
 
 };//class
