@@ -9,13 +9,13 @@ void JoyStickTest()
     {
         S32 axiscount=0;
         S32 buttoncount=0;
-        F32 axisvalue[10]={0};
-        S32 buttonstatus[11]={0};
+        F32 axisvalue[30]={0};
+        S32 buttonstatus[30]={0};
 
         while(1)
         {
             Joyst.Update();
-usleep(1000);
+            usleep(1000);
             axiscount=Joyst.GetAxisCount();
             for(S32 i=0; i<axiscount; i++)
             {

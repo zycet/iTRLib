@@ -61,13 +61,13 @@ class StdJoyStick:public IJoyStick
 
     struct js_event {
         U32 time;	    /* event timestamp in milliseconds */
-        S16 value;              /* value */
+        S16 value;      /* value */
         U8 type;     /* event type */
         U8 number;   /* axis/button number */
     }jse;
     struct wwvi_js_event {
-        S32 button[11];
-        S32 stick[10];
+        S32 button[30];
+        S32 stick[30];
     }wjse;
 
 };//class

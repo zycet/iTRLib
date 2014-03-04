@@ -13,9 +13,9 @@ namespace itr_device
 {
 StdJoyStick::StdJoyStick()
 {
-        for(S32 i=0; i<10; i++)
+    for(S32 i=0; i<30; i++)
         wjse.stick[i]=0;
-    for(S32 i=0; i<11; i++)
+    for(S32 i=0; i<30; i++)
         wjse.button[i]=0;
 
 }
@@ -61,25 +61,14 @@ F32 StdJoyStick::GetAxisValue(S32 index)
  */
 void StdJoyStick::Update()
 {
-    S32 bytes=1;
-    //int rc;
+    S32 bytes;
     AxisCount=0;
     ButtonCount=0;
-
-
     ioctl( joystick_fd, JSIOCGBUTTONS, &ButtonCount );
     ioctl( joystick_fd, JSIOCGAXES, &AxisCount );
-    fcntl( joystick_fd, F_SETFL, O_NONBLOCK );   /* use non-blocking mode */
-    while (( bytes= read (joystick_fd, &jse , sizeof(struct js_event))>=0))//rc = joystick_fd ==
+    fcntl( joystick_fd, F_SETFL, O_NONBLOCK );
+    while ( (bytes= read (joystick_fd, &jse , sizeof(struct js_event)))>=0)
     {
-      //  usleep(1000);
-
-        //bytes= read (joystick_fd, &jse , sizeof(struct js_event));
-//        if(bytes==sizeof(struct js_event))
-//            bytes=1;
-//        if(bytes==-1)
-//            bytes=0;
-
         switch(jse.type & ~ JS_EVENT_INIT)
         {
             case JS_EVENT_AXIS :
@@ -90,16 +79,6 @@ void StdJoyStick::Update()
 
                 wjse.button[jse.number]=jse.value;break;
         }
-//        jse.type &= ~JS_EVENT_INIT;     /// ignore synthetic events
-//        /// see what to do with the event
-//        if (jse.type == JS_EVENT_AXIS)
-//        {
-//            wjse.stick[jse.number]=jse.value;
-//        } else
-//            if (jse.type == JS_EVENT_BUTTON)
-//            {
-//                wjse.button[jse.number]=jse.value;
-//            }
     }
 }
 /**
