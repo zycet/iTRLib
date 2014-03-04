@@ -17,17 +17,17 @@ int main()
 //    ifstream infile("filelist.txt");
 //    string fname;
 //    vector<string> filenames;
-//    ifstream in;
+    FILE* in;
 //    CheckOpennable(infile);
 //    AddFileName(infile,fname,filenames);
-//    Takeoff();
+    Takeoff();
 //    for(S32 i = 0;i < filenames.size();i++)
     while(1)
     {
 //        cout << filenames[i].c_str() << endl;
-//        in.open(filenames[i].c_str());
-        TestTrack(cin,width,height);
-//        in.close();
+//        in=fopen(filenames[i].c_str(),"rb");
+        TestTrack(in,width,height);
+//        fclose(in);
     }
     //Land();
     return 0;

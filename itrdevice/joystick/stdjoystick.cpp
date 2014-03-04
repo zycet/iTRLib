@@ -58,7 +58,7 @@ F32 StdJoyStick::GetAxisValue(S32 index)
  */
 void StdJoyStick::Update()
 {
-    //S32 bytes;
+    S32 bytes=1;
     //int rc;
     AxisCount=0;
     ButtonCount=0;
@@ -68,7 +68,7 @@ void StdJoyStick::Update()
         wjse.button[i]=0;
 
     S32 i=0;
-    while (( i<100))//rc = joystick_fd ==
+    while (( bytes==1))//rc = joystick_fd ==
     {
         i++;
 
@@ -81,7 +81,7 @@ void StdJoyStick::Update()
         printf("%d\t",jse.time);
         printf("%d\n",jse.value);
 
-        read (joystick_fd, &jse , sizeof(struct js_event));
+       bytes= read (joystick_fd, &jse , sizeof(struct js_event));
 
         jse.type &= ~JS_EVENT_INIT;     /* ignore synthetic events */
         // see what to do with the event

@@ -4,7 +4,7 @@
 void JoyStickTest()
 {
     itr_device::StdJoyStick Joyst;
-    char file_name[] ={"/dev/input/js0"};
+    char file_name[] ={"/dev/input/js1"};
     if(Joyst.Open(file_name))
     {
         S32 axiscount=0;
