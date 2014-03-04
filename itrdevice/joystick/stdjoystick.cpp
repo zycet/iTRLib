@@ -72,33 +72,34 @@ void StdJoyStick::Update()
     fcntl( joystick_fd, F_SETFL, O_NONBLOCK );   /* use non-blocking mode */
     while (( bytes==1))//rc = joystick_fd ==
     {
-        usleep(18000);
-//        printf("jse:%d\t",jse.type);
-//        printf("%d\t",jse.number);
-//        printf("%d\t",jse.time);
-//        printf("%d\n",jse.value);
+        usleep(10000);
+
         bytes= read (joystick_fd, &jse , sizeof(struct js_event));
         if(bytes==sizeof(struct js_event))
             bytes=1;
         if(bytes==-1)
             bytes=0;
 
-        jse.type &= ~JS_EVENT_INIT;     /// ignore synthetic events
-        /// see what to do with the event
-        if (jse.type == JS_EVENT_AXIS) {
-            wjse.stick[jse.number]=jse.value;
-        } else if (jse.type == JS_EVENT_BUTTON) {
-            wjse.button[jse.number]=jse.value;
-//            if (jse.number < 11) {
-////                switch (jse.value) {
-////                case 0:;break;
-////                case 1: wjse.button[jse.number] = jse.value;
-////                    break;
-////                default:
-////                    break;
-//                }
- //           }
+        switch(jse.type & ~ JS_EVENT_INIT)
+        {
+            case JS_EVENT_AXIS :
+
+                wjse.stick[jse.number]=jse.value;break;
+
+            case JS_EVENT_BUTTON :
+
+                wjse.button[jse.number]=jse.value;break;
         }
+//        jse.type &= ~JS_EVENT_INIT;     /// ignore synthetic events
+//        /// see what to do with the event
+//        if (jse.type == JS_EVENT_AXIS)
+//        {
+//            wjse.stick[jse.number]=jse.value;
+//        } else
+//            if (jse.type == JS_EVENT_BUTTON)
+//            {
+//                wjse.button[jse.number]=jse.value;
+//            }
     }
 }
 /**
