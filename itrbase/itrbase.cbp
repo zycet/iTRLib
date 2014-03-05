@@ -16,6 +16,7 @@
 				<Compiler>
 					<Add option="-Wall" />
 					<Add option="-g" />
+					<Add directory="protocol" />
 				</Compiler>
 			</Target>
 			<Target title="Release">
@@ -28,6 +29,7 @@
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-Wall" />
+					<Add directory="protocol" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -36,6 +38,7 @@
 		</Build>
 		<Unit filename="container/container.h" />
 		<Unit filename="container/cyclequeue.h" />
+		<Unit filename="itrbase.h" />
 		<Unit filename="math/calculate.cc" />
 		<Unit filename="math/calculate.h" />
 		<Unit filename="math/gaussiangenerate.cc" />
@@ -62,6 +65,8 @@
 		<Unit filename="platform/timeclock.cpp" />
 		<Unit filename="platform/timeclock.h" />
 		<Unit filename="platform/typedef.h" />
+		<Unit filename="protocol/standserialprotocol.cpp" />
+		<Unit filename="protocol/standserialprotocol.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
