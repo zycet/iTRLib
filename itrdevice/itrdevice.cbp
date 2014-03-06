@@ -17,9 +17,11 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add directory="../itrbase" />
+					<Add directory="../itrvision" />
 				</Compiler>
 				<Linker>
 					<Add library="../itrbase/bin/debug/libitrbase.a" />
+					<Add library="../itrvision/bin/debug/libitrvision.a" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -40,7 +42,11 @@
 				</Linker>
 			</Target>
 		</Build>
+		<Unit filename="camera/ASICamera.h" />
+		<Unit filename="camera/IimageAquaire.cpp" />
 		<Unit filename="camera/Iimageaquaire.h" />
+		<Unit filename="camera/StdImageAquaire.cpp" />
+		<Unit filename="camera/stdimageaquaire.h" />
 		<Unit filename="itrdevice.h" />
 		<Unit filename="joystick/Ijoystick.cpp" />
 		<Unit filename="joystick/Ijoystick.h" />
