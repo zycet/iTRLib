@@ -318,7 +318,7 @@ BOOL CameraExterCalc::CalcH(const std::vector<VectorFeaturePoint>& PointList0,co
 //printf("ransac times:%d\tcorrect_counter:%f\t%f\t red:%f\n",i,best_counter,best_counter/matched_num,best_red);
 ///// /////////////////////////////////////////////////
 
-
+/// M-estimate
 
     H=best_H;
     Hinv=H.Inv();

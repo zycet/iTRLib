@@ -5,7 +5,7 @@
 #include "itralgorithm.h"
 #include "../feature/feature.h"
 #include "./cameraintercalc.h"
-
+#include "math.h"
 using namespace itr_math;
 
 namespace itr_vision
@@ -33,7 +33,7 @@ public:
         F32 Var;
         /**
         * \brief 平面方程向量
-        * \note Ax+By+Cz=1;Equ[0~2]=A,B,C.
+        * \note Ax+By+Cz=1;Equ[0~3]=A,B,C.
         */
         Vector Equ;
     };
@@ -44,7 +44,7 @@ public:
     * \param CameraInterCalc0 相机0的内参数
     * \param CameraInterCalc1 相机1的内参数
     * \param Distance 相机原点间距(单位:米)
-    * \note **请在此阐述使用的坐标系关系**
+    * \note x向前，y向右，z向下，相机0在前，相机1在后，主要坐标在两相机坐标中间。
     */
     void Init(CameraInterCalc* CameraInterCalc0,CameraInterCalc* CameraInterCalc1,F32 Distance);
     /**
@@ -54,7 +54,7 @@ public:
     * \param DeepZero 坐标X=0,Y=0处Z的值
     * \return 是否成功计算
     */
-    bool Calc(const std::vector<VectorFeaturePoint>& PointList0,const std::vector<VectorFeaturePoint>& PointList1,F32* DeepZero);
+    bool Calc( std::vector<VectorFeaturePoint>& PointList0, std::vector<VectorFeaturePoint>& PointList1,F32* DeepZero);
     /**
     * \brief 在成功执行Calc后可通过此函数获得附加的计算结果信息
     */
@@ -76,8 +76,13 @@ public:
     * \note 单位:角度,使用右手坐标系.
     */
     F32 InstallAngle;
+    F32 getdistance(F32 x,F32 y,F32 z,itr_math::Vector p);
 protected:
 private:
+    struct CalcExInfo _exinfo;
+    itr_math::Vector _plan;
+    void cof(F32*x,F32*y,F32 *z,F32*w,S32 length);
+    F32 median(F32 *a,S32 length);
 };
 
 }
