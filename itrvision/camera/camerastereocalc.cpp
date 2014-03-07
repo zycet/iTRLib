@@ -51,7 +51,7 @@ bool CameraStereoCalc::Calc( std::vector<VectorFeaturePoint>& PointList0, std::v
     {
         if(PointList0[i].ID!=-1)
         {
-            x[j]=PointList0[i].X;
+            x[j]=PointList0[i].X;                   /// 像素坐标
             y[j]=PointList0[i].Y;
             x1[j]=PointList1[PointList0[i].ID].X;
             y1[j]=PointList1[PointList0[i].ID].Y;
@@ -59,6 +59,7 @@ bool CameraStereoCalc::Calc( std::vector<VectorFeaturePoint>& PointList0, std::v
         }
     }
     F32 cot_x1,cot_x2;
+    Vector v_p(3),v_c(4);
     for(S32 i=0; i<matched_num; i++)
     {
         point0.X=x[i];
@@ -73,7 +74,11 @@ bool CameraStereoCalc::Calc( std::vector<VectorFeaturePoint>& PointList0, std::v
         cot_x1=1/cot_x1;
         cot_x2=1/cot_x2;
 
-        z[i]=Distance/(abs(cot_x1-cot_x2));
+        z[i]=Distance/(abs(cot_x1-cot_x2));     ///求深度
+        v_p[0]=x[i],v_p[1]=y[i],v_p[2]=1;
+        CameraInterCalc0->CalcP2C(v_p,z[i],v_c);
+        x[i]=v_c[0];
+        y[i]=v_c[1];
         x[i]-=Distance/2;  /// 至此xyz转化为相机原点坐标
     }
     ///由坐标求平面方程
