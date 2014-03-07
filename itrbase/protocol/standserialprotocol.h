@@ -76,7 +76,7 @@ public:
     * \param S1 设定的命令字1
     * \param DataSendFun 数据发送函数指针(此库会调用此函数用于发出数据)
     */
-    void Init(U8 S0, U8 S1, GeneralSend DataSendFun);
+    void Init(U8 S0, U8 S1, StandDataSendFun DataSendFun);
     /**
     * \brief 处理原始数据流
     * \param Buffer 待处理缓冲区

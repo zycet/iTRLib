@@ -40,10 +40,16 @@
 				</Linker>
 			</Target>
 		</Build>
+		<Unit filename="camera/asicamera.h" />
+		<Unit filename="camera/camera.h" />
+		<Unit filename="camera/iimageaquaire.cpp" />
 		<Unit filename="camera/iimageaquaire.h" />
+		<Unit filename="camera/stdimageaquaire.cpp" />
+		<Unit filename="camera/stdimageaquaire.h" />
 		<Unit filename="itrdevice.h" />
 		<Unit filename="joystick/ijoystick.cpp" />
 		<Unit filename="joystick/ijoystick.h" />
+		<Unit filename="joystick/joystick.h" />
 		<Unit filename="joystick/stdjoystick.cpp" />
 		<Unit filename="joystick/stdjoystick.h" />
 		<Extensions>
