@@ -16,6 +16,7 @@
 					<Add directory="../itrdevice" />
 					<Add directory="../itrbase" />
 					<Add directory="../itrdevice/joystick" />
+					<Add directory="../itrdevice/camera" />
 				</Compiler>
 				<Linker>
 					<Add library="../itrdevice/bin/debug/libitrdevice.a" />
@@ -42,6 +43,8 @@
 		<Unit filename="joysticktest.cpp" />
 		<Unit filename="joysticktest.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="stdcameratest.cpp" />
+		<Unit filename="stdcameratest.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

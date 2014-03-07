@@ -11,6 +11,8 @@ namespace itr_vision
 * \brief 提供相机内参数描述及像素坐标与相机坐标间变换.
 * \note 像素坐标系定义:原点在图像左上角,X轴向右,Y轴向下.
 * \note 相机坐标系定义:原点在光轴中央,X轴向右,Y轴向上.
+* \note C2P = A = [f/dx 0 u0 0; 0 f/dy v0 0; 0 0 1 0];
+* \note z[u v 1]' = A*[x y z 1]'
 */
 class CameraInterCalc
 {
@@ -55,7 +57,7 @@ public:
     * \brief 像素坐标到相机坐标的转换
     * \param PixelPoint 输入的像素坐标系([u,v,1],单位:像素)
     * \param Z 为相机坐标下的假定距离
-    * \param CameraPoint 输出的相机坐标系向量([x,y,z],单位:米)
+    * \param CameraPoint 输出的相机坐标系向量([x,y,z,1],单位:米)
     * \param 返回值，1为成功，0为失败
     */
     BOOL CalcP2C(const Vector &PixelPoint,F32 Z,Vector &CameraPoint);

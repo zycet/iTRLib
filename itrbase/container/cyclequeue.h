@@ -6,6 +6,8 @@ class CycleQueue
 {
 public:
     CycleQueue(S32 Capacity);
+    CycleQueue();
+    void Init(S32 Capacity);
     virtual ~CycleQueue();
     void Insert(T Item);
     BOOL Fetch(T& Item);
@@ -25,6 +27,19 @@ private:
 template<typename T>
 CycleQueue<T>::CycleQueue(S32 Capacity)
 {
+  this.Init(Capacity);
+}
+
+template<typename T>
+CycleQueue<T>::CycleQueue()
+{
+    base=NULL;
+}
+
+template<typename T>
+void CycleQueue<T>::Init(S32 Capacity)
+{
+    assert(base==NULL);
     base = new T[Capacity];
     capacity = Capacity;
     length = 0;
