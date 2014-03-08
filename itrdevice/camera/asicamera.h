@@ -1,120 +1,123 @@
-
 #ifndef ASICAMERA_H
 #define ASICAMERA_H
-#define ASICAMERA_API 
 
+#include "asicameraapi.h"
+#include "icamera.h"
+#include "itrbase.h"
+namespace itr_device
+{
+class AsiCamera:public ICamera
+{
+    public:
+        AsiCamera();
+        virtual ~AsiCamera();
+        enum RawFormat
+        {
+            RawMono8,
+            RawMono16,
+            RawYUV444,
+            RawYUV422,
+            RawYUV411,
+            RawYUV420,
+            RawRGB24,
+            RawRGB48,
+            RawBGR24,
+            RawRGBA32,
+            RawBGRA32,
+            RawBayer8RGGB,
+            RawBayer8GBRG,
+            RawBayer8GRBG,
+            RawBayer8BGGR,
+            RawBayer16RGGB,
+            RawBayer16GBRG,
+            RawBayer16GRBG,
+            RawBayer16BGGR,
+        };
+        /**
+        * \brief 回调函数定义
+        * \param ICameraObj 图像采集器本身
+        * \param Raw 图像原始数据
+        * \param Length 图像原始数据长度
+        * \param ExInfo 图像附加信息
+        */
+        typedef void (*ReceiveFrameCallBack)(AsiCamera& AsiCameraObj,U8* Raw,S32 Length,void* ExInfo);
 
+        /**
+        * \brief 打开摄像头
+        * \param Width 图像宽度
+        * \param Height 图像高度
+        * \param BufferNum 缓冲区数量(如果>0则表示使用异步采集模式,否则为同步模式)
+        */
+        virtual void Open(U32 ID,S32 Width,S32 Height,S32 BufferNum);
 
-enum Control_TYPE{
-	CONTROL_GAIN = 0,
-	CONTROL_EXPOSURE,
-	CONTROL_GAMMA,
-	CONTROL_WB_R,
-	CONTROL_WB_B,
-	CONTROL_BRIGHTNESS,
-	CONTROL_BANDWIDTHOVERLOAD,
+        /**
+        * \brief 关闭摄像头
+        */
+        virtual void Close();
+
+        /**
+        * \brief 获得图像宽度
+        */
+        virtual S32 GetWidth();
+
+        /**
+        * \brief 获得图像高度
+        */
+        virtual S32 GetHeight();
+
+        /**
+        * \brief 获得采集参数
+        */
+        virtual AquairePara GetPara();
+
+        /**
+        * \brief 设置采集参数
+        */
+        virtual void SetPara(AquairePara Para);
+
+        /**
+        * \brief 同步获取一帧图像
+        * \param Raw 输出图像用的缓冲区
+        * \param Length 输出图像用的缓冲区长度
+        * \param ExInfo 输出图像用附加信息的缓冲区
+        * \return 成功写入缓冲区的数据长度,无图像返回0,发生错误返回-1.
+        * \note 此函数用于同步模式下的图像获取,在Open函数调用时需使BufferNum=0.
+        */
+        virtual S32 FetchFrame(U8* Raw,S32 Length,void* ExInfo);
+
+        /**
+        * \brief 异步捕获开始
+        * \note 此函数用于异步模式下的图像获取,在Open函数调用时需使BufferNum>0.
+        */
+        virtual void Start();
+        /**
+        * \brief 异步捕获停止
+        * \note 此函数用于异步模式下的图像获取,在Open函数调用时需使BufferNum>0.
+        */
+        virtual void Stop();
+
+        /**
+        * \brief 传入回调函数
+        * \param 当获得一张图片时调用的回调函数
+        */
+        virtual void RegCallBack(ReceiveFrameCallBack Callback);
+
+        /**
+        * \brief 在图像处理完成后将缓冲区返回图像队列(如果无可用图像采集缓冲区会导致图像采集暂停)
+        * \param Raw 缓冲区地址
+        * \note 此函数用于异步模式下的图像获取,在Open函数调用时需使BufferNum>0.
+        */
+        virtual void PushBufferBack(U8* Raw);
+        struct AquairePara AqPara;
+        S32 _numDevices;
+        S32 _width;
+        S32 _height;
+        itr_container::CycleQueue<U8*>  cycleQueue;
+        U8 *p_base, *p_use,**bufferlist;
+        S32 _buffernum;
+        ReceiveFrameCallBack callback;
+    protected:
+    private:
 };
-
-
-enum IMG_TYPE{ //Supported image type
-	IMG_RAW8=0,
-	IMG_RGB24,
-	IMG_RAW16,
-	IMG_Y8,
-};
-
-enum GuideDirections{
-	guideNorth=0,
-	guideSouth,
-	guideEast,
-	guideWest
-};
-
-enum BayerPattern{
-	BayerRG=0,
-	BayerBG,
-	BayerGR,
-	BayerGB
-};
-
-extern "C" {
-
-// get number of Connected ASI cameras.
-int getNumberOfConnectedCameras(); 
-// Open  the  camera. camIndex 0 means the first one.
-bool openCamera(int camIndex);
-// init the  camera. 
-bool initCamera();
-//don't forget to closeCamera if you opened one
-void closeCamera();
-
-//Is it a color camera?
-bool isColorCam();
-//get the pixel size of the camera
-double getPixelSize();
-// what is the bayer pattern
-BayerPattern getColorBayer();
-//get the camera name. camIndex 0 means the first one.
-char* getCameraModel(int camIndex);
-
-
-// is control supported by current camera
-bool isAvailable(Control_TYPE control) ;   
-// is control supported auto adjust
-bool isAutoSupported(Control_TYPE control) ;		
-// get control current value and auto status
-int getValue(Control_TYPE control, bool *pbAuto)  ;    
-// get minimal value of control
-int getMin(Control_TYPE control) ;  
-// get maximal  value of control
-int getMax(Control_TYPE control) ;  
-// set current value and auto states of control
-void setValue(Control_TYPE control, int value, bool autoset); 
-// set auto parameter
-ASICAMERA_API void setAutoPara(int iMaxGain, int iMaxExp, int iDestBrightness);
-// get auto parameter
-ASICAMERA_API void getAutoPara(int *pMaxGain, int *pMaxExp, int *pDestBrightness);
-
-int getMaxWidth();  // max image width
-int getMaxHeight(); // max image height
-int getWidth(); // get current width
-int getHeight(); // get current heigth
-int getStartX(); // get ROI start X
-int getStartY(); // get ROI start Y
-
-float getSensorTemp(); //get the temp of sensor ,only ASI120 support
-unsigned long getDroppedFrames(); //get Dropped frames 
-bool SetMisc(bool bFlipRow, bool bFlipColumn);	//Flip x and y
-void GetMisc(bool * pbFlipRow, bool * pbFlipColumn); //Get Flip setting	
-
-//whether the camera support bin2 or bin3
-bool isBinSupported(int binning); 
-//whether the camera support this img_type
-bool isImgTypeSupported(IMG_TYPE img_type); 
-//get the current binning method
-int getBin(); 
-
-//call this function to change ROI area after setImageFormat
-//return true when success false when failed
-bool setStartPos(int startx, int starty); 
-// set new image format - 
-//ASI120's data size must be times of 1024 which means width*height%1024=0
-bool setImageFormat(int width, int height,  int binning, IMG_TYPE img_type);  
-//get the image type current set
-IMG_TYPE getImgType(); 
-
-//start capture image
-void startCapture(); 
-//stop capture image
-void stopCapture();
-
-
-// wait waitms capture a single frame -1 means wait forever, success return true, failed return false
-bool getImageData(unsigned char* buffer, int bufSize, int waitms);
-
-//ST4 guide support. only the module with ST4 port support this
-void pulseGuide(GuideDirections direction, int timems);
-
 }
-
-#endif
+#endif // ASICAMERA_H

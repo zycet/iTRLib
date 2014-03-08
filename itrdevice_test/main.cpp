@@ -2,12 +2,12 @@
 #include <stdio.h>
 #include "itrbase.h"
 #include "joysticktest.h"
-#include "stdcameratest.h"
+#include "asicameratest.h"
 
 #include "itrdevice.h"
 int main()
 {
     JoyStickTest();
-    stdcamera_test();
+    asicamera_test();
     return 0;
 }

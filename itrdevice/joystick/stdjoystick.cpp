@@ -71,15 +71,13 @@ void StdJoyStick::Update()
     {
         switch(jse.type & ~ JS_EVENT_INIT)
         {
-        case JS_EVENT_AXIS :
+            case JS_EVENT_AXIS :
 
-            wjse.stick[jse.number]=jse.value;
-            break;
+                wjse.stick[jse.number]=jse.value;break;
 
-        case JS_EVENT_BUTTON :
+            case JS_EVENT_BUTTON :
 
-            wjse.button[jse.number]=jse.value;
-            break;
+                wjse.button[jse.number]=jse.value;break;
         }
     }
 }
