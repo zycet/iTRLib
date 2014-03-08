@@ -11,36 +11,6 @@ class AsiCamera:public ICamera
     public:
         AsiCamera();
         virtual ~AsiCamera();
-        enum RawFormat
-        {
-            RawMono8,
-            RawMono16,
-            RawYUV444,
-            RawYUV422,
-            RawYUV411,
-            RawYUV420,
-            RawRGB24,
-            RawRGB48,
-            RawBGR24,
-            RawRGBA32,
-            RawBGRA32,
-            RawBayer8RGGB,
-            RawBayer8GBRG,
-            RawBayer8GRBG,
-            RawBayer8BGGR,
-            RawBayer16RGGB,
-            RawBayer16GBRG,
-            RawBayer16GRBG,
-            RawBayer16BGGR,
-        };
-        /**
-        * \brief 回调函数定义
-        * \param ICameraObj 图像采集器本身
-        * \param Raw 图像原始数据
-        * \param Length 图像原始数据长度
-        * \param ExInfo 图像附加信息
-        */
-        typedef void (*ReceiveFrameCallBack)(AsiCamera& AsiCameraObj,U8* Raw,S32 Length,void* ExInfo);
 
         /**
         * \brief 打开摄像头
@@ -108,16 +78,16 @@ class AsiCamera:public ICamera
         * \note 此函数用于异步模式下的图像获取,在Open函数调用时需使BufferNum>0.
         */
         virtual void PushBufferBack(U8* Raw);
-        struct AquairePara AqPara;
-        S32 _numDevices;
-        S32 _width;
-        S32 _height;
-        itr_container::CycleQueue<U8*>  cycleQueue;
-        U8 *p_base, *p_use,**bufferlist;
-        S32 _buffernum;
-        ReceiveFrameCallBack callback;
+
     protected:
     private:
+        struct AquairePara _AqPara;
+        S32 _width;
+        S32 _height;
+  //      itr_container::CycleQueue<U8*>  cycleQueue;
+        U8 *p_base;// *p_use,**bufferlist;
+ //       S32 _buffernum;
+        ReceiveFrameCallBack callback;
 };
 }
 #endif // ASICAMERA_H

@@ -8,13 +8,14 @@ namespace itr_device
 AsiCamera::AsiCamera()
 {
     //ctor
+    _AqPara.AquaireFreq=100000;
 }
 
 AsiCamera::~AsiCamera()
 {
     //dtor
     delete[] p_base;
-    delete[] bufferlist;
+//    delete[] bufferlist;
 }
 /**
 * \brief 打开摄像头
@@ -25,15 +26,15 @@ AsiCamera::~AsiCamera()
 void AsiCamera::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
 {
 
-    assert(BufferNum>0);/// 暂不实现同步；
-
+    assert(BufferNum ==0);/// only 实现同步；
     _width=Width;
     _height=Height;
-    _buffernum=BufferNum;
-    _numDevices = getNumberOfConnectedCameras();
+    //_buffernum=BufferNum;
+    S32 numDevices;
+    numDevices = getNumberOfConnectedCameras();
 
-    assert(_numDevices>0);
-    assert(_numDevices>=(S32)ID);
+    assert(numDevices>0);
+    assert(numDevices>=(S32)ID);
 
     bool openresult;
     openresult=openCamera(ID);
@@ -42,20 +43,20 @@ void AsiCamera::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
 
     initCamera();
 
-    if(BufferNum>0)
-    {
-        cycleQueue.Init(BufferNum);
-        p_base=new U8[BufferNum*_width*_height]();
-        bufferlist=new U8*[BufferNum]();
+//    if(BufferNum>0)
+//    {
+  //      cycleQueue.Init(BufferNum);
+        p_base=new U8[_width*_height]();
+//        bufferlist=new U8*[BufferNum]();
 
-        /// join in the queue
-        for(S32 i=0; i<BufferNum; i++)
-        {
-            cycleQueue.Insert(p_base+i*_width*_height);
-            bufferlist[i]=p_base+i*_width*_height;
-        }
+//        /// join in the queue
+//        for(S32 i=0; i<BufferNum; i++)
+//        {
+//            cycleQueue.Insert(p_base+i*_width*_height);
+//            bufferlist[i]=p_base+i*_width*_height;
+//        }
         setImageFormat(_width, _height, 1, IMG_RAW8);
-    }
+//    }
 
 }
 
@@ -88,17 +89,24 @@ S32 AsiCamera::GetHeight()
 */
 AsiCamera::AquairePara AsiCamera::GetPara()
 {
-    return  (AqPara);
+    return  (_AqPara);
 }
 /**
 * \brief 设置采集参数
 */
 void AsiCamera::SetPara(AquairePara Para)
 {
-    AqPara.AquaireFreq=Para.AquaireFreq;
-    AqPara.Exposure=Para.Exposure;
-    AqPara.Format=Para.Format;
-    AqPara.Gain=Para.Gain;
+    _AqPara.AquaireFreq=Para.AquaireFreq;
+    _AqPara.Exposure=Para.Exposure;
+    _AqPara.Format=Para.Format;
+    _AqPara.Gain=Para.Gain;
+
+    setValue(CONTROL_GAIN,(int)_AqPara.Gain,false);
+    setValue(CONTROL_EXPOSURE, (int)_AqPara.Exposure, false); //auto exposure
+    setImageFormat(_width, _height, 1, IMG_RAW8);     //
+   // setValue(CONTROL_GAMMA,2,false);
+//    setValue(CONTROL_BRIGHTNESS,3,false);
+//    setValue(CONTROL_BANDWIDTHOVERLOAD,4,false);
 }
 
 /**
@@ -111,16 +119,17 @@ void AsiCamera::SetPara(AquairePara Para)
 */
 S32 AsiCamera::FetchFrame(U8* Raw,S32 Length,void* ExInfo)
 {
-    assert(0);  /// 暂不实现同步；
+
     startCapture(); //start privew
 
     bool result;
-    result =getImageData(Raw,Length,0);
+
+    result =getImageData(Raw,Length,1/(_AqPara.AquaireFreq*1000));
 
     stopCapture();
 
     /// ////ExInfo
-    ExInfo=&AqPara;
+    ExInfo=& _AqPara;
 
     return (result);
 }
@@ -133,13 +142,13 @@ S32 AsiCamera::FetchFrame(U8* Raw,S32 Length,void* ExInfo)
 void AsiCamera::Start()
 {
     startCapture();
-
-    for(S32 i=0; i<cycleQueue.GetLength(); i++)
-    {
-        cycleQueue.Fetch(p_use);
-        while(!getImageData(p_use,_width*_height,0))
-            callback(*this, p_use, _width*_height, &AqPara);//
-    }
+//
+//    for(S32 i=0; i<cycleQueue.GetLength(); i++)
+//    {
+//        cycleQueue.Fetch(p_use);
+//        while(!getImageData(p_use,_width*_height,0))
+//            callback(*this, p_use, _width*_height, &AqPara);//
+//    }
 }
 /**
 * \brief 异步捕获停止
@@ -148,7 +157,7 @@ void AsiCamera::Start()
 void AsiCamera::Stop()
 {
     stopCapture();
-    cycleQueue.Clear();
+//    cycleQueue.Clear();
 }
 
 /**
@@ -168,11 +177,11 @@ void AsiCamera::RegCallBack(ReceiveFrameCallBack Callback)
 */
 void AsiCamera::PushBufferBack(U8* Raw)
 {
-    for(S32 i=0; i<_buffernum; i++)
-    {
-        if(bufferlist[i]== Raw)
-        cycleQueue.Insert(Raw);
-    }
+//    for(S32 i=0; i<_buffernum; i++)
+//    {
+//        if(bufferlist[i]== Raw)
+//        cycleQueue.Insert(Raw);
+//    }
 }
 
 }

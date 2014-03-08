@@ -20,7 +20,9 @@
 				</Compiler>
 				<Linker>
 					<Add library="../itrdevice/bin/debug/libitrdevice.a" />
-					<Add library="../itrbase/Debug/libitrbase.a" />
+					<Add library="../itrbase/bin/debug/libitrbase.a" />
+					<Add library="../itrdevice/asicameraapi.so" />
+					<Add library="usb-1.0" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -40,11 +42,11 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="asicameratest.cpp" />
+		<Unit filename="asicameratest.h" />
 		<Unit filename="joysticktest.cpp" />
 		<Unit filename="joysticktest.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="stdcameratest.cpp" />
-		<Unit filename="stdcameratest.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />
