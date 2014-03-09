@@ -102,7 +102,7 @@ void AsiCamera::SetPara(AquairePara Para)
     _AqPara.Gain=Para.Gain;
 
     setValue(CONTROL_GAIN,(int)_AqPara.Gain,false);
-    setValue(CONTROL_EXPOSURE, (int)_AqPara.Exposure, false); //auto exposure
+    setValue(CONTROL_EXPOSURE, (int)_AqPara.Exposure, true); //auto exposure
     setImageFormat(_width, _height, 1, IMG_RAW8);     //
    // setValue(CONTROL_GAMMA,2,false);
 //    setValue(CONTROL_BRIGHTNESS,3,false);
