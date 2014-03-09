@@ -1,13 +1,14 @@
 #include "camerastereocalc.h"
+#include "alglib.h"
 #define pi 3.1415926
 namespace itr_vision
 {
 
 CameraStereoCalc::CameraStereoCalc()
 {
-    _exinfo.Equ.Init(3);//ctor
+    _exinfo.Equ.Init(4);//ctor
     this->InstallAngle=0;
-    _plan.Init(4);
+
 }
 
 CameraStereoCalc::~CameraStereoCalc()
@@ -20,15 +21,17 @@ void CameraStereoCalc::Init(CameraInterCalc* CameraInterCalc0,CameraInterCalc* C
     this->CameraInterCalc0=CameraInterCalc0;
     this->CameraInterCalc1=CameraInterCalc1;
 }
-bool CameraStereoCalc::Calc( std::vector<VectorFeaturePoint>& PointList0, std::vector<VectorFeaturePoint>& PointList1,F32* DeepZero)
+//bool CameraStereoCalc::Calc( std::vector<VectorFeaturePoint>& PointList0, std::vector<VectorFeaturePoint>& PointList1,F32* DeepZero)
+bool CameraStereoCalc::Calc( F32* DeepZero,F32 *x,F32*y,F32*x1,F32*y1,S32 matched_num)
 {
+/*
     S32 num1=PointList0.size();
-
+    S32 num2=PointList1.size();
     /// 匹配
     FeatureMatch domatch;
     S32 matched_num;
     domatch.FeatureMatchDo( PointList0, PointList1,matched_num);
-
+    _exinfo.MatchPercent=matched_num*2/(num1+num2);
     if(matched_num<4)
         return (false);
 
@@ -38,7 +41,9 @@ bool CameraStereoCalc::Calc( std::vector<VectorFeaturePoint>& PointList0, std::v
     x=new F32[matched_num]();
     y=new F32[matched_num]();
     z=new F32[matched_num]();
+
     resid_w=new F32[matched_num]();
+
     x1=new F32[matched_num]();
     y1=new F32[matched_num]();
 
@@ -58,6 +63,25 @@ bool CameraStereoCalc::Calc( std::vector<VectorFeaturePoint>& PointList0, std::v
             j++;
         }
     }
+    */
+
+    F32 *z,*resid_w,ang_x0,ang_y0,ang_x1,ang_y1;
+    Point2D point0,point1;
+//    x=new F32[matched_num]();
+//    y=new F32[matched_num]();
+    z=new F32[matched_num]();
+
+    resid_w=new F32[matched_num]();
+
+//    x1=new F32[matched_num]();
+//    y1=new F32[matched_num]();
+
+    F32 x_t[4];
+    F32 y_t[4];
+    F32 z_t[4];
+    F32 w_t[4];
+    S32 j=0;
+
     F32 cot_x1,cot_x2;
     Vector v_p(3),v_c(4);
     for(S32 i=0; i<matched_num; i++)
@@ -78,7 +102,7 @@ bool CameraStereoCalc::Calc( std::vector<VectorFeaturePoint>& PointList0, std::v
         v_p[0]=x[i],v_p[1]=y[i],v_p[2]=1;
         CameraInterCalc0->CalcP2C(v_p,z[i],v_c);
         x[i]=v_c[0];
-        y[i]=v_c[1];
+        y[i]=v_c[1];        /// 转化为相机0的坐标
         x[i]-=Distance/2;  /// 至此xyz转化为相机原点坐标
     }
     ///由坐标求平面方程
@@ -120,10 +144,10 @@ bool CameraStereoCalc::Calc( std::vector<VectorFeaturePoint>& PointList0, std::v
             z_t[i]=z[lable[i]];
             w_t[i]=1;
         }
-        cof(x_t,y_t,z_t,w_t,4); // _plan;
+        cof(x_t,y_t,z_t,w_t,4); // _exinfo.Equ;
         if(j==0)
         {
-            best_plan=_plan;
+            best_plan=_exinfo.Equ;
             min_dis=100000000;
         }
         else
@@ -131,33 +155,40 @@ bool CameraStereoCalc::Calc( std::vector<VectorFeaturePoint>& PointList0, std::v
             dis=0;
             for(S32 i=0; i<matched_num; i++)
             {
-                dis+=getdistance(x[i],y[i],z[i],_plan);
+                dis+=getdistance(x[i],y[i],z[i],_exinfo.Equ);
             }
             if(dis<min_dis)
             {
                 min_dis=dis;
-                best_plan=_plan;
+                best_plan=_exinfo.Equ;
             }
         }
         j++;
     }while(j<10);
-    _plan=best_plan;
+
+    _exinfo.Equ=best_plan;
 
     //精确拟合
     for(S32 i=0; i<matched_num; i++)
     {  resid_w[i]=1;
     }
-    F32 sigma;
+    F32 sigma,median_value;
         // resid=x1;
         //dev=y1;
     for(j=0; j<10; j++)
     {
+
         for(S32 i=0; i<matched_num; i++)
         {
-            x1[i]=getdistance(x[i],y[i],z[i],_plan);
+            x1[i]=getdistance(x[i],y[i],z[i],_exinfo.Equ);
+//            printf("%f %f %f :%f \n",x[i],y[i],z[i],getdistance(x[i],y[i],z[i],_exinfo.Equ));
+//            printf("dis %f,\t%d\n",x1[i],x1[i]);
         }
         //计算权重
-        sigma=1.4826*median(x1,matched_num);
+
+        itr_math::StatisticsObj->Median(x1,matched_num,median_value);
+        sigma=1.4826*median_value;
+
         for(S32 i=0; i<matched_num; i++)
         {
             y1[i]=x1[i]/sigma;
@@ -170,13 +201,23 @@ bool CameraStereoCalc::Calc( std::vector<VectorFeaturePoint>& PointList0, std::v
                 resid_w[i]=0;
         }
         cof(x,y,z,resid_w,matched_num);
-    }
 
+    }
+    F32 varsum=0;
+    for(S32 i=0; i<matched_num; i++)
+     {
+        varsum+=(x1[i]*x1[i]);
+        printf("%f,\t%d\n",x1[i],x1[i]);
+     }
+    _exinfo.Var=varsum/matched_num;
 
     ///求得方程求0,0点z坐标
-    for(S32 i=0;i<3; i++)
-        _exinfo.Equ[i]=_plan[i]/(-_plan[3]);
-    *DeepZero=(-_plan[3])/_plan[2];
+//    for(S32 i=0;i<3; i++)
+//        _exinfo.Equ[i]=_exinfo.Equ[i]/(-_exinfo.Equ[3]);
+    F32 temp;
+    temp=(-_exinfo.Equ[3])/_exinfo.Equ[2];
+    printf("Var_in:%f\n",varsum/matched_num);
+    *DeepZero=(-_exinfo.Equ[3])/_exinfo.Equ[2];
 
     return (true);
 }
@@ -185,46 +226,29 @@ F32 CameraStereoCalc::getdistance(F32 x,F32 y,F32 z,Vector p)
 {
     return((p[0]*x+p[1]*y+p[2]*z+p[3])/sqrt(p[0]*p[0]+p[1]*p[1]+p[2]*p[2]));
 }
-F32 CameraStereoCalc::median(F32 *a,S32 length)
-{
-    F32 tmp;
-    F32 *n;
-    bool *flag;
-    S32 num;
-    n=new F32[length/2]();
-    flag=new bool[length]();
-    for(S32 i=0;  i<length; i++)
-        flag[i]=true;
-    S32 k;
-    for(S32 i=0; i<length/2+1; i++)
-    {
-        k=i;
-        while(!flag[k])
-        {
-            k++;
-        }
-        tmp=a[k];
-        num=k;
-        for(S32 j=0; j<length; j++)
-        {
-            if(flag[j])
-            if(tmp<a[j])
-            {
-                tmp=a[j];
-                num=j;
-            }
-        }
-        n[i]=tmp;
-        flag[num]=false;
-    }
-    tmp=n[length/2];
-    delete[] n;
-    delete[] flag;
-    return (tmp);
-}
+
 void CameraStereoCalc::cof(F32*x,F32*y,F32 *z,F32*w,S32 length)
 {
+    double *M;  //最小二乘矩阵
+    M=new double[4*length]();
 
+    for(S32 j=0; j<length; j++)
+    {
+        M[j*4]=w[j]*x[j];
+        M[j*4+1]=w[j]*y[j];
+        M[j*4+2]=w[j]*z[j];
+        M[j*4+3]=w[j];
+    }
+    //svd
+    double V[16]={0};
+    alglib::real_2d_array Marray,Varray,Uarray;
+    alglib::real_1d_array Warray;
+    Marray.setcontent(length,4,M);
+    Varray.setcontent(4,4,V);
+    alglib::rmatrixsvd(Marray,length,4,0,2,2,Warray,Uarray,Varray);
+
+    for(S32 j=0; j<4; j++)
+        _exinfo.Equ[j]=Varray(3,j);
 }
  CameraStereoCalc::CalcExInfo CameraStereoCalc::GetCalcExInfo()
 {

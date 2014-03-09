@@ -22,7 +22,8 @@ void asicamera_test()
     S32 weight=640;
     U8 *Raw;
     Raw=new U8[weight*height]();
-    //image_aquaire.RegCallBack(&image_do);
+
+//    image_aquaire.RegCallBack(&image_do);
 
     image_aquaire.Open(0,weight,height,0);
 

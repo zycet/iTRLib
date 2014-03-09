@@ -32,15 +32,16 @@ void printVector(itr_math::Vector a)
 }
 void TestCamerain()
 {
-    CameraInterCalc cam_in;
+    CameraInterCalc cam_in,*p_cam;
     Vector PixelPoint(3),CameraPoint(4);
     cam_in.SetPara(0.03,0.0002,0.0002,150,150);
     printf("cam_in.MatP2C\n");
     printMatrix(cam_in.MatP2C);
     printf("cam_in.MatC2P\n");
     printMatrix(cam_in.MatC2P);
-
-    TestCameraexternal(cam_in);
+    p_cam=&cam_in;
+    //TestCameraexternal(cam_in);
+    CamerastereoTest(p_cam);
 }
 void TestCameraexternal(itr_vision::CameraInterCalc &camera_in)
 {
@@ -192,6 +193,34 @@ void TestCameraexternal(itr_vision::CameraInterCalc &camera_in)
     /// ////////////////////////////////////////////////
 
 }
+void CamerastereoTest(itr_vision::CameraInterCalc *camera_in)
+{
+    CameraStereoCalc camstereo;
+    CameraStereoCalc::CalcExInfo calinfo;
+    calinfo.Equ.Init(4);
+    camstereo.Init(camera_in,camera_in,(F32)0.2);
+    F32 x0[20],y0[20],x1[20],y1[20];
+    FILE *FP_matched;
+    FP_matched = fopen("matched.txt", "r");
+    assert(FP_matched!=NULL);
+    for(S32 i=0; i<20; i++)
+    {
+        fscanf(FP_matched,"%f %f %f %f ",&x0[i],&y0[i],&x1[i],&y1[i]);
+    }
+    fclose(FP_matched);
+
+    F32 deepzero;
+    camstereo.Calc( &deepzero,x0,y0,x1,y1,(S32)20);
+
+    calinfo=camstereo.GetCalcExInfo();
+    printf("\ndeepzero:%f\n",deepzero);
+    printf("Calculate information:\n");
+    printf("matched percent:%f\n",calinfo.MatchPercent);
+    printf("equation :\n");
+    printVector(calinfo.Equ);
+    printf("Var:%f\n",calinfo.Var);
+}
+
 void CameraTest()
 {
     TestCamerain();
