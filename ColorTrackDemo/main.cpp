@@ -20,7 +20,7 @@ int main()
     FILE* in;
 //    CheckOpennable(infile);
 //    AddFileName(infile,fname,filenames);
-    Takeoff();
+//    Takeoff();
 //    for(S32 i = 0;i < filenames.size();i++)
     while(1)
     {

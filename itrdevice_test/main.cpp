@@ -8,7 +8,7 @@
 #include "itrdevice.h"
 int main()
 {
-    JoyStickTest();
+    //JoyStickTest();
     asicamera_test();
     return 0;
 }

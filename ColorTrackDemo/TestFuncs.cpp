@@ -123,7 +123,7 @@ void ReadFromFile(FILE* File,F32 *H,F32 *S,F32 *L,S32 Length)
 
 Udp _udp(9000);
 int running=1;
-char atcmd[150];
+char cmd[150];
 Udp::UdpPackage package;
 
 
@@ -156,68 +156,18 @@ void ReadFromUdp(F32 *H,F32 *S,F32 *L,S32 Length)
     fclose(fout);
 }
 
-void SendCMD(float left_right, float front_back)
-{
-    int *pleft=(int *)&left_right;
-    int *pfront=(int *)&front_back;
-    sprintf(atcmd,"AT*PCMD=1,%d,%d,0,%d,0\r",running,*pleft,*pfront);
-    //printf("%s\n", atcmd);
-    package.len=strlen(atcmd);
-    _udp.Send(package);
-}
-
-void Takeoff()
-{
-    package.IP="192.168.1.1";
-    package.port=5556;
-    package.pbuffer=atcmd;
-    sprintf(atcmd,"AT*REF=%d,290718208\r",running);
-    package.len=strlen(atcmd);
-    printf("%s\n", atcmd);
-    _udp.Send(package);
-}
-
-void Land()
-{
-    sprintf(atcmd,"AT*REF=%d,290717696\r",running);
-    package.len=strlen(atcmd);
-    printf("%s\n", atcmd);
-    _udp.Send(package);
-}
 
 void PrintTargetInfo(Block blk)
 {
 //    cout << "The center of target is: " << endl;
     cout << "x: " << blk.x << " " << "y: " << blk.y << endl;
-//    cout << endl;
-    float  x,y;
-    float speed=0.1;
-    if( blk.x>35 )
-    {
-        x=-speed;
-    }
-    else if(blk.x<29)
-    {
-        x=speed;
-    }
-    else
-    {
-        x=0;
-    }
-    if( blk.y>20 )
-    {
-        y=-speed;
-    }
-    else if(blk.y<15)
-    {
-        y=speed;
-    }
-    else
-    {
-        y=0;
-    }
-    printf("%d  x:%f,y:%f\n",running++,x,y);
-    SendCMD(x,y);
+    cmd[0]=blk.x;
+    cmd[1]=blk.y;
+    package.IP="127.0.0.1";
+    package.port=5556;
+    package.pbuffer=cmd;
+    package.len=2;
+    _udp.Send(package);
 }
 
 void CheckOpennable(istream &infile)
@@ -277,7 +227,8 @@ void TestTrack(FILE* infile,S32 Width,S32 Height)
     CAObject.Contour(H,blocks);
     // PrintMatrix(Input);
 
-    PrintTargetInfo(blocks[1]);//打印第二大联通域中心，即目标中心
+    if(blocks[1].Area>1)
+        PrintTargetInfo(blocks[1]);//打印第二大联通域中心，即目标中心
 //    for(int i = 0; i<blocks.size(); i++)
 //    {
 //        cout << blocks[i].Area<<endl;
