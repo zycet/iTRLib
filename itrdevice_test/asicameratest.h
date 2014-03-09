@@ -1,6 +1,6 @@
 #ifndef STDCAMERATEST_H
 #define STDCAMERATEST_H
-
+#include "itrvision.h"
 //#include "stdimageaquaire.h"
 #include "itrdevice.h"
 void asicamera_test();
