@@ -236,6 +236,14 @@ bool CameraStereoCalc::Calc( std::vector<VectorFeaturePoint>& PointList0, std::v
         _exinfo.Equ[2]=tmp_c;
         *DeepZero=(-_exinfo.Equ[3])/_exinfo.Equ[2];
     }
+
+    delete[] x;
+    delete[] y;
+    delete[] x1;
+    delete[] y1;
+    delete[] z;
+    delete[] resid_w;
+
     return (true);
 }
 
@@ -266,6 +274,8 @@ void CameraStereoCalc::cof(F32*x,F32*y,F32 *z,F32*w,S32 length)
 
     for(S32 j=0; j<4; j++)
         _exinfo.Equ[j]=Varray(3,j);
+
+    delete[] M;
 }
  CameraStereoCalc::CalcExInfo CameraStereoCalc::GetCalcExInfo()
 {
