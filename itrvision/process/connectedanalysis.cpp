@@ -28,7 +28,7 @@ void ConnectedAnalysis::Contour(const Matrix &input,vector<Block> &blocks)
     {
         for(int j=0; j<ImgWidth; j++)
         {
-            if(visited[i*ImgWidth+j] == 0)
+            if((visited[i*ImgWidth+j] == 0)&& (input(i,j)>0))
             {
                 x = j;
                 y = i;
