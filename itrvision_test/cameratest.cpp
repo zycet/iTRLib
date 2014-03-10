@@ -164,9 +164,9 @@ void TestCameraexternal(itr_vision::CameraInterCalc &camera_in)
 //    i--;
 //}while(i>0);
 /// //////////////////////////////////////////////////////////////
-    F32 homo[9]={ 1.0010,0.0189,-2.7588,
-   -0.0118,0.9993,17.2300,
-    0.0000,-0.0000,1.0000};
+//    F32 homo[9]={ 1.0010,0.0189,-2.7588,
+//   -0.0118,0.9993,17.2300,
+//    0.0000,-0.0000,1.0000};
    /*
     F32 rr[18]={ 0.9999,  0.0132, 0.0011,  0.9998,  0.0203, -0.0013,
                 -0.0132,  0.9947, 0.1021, -0.0203,  0.9998,  0.0015,
@@ -198,27 +198,42 @@ void CamerastereoTest(itr_vision::CameraInterCalc *camera_in)
     CameraStereoCalc camstereo;
     CameraStereoCalc::CalcExInfo calinfo;
     calinfo.Equ.Init(4);
-    camstereo.Init(camera_in,camera_in,(F32)0.2);
+    camstereo.Init(camera_in,camera_in,2);
     F32 x0[20],y0[20],x1[20],y1[20];
     FILE *FP_matched;
-    FP_matched = fopen("matched.txt", "r");
+    FP_matched = fopen("matchedfor2.txt", "r");
     assert(FP_matched!=NULL);
     for(S32 i=0; i<20; i++)
     {
         fscanf(FP_matched,"%f %f %f %f ",&x0[i],&y0[i],&x1[i],&y1[i]);
+//        printf("in : %f\t%f\t%f\t%f\n",x0[i],y0[i],x1[i],y1[i]);
     }
     fclose(FP_matched);
 
     F32 deepzero;
-    camstereo.Calc( &deepzero,x0,y0,x1,y1,(S32)20);
-
-    calinfo=camstereo.GetCalcExInfo();
-    printf("\ndeepzero:%f\n",deepzero);
-    printf("Calculate information:\n");
-    printf("matched percent:%f\n",calinfo.MatchPercent);
-    printf("equation :\n");
-    printVector(calinfo.Equ);
-    printf("Var:%f\n",calinfo.Var);
+/// ////////////////////////////////////////////////////////////////
+//    camstereo.Calc( &deepzero,x0,y0,x1,y1,(S32)20);
+//
+//    calinfo=camstereo.GetCalcExInfo();
+//    printf("\ndeepzero:%f\n",deepzero);
+//    printf("Calculate information:\n");
+//    printf("matched percent:%f\n",calinfo.MatchPercent);
+//    printf("equation :\n");
+//    printVector(calinfo.Equ);
+//    printf("Var:%f\n",calinfo.Var);
+//
+/// /////////////////////////////////////////////////////////////
+//    camstereo.InstallAngle=(90.0/180.0*3.1415926);
+//    camstereo.Calc( &deepzero,x0,y0,x1,y1,(S32)20);
+//
+//    calinfo=camstereo.GetCalcExInfo();
+//    printf("\ndeepzero:%f\n",deepzero);
+//    printf("Calculate information:\n");
+//    printf("matched percent:%f\n",calinfo.MatchPercent);
+//    printf("equation :\n");
+//    printVector(calinfo.Equ);
+//    printf("Var:%f\n",calinfo.Var);
+/// ////////////////////////////////////////////////////////////////
 }
 
 void CameraTest()

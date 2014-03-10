@@ -7,7 +7,7 @@ namespace itr_vision
 CameraStereoCalc::CameraStereoCalc()
 {
     _exinfo.Equ.Init(4);//ctor
-    this->InstallAngle=0;
+    InstallAngle=0;
 
 }
 
@@ -21,10 +21,10 @@ void CameraStereoCalc::Init(CameraInterCalc* CameraInterCalc0,CameraInterCalc* C
     this->CameraInterCalc0=CameraInterCalc0;
     this->CameraInterCalc1=CameraInterCalc1;
 }
-//bool CameraStereoCalc::Calc( std::vector<VectorFeaturePoint>& PointList0, std::vector<VectorFeaturePoint>& PointList1,F32* DeepZero)
-bool CameraStereoCalc::Calc( F32* DeepZero,F32 *x,F32*y,F32*x1,F32*y1,S32 matched_num)
+bool CameraStereoCalc::Calc( std::vector<VectorFeaturePoint>& PointList0, std::vector<VectorFeaturePoint>& PointList1,F32* DeepZero)
+//bool CameraStereoCalc::Calc( F32* DeepZero,F32 *x,F32*y,F32*x1,F32*y1,S32 matched_num)
 {
-/*
+
     S32 num1=PointList0.size();
     S32 num2=PointList1.size();
     /// 匹配
@@ -63,25 +63,25 @@ bool CameraStereoCalc::Calc( F32* DeepZero,F32 *x,F32*y,F32*x1,F32*y1,S32 matche
             j++;
         }
     }
-    */
 
-    F32 *z,*resid_w,ang_x0,ang_y0,ang_x1,ang_y1;
-    Point2D point0,point1;
+/// / //////////////////////////////////////////////////////////////////////
+//    F32 *z,*resid_w,ang_x0,ang_y0,ang_x1,ang_y1;
+//    Point2D point0,point1;
 //    x=new F32[matched_num]();
 //    y=new F32[matched_num]();
-    z=new F32[matched_num]();
-
-    resid_w=new F32[matched_num]();
-
+//    z=new F32[matched_num]();
+//
+//    resid_w=new F32[matched_num]();
+//
 //    x1=new F32[matched_num]();
 //    y1=new F32[matched_num]();
-
-    F32 x_t[4];
-    F32 y_t[4];
-    F32 z_t[4];
-    F32 w_t[4];
-    S32 j=0;
-
+//
+//    F32 x_t[4];
+//    F32 y_t[4];
+//    F32 z_t[4];
+//    F32 w_t[4];
+//    S32 j=0;
+///  //////////////////////////////////////////////////////////////////////////
     F32 cot_x1,cot_x2;
     Vector v_p(3),v_c(4);
     for(S32 i=0; i<matched_num; i++)
@@ -90,8 +90,12 @@ bool CameraStereoCalc::Calc( F32* DeepZero,F32 *x,F32*y,F32*x1,F32*y1,S32 matche
         point0.Y=y[i];
         point1.X=x1[i];
         point1.Y=y1[i];
+        //printf("point0:%f\t%f\tpoint1:%f\t%f\n",point0.X,point0.Y,point1.X,point1.Y);
+
         CameraInterCalc0->CalcAng(point0,ang_x0, ang_y0);
         CameraInterCalc1->CalcAng(point1,ang_x1, ang_y1);
+
+        //printf("angle: %f\t%f\n",ang_x0,ang_x1);
 
         itr_math::NumericalObj->Tan(ang_x0,cot_x1);
         itr_math::NumericalObj->Tan(ang_x1,cot_x2);
@@ -99,14 +103,26 @@ bool CameraStereoCalc::Calc( F32* DeepZero,F32 *x,F32*y,F32*x1,F32*y1,S32 matche
         cot_x2=1/cot_x2;
 
         z[i]=Distance/(abs(cot_x1-cot_x2));     ///求深度
+        /// //////////////////////////////////////// 加误差，测试用
+//        F32 for_rand;
+//        itr_math::NumericalObj->Rand(for_rand);
+//        z[i]+=for_rand;
+
+  //      printf("z[i]: %f\n",z[i]);
+
         v_p[0]=x[i],v_p[1]=y[i],v_p[2]=1;
         CameraInterCalc0->CalcP2C(v_p,z[i],v_c);
         x[i]=v_c[0];
         y[i]=v_c[1];        /// 转化为相机0的坐标
+        //printf("c pos: %f\t%f\n",x[i],y[i]);
+
         x[i]-=Distance/2;  /// 至此xyz转化为相机原点坐标
+        //printf("final pos: %f\t%f\t%f\n",x[i],y[i],z[i]);
     }
     ///由坐标求平面方程
-    // 初步拟合
+    /// ///////////////////////////////////////////////////
+    //z[1]=10;  //野数据
+    /// 初步拟合
     j=0;
     F32 p;
     S32 lable[4],q;
@@ -136,7 +152,6 @@ bool CameraStereoCalc::Calc( F32* DeepZero,F32 *x,F32*y,F32*x1,F32*y1,S32 matche
             if(q!=-1)
                 lable[i]=q;
         }
-        //
         for(S32 i=0; i<4; i++)
         {
             x_t[i]=x[lable[i]];
@@ -144,7 +159,7 @@ bool CameraStereoCalc::Calc( F32* DeepZero,F32 *x,F32*y,F32*x1,F32*y1,S32 matche
             z_t[i]=z[lable[i]];
             w_t[i]=1;
         }
-        cof(x_t,y_t,z_t,w_t,4); // _exinfo.Equ;
+        cof(x_t,y_t,z_t,w_t,4); /// 求 _exinfo.Equ;
         if(j==0)
         {
             best_plan=_exinfo.Equ;
@@ -168,21 +183,19 @@ bool CameraStereoCalc::Calc( F32* DeepZero,F32 *x,F32*y,F32*x1,F32*y1,S32 matche
 
     _exinfo.Equ=best_plan;
 
-    //精确拟合
+    ///精确拟合
     for(S32 i=0; i<matched_num; i++)
     {  resid_w[i]=1;
     }
     F32 sigma,median_value;
-        // resid=x1;
-        //dev=y1;
+        /// resid=x1;
+        /// dev=y1;
     for(j=0; j<10; j++)
     {
 
         for(S32 i=0; i<matched_num; i++)
         {
             x1[i]=getdistance(x[i],y[i],z[i],_exinfo.Equ);
-//            printf("%f %f %f :%f \n",x[i],y[i],z[i],getdistance(x[i],y[i],z[i],_exinfo.Equ));
-//            printf("dis %f,\t%d\n",x1[i],x1[i]);
         }
         //计算权重
 
@@ -207,18 +220,22 @@ bool CameraStereoCalc::Calc( F32* DeepZero,F32 *x,F32*y,F32*x1,F32*y1,S32 matche
     for(S32 i=0; i<matched_num; i++)
      {
         varsum+=(x1[i]*x1[i]);
-        printf("%f,\t%d\n",x1[i],x1[i]);
      }
     _exinfo.Var=varsum/matched_num;
 
     ///求得方程求0,0点z坐标
-//    for(S32 i=0;i<3; i++)
-//        _exinfo.Equ[i]=_exinfo.Equ[i]/(-_exinfo.Equ[3]);
-    F32 temp;
-    temp=(-_exinfo.Equ[3])/_exinfo.Equ[2];
-    printf("Var_in:%f\n",varsum/matched_num);
     *DeepZero=(-_exinfo.Equ[3])/_exinfo.Equ[2];
 
+    if(InstallAngle)
+    {
+        F32 tmpcos,tmpsin,tmp_b,tmp_c;
+        itr_math::NumericalObj->SinCos(InstallAngle,tmpsin,tmpcos);
+        tmp_b=_exinfo.Equ[1]*tmpcos+_exinfo.Equ[2]*tmpsin;
+        tmp_c=-_exinfo.Equ[1]*tmpsin+_exinfo.Equ[2]*tmpcos;
+        _exinfo.Equ[1]=tmp_b;
+        _exinfo.Equ[2]=tmp_c;
+        *DeepZero=(-_exinfo.Equ[3])/_exinfo.Equ[2];
+    }
     return (true);
 }
 

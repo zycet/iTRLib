@@ -54,8 +54,8 @@ public:
     * \param DeepZero 坐标X=0,Y=0处Z的值
     * \return 是否成功计算
     */
-    //bool Calc( std::vector<VectorFeaturePoint>& PointList0, std::vector<VectorFeaturePoint>& PointList1,F32* DeepZero);
-    bool Calc(F32* DeepZero,F32 *x,F32*y,F32*x1,F32*y1,S32 matched_num);
+    bool Calc( std::vector<VectorFeaturePoint>& PointList0, std::vector<VectorFeaturePoint>& PointList1,F32* DeepZero);
+    //bool Calc(F32* DeepZero,F32 *x,F32*y,F32*x1,F32*y1,S32 matched_num);
     /**
     * \brief 在成功执行Calc后可通过此函数获得附加的计算结果信息
     */
