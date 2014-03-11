@@ -17,6 +17,7 @@
 					<Add directory="../itrbase" />
 					<Add directory="../itrvision" />
 					<Add directory="../itralgorithm" />
+					<Add directory="../3rdparty/alglib" />
 				</Compiler>
 				<Linker>
 					<Add library="../itrvision/bin/debug/libitrvision.a" />
