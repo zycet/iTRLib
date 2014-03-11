@@ -5,7 +5,7 @@
 #include <math.h>
 
 void CameraTest();
-
+void CamerastereoTest(itr_vision::CameraInterCalc *camera_in);
 void TestCamerain();
 void TestCameraexternal(itr_vision::CameraInterCalc &camera_in);
 
