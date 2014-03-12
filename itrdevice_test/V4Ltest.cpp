@@ -13,13 +13,22 @@ void F4Ltest()
     data=new U8[Width*Height]();
     S32 ExInfo;
     V4lcamera.FetchFrame(data,Width*Height,& ExInfo);
-    itr_math::Matrix Pic_Mat;
-    F32 *data_mat;
-    data_mat=new F32[Width*Height]();
-    for(S32 i=0;i<Width*Height; i++)
+//    itr_math::Matrix Pic_Mat;
+//    F32 *data_mat;
+//    data_mat=new F32[Width*Height]();
+//    for(S32 i=0;i<Width*Height; i++)
+//    {
+//        data_mat[i]=(F32)data[i];
+//    }
+//    Pic_Mat.Init(Height,Width,data_mat);
+    printf("\nResult is :\n");
+    for(S32 i=0; i<Height; i++)
     {
-        data_mat[i]=(F32)data[i];
+        for(S32 j=0; j<Width; j++)
+        {
+            printf("%d",data[i*Width+j]);
+        }
+        printf("\n");
     }
-    Pic_Mat.Init(Height,Width,data_mat);
 
 }
