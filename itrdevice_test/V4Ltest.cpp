@@ -4,7 +4,7 @@
 void F4Ltest()
 {
     itr_device::v4linux V4lcamera;
-    U32 ID=0;
+    U32 ID=3;
     S32 Width=640;
     S32 Height=480;
     S32 BufferNum=2;

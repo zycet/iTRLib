@@ -21,13 +21,17 @@ v4linux::~v4linux()
 * \param Height 图像高度
 * \param BufferNum 缓冲区数量(如果>0则表示使用异步采集模式,否则为同步模式)
 */
-void v4linux::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
+void v4linux::Open(U32 ID,S32 Width,S32 Height,S32 Buffer_Num)
 {
     _width=Width;
     _height=Height;
-    _buffernum=BufferNum;
+    _buffernum=2;
+
+    char dev_name[20];
+    sprintf(dev_name,"%s%d",_dev,ID);
 
 	id = open(dev_name, O_RDWR);
+
 	if (id < 0)
     {
         exit(0);
@@ -50,7 +54,7 @@ void v4linux::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
 			// 检查是否支持 MMAP, 还是 USERPTR
 			v4l2_requestbuffers bufs;
 			memset(&bufs, 0, sizeof(bufs));
-			bufs.count = BufferNum;
+			bufs.count = _buffernum;
 			bufs.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
 			bufs.memory = V4L2_MEMORY_MMAP;
 			if (ioctl(id, VIDIOC_REQBUFS, &bufs) < 0)
@@ -165,7 +169,7 @@ void v4linux::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
         avpicture_alloc(&ctx->pic_target, PIX_FMT_YUV420P, ctx->width, ctx->height);
 
 	// queue buf
-	for (int i = 0; i < sizeof(ctx->bufs)/sizeof(Buffer); i++)
+	for (int i = 0; i < _buffernum; i++)
 	{
 		v4l2_buffer buf;
 		memset(&buf, 0, sizeof(buf));
@@ -200,7 +204,7 @@ void v4linux::Close()
 {
 //    closeCamera();
     Ctx *ctx = (Ctx*)id_ctx;
-	for (int i = 0; i <(int) sizeof(ctx->bufs)/sizeof(Buffer); i++) {
+	for (int i = 0; i <_buffernum; i++) {
 		munmap(ctx->bufs[i].start, ctx->bufs[i].length);
 	}
 	avpicture_free(&ctx->pic_target);

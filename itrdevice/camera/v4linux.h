@@ -13,7 +13,7 @@
 #include <fcntl.h>
 #include <linux/videodev2.h>
 
-#define dev_name "/dev/video0"
+#define _dev "/dev/video"
 
 extern "C" {
 #	include <libavcodec/avcodec.h>
