@@ -132,8 +132,9 @@ class v4linux:public ICamera
   //      itr_container::CycleQueue<U8*>  cycleQueue;
         U8 *p_base;// *p_use,**bufferlist;
         S32 _buffernum;
+        Ctx *id_ctx;
         S32 id;
-        ReceiveFrameCallBack callback;
+        ReceiveFrameCallBack _callback;
 };
 }
 #endif // V4LINUX_H

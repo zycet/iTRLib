@@ -4,11 +4,13 @@
 #include "itrvision.h"
 #include "joysticktest.h"
 #include "asicameratest.h"
+#include "V4Ltest.h"
 
 #include "itrdevice.h"
 int main()
 {
     //JoyStickTest();
-    asicamera_test();
+    //asicamera_test();
+    F4Ltest();
     return 0;
 }

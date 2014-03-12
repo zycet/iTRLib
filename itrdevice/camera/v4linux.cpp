@@ -12,7 +12,7 @@ v4linux::v4linux()
 v4linux::~v4linux()
 {
     //dtor
-     delete[] p_base;
+    // delete[] p_base;
 }
 
 /**
@@ -39,7 +39,7 @@ void v4linux::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
 	ctx->vid = id;
 	// to query caps
 	v4l2_capability caps;
-	ioctl(ID, VIDIOC_QUERYCAP, &caps);
+	ioctl(id, VIDIOC_QUERYCAP, &caps);
 
 	if (caps.capabilities & V4L2_CAP_VIDEO_CAPTURE)
 	{
@@ -66,7 +66,7 @@ void v4linux::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
 			fprintf(stderr, "%s: using MEMORY_MMAP mode, buf cnt=%d\n", __func__, bufs.count);
 
 			// mmap
-			for (int i = 0; i < BufferNum; i++)
+			for (int i = 0; i < 2; i++)
 			{
 				v4l2_buffer buf;
 				memset(&buf, 0, sizeof(buf));
@@ -167,7 +167,7 @@ void v4linux::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
         avpicture_alloc(&ctx->pic_target, PIX_FMT_YUV420P, ctx->width, ctx->height);
 
 	// queue buf
-	for (int i = 0; i < BufferNum; i++)
+	for (int i = 0; i < sizeof(ctx->bufs)/sizeof(Buffer); i++)
 	{
 		v4l2_buffer buf;
 		memset(&buf, 0, sizeof(buf));
@@ -190,6 +190,7 @@ void v4linux::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
 	}
 
         ctx->fmt = PIX_FMT_YUV420P;
+        id_ctx=ctx;
 
 //	return ctx;
 }
@@ -200,6 +201,13 @@ void v4linux::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
 void v4linux::Close()
 {
 //    closeCamera();
+    Ctx *ctx = (Ctx*)id_ctx;
+	for (int i = 0; i <(int) sizeof(ctx->bufs)/sizeof(Buffer); i++) {
+		munmap(ctx->bufs[i].start, ctx->bufs[i].length);
+	}
+	avpicture_free(&ctx->pic_target);
+	sws_freeContext(ctx->sws);
+	delete ctx;
 }
 
 /**
@@ -253,20 +261,7 @@ void v4linux::SetPara(AquairePara Para)
 */
 S32 v4linux::FetchFrame(U8* Raw,S32 Length,void* ExInfo)
 {
-
-    // 获取, 转换
-    return(0);
-
-}
-
-
-/**
-* \brief 异步捕获开始
-* \note 此函数用于异步模式下的图像获取,在Open函数调用时需使BufferNum>0.
-*/
-void v4linux::Start()
-{
-    Ctx *ctx = (Ctx*)id;
+    Ctx *ctx = (Ctx*)id_ctx;
 	v4l2_buffer buf;
 	memset(&buf, 0, sizeof(buf));
 	buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
@@ -285,13 +280,25 @@ void v4linux::Start()
 	ctx->pic_src.linesize[1] = ctx->pic_src.linesize[2] = ctx->pic_src.linesize[3] = 0;
 
 	// sws_scale
-	int rs = sws_scale(ctx->sws, ctx->pic_src.data, ctx->pic_src.linesize,
-			0, ctx->rows, ctx->pic_target.data, ctx->pic_target.linesize);
+	int rs = sws_scale( ctx->sws,
+                        ctx->pic_src.data,
+                        ctx->pic_src.linesize,
+                        0,
+                        ctx->rows,
+                        ctx->pic_target.data,
+                        ctx->pic_target.linesize
+                        );
 
 	// out
 	for (int i = 0; i < 4; i++) {
 		pic.data[i] = ctx->pic_target.data[i];
 		pic.stride[i] = ctx->pic_target.linesize[i];
+	}
+	/// ///////////////// 输出图片。
+//	Raw=pic_target.data;
+	for(S32 i=0; i<Length; i++)
+	{
+        Raw[i]=(U8)*ctx->pic_target.data[i];
 	}
 
 	// re queue buf
@@ -299,6 +306,18 @@ void v4linux::Start()
 		fprintf(stderr, "%s: VIDIOC_QBUF err\n", __func__);
 //		return -1;
 	}
+
+    return(0);
+
+}
+
+
+/**
+* \brief 异步捕获开始
+* \note 此函数用于异步模式下的图像获取,在Open函数调用时需使BufferNum>0.
+*/
+void v4linux::Start()
+{
 
 //	return 1;
 }
@@ -308,13 +327,7 @@ void v4linux::Start()
 */
 void v4linux::Stop()
 {
-    Ctx *ctx = (Ctx*)id;
-	for (int i = 0; i <(int) sizeof(ctx->bufs)/sizeof(Buffer); i++) {
-		munmap(ctx->bufs[i].start, ctx->bufs[i].length);
-	}
-	avpicture_free(&ctx->pic_target);
-	sws_freeContext(ctx->sws);
-	delete ctx;
+
 
 //	return 1;
 }
@@ -326,7 +339,7 @@ void v4linux::Stop()
 void v4linux::RegCallBack(ReceiveFrameCallBack Callback)
 {
     if(Callback!=NULL)
-        callback=Callback;
+        _callback=Callback;
 }
 
 /**
