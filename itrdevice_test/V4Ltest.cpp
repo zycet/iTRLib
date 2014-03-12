@@ -7,7 +7,7 @@ void F4Ltest()
     U32 ID=0;
     S32 Width=640;
     S32 Height=480;
-    S32 BufferNum=0;
+    S32 BufferNum=2;
     V4lcamera.Open( ID, Width, Height, BufferNum);
     U8*data;
     data=new U8[Width*Height]();
@@ -22,11 +22,13 @@ void F4Ltest()
 //    }
 //    Pic_Mat.Init(Height,Width,data_mat);
     printf("\nResult is :\n");
+    FILE* fout=fopen("f.pgm","w");
+    fprintf(fout,"P5\n640 480\n255\n");
     for(S32 i=0; i<Height; i++)
     {
         for(S32 j=0; j<Width; j++)
         {
-            printf("%d",data[i*Width+j]);
+            fprintf(fout,"%c",data[i*Width+j]);
         }
         printf("\n");
     }

@@ -32,8 +32,6 @@ void v4linux::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
     {
         exit(0);
     }
-    if(id!=(S32)ID)
-        exit(0);
 
 	Ctx *ctx = new Ctx;
 	ctx->vid = id;
@@ -298,7 +296,7 @@ S32 v4linux::FetchFrame(U8* Raw,S32 Length,void* ExInfo)
 //	Raw=pic_target.data;
 	for(S32 i=0; i<Length; i++)
 	{
-        Raw[i]=(U8)*ctx->pic_target.data[i];
+        Raw[i]=(U8)(ctx->pic_target.data[0])[i];
 	}
 
 	// re queue buf

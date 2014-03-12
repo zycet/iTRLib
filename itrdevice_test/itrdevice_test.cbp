@@ -29,6 +29,7 @@
 					<Add library="usb-1.0" />
 					<Add library="swscale" />
 					<Add library="avcodec" />
+					<Add library="avutil" />
 				</Linker>
 			</Target>
 			<Target title="Release">
