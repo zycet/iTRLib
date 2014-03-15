@@ -39,7 +39,8 @@
 #include "platform/platform.h"
 #include "math/math.h"
 #include "container/container.h"
-
+#include "protocol/standserialprotocol.h"
+#include "encode/crc.h"
 /*
 #include "../platform/platform.h"
 #include "../math/math.h"

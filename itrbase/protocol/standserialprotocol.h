@@ -1,9 +1,11 @@
 #ifndef STANDSERIALPROTOCOL_H
 #define STANDSERIALPROTOCOL_H
 
+#include "string.h"
 #include "../platform/platform.h"
 //#include "../math/math.h"
 #include "../container/container.h"
+#include "../encode/crc.h"
 
 #define StandSerialProtocolMaxLength 255//帧最大长度
 #define StandSerialProtocolHeadLength 2//桢头长度
@@ -42,6 +44,7 @@ typedef struct
     */
     U8 Package;
     //U16 CRC;
+
 } StandSerialFrameStruct;
 
 /**
@@ -133,6 +136,11 @@ public:
     */
     static U16 GetSSFSCRC(StandSerialFrameStruct* SSFS);
     /**
+    * \brief 暂时不实现
+    */
+    void SSPEncrypt(StandSerialFrameStruct* SSP, U8* Key1, U8* Key2);
+    void SSPDecrypt(StandSerialFrameStruct* SSP, U8* Key1, U8* Key2);
+    /**
     * \brief 密钥1
     */
     U8 Key1[StandSerialProtocolKey1Length];
@@ -166,6 +174,7 @@ public:
     StandDataSendFun DataSendFun;
 protected:
 private:
+    bool SSPFormatCheck(StandSerialFrameStruct* SSPF);
     /**
     * \brief 设置帧总长
     * \param SSFS 数据帧
@@ -214,6 +223,7 @@ private:
     * \brief 数据发送缓冲区
     */
     U8 sendBuffer[StandSerialProtocolMaxLength];
+
 };
 
 }
