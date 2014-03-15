@@ -10,7 +10,7 @@
 int main()
 {
     //JoyStickTest();
-    //asicamera_test();
-    F4Ltest();
+    asicamera_test();
+//    F4Ltest();
     return 0;
 }

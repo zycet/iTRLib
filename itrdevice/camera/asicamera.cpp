@@ -124,7 +124,7 @@ S32 AsiCamera::FetchFrame(U8* Raw,S32 Length,void* ExInfo)
 
     bool result;
 
-    result =getImageData(Raw,Length,1/(_AqPara.AquaireFreq*1000));
+    result =getImageData(Raw,Length,-1);
 
     stopCapture();
 

@@ -227,7 +227,7 @@ void TestTrack(FILE* infile,S32 Width,S32 Height)
     CAObject.Contour(H,blocks);
     // PrintMatrix(Input);
 
-    if(blocks[0].Area>1)
+    if(blocks.size()>0&&blocks[0].Area>1)
         PrintTargetInfo(blocks[0]);//打印第二大联通域中心，即目标中心
 //    for(int i = 0; i<blocks.size(); i++)
 //    {

@@ -18,10 +18,10 @@ void asicamera_test()
 {
 
     //itr_device::AsiCamera::ReceiveFrameCallBack call=&image_do;
-    S32 height=480;
-    S32 weight=640;
-    U8 *Raw;
-    Raw=new U8[weight*height]();
+    const S32 height=320;
+    const S32 weight=240;
+    U8 Raw[height*weight];
+    //Raw=new U8[weight*height]();
 
 //    image_aquaire.RegCallBack(&image_do);
 
@@ -36,9 +36,19 @@ void asicamera_test()
     image_aquaire.SetPara( AqPara);
 
     itr_device::ICamera::AquairePara* ExInfo;
+    char head[40];
+    char filename[10];
+    sprintf(head,"P5\n%d %d\n255\n",weight,height);
+    int i=0;
     while(image_aquaire.FetchFrame(Raw,weight*height,ExInfo))
     {
-        printf("captued picture!\n");
+        sprintf(filename,"%d.pgm",i);
+        FILE* fout=fopen(filename,"w");
+        fprintf(fout,head);
+        for(int j=0;j<weight*height;++j)
+            fprintf(fout,"%c",Raw[j]);
+        fclose(fout);
+        ++i;
     }
 
 }

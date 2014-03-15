@@ -37,7 +37,7 @@ void ConnectedAnalysis::Contour(const Matrix &input,vector<Block> &blocks)
                 //blk.y = y;
                 //blk.Area = 0;//Area = 0 (广度)Area = 1 (深度)
                 //Fill(input,x,y,blk,visited);
-                Fill(input,x,y,blk,visited);
+                Fill_q(input,x,y,blk,visited);
                 blk.x /= blk.Area;
                 blk.y /= blk.Area;
                 blocks.push_back(blk);
