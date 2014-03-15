@@ -54,7 +54,7 @@ namespace itr_vision
         dy.Init(height, width);
         ConvoluteSquare conv;
         conv._KLTComputeSmoothedImage(Img, 0.1f * windowWidth, img);
-
+        featuremap = new BOOL[height* width]();
         // TODO 求微分
         conv._KLTComputeGradients(img, 1.0f, dx, dy);
     }
@@ -73,6 +73,7 @@ namespace itr_vision
 
     SelectKLTFeature::~SelectKLTFeature()
     {
+        delete[] featuremap;
     }
 
     float SelectKLTFeature::MinEigenvalue(F32 gxx, F32 gxy, F32 gyy)
@@ -133,7 +134,6 @@ namespace itr_vision
         int pcount=0;
         //增大最小间距
         {
-            BOOL *featuremap = new BOOL[height* width]();
             memset(featuremap, 0, sizeof(featuremap));
             featptr = featurelist.begin();
             vector<CommFeaturePoint>::iterator flindex = featureOutput.begin();
@@ -161,7 +161,7 @@ namespace itr_vision
                  ++featptr;
                 --npoints;
             }
-            delete[] featuremap;
+
         }
         return pcount;
     }

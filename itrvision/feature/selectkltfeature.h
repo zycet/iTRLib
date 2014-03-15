@@ -58,7 +58,7 @@ private:
     Matrix dx, dy;
     S32 bw;
     S32 width, height;
-
+    BOOL *featuremap;
 };
 
 } // namespace itr_vision
