@@ -136,11 +136,6 @@ public:
     */
     static U16 GetSSFSCRC(StandSerialFrameStruct* SSFS);
     /**
-    * \brief 暂时不实现
-    */
-    void SSPEncrypt(StandSerialFrameStruct* SSP, U8* Key1, U8* Key2);
-    void SSPDecrypt(StandSerialFrameStruct* SSP, U8* Key1, U8* Key2);
-    /**
     * \brief 密钥1
     */
     U8 Key1[StandSerialProtocolKey1Length];
@@ -174,6 +169,17 @@ public:
     StandDataSendFun DataSendFun;
 protected:
 private:
+    /**
+    * \brief 加密编码(暂时不实现)
+    */
+    void SSPEncrypt(StandSerialFrameStruct* SSP, U8* Key1, U8* Key2);
+    /**
+    * \brief 解密编码(暂时不实现)
+    */
+    void SSPDecrypt(StandSerialFrameStruct* SSP, U8* Key1, U8* Key2);
+    /**
+    * \brief 检查长度和CRC是否合法
+    */
     bool SSPFormatCheck(StandSerialFrameStruct* SSPF);
     /**
     * \brief 设置帧总长
@@ -200,12 +206,6 @@ private:
     */
     static void SetSSFSIsEncrypt(StandSerialFrameStruct* SSFS,U8 IsEncrypt);
     /**
-    * \brief 设置帧数据包长度
-    * \param SSFS 数据帧
-    * \param Property 数据包长度
-    */
-    static void SetSSFSPackageLength(StandSerialFrameStruct* SSFS,U8 PackageLength);
-    /**
     * \brief 设置帧校验
     * \param SSFS 数据帧
     * \param Property 校验
@@ -223,7 +223,6 @@ private:
     * \brief 数据发送缓冲区
     */
     U8 sendBuffer[StandSerialProtocolMaxLength];
-
 };
 
 }
