@@ -49,6 +49,8 @@
 		<Unit filename="mathtest.h" />
 		<Unit filename="platform_test.cc" />
 		<Unit filename="platform_test.h" />
+		<Unit filename="ssptest.cpp" />
+		<Unit filename="ssptest.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

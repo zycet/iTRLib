@@ -19,6 +19,29 @@ StandSerialProtocol::~StandSerialProtocol()
 StandSerialProtocol::StandSerialProtocol(const StandSerialProtocol& other)
 {
     //copy ctor
+
+    for(S32 i=0; i<StandSerialProtocolKey1Length; i++)
+    {
+        this->Key1[i]=other.Key1[i];
+    }
+    for(S32 i=0; i<StandSerialProtocolKey2Length; i++)
+    {
+        this->Key2[i]=other.Key2[i];
+    }
+    this->S0=other.S0;
+    this->S1=other.S1;
+    this->AutoDecrypt=other.AutoDecrypt;
+    this->AutoEncrypt=other.AutoEncrypt;
+    for(S32 i=0; i<16; i++)
+    {
+        this->ProcessFunction[i]=other.ProcessFunction[i];
+    }
+    this->DataSendFun=other.DataSendFun;
+    for(S32 i=0; i<StandSerialProtocolMaxLength; i++)
+    {
+        this->receiveBuffer[i]=other.receiveBuffer[i];
+        this->sendBuffer[i]=other.sendBuffer[i];
+    }
 }
 
 /**

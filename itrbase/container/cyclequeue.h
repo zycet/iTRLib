@@ -1,4 +1,3 @@
-
 namespace itr_container
 {
 template<typename T>
@@ -27,7 +26,8 @@ private:
 template<typename T>
 CycleQueue<T>::CycleQueue(S32 Capacity)
 {
-  this.Init(Capacity);
+    base=NULL;
+    this->Init(Capacity);
 }
 
 template<typename T>
