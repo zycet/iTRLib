@@ -1,9 +1,11 @@
 #ifndef STANDSERIALPROTOCOL_H
 #define STANDSERIALPROTOCOL_H
 
+#include "string.h"
 #include "../platform/platform.h"
 //#include "../math/math.h"
 #include "../container/container.h"
+#include "../encode/crc.h"
 
 #define StandSerialProtocolMaxLength 255//帧最大长度
 #define StandSerialProtocolHeadLength 2//桢头长度
@@ -42,6 +44,7 @@ typedef struct
     */
     U8 Package;
     //U16 CRC;
+
 } StandSerialFrameStruct;
 
 /**
@@ -167,6 +170,18 @@ public:
 protected:
 private:
     /**
+    * \brief 加密编码(暂时不实现)
+    */
+    void SSPEncrypt(StandSerialFrameStruct* SSP, U8* Key1, U8* Key2);
+    /**
+    * \brief 解密编码(暂时不实现)
+    */
+    void SSPDecrypt(StandSerialFrameStruct* SSP, U8* Key1, U8* Key2);
+    /**
+    * \brief 检查长度和CRC是否合法
+    */
+    bool SSPFormatCheck(StandSerialFrameStruct* SSPF);
+    /**
     * \brief 设置帧总长
     * \param SSFS 数据帧
     * \param Length 总长
@@ -190,12 +205,6 @@ private:
     * \param Property 是否加密
     */
     static void SetSSFSIsEncrypt(StandSerialFrameStruct* SSFS,U8 IsEncrypt);
-    /**
-    * \brief 设置帧数据包长度
-    * \param SSFS 数据帧
-    * \param Property 数据包长度
-    */
-    static void SetSSFSPackageLength(StandSerialFrameStruct* SSFS,U8 PackageLength);
     /**
     * \brief 设置帧校验
     * \param SSFS 数据帧

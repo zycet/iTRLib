@@ -38,6 +38,8 @@
 		</Build>
 		<Unit filename="container/container.h" />
 		<Unit filename="container/cyclequeue.h" />
+		<Unit filename="encode/crc.cpp" />
+		<Unit filename="encode/crc.h" />
 		<Unit filename="itrbase.h" />
 		<Unit filename="math/calculate.cc" />
 		<Unit filename="math/calculate.h" />
