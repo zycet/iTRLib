@@ -84,7 +84,7 @@ namespace itr_vision
     }
     S32 SelectKLTFeature::SelectGoodFeature(const RectangleF &rect, vector<CommFeaturePoint> &featureOutput,S32 start)
     {
-        vector<CommFeaturePoint> featurelist(rect.Width * rect.Height);
+
         S32 bord = 24,ImgWidth=img.GetCol();
         S32 bordy = rect.Y + rect.Height;
         S32 bordx = rect.X + rect.Width;
@@ -98,6 +98,7 @@ namespace itr_vision
         {
             bordx = ImgWidth - bord;
         }
+        vector<CommFeaturePoint> featurelist((bordx-beginx)*(bordy-beginy));
         S32 x, y, xx, yy;
         S32 gxx, gxy, gyy, gx, gy;
         S32 npoints=0;

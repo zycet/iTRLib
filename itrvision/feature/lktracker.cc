@@ -205,7 +205,7 @@ void LKTracker::Compute(const vector<CommFeaturePoint> &fl, vector<CommFeaturePo
     Point2D U, V;
     S32 l, i;
     LKTracker::TrackResult result;
-    int subsampling = last->GetSubsampling();
+    int subsampling = current->GetSubsampling();
     if (!Forward)
     {
         Pyramid *temp = last;
