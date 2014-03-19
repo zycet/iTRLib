@@ -237,7 +237,7 @@ BOOL CameraExterCalc::CalcH(const std::vector<VectorFeaturePoint>& PointList0,co
             c[j]=tempID[*(bucket+(b[j]*MatchedNum+q))];
         }
 
-        double M[72]={0};  //最小二乘矩阵
+        double M[72]= {0}; //最小二乘矩阵
         for(S32 j=0; j<4; j++)
         {
             u1 = PointList0[c[j]].X;
@@ -259,7 +259,7 @@ BOOL CameraExterCalc::CalcH(const std::vector<VectorFeaturePoint>& PointList0,co
             M[(2*j+1)*9+8]=u2*wght;
         }
         //svd
-        double V[81]={0};
+        double V[81]= {0};
         alglib::real_2d_array Marray,Varray,Uarray;
         alglib::real_1d_array Warray;
         Marray.setcontent(8,9,M);
@@ -312,11 +312,8 @@ BOOL CameraExterCalc::CalcH(const std::vector<VectorFeaturePoint>& PointList0,co
             }
         }
         i++;
-    }while(best_counter<0.8*MatchedNum&&i<10);        ///end of RANSAC
-
-///// /////////////////////////////////////////////////
-//printf("ransac times:%d\tcorrect_counter:%f\t%f\t red:%f\n",i,best_counter,best_counter/matched_num,best_red);
-///// /////////////////////////////////////////////////
+    }
+    while(best_counter<0.8*MatchedNum&&i<10);         ///end of RANSAC
 
 /// M-estimate
 
@@ -330,19 +327,14 @@ BOOL CameraExterCalc::CalcH(const std::vector<VectorFeaturePoint>& PointList0,co
 
     return true;
 }
-/**
-* \brief 通过给定的相机内参数和深度参数D计算运动参数(R,T,N,V)
-* \param CameraInterPara 相机内参数
-* \param D 深度(单位:米)
-* \note 此计算步骤需已完成单应性矩阵计算(既已成功调用CalcHV())
-*/
+
 BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
 {
     Matrix tmpA(3,3);
     Matrix tmpApinv(3,3);
     CameraInterPara.MatC2P.CopyTo(0,0,3,3,tmpA.GetData());
     tmpA.Inv(tmpApinv);
-    double Udata[9]={0},Vdata[9]={0},Ddata[3]={0},Hdata[9];//tmpAdata[9]={0};tmpApinvdata[9]={0};
+    double Udata[9]= {0},Vdata[9]= {0},Ddata[3]= {0},Hdata[9]; //tmpAdata[9]={0};tmpApinvdata[9]={0};
     ///     Harray=H;
     for(S32 i=0; i<3; i++)
         for(S32 j=0; j<3; j++)
@@ -370,7 +362,7 @@ BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
 
     ///    Harray=Uarray*tmpA;
     alglib::rmatrixgemm(3, 3, 3, 1, Uarray, 0, 0, 0, Varray, 0, 0, 0, 0.0, Harray, 0, 0);
-   // Hc=tmpApinv*H*tmpA;
+    // Hc=tmpApinv*H*tmpA;
 
     alglib::rmatrixsvd(Harray,3,3,2,2,2,Darray,Uarray,Varray);
 
@@ -396,11 +388,10 @@ BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
     S16 state;
     if (err1<=err_ratio && err2<=err_ratio)
         state=1;
+    else if(err1>err_ratio&& err2>err_ratio)
+        state=3;
     else
-        if(err1>err_ratio&& err2>err_ratio)
-            state=3;
-        else
-            state=2;
+        state=2;
 
     F32 s,stmp;
     U.Det(s);
@@ -416,142 +407,145 @@ BOOL CameraExterCalc::CalcMotion(CameraInterCalc &CameraInterPara,F32 D)
     Vector t1v(3);
     switch (state)
     {
-        case 1:
-        {
-            //R1m.CopyFrom(0,0,3,3,H.GetData());
-            for(S32 i=0; i<3; i++)
-                for(S32 j=0; j<3; j++)
-                    R1m(i,j)=(F32)Harray(i,j);
-            R1m.AllMul(1/q2);
-            t1v.Set(0);
-            R.CopyFrom(0,0,3,3,R1m.GetData());
-            t.Set(0);
-        }break;
-        case 2:
-        {
-            //temp33=u3m*v3tm;
-            for(S32 i=0; i<3; i++)
-                for(S32 j=0; j<3; j++)
-                    temp33(i,j)=u3v[i]*v3v[j];
-            temp33.AllMul(q3/q1-s);
-            //R1m.CopyFrom(0,0,3,3,H.GetData());
-            for(S32 i=0; i<3; i++)
-                for(S32 j=0; j<3; j++)
-                    R1m(i,j)=(F32)Harray(i,j);
-            R1m.AllMul(1/q2);
-            R1m=R1m-temp33; ///R1 = H/q1 - (q3/q1-s)*u3*v3'
-
-            t1v=u3v;
-            t1v.Mul(D*(q3/q1-s));///
-
-            double ndata[3]={Varray(2,0),Varray(2,1),Varray(2,2)},nddata[3]={0};
-            alglib::real_2d_array narray,nvarray,nuarray;
-            alglib::real_1d_array ndarray;
-            narray.setcontent(3,1,ndata);
-            ndarray.setcontent(3,nddata);
-            alglib::rmatrixsvd(narray,3,1,0,0,2,ndarray,nuarray,nvarray);
-            F32 W_n=(F32)ndarray[0]; /// W_n=normest(n),n=v3
-            t1v.Mul(-W_n);
-            R.CopyFrom(0,0,3,3,R1m.GetData());
-            t.CopyFrom(0,0,1,3,t1v.GetData());
-            N(0,0)=V(2,0),N(1,0)=V(2,1),N(2,0)=V(2,2);/// N=V(2,:);
-        }break;
-        case 3:
-        {
-            F32 r=sqrt((q1*q1-q2*q2)/(q2*q2-q3*q3));
-            F32 a=(q1+s*q3*r*r)/(q2+q2*r*r);
-            F32 b=-sqrt(1-a*a);
-            temp33(0,0)=a;  temp33(0,1)=0;  temp33(0,2)=b;
-            temp33(1,0)=0;  temp33(1,1)=1;  temp33(1,2)=0;
-            temp33(2,0)=-s*b;  temp33(2,1)=0;  temp33(2,2)=s*a;
-
-            R1m=U*temp33*V;
-
-            Vector n1v(3);
-            n1v=v1v;
-            n1v.Mul(r);
-            n1v=n1v+v3v;
-
-            Vector temp3v(3);
-            t1v=u1v; t1v.Mul(-b);
-            temp3v=u3v; temp3v.Mul(q3/q2-s*a);
-            t1v=t1v+temp3v;
-            t1v.Mul(D);  //t1=(u1*(-b)+u3*(q3/q2-s*a))*D;
-
-            N.CopyFrom(0,0,1,3,n1v.GetData());
-            /// normest(n1v)
-            double ndata[3]={(double)n1v[0],(double)n1v[1],(double)n1v[2]},nddata[3]={0};
-            alglib::real_2d_array narray,nvarray,nuarray;
-            alglib::real_1d_array ndarray;
-            narray.setcontent(3,1,ndata);
-            ndarray.setcontent(3,nddata);
-            alglib::rmatrixsvd(narray,3,1,0,0,2,ndarray,nuarray,nvarray);
-
-            F32 W_n=ndarray[0];
-
-            t1v.Mul(-W_n);
-            R.CopyFrom(0,0,3,3,R1m.GetData());
-            t.CopyFrom(0,0,1,3,t1v.GetData());
-
-            r=-r;
-            b=-b;
-            temp33(0,2)=b;
-            temp33(2,0)=-s*b;
-            Matrix R2m(3,3);
-            R2m=U*temp33*V;
-
-
-            Vector t2v(3);
-            t2v=u1v; t2v.Mul(-b);
-
-            temp3v=u3v; temp3v.Mul(q3/q2-s*a);
-            t2v=t2v+temp3v; t2v.Mul(D);
-
+    case 1:
+    {
+        //R1m.CopyFrom(0,0,3,3,H.GetData());
+        for(S32 i=0; i<3; i++)
             for(S32 j=0; j<3; j++)
-                //narray(j,0)=(double)n2m(j,0);
-               { narray(j,0)=v1v[j]*r+v3v[j];
-               N(j,1)=narray(j,0);
-               }
-            alglib::rmatrixsvd(narray,3,1,0,0,2,ndarray,nuarray,nvarray);
-            W_n=ndarray[0];
-            t2v.Mul(W_n);
-            t2v.Mul(-1);
-            R.CopyFrom(0,3,3,3,R2m.GetData());
-            t.CopyFrom(0,1,1,3,t2v.GetData());
+                R1m(i,j)=(F32)Harray(i,j);
+        R1m.AllMul(1/q2);
+        t1v.Set(0);
+        R.CopyFrom(0,0,3,3,R1m.GetData());
+        t.Set(0);
+    }
+    break;
+    case 2:
+    {
+        //temp33=u3m*v3tm;
+        for(S32 i=0; i<3; i++)
+            for(S32 j=0; j<3; j++)
+                temp33(i,j)=u3v[i]*v3v[j];
+        temp33.AllMul(q3/q1-s);
+        //R1m.CopyFrom(0,0,3,3,H.GetData());
+        for(S32 i=0; i<3; i++)
+            for(S32 j=0; j<3; j++)
+                R1m(i,j)=(F32)Harray(i,j);
+        R1m.AllMul(1/q2);
+        R1m=R1m-temp33; ///R1 = H/q1 - (q3/q1-s)*u3*v3'
 
-        }break;
+        t1v=u3v;
+        t1v.Mul(D*(q3/q1-s));///
+
+        double ndata[3]= {Varray(2,0),Varray(2,1),Varray(2,2)},nddata[3]= {0};
+        alglib::real_2d_array narray,nvarray,nuarray;
+        alglib::real_1d_array ndarray;
+        narray.setcontent(3,1,ndata);
+        ndarray.setcontent(3,nddata);
+        alglib::rmatrixsvd(narray,3,1,0,0,2,ndarray,nuarray,nvarray);
+        F32 W_n=(F32)ndarray[0]; /// W_n=normest(n),n=v3
+        t1v.Mul(-W_n);
+        R.CopyFrom(0,0,3,3,R1m.GetData());
+        t.CopyFrom(0,0,1,3,t1v.GetData());
+        N(0,0)=V(2,0),N(1,0)=V(2,1),N(2,0)=V(2,2);/// N=V(2,:);
+    }
+    break;
+    case 3:
+    {
+        F32 r=sqrt((q1*q1-q2*q2)/(q2*q2-q3*q3));
+        F32 a=(q1+s*q3*r*r)/(q2+q2*r*r);
+        F32 b=-sqrt(1-a*a);
+        temp33(0,0)=a;
+        temp33(0,1)=0;
+        temp33(0,2)=b;
+        temp33(1,0)=0;
+        temp33(1,1)=1;
+        temp33(1,2)=0;
+        temp33(2,0)=-s*b;
+        temp33(2,1)=0;
+        temp33(2,2)=s*a;
+
+        R1m=U*temp33*V;
+
+        Vector n1v(3);
+        n1v=v1v;
+        n1v.Mul(r);
+        n1v=n1v+v3v;
+
+        Vector temp3v(3);
+        t1v=u1v;
+        t1v.Mul(-b);
+        temp3v=u3v;
+        temp3v.Mul(q3/q2-s*a);
+        t1v=t1v+temp3v;
+        t1v.Mul(D);  //t1=(u1*(-b)+u3*(q3/q2-s*a))*D;
+
+        N.CopyFrom(0,0,1,3,n1v.GetData());
+        /// normest(n1v)
+        double ndata[3]= {(double)n1v[0],(double)n1v[1],(double)n1v[2]},nddata[3]= {0};
+        alglib::real_2d_array narray,nvarray,nuarray;
+        alglib::real_1d_array ndarray;
+        narray.setcontent(3,1,ndata);
+        ndarray.setcontent(3,nddata);
+        alglib::rmatrixsvd(narray,3,1,0,0,2,ndarray,nuarray,nvarray);
+
+        F32 W_n=ndarray[0];
+
+        t1v.Mul(-W_n);
+        R.CopyFrom(0,0,3,3,R1m.GetData());
+        t.CopyFrom(0,0,1,3,t1v.GetData());
+
+        r=-r;
+        b=-b;
+        temp33(0,2)=b;
+        temp33(2,0)=-s*b;
+        Matrix R2m(3,3);
+        R2m=U*temp33*V;
+
+
+        Vector t2v(3);
+        t2v=u1v;
+        t2v.Mul(-b);
+
+        temp3v=u3v;
+        temp3v.Mul(q3/q2-s*a);
+        t2v=t2v+temp3v;
+        t2v.Mul(D);
+
+        for(S32 j=0; j<3; j++)
+            //narray(j,0)=(double)n2m(j,0);
+        {
+            narray(j,0)=v1v[j]*r+v3v[j];
+            N(j,1)=narray(j,0);
+        }
+        alglib::rmatrixsvd(narray,3,1,0,0,2,ndarray,nuarray,nvarray);
+        W_n=ndarray[0];
+        t2v.Mul(W_n);
+        t2v.Mul(-1);
+        R.CopyFrom(0,3,3,3,R2m.GetData());
+        t.CopyFrom(0,1,1,3,t2v.GetData());
+
+    }
+    break;
     }
     V=V.Tran();
     return true;
 }
- /**
-    * \brief 使用第一张图像中的点坐标计算对应的点在第二张图像上的坐标
-    * \param Point0 第一张图像上的点坐标
-    * \param Point1 对应的第二张图像上的点坐标
-    * \return 计算成功则返回True
-    * \note 调用此函数时需已完成CalcMotion()的调用
-    */
-    BOOL CameraExterCalc::CalcForwardPoint(const Point2D& Point0,Point2D& Point1)
-    {
-        Matrix pos1(3,1);
-        Matrix pos2(3,1);
 
-        pos1[0]=Point0.X;
-        pos1[1]=Point0.Y;
-        pos1[2]=1;
-        pos2=H*pos1;
-        Point1.X=pos2[0]/pos2[2];
-        Point1.Y=pos2[1]/pos2[2];
-        return true;
-    }
+BOOL CameraExterCalc::CalcForwardPoint(const Point2D& Point0,Point2D& Point1)
+{
+    Matrix pos1(3,1);
+    Matrix pos2(3,1);
 
-    /**
-    * \brief 使用第二张图像中的点坐标计算对应的点在第一张图像上的坐标
-    * \param Point1 第二张图像上的点坐标
-    * \param Point0 对应的第一张图像上的点坐标
-    * \return 计算成功则返回True
-    * \note 调用此函数时需已完成CalcMotion()的调用
-    */
+    pos1[0]=Point0.X;
+    pos1[1]=Point0.Y;
+    pos1[2]=1;
+    pos2=H*pos1;
+    Point1.X=pos2[0]/pos2[2];
+    Point1.Y=pos2[1]/pos2[2];
+    return true;
+}
+
+
 BOOL CameraExterCalc::CalcBackwardPoint(const Point2D& Point1,Point2D& Point0)
 {
     Matrix pos1(3,1);
