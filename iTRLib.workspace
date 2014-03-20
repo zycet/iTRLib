@@ -10,7 +10,6 @@
 		<Project filename="itralgorithm_test/itralgorithm_test.cbp" />
 		<Project filename="itrvision/itrvision.cbp" />
 		<Project filename="itrvision_test/itrvision_test.cbp" />
-		<Project filename="trackdemo/trackdemo.cbp" />
 		<Project filename="ColorTrackDemo/ColorTrackDemo.cbp" />
 		<Project filename="itrdevice/itrdevice.cbp" />
 		<Project filename="itrdevice_test/itrdevice_test.cbp" />

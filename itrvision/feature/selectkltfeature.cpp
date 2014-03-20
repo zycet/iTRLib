@@ -86,10 +86,20 @@ namespace itr_vision
     {
 
         S32 bord = 24,ImgWidth=img.GetCol();
-        S32 bordy = rect.Y + rect.Height;
-        S32 bordx = rect.X + rect.Width;
         S32 beginy = (rect.Y < bord) ? bord : rect.Y;
         S32 beginx = (rect.X < bord) ? bord : rect.X;
+        if (beginy >= img.GetRow() - bord)
+        {
+            beginy = img.GetRow() - bord;
+        }
+        if (beginx >= ImgWidth - bord)
+        {
+            beginx = ImgWidth - bord;
+        }
+        S32 bordy = beginy + rect.Height;
+        S32 bordx = beginx + rect.Width;
+        bordy = (bordy < bord) ? bord :bordy;
+        bordx = (bordx < bord) ? bord : bordx;
         if (bordy >= img.GetRow() - bord)
         {
             bordy = img.GetRow() - bord;

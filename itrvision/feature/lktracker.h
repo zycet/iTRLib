@@ -67,10 +67,10 @@ public:
     virtual ~LKTracker();
     TrackResult Compute(Point2D &U, Point2D &V, S32 L);
     void Compute(const vector<CommFeaturePoint> &fl,vector<CommFeaturePoint> &flresult, S32 FeatureNum,bool Forward);
-    S32 windowWidth;
     S32 minDet;
     S32 max_residue;
     S32 max_iterations;
+    static const S32 windowWidth = 7;
     Pyramid *last,*current;
     /**
     * \brief 建立新金字塔
@@ -83,12 +83,13 @@ private:
     S32 _ComputeSum(S32 *a, S32 *b, S32 *sum, S32 length);
     S32 _SumDiff(S32 *a, S32 length);
 
-    S32 *Dt;
-    S32 *Dx;
-    S32 *Dy;
-    S32 *Sum;
+    S32 Dt[windowWidth*windowWidth];
+    S32 Dx[windowWidth*windowWidth];
+    S32 Dy[windowWidth*windowWidth];
+    S32 Sum[windowWidth*windowWidth];
     F32 stopth;
     S32 level;
+
 };
 
 } // namespace itr_vision
