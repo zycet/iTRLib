@@ -39,7 +39,8 @@
 #include "containertest.h"
 #include "mathtest.h"
 #include "helpertest.h"
-#include"math.h"
+#include "math.h"
+#include "ssptest.h"
 
 int main()
 {
@@ -62,6 +63,8 @@ int main()
     TestMatrix();
     TestGeometry();
     TestTransform();
+    //test SSPS
+    SSPTest();
     //Test Helper
     TestGaussianGenerate();
     TestCalcEff();

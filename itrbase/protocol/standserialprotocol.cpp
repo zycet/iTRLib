@@ -19,6 +19,29 @@ StandSerialProtocol::~StandSerialProtocol()
 StandSerialProtocol::StandSerialProtocol(const StandSerialProtocol& other)
 {
     //copy ctor
+
+    for(S32 i=0; i<StandSerialProtocolKey1Length; i++)
+    {
+        this->Key1[i]=other.Key1[i];
+    }
+    for(S32 i=0; i<StandSerialProtocolKey2Length; i++)
+    {
+        this->Key2[i]=other.Key2[i];
+    }
+    this->S0=other.S0;
+    this->S1=other.S1;
+    this->AutoDecrypt=other.AutoDecrypt;
+    this->AutoEncrypt=other.AutoEncrypt;
+    for(S32 i=0; i<16; i++)
+    {
+        this->ProcessFunction[i]=other.ProcessFunction[i];
+    }
+    this->DataSendFun=other.DataSendFun;
+    for(S32 i=0; i<StandSerialProtocolMaxLength; i++)
+    {
+        this->receiveBuffer[i]=other.receiveBuffer[i];
+        this->sendBuffer[i]=other.sendBuffer[i];
+    }
 }
 
 /**
@@ -53,11 +76,7 @@ void StandSerialProtocol::SSPEncrypt(StandSerialFrameStruct* SSP, U8* Key1, U8* 
 {}
 void StandSerialProtocol::SSPDecrypt(StandSerialFrameStruct* SSP, U8* Key1, U8* Key2)
 {}
-/**
-* \brief 处理原始数据流
-* \param Buffer 待处理缓冲区
-* \param BufferLength 待处理缓冲区长度
-*/
+
 S32 StandSerialProtocol::ProcessRawByte(U8* Buffer, S32 BufferLength)
 {
     S32 receiveFrameNum = 0;
@@ -131,12 +150,7 @@ S32 StandSerialProtocol::ProcessRawByte(U8* Buffer, S32 BufferLength)
     return receiveFrameNum;
 }
 
-/**
-* \brief 以SSP协议发送指定数据包
-* \param ProtocolID 协作ID
-* \param Package 待发送数据包
-* \param PackageLength 待发送数据包长度
-*/
+
 void StandSerialProtocol::SSPSendPackage(U8 ProtocolID, U8* Package, U8 PackageLength)
 {
     this->sendBuffer[0]=0xA5;
@@ -160,71 +174,43 @@ void StandSerialProtocol::SSPSendPackage(U8 ProtocolID, U8* Package, U8 PackageL
     }
 }
 
-/**
-* \brief 获得帧总长
-* \param SSFS 数据帧
-* \return 帧总长
-*/
+
 U8 StandSerialProtocol::GetSSFSLength(StandSerialFrameStruct* SSFS)
 {
     return(SSFS->Length);
 }
 
-/**
-* \brief 获得帧属性
-* \param SSFS 数据帧
-* \return 帧属性
-*/
+
 U8 StandSerialProtocol::GetSSFSProperty(StandSerialFrameStruct* SSFS)
 {
     return(SSFS->Property);
 }
 
-/**
-* \brief 获得帧协议ID
-* \param SSFS 数据帧
-* \return 协议ID
-*/
+
 U8 StandSerialProtocol::GetSSFSProtocolID(StandSerialFrameStruct* SSFS)
 {
     return(SSFS->Property&0x0f);
 }
 
-/**
-* \brief 获得帧是否加密
-* \param SSFS 数据帧
-* \return 帧是否加密
-*/
+
 U8 StandSerialProtocol::GetSSFSIsEncrypt(StandSerialFrameStruct* SSFS)
 {
     return IS_BIT_TRUE(SSFS->Property,4);
 }
 
-/**
-* \brief 获得帧数据包
-* \param SSFS 数据帧
-* \return 帧数据包
-*/
+
 U8* StandSerialProtocol::GetSSFSPackage(StandSerialFrameStruct* SSFS)
 {
     return(&SSFS->Package);
 }
 
-/**
-* \brief 获得帧数据包长度
-* \param SSFS 数据帧
-* \return 帧数据包长度
-*/
+
 U8 StandSerialProtocol::GetSSFSPackageLength(StandSerialFrameStruct* SSFS)
 {
     return(SSFS->Length-StandSerialProtocolPlusLength);
 }
 
-/**
-* \brief 获得帧校验
-* \param SSFS 数据帧
-* \return 帧校验
-*/
+
 U16 StandSerialProtocol::GetSSFSCRC(StandSerialFrameStruct* SSFS)
 {
     S32 len;
@@ -234,41 +220,25 @@ U16 StandSerialProtocol::GetSSFSCRC(StandSerialFrameStruct* SSFS)
     return(*temp);
 }
 
-/**
-* \brief 设置帧总长
-* \param SSFS 数据帧
-* \param Length 总长
-*/
+
 void StandSerialProtocol::SetSSFSLength(StandSerialFrameStruct* SSFS,U8 Length)
 {
     SSFS->Length=Length;
 }
 
-/**
-* \brief 设置帧属性
-* \param SSFS 数据帧
-* \param Property 属性
-*/
+
 void StandSerialProtocol::SetSSFSProperty(StandSerialFrameStruct* SSFS,U8 Property)
 {
     SSFS->Property=Property;
 }
 
-/**
-* \brief 设置帧协议ID
-* \param SSFS 数据帧
-* \param Property 协议ID
-*/
+
 void StandSerialProtocol::SetSSFSProtocolID(StandSerialFrameStruct* SSFS,U8 ProtocolID)
 {
     SSFS->Property=ProtocolID&0x0f;
 }
 
-/**
-* \brief 设置帧是否加密
-* \param SSFS 数据帧
-* \param Property 是否加密
-*/
+
 void StandSerialProtocol::SetSSFSIsEncrypt(StandSerialFrameStruct* SSFS,U8 IsEncrypt)
 {
     if(IsEncrypt)
@@ -277,11 +247,7 @@ void StandSerialProtocol::SetSSFSIsEncrypt(StandSerialFrameStruct* SSFS,U8 IsEnc
         CLEAR_BIT_TRUE(SSFS->Property,4);
 }
 
-/**
-* \brief 设置帧校验
-* \param SSFS 数据帧
-* \param Property 校验
-*/
+
 void StandSerialProtocol::SetSSFSCRC(StandSerialFrameStruct* SSFS,U16 CRC)
 {
     U8 len;

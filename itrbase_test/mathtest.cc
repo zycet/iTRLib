@@ -472,10 +472,10 @@ void TestMatrix()
     assert(Source3.GetData()[0] == 1 && Source3.GetData()[4] == 1 && Source3.GetData()[8] == 1);
 
     //常用操作测试
-    Source3.ColExtract(Source3.GetData(), 0, Source3.GetCol(), 3, ExTemp);
-    assert(ExTemp[0] == 1 && ExTemp[1] == 1 && ExTemp[2] == 1);
-    Result.ColExtract(Result.GetData(), 0, Result.GetCol(), 3, ExTemp);
-    assert(ExTemp[0] == 0 && ExTemp[1] == 0 && ExTemp[2] == 0);
+//    Source3.ColExtract(Source3.GetData(), 0, Source3.GetCol(), 3, ExTemp);
+//    assert(ExTemp[0] == 1 && ExTemp[1] == 1 && ExTemp[2] == 1);
+//    Result.ColExtract(Result.GetData(), 0, Result.GetCol(), 3, ExTemp);
+//    assert(ExTemp[0] == 0 && ExTemp[1] == 0 && ExTemp[2] == 0);
 
     //矩阵相关运算
     VecSource = Source3 * VecSource;
