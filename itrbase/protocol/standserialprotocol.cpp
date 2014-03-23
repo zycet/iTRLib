@@ -153,8 +153,8 @@ S32 StandSerialProtocol::ProcessRawByte(U8* Buffer, S32 BufferLength)
 
 void StandSerialProtocol::SSPSendPackage(U8 ProtocolID, U8* Package, U8 PackageLength)
 {
-    this->sendBuffer[0]=0xA5;
-    this->sendBuffer[1]=0x5A;
+    this->sendBuffer[0]=S0;
+    this->sendBuffer[1]=S1;
     SetSSFSLength((StandSerialFrameStruct*)sendBuffer,PackageLength);
     SetSSFSProperty((StandSerialFrameStruct*)sendBuffer,ProtocolID&0x0F);
 
