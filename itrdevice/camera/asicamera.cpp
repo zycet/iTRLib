@@ -27,9 +27,10 @@ void AsiCamera::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
     S32 numDevices;
     numDevices = getNumberOfConnectedCameras();
 
-    assert(numDevices>0);
+    assert(numDevices>=0);
     assert(numDevices>=(S32)ID);
-
+    //if(numDevices>0)
+        printf("\ndevices number %d\n",numDevices);
     bool openresult;
     openresult=openCamera(ID);
     assert(openresult);

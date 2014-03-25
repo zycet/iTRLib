@@ -28,3 +28,8 @@ obj/
 /itralgorithm_test/octave-core
 /itralgorithm_test/plot.py
 /iTRLib.workspace.session
+/surftrac/main.c
+/surftrac/libsurftrac.a
+/surftrac/surffeature.cpp
+/surftrac/surffeature.h
+/surftrac/surftrac.cbp
