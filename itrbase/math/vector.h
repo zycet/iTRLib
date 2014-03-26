@@ -159,7 +159,7 @@ public:
      * \brief 读取单个元素
      * \param index 位置
      */
-    inline F32 &operator[](int index) const
+    inline F32 operator[](int index) const
     {
         assert(index < dim);
         return data[index];
@@ -185,8 +185,9 @@ public:
 
     inline Vector operator+(F32 K)
     {
-        this->Add(K);
-        return (*this);
+        Vector temp(*this);
+        temp.Add(K);
+        return (temp);
     }
     /**
      * \brief 全部元素乘以 K
@@ -217,7 +218,7 @@ public:
     }
     inline Vector operator+(const Vector &Vec) const
     {
-        Vector temp(dim,data);
+        Vector temp(*this);
         temp.Add(Vec);
         return (temp);
     }
@@ -233,7 +234,7 @@ public:
     }
     inline Vector operator-(const Vector &Vec) const
     {
-        Vector temp(dim,data);
+        Vector temp(*this);
         temp.Sub(Vec);
         return (temp);
     }

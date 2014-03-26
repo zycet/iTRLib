@@ -244,6 +244,10 @@ S32 v4linux::FetchFrame(U8* Raw,S32 Length,void* ExInfo)
     buf.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
     buf.memory = V4L2_MEMORY_MMAP;
 
+    if (ioctl(ctx->vid, VIDIOC_DQBUF, &buf) < 0) {
+		fprintf(stderr, "%s: VIDIOC_DQBUF err\n", __func__);
+		return -1;
+	}
     ctx->pic_src.data[0] = (unsigned char*)ctx->bufs[buf.index].start;
     ctx->pic_src.data[1] = ctx->pic_src.data[2] = ctx->pic_src.data[3] = 0;
     ctx->pic_src.linesize[0] = ctx->bytesperrow;
@@ -266,7 +270,11 @@ S32 v4linux::FetchFrame(U8* Raw,S32 Length,void* ExInfo)
         pic.stride[i] = ctx->pic_target.linesize[i];
     }
     /// ///////////////// 输出图片。
-
+	// re queue buf
+	if (ioctl(ctx->vid, VIDIOC_QBUF, &buf) < 0) {
+		fprintf(stderr, "%s: VIDIOC_QBUF err\n", __func__);
+		return -1;
+	}
     for(S32 i=0; i<Length; i++)
     {
         Raw[i]=(U8)(ctx->pic_target.data[0])[i];
