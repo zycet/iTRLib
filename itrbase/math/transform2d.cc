@@ -88,7 +88,7 @@ void Transform2D::Inv()
 
 void Transform2D::Transform(const Vector& Input, Vector& Output)
 {
-    Input[2]=1;
+    ///TODO: Input[2]=1;
     Output = transformMatrix * Input;
 }
 
