@@ -42,7 +42,7 @@ void AsiCamera::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
 
     setImageFormat(_width, _height, 1, IMG_RAW8);
 
-
+    SetPara();
 }
 
 
@@ -69,6 +69,12 @@ AsiCamera::AquairePara AsiCamera::GetPara()
     return  (_AqPara);
 }
 
+void SetPara()
+{
+    setValue(CONTROL_GAIN,50,true);
+    setValue(CONTROL_EXPOSURE, 20*1000, true); //auto exposure
+
+}
 void AsiCamera::SetPara(AquairePara Para)
 {
     _AqPara.AquaireFreq=Para.AquaireFreq;

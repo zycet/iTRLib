@@ -44,6 +44,7 @@ class AsiCamera:public ICamera
         * \brief 设置采集参数
         */
         virtual void SetPara(AquairePara Para);
+        virtual void SetPara();
 
         /**
         * \brief 同步获取一帧图像
