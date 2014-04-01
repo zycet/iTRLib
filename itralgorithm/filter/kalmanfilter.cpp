@@ -36,6 +36,7 @@ namespace itr_algorithm
     {
         mu=miu;
         sigma2=sig2;
+        Q.SetDiag(sigma2);
     }
     Vector KalmanFilter::UpdateModel()
     {
@@ -47,7 +48,7 @@ namespace itr_algorithm
         }
         x=F_x*x+F_n*n;
 //    printVec(x);
-        P=F_x*P*F_x.Tran()+Q;
+        P=F_x*P*F_x.Tran()+F_n*Q*F_n.Tran();
 //        printMatrix(P);
         return x;
     }
