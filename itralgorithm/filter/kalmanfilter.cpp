@@ -30,12 +30,13 @@ namespace itr_algorithm
         P.SetDiag(1);
         Q.SetDiag(1);
         mu=0;
-        sigma=1;
+        sigma2=1;
     }
-    void KalmanFilter::Init_noise(F32 miu,F32 sig)
+    void KalmanFilter::Init_noise(F32 miu,F32 sig2)
     {
         mu=miu;
-        sigma=sig;
+        sigma2=sig2;
+        Q.SetDiag(sigma2);
     }
     Vector KalmanFilter::UpdateModel()
     {
@@ -43,11 +44,11 @@ namespace itr_algorithm
         for(S32 i=0; i<_dimState; i++)
         {
             itr_math::NumericalObj->RandGaussian(n[i]);
-            n[i]=n[i]*sigma*sigma+mu;
+            n[i]=n[i]*sigma2+mu;
         }
         x=F_x*x+F_n*n;
 //    printVec(x);
-        P=F_x*P*F_x.Tran()+Q;
+        P=F_x*P*F_x.Tran()+F_n*Q*F_n.Tran();
 //        printMatrix(P);
         return x;
     }

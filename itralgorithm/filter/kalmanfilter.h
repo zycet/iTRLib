@@ -23,7 +23,7 @@ namespace itr_algorithm
             Matrix F_x,F_n;
             ///噪声方差阵，卡尔曼方差阵
             Matrix Q,P;
-            F32 mu,sigma;
+            F32 mu,sigma2;
         private:
         S32 _dimState,_dimMeasure;
 
