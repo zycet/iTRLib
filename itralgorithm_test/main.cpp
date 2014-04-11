@@ -34,11 +34,13 @@
 #include "itralgorithm.h"
 #include "bayestest.h"
 #include "kftest.h"
+#include "ransactest.h"
 #include "pftest.h"
 int main()
 {
  itr_math::MathObjStandInit();
     //NBCtest();
+    ransactest();
     pftest();
     kftest();
     return 0;

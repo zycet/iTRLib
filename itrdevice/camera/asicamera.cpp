@@ -69,7 +69,7 @@ AsiCamera::AquairePara AsiCamera::GetPara()
     return  (_AqPara);
 }
 
-void SetPara()
+void AsiCamera::SetPara()
 {
     setValue(CONTROL_GAIN,50,true);
     setValue(CONTROL_EXPOSURE, 20*1000, true); //auto exposure
