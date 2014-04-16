@@ -5,12 +5,14 @@
 #include "joysticktest.h"
 #include "asicameratest.h"
 #include "V4Ltest.h"
+#include "joystickprocesstest.h"
 
 #include "itrdevice.h"
 int main()
 {
     //JoyStickTest();
-    asicamera_test();
-//    F4Ltest();
+    //asicamera_test();
+    JoyStickProcessTest();
+    //F4Ltest();
     return 0;
 }
