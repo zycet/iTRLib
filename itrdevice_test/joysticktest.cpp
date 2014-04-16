@@ -38,8 +38,6 @@ void JoyStickTest()
             {
                 printf("%d\t",buttonstatus[i]);
             }
-            for(S32 i=0; i<100; i++)
-            ;
         }
     }
     else

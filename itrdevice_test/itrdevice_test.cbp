@@ -53,6 +53,8 @@
 		<Unit filename="V4Ltest.h" />
 		<Unit filename="asicameratest.cpp" />
 		<Unit filename="asicameratest.h" />
+		<Unit filename="joystickprocesstest.cpp" />
+		<Unit filename="joystickprocesstest.h" />
 		<Unit filename="joysticktest.cpp" />
 		<Unit filename="joysticktest.h" />
 		<Unit filename="main.cpp" />

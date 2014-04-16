@@ -47,7 +47,7 @@ class StdJoyStick:public IJoyStick
         * \brief 打开设备
         * \param 设备完整路径名称
         */
-         bool Open(char *device);
+        bool Open(char *device);
         /**
         * \brief 关闭设备
         */
@@ -55,8 +55,8 @@ class StdJoyStick:public IJoyStick
     protected:
     private:
 
-   S32 joystick_fd;
-   S32 AxisCount;
+    S32 joystick_fd;
+    S32 AxisCount;
     S32 ButtonCount;
 
     struct js_event {
