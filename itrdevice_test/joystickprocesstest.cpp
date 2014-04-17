@@ -8,8 +8,8 @@ void JoyStickProcessTest()
     {
         S32 axiscount=0;
         F32 axisvalue[30]={0};
-        S32 Width = 10;
-        S32 Height = 10;
+        F32 Width = 10;
+        F32 Height = 10;
 
         while(1)
         {
@@ -19,40 +19,70 @@ void JoyStickProcessTest()
             for(S32 i=0; i<axiscount; i++)
             {
                 axisvalue[i]=JoyStickPro.GetAxisValue(i);
-                if(axisvalue[2]>0.8)
+                if(axisvalue[4]>0.5||axisvalue[4]<-0.5)
                 {
-                    printf("%f\t", 1.2*Width);
+                    Width = Width*(1-axisvalue[4]*0.001);
+
                 }
-                else if(axisvalue[2]>0.6&&axisvalue[2]<0.8)
+
+                if(axisvalue[3]>0.5||axisvalue[3]<-0.5)
                 {
-                    printf("%f\t", 1.1*Width);
+                    Height = Height*(1+axisvalue[3]*0.001);
+
                 }
-                else if(axisvalue[2]>-0.8&&axisvalue[2]<-0.6)
+                printf("%f\n", Width);
+                printf("%f\n", Height);
+                /*if(axisvalue[4]>0.8)
                 {
-                    printf("%f\t", 0.9*Width);
+                    Width = 1.002*Width;
+                    printf("%f\t", Width);
                 }
-                else if(axisvalue[2]<-0.8)
+                else if(axisvalue[4]>0.6&&axisvalue[4]<0.8)
                 {
-                    printf("%f\t", 0.8*Width);
+                    Width = 1.001*Width;
+                    printf("%f\t", Width);
                 }
+                else if(axisvalue[4]>-0.8&&axisvalue[4]<-0.6)
+                {
+                    Width = 0.999*Width;
+                    printf("%f\t", Width);
+                }
+                else if(axisvalue[4]<-0.8)
+                {
+                    Width = 0.998*Width;
+                    printf("%f\t", Width);
+                }
+                else
+                {
+                    printf("%f\t", Width);
+                }*/
 
                 if(axisvalue[3]>0.8)
                 {
+                    Height = 1.002*Height;
                     printf("%f\t", 1.2*Height);
                 }
                 else if(axisvalue[3]>0.6&&axisvalue[3]<0.8)
                 {
+                    Height = 1.001*Height;
                     printf("%f\t", 1.1*Height);
                 }
                 else if(axisvalue[3]>-0.8&&axisvalue[3]<-0.6)
                 {
+                    Height = 0.999*Height;
                     printf("%f\t", 0.9*Height);
                 }
                 else if(axisvalue[3]<-0.8)
                 {
+                    Height = 0.998*Height;
                     printf("%f\t", 0.8*Height);
                 }
+                else
+                {
+                    printf("%f\t", Height);
+                }
             }
+            printf("\n");
         }
     }
 }
