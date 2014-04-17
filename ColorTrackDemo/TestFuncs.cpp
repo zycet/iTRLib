@@ -229,6 +229,13 @@ void TestTrack(FILE* infile,S32 Width,S32 Height)
 
     if(blocks.size()>0&&blocks[0].Area>1)
         PrintTargetInfo(blocks[0]);//打印第二大联通域中心，即目标中心
+    else
+    {
+    Block block;
+    block.x=32;
+    block.y=18;
+        PrintTargetInfo(block);
+    }
 //    for(int i = 0; i<blocks.size(); i++)
 //    {
 //        cout << blocks[i].Area<<endl;
