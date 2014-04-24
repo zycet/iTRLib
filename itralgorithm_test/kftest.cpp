@@ -40,9 +40,10 @@ void kftest()
     KalmanFilter kf(4);
     F32 data[16]= {2 ,0,-1,0,0,2,0,-1,1,0,0,0,0,1,0,0};
     kf.F_x.CopyFrom(data);
-    Matrix H(2,4),R(2,2);
+    Matrix H(2,4),R(2,2),Q(4,4);
     R.SetDiag(5.012306);
     H.CopyFrom(data+8);
+    Q.SetDiag(1);
     printMatrix(H);
     printMatrix(kf.F_x);
     Vector z(2),x(4),X(4),v(2),n(4);
@@ -67,7 +68,7 @@ void kftest()
 //        printVec(x);
         z=H*x+v;
 //        printVec(z);
-        kf.UpdateModel();
+        kf.UpdateModel(Q,n);
         X=kf.UpdateMeasure(H,R,z);
         printf("Measu:%.0f,%.0f\n",z[0],z[1]);
         printf("State:%.0f,%.0f,%.0f,%.0f\n",x[0],x[1],x[2],x[3]);
