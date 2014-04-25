@@ -223,7 +223,7 @@ U16 StandSerialProtocol::GetSSFSCRC(StandSerialFrameStruct* SSFS)
 
 void StandSerialProtocol::SetSSFSLength(StandSerialFrameStruct* SSFS,U8 Length)
 {
-    SSFS->Length=Length;
+    SSFS->Length=Length+StandSerialProtocolPlusLength;
 }
 
 

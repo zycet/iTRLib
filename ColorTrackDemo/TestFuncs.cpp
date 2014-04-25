@@ -95,7 +95,7 @@ void PrintBlocks(vector<Block> blocks,S32 BlkNum)
     cout << endl;
 }
 
-void ReadFromFile(FILE* File,F32 *H,F32 *S,F32 *L,S32 Length)
+void ReadFromFile(FILE *File,F32 *H,F32 *S,F32 *L,S32 Length)
 {
     int rgb[3];
     float hsl[3];
@@ -133,7 +133,7 @@ void ReadFromUdp(F32 *H,F32 *S,F32 *L,S32 Length)
     float hsl[3];
     unsigned char data[36*64*3];
     int k=0;
-    int len=_udp.Receive((char*)data,64*36*3);
+    int len=_udp.Receive((char *)data,64*36*3);
 
     if(len==Length*3)
         for(S32 i = 0; i < Length; i++)
@@ -149,10 +149,12 @@ void ReadFromUdp(F32 *H,F32 *S,F32 *L,S32 Length)
         }
     char filename[15];
     sprintf(filename,"%d.ppm",running);
-    FILE* fout=fopen(filename,"w");
+    FILE *fout=fopen(filename,"w");
     fprintf(fout,"P6\n64 36\n255\n");
-    for(int i=0;i<len;i++)
+    for(int i=0; i<len; i++)
+    {
         fprintf(fout,"%c",data[i]);
+    }
     fclose(fout);
 }
 
@@ -160,13 +162,14 @@ void ReadFromUdp(F32 *H,F32 *S,F32 *L,S32 Length)
 void PrintTargetInfo(Block blk)
 {
 //    cout << "The center of target is: " << endl;
-    cout << "x: " << blk.x << " " << "y: " << blk.y << endl;
+    cout << "x: " << blk.x << " y: " << blk.y<<" area: "<<blk.Area << endl;
     cmd[0]=blk.x;
     cmd[1]=blk.y;
+    cmd[2]=blk.Area;
     package.IP="127.0.0.1";
     package.port=5556;
     package.pbuffer=cmd;
-    package.len=2;
+    package.len=3;
     _udp.Send(package);
 }
 
@@ -186,7 +189,7 @@ void AddFileName(istream &infile,string filename,vector<string> &filenames)
         filenames.push_back(filename);
     }
 }
-void TestTrack(FILE* infile,S32 Width,S32 Height)
+void TestTrack(FILE *infile,S32 Width,S32 Height)
 {
     MathObjStandInit();
     Binarization BObject;
@@ -228,12 +231,15 @@ void TestTrack(FILE* infile,S32 Width,S32 Height)
     // PrintMatrix(Input);
 
     if(blocks.size()>0&&blocks[0].Area>1)
+    {
         PrintTargetInfo(blocks[0]);//打印第二大联通域中心，即目标中心
+    }
     else
     {
-    Block block;
-    block.x=32;
-    block.y=18;
+        Block block;
+        block.x=32;
+        block.y=18;
+        block.Area=0;
         PrintTargetInfo(block);
     }
 //    for(int i = 0; i<blocks.size(); i++)
