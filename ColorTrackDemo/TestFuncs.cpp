@@ -131,30 +131,37 @@ void ReadFromUdp(F32 *H,F32 *S,F32 *L,S32 Length)
 {
     int rgb[3];
     float hsl[3];
-    unsigned char data[36*64*3];
+    unsigned char data[128*72*2];
     int k=0;
-    int len=_udp.Receive((char *)data,64*36*3);
-
-    if(len==Length*3)
+    int len=_udp.Receive((char *)data,128*72*2);
+    unsigned char w1,w2;
+    char filename[15];
+    sprintf(filename,"%d.ppm",running);
+    FILE *fout=fopen(filename,"w");
+    fprintf(fout,"P6\n128 72\n255\n");
+    if(len==Length*2)
         for(S32 i = 0; i < Length; i++)
         {
-            rgb[0]=data[k];
-            rgb[1]=data[k+1];
-            rgb[2]=data[k+2];
-            k+=3;
+            w2=data[k];
+            w1=data[k+1];
+            k+=2;
+            rgb[0]=(w1 >> 3) & 0x1F;
+            rgb[2]=w2 & 0x1F;
+            rgb[1]=((w1& 0x07)<<3)|((w2>>5) & 0x07);
+
+            rgb[0]=rgb[0]<<3;
+            rgb[1]=rgb[1]<<2;
+            rgb[2]=rgb[2]<<3;
+
+            fprintf(fout,"%c%c%c",(unsigned char)(rgb[0]),(unsigned char)(rgb[1]),(unsigned char)(rgb[2]));
+
             RGB2HSL(rgb,hsl);
             H[i]=hsl[0]*360;//(rgb[0]+rgb[1]*2.0+rgb[2])/4;
             S[i]=hsl[1]*100;
             //L[i]=hsl[2]*255;
         }
-    char filename[15];
-    sprintf(filename,"%d.ppm",running);
-    FILE *fout=fopen(filename,"w");
-    fprintf(fout,"P6\n64 36\n255\n");
-    for(int i=0; i<len; i++)
-    {
-        fprintf(fout,"%c",data[i]);
-    }
+
+
     fclose(fout);
 }
 
@@ -167,7 +174,7 @@ void PrintTargetInfo(Block blk)
     cmd[1]=blk.y;
     cmd[2]=blk.Area;
     package.IP="127.0.0.1";
-    package.port=5556;
+    package.port=5557;
     package.pbuffer=cmd;
     package.len=3;
     _udp.Send(package);
@@ -213,8 +220,8 @@ void TestTrack(FILE *infile,S32 Width,S32 Height)
 //    itr_vision::Scale::Bilinear(Input,img);
     itr_vision::IOpnm::WritePGMFile("0a1.pgm",S);
     itr_vision::IOpnm::WritePGMFile("0a2.pgm",H);
-    BObject.Threshold(H,20,5);
-    BObject.Threshold(S,90,50);
+    BObject.Threshold(H,20,1);
+    BObject.Threshold(S,100,50);
     itr_vision::IOpnm::WritePGMFile("1a1.pgm",S);
     itr_vision::IOpnm::WritePGMFile("1a2.pgm",H);
     for(int i=0; i<Width*Height; ++i)
@@ -237,8 +244,8 @@ void TestTrack(FILE *infile,S32 Width,S32 Height)
     else
     {
         Block block;
-        block.x=32;
-        block.y=18;
+        block.x=Width/2;
+        block.y=Height/2;
         block.Area=0;
         PrintTargetInfo(block);
     }

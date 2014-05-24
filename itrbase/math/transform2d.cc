@@ -96,6 +96,7 @@ void Transform2D::Transform(const Point2D& Input, Point2D& Output)
 {
     inputVector[0] = Input.X;
     inputVector[1] = Input.Y;
+    inputVector[2] = 1;
     Transform(inputVector, outputVector);
     Output.X = outputVector[0];
     Output.Y = outputVector[1];
@@ -105,6 +106,7 @@ void Transform2D::Transform(F32 InputX, F32 InputY, F32& OutputX, F32& OutputY)
 {
     inputVector[0] = InputX;
     inputVector[1] = InputY;
+    inputVector[2] = 1;
     Transform(inputVector, outputVector);
     OutputX = outputVector[0];
     OutputY = outputVector[1];

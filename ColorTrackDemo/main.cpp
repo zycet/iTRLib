@@ -12,8 +12,8 @@ using namespace itr_math;
 
 int main()
 {
-    const S32 width  = 64;
-    const S32 height = 36;
+    const S32 width  = 128;
+    const S32 height = 72;
 //    ifstream infile("filelist.txt");
 //    string fname;
 //    vector<string> filenames;

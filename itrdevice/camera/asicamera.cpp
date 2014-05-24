@@ -45,7 +45,6 @@ namespace itr_device
         SetPara();
     }
 
-s
     void AsiCamera::Close()
     {
         closeCamera();

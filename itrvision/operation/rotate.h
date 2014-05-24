@@ -55,7 +55,8 @@ public:
     * \param ImgOutput 输出的图像
     */
     static void rotate(const Matrix &ImgInput, RectangleS &rect, F32 ang, Matrix &ImgOutput);
-
+private:
+    static void Update(Point2D point,F32 &xmax,F32 &xmin,F32 &ymax,F32 &ymin );
 };
 
 } // namespace itr_vision

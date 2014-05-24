@@ -68,12 +68,14 @@ namespace itr_algorithm
     template <class InputType,class ResultType>
     ResultType Ransac<InputType,ResultType>::Process(InputType *x, S32 count, S32 &drop)
     {
-
+        if (Number<1)
+            Number=1;
         data = new InputType[Number];
         result = new ResultType[Times];
         error = new F32[Times];
         ResultType key;
         int index;
+
         for (int i = 0; i < Times; i++)
         {
             //随机抽取N个数据
