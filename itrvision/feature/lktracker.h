@@ -50,21 +50,26 @@ public:
         Tracked, OOB, SmallDet, LARGE_RESIDUE,MAX_ITERATION,FBError,NCCError
     };
     /**
-    * \brief 初始化矩阵
-    * \param Img1 初始化的矩阵1
-    * \param Img2 初始化的矩阵2
+    * \brief 初始化图像，给定上一时刻和当前时刻的图像
+    * \param 上一时刻的图像
+    * \param 当前时刻的图像
     */
     void Init(const Matrix &Img1, const Matrix &Img2);
     /**
-    * \brief 初始化矩阵
-    * \param 初始化的矩阵
+    * \brief 只给定一副图像，仅做初始化用
+    * \param 当前时刻图像
     */
     void Init(const Matrix &Img);
+
     LKTracker();
-    /**
-    * \brief 清空数据
-    */
+
     virtual ~LKTracker();
+
+    /**
+    * \brief 给定第一帧图像中的点，计算其在第二帧图像中的对应位置。
+    * \param 上一时刻图像的点
+    * \param 第二帧中对应的点
+    */
     TrackResult Compute(Point2D &U, Point2D &V, S32 L);
     void Compute(const vector<CommFeaturePoint> &fl,vector<CommFeaturePoint> &flresult, S32 FeatureNum,bool Forward);
     S32 minDet;

@@ -12,7 +12,7 @@ int main()
 {
     //JoyStickTest();
     //asicamera_test();
-    JoyStickProcessTest();
-    //F4Ltest();
+//    JoyStickProcessTest();
+    F4Ltest();
     return 0;
 }

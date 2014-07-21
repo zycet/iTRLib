@@ -6,8 +6,8 @@ namespace itr_vision
 class Block
 {
 public:
-    S32 x,y;
-    S32 Area;
+    F32 x,y;
+    F32 Area;
     S32 No;
 
     Block()
