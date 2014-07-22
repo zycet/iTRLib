@@ -9,94 +9,6 @@ using namespace itr_math;
 #define TEST_CYC 100
 #define TEST_NUM 300
 
-/*void CalculateNeonTest()
-{
-
-    F32 a[TEST_NUM];
-    F32 b[TEST_NUM];
-    F32 r[TEST_NUM];
-    F32 k=0;
-    BOOL IsSame;
-    for(S32 i=0;i<TEST_NUM;i++)
-    {
-        a[i]=1;
-        b[i]=2;
-        r[i]=0;
-    }
-    itr_math::CalculateObj->Compare(a, b, 1,TEST_NUM,&IsSame);
-    for(S32 i=0;i<TEST_NUM;i++)
-    {
-        if(r[i]!=-1)
-        {
-            a[i]=1;
-        }
-    }
-}*/
-/*void CalculateNeonTestAdd()
-{
-
-    F32 a[TEST_NUM];
-    F32 b[TEST_NUM];
-    F32 r[TEST_NUM];
-    for(S32 i=0;i<TEST_NUM;i++)
-    {
-        a[i]=1;
-        b[i]=2;
-        r[i]=0;
-    }
-    itr_math::CalculateObj->Add(a, b,TEST_NUM,r);
-    for(S32 i=0;i<TEST_NUM;i++)
-    {
-        if(r[i]!=3)
-        {
-            a[i]=1;
-        }
-    }
-}*/
-/*void CalculateNeonTestAdd()
-{
-
-    F32 a[TEST_NUM];
-    F32 b[TEST_NUM];
-    F32 r[TEST_NUM];
-    for(S32 i=0;i<TEST_NUM;i++)
-    {
-        a[i]=1;
-        b[i]=2;
-        r[i]=0;
-    }
-    itr_math::CalculateObj->Add(a, b,TEST_NUM,r);
-    for(S32 i=0;i<TEST_NUM;i++)
-    {
-        if(r[i]!=3)
-        {
-            a[i]=1;
-        }
-    }
-}*/
-/*void CalculateNeonTestSub()
-{
-
-    F32 a[TEST_NUM];
-    F32 b[TEST_NUM];
-    F32 r[TEST_NUM];
-    for(S32 i=0;i<TEST_NUM;i++)
-    {
-        a[i]=1;
-        b[i]=2;
-        r[i]=0;
-    }
-    itr_math::CalculateObj->Sub(a, b,TEST_NUM,r);
-    for(S32 i=0;i<TEST_NUM;i++)
-    {
-        if(r[i]!=-1)
-        {
-            a[i]=1;
-        }
-    }
-}*/
-
-
 void TestAdd()
 {
     //Time
@@ -110,8 +22,8 @@ void TestAdd()
     //Init
     for(S32 i=0;i<TEST_NUM;i++)
     {
-        a[i]=1;
-        b[i]=2;
+        a[i]=125;
+        b[i]=200;
         r[i]=0;
     }
     //Calc
@@ -127,7 +39,7 @@ void TestAdd()
     //Verify
     for(S32 i=0;i<TEST_NUM;i++)
     {
-        assert(r[i]==3);
+        assert(r[i]==325);
     }
 }
 void TestSub()
@@ -143,8 +55,8 @@ void TestSub()
     //Init
     for(S32 i=0;i<TEST_NUM;i++)
     {
-        a[i]=1;
-        b[i]=2;
+        a[i]=125;
+        b[i]=500;
         r[i]=0;
     }
     //Calc
@@ -160,7 +72,7 @@ void TestSub()
     //Verify
     for(S32 i=0;i<TEST_NUM;i++)
     {
-        assert(r[i]==-1);
+        assert(r[i]==-375);
     }
 }
 
@@ -177,8 +89,8 @@ void TestMulti()
     //Init
     for(S32 i=0;i<TEST_NUM;i++)
     {
-        a[i]=1;
-        b[i]=2;
+        a[i]=21;
+        b[i]=9;
         r[i]=0;
     }
     //Calc
@@ -194,7 +106,7 @@ void TestMulti()
     //Verify
     for(S32 i=0;i<TEST_NUM;i++)
     {
-        assert(r[i]==2);
+        assert(r[i]==189);
     }
 }
 
@@ -238,7 +150,7 @@ void TestOffset()
     //Init
     for(S32 i=0;i<TEST_NUM;i++)
     {
-        a[i]=1;
+        a[i]=9;
         r[i]=0;
     }
     //Calc
@@ -254,7 +166,7 @@ void TestOffset()
     //Verify
     for(S32 i=0;i<TEST_NUM;i++)
     {
-        assert(r[i]==3);
+        assert(r[i]==11);
     }
 }
 
@@ -267,11 +179,11 @@ void TestScale()
     //Data
     F32 a[TEST_NUM];
     F32 r[TEST_NUM];
-    F32 scale = 2;
+    F32 scale = 9;
     //Init
     for(S32 i=0;i<TEST_NUM;i++)
     {
-        a[i]=1;
+        a[i]=9;
         r[i]=0;
     }
     //Calc
@@ -287,7 +199,7 @@ void TestScale()
     //Verify
     for(S32 i=0;i<TEST_NUM;i++)
     {
-        assert(r[i]==2);
+        assert(r[i]==81);
     }
 }
 
@@ -304,8 +216,8 @@ void TestMultiSum()
     //Init
     for(S32 i=0;i<TEST_NUM;i++)
     {
-        a[i]=1;
-        b[i]=1;
+        a[i]=2;
+        b[i]=3;
     }
     //Calc
     gettimeofday(&tpstart,NULL);
@@ -318,7 +230,7 @@ void TestMultiSum()
     timeuse /= 1000;
     TRACE_DEBUG(timeuse);
     //Verify
-    assert(r==300);
+    assert(r==1800);
 }
 void TestNormalization()
 {
