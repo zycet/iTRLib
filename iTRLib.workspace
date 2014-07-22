@@ -13,5 +13,7 @@
 		<Project filename="ColorTrackDemo/ColorTrackDemo.cbp" />
 		<Project filename="itrdevice/itrdevice.cbp" />
 		<Project filename="itrdevice_test/itrdevice_test.cbp" />
+		<Project filename="itrsystem/itrsystem.cbp" />
+		<Project filename="itrsystem_test/itrsystem_test.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

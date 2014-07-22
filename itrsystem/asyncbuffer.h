@@ -13,14 +13,17 @@ template<class T>
 class AsyncBuffer
 {
 private:
-    vector<T*> BufferList;
-    CycleQueue<T*> BufferToRead;
-    CycleQueue<T*> BufferToWrite;
+
+    CycleQueue<T> BufferToRead;
+    CycleQueue<T> BufferToWrite;
 
     pthread_mutex_t mutexRead;
     pthread_mutex_t mutexWrite;
 
 public:
+
+    vector<T> BufferList;
+
     AsyncBuffer()
     {
         pthread_mutex_init(&mutexRead,NULL);
@@ -31,36 +34,36 @@ public:
         BufferToRead.Init(Capacity);
         BufferToWrite.Init(Capacity);
     }
-    void AddBufferToList(T* obj)
+    void AddBufferToList(T obj)
     {
         BufferList.push_back(obj);
         SetBufferToWrite(obj);
     }
 
-    void SetBufferToWrite(T* buffer)
+    void SetBufferToWrite(T buffer)
     {
         pthread_mutex_lock(&mutexWrite);
         BufferToWrite.Insert(buffer);
         pthread_mutex_unlock(&mutexWrite);
     }
 
-    T* GetBufferToWrite()
+    T GetBufferToWrite()
     {
         pthread_mutex_lock(&mutexWrite);
-        T* obj=NULL;
+        T obj=NULL;
         BufferToWrite.Fetch(obj);
         pthread_mutex_unlock(&mutexWrite);
         return obj;
     }
-    T* GetBufferToRead()
+    T GetBufferToRead()
     {
         pthread_mutex_lock(&mutexRead);
-        T* obj=NULL;
+        T obj=NULL;
         BufferToRead.Fetch(obj);
         pthread_mutex_unlock(&mutexRead);
         return obj;
     }
-    void SetBufferTRead(T* buffer)
+    void SetBufferTRead(T buffer)
     {
         pthread_mutex_lock(&mutexRead);
         BufferToRead.Insert(buffer);
