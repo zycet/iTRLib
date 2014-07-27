@@ -5,11 +5,12 @@ namespace itr_system
 {
     class SerialPort
     {
-
+        private:
+            int fd;
         public:
             SerialPort();
-            int fd;
-            void Init(char *name, int baudrate);
+
+            int Init(char *name, int baudrate);
             void Close();
             int Send(unsigned char *Data, int length);
             int Receive(unsigned char *Data, int length);

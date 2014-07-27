@@ -56,19 +56,15 @@ void lktest()
 
 void lktest2Img()
 {
-  /* printf("*****Begin KLT Tracking 2 Image Test!*****\n\n");
-    itr_vision::Matrix input1, input2;
-    IOHelper::ReadPGMFile("bin/debug/img00069.pgm", input1);
-    IOHelper::ReadPGMFile("bin/debug/img00070.pgm", input2);
-//    IOHelper::ReadPPMFile("Debug/twinnings/imgs/img00000.ppm", gray1);
-//    IOHelper::ReadPPMFile("Debug/twinnings/imgs/img00000.ppm", gray2);
-    Matrix gray1(input1.GetHeight(),input1.GetWidth()),gray2(input1.GetHeight(),input1.GetWidth());
-    ConvertFormat::ImageGray2Matrix(input1,gray1);
-    ConvertFormat::ImageGray2Matrix(input2,gray2);
+    printf("*****Begin KLT Tracking 2 Image Test!*****\n\n");
+    itr_math::Matrix gray1, gray2;
+    IOpnm::ReadPGMFile("bin/debug/img00069.pgm", gray1);
+    IOpnm::ReadPGMFile("bin/debug/img00070.pgm", gray2);
+
     SelectKLTFeature select(gray1);
     int Amount=100;
     vector<CommFeaturePoint> flU(Amount), flV(Amount), flU2(Amount);
-    RectangleS rect(0, 0, gray1.GetCol(), gray1.GetRow());
+    RectangleF rect(0, 0, gray1.GetCol(), gray1.GetRow());
 //    RectangleS rect(126,165,73,53);
     select.SelectGoodFeature(rect, flU);
     LKTracker tracker;
@@ -84,7 +80,7 @@ int i=0;
     while (feat != flU.end())
     {
         Draw::Circle(gray1, feat->X, feat->Y, 3, 255);
-        printf("Feature #%d:  (%d,%d) with value of %d\n", i++, feat->X, feat->Y, feat->Quality);
+        printf("Feature #%d:  (%f,%f) with value of %f\n", i++, feat->X, feat->Y, feat->Quality);
         ++feat;
     }
     printf("\nIn Second image:\n");
@@ -96,7 +92,7 @@ int i=0;
         {
             Draw::Circle(gray2, feat->X, feat->Y, 3, 255);
         }
-        printf("Feature #%d:  (%d,%d) with value of %d\n", i++, feat->X, feat->Y, feat->Quality);
+        printf("Feature #%d:  (%f,%f) with value of %f\n", i++, feat->X, feat->Y, feat->Quality);
         ++feat;
     }
 }
@@ -105,7 +101,7 @@ int i=0;
     {
         if ((flU[i] - flU2[i]).GetDistance() > 5)
             flV[i].Quality = -1;
-        printf("%d,%d\n", (flU[i] - flU2[i]).GetDistance(), flV[i].Quality);
+        printf("%f,%f\n", (flU[i] - flU2[i]).GetDistance(), flV[i].Quality);
     }
 
     int i = 0;
@@ -116,7 +112,7 @@ int i=0;
         if (feat->Quality >= 0)
         {
             Draw::Circle(gray2, feat->X, feat->Y, 3, 255);
-            printf("Feature:%d at(%d,%d) with %d\n", i++, feat->X, feat->Y, feat->Quality);
+            printf("Feature:%d at(%f,%f) with %f\n", i++, feat->X, feat->Y, feat->Quality);
         }
         ++feat;
     }
@@ -139,7 +135,7 @@ int i=0;
     IOpnm::WritePGMFile("bin/debug/result.pgm",result);
     IOpnm::WritePGMFile("bin/debug/gray1.pgm",gray1);
     IOpnm::WritePGMFile("bin/debug/gray2.pgm",gray2);
-    printf("*****End KLT Tracking 2 Image Test!*****\n\n");*/
+    printf("*****End KLT Tracking 2 Image Test!*****\n\n");
 
 }
 

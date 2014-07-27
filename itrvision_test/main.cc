@@ -65,14 +65,14 @@ int main()
     ///Test Draw OK!
     //drawtest();
     ///Test LKTracker
-    //lktest();
+    lktest();
     ///Test Detection
    // DetectionTest();
     ///Test Process
     //ConvoluteSquareTest();
     //ConvoluteSquareTest4Pro();
     //FormatPPMTestPGMTest3();
-    CameraTest();
+    //CameraTest();
     ///Finish
     //itr_math::MathObjStandDeinit();
     //Deint Math

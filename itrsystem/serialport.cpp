@@ -18,7 +18,7 @@ namespace itr_system
 
     }                                                 //析构
 
-    void SerialPort::Init(char *name, int baudrate)
+    int SerialPort::Init(char *name, int baudrate)
     {
         int BAUDRATE;
         struct termios oldtio,newtio;     //termios结构是用来保存波特率、字符大小等
@@ -26,7 +26,7 @@ namespace itr_system
         if(fd<0)
         {
             perror("error");
-            exit(1);                             //失败退出
+            return -1;                             //失败退出
         }
 
         tcgetattr(fd,&oldtio);             //保存当前设置到oldtio
@@ -53,6 +53,7 @@ namespace itr_system
         newtio.c_cc[VTIME]=100;                   //在规定时间(VTIME)内读取(VMIN)个字符;
         tcflush(fd,TCIFLUSH);                    //清除所有队列在串口的输入与输出；
         tcsetattr(fd,TCSANOW,&newtio);           //把我们的设置写入termios
+        return 0;
     }
 
     void SerialPort::Close()
