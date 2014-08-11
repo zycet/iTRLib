@@ -34,6 +34,6 @@
 #ifndef CLASSIFIER_H_
 #define CLASSIFIER_H_
 
-#include "naivebayes.h"
+#include "guassiannaivebayes.h"
 
 #endif // CLASSIFIER_H_
