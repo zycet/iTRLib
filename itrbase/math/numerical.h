@@ -175,6 +175,13 @@ public:
     * \param result 结果
     */
     virtual BOOL RandGaussian(F32& Result) const;
+
+    /**
+    * \brief Sigmoid函数
+    * \param value 自变量
+    * \param result [-1,1]之间的值
+    */
+    virtual BOOL Sigmoid(F32 value,F32& reuslt) const;
     const static float Pi=3.1415926f;
 };
 }

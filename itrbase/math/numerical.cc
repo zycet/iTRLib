@@ -199,5 +199,12 @@ namespace itr_math
         phase = 1 - phase;
         return true;
     }
+
+    BOOL Numerical::Sigmoid(F32 value,F32& result) const
+    {
+        NumericalObj->Exp(-value,result);
+        result=1.0/(1+result);
+        return true;
+    }
 }
 

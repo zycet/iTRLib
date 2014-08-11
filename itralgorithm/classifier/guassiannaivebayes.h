@@ -43,17 +43,17 @@ using itr_math::Matrix;
 namespace itr_algorithm
 {
 
-    class NaiveBayes
+    class GaussianNaiveBayes
     {
         public:
-            NaiveBayes();
-            NaiveBayes(S32 featureNum);
+            GaussianNaiveBayes();
+            GaussianNaiveBayes(S32 featureNum);
             void Init(S32 FeatureNum);
             void TrainPos(const Matrix &input);
             void TrainNeg(const Matrix &input);
             F32 Classify(F32 *Data);
             float LearnRate;
-            virtual ~NaiveBayes();
+            virtual ~GaussianNaiveBayes();
         private:
             bool initpos,initneg;
             int featureNum;

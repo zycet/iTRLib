@@ -37,6 +37,7 @@ namespace itr_algorithm
         {
             featurenum = 2;
         }
-
+        delete[] data1;
+        delete[] data2;
     }
 }

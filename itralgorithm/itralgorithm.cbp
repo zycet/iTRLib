@@ -17,6 +17,7 @@
 					<Add option="-Wall" />
 					<Add option="-g" />
 					<Add directory="../itrbase" />
+					<Add directory="classifier" />
 				</Compiler>
 				<Linker>
 					<Add library="../itrbase/bin/debug/libitrbase.a" />
@@ -33,6 +34,7 @@
 					<Add option="-O2" />
 					<Add option="-Wall" />
 					<Add directory="../itrbase" />
+					<Add directory="classifier" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -41,8 +43,11 @@
 			</Target>
 		</Build>
 		<Unit filename="classifier/classifier.h" />
-		<Unit filename="classifier/naivebayes.cpp" />
+		<Unit filename="classifier/gaussiannaivebayes.cpp" />
+		<Unit filename="classifier/guassiannaivebayes.h" />
 		<Unit filename="classifier/naivebayes.h" />
+		<Unit filename="classifier/nearestneighbor.cpp" />
+		<Unit filename="classifier/nearestneighbor.h" />
 		<Unit filename="filter/filter.h" />
 		<Unit filename="filter/kalmanfilter.cpp" />
 		<Unit filename="filter/kalmanfilter.h" />

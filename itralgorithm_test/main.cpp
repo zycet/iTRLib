@@ -39,7 +39,7 @@
 int main()
 {
  itr_math::MathObjStandInit();
-    //NBCtest();
+    NBCtest();
     ransactest();
     pftest();
     kftest();

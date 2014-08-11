@@ -31,7 +31,7 @@
  *      Author: ghdawn
  */
 
-#include "naivebayes.h"
+#include "guassiannaivebayes.h"
 #include <iostream>
 #include <stdio.h>
 
@@ -39,7 +39,7 @@ using std::cout;
 using std::endl;
 namespace itr_algorithm
 {
-    itr_algorithm::NaiveBayes::NaiveBayes()
+    itr_algorithm::GaussianNaiveBayes::GaussianNaiveBayes()
     {
         featureNum=-1;
     }
@@ -50,11 +50,11 @@ namespace itr_algorithm
      * 有多少组数据就有多少行。
      */
 
-    itr_algorithm::NaiveBayes::NaiveBayes(S32 FeatureNum)
+    itr_algorithm::GaussianNaiveBayes::GaussianNaiveBayes(S32 FeatureNum)
     {
         Init(FeatureNum);
     }
-    void itr_algorithm::NaiveBayes::Init(int FeatureNum)
+    void itr_algorithm::GaussianNaiveBayes::Init(int FeatureNum)
     {
         featureNum = FeatureNum;
         muPos = new F32[FeatureNum]();
@@ -66,7 +66,7 @@ namespace itr_algorithm
         initneg = false;
     }
 
-    void itr_algorithm::NaiveBayes::TrainPos(const Matrix &input)
+    void itr_algorithm::GaussianNaiveBayes::TrainPos(const Matrix &input)
     {
         int length = input.GetRow();
         F32 *data = new F32[length];
@@ -100,7 +100,7 @@ namespace itr_algorithm
         }
     }
 
-    void itr_algorithm::NaiveBayes::TrainNeg(const Matrix &input)
+    void itr_algorithm::GaussianNaiveBayes::TrainNeg(const Matrix &input)
     {
         int length = input.GetRow();
         F32 *data = new F32[length];
@@ -134,7 +134,7 @@ namespace itr_algorithm
         }
     }
 
-    F32 itr_algorithm::NaiveBayes::Classify(F32 *Data)
+    F32 itr_algorithm::GaussianNaiveBayes::Classify(F32 *Data)
     {
         F32 result = 0;
         F32 p, n;
@@ -146,10 +146,11 @@ namespace itr_algorithm
             itr_math::NumericalObj->Log(n + INFMIN, n);
             result += (p - n);
         }
+        itr_math::NumericalObj->Sigmoid(result,result);
         return result;
     }
 
-    itr_algorithm::NaiveBayes::~NaiveBayes()
+    itr_algorithm::GaussianNaiveBayes::~GaussianNaiveBayes()
     {
         delete[] muPos;
         delete[] muNeg;

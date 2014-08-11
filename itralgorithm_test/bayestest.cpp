@@ -71,7 +71,7 @@ void NBCtest()
 {
 printf("*****Begin Naive Bayes Classifier Test!*****\n\n");
     itr_math::MathObjStandInit();
-    FILE *fin = fopen("Debug/data", "r");
+    FILE *fin = fopen("bin/debug/data", "r");
     int FeatureNum, n, m;
     fscanf(fin, "%d %d %d", &FeatureNum, &m, &n);
     Matrix dataPos(m, FeatureNum), dataNeg(n, FeatureNum);
@@ -80,22 +80,22 @@ printf("*****Begin Naive Bayes Classifier Test!*****\n\n");
     {
         fscanf(fin, "%f %f", temp, temp + 1);
 //        printf("%f %f\n",temp[0],temp[1]);
-        dataPos.CopyRowFrom(i+1, temp);
+        dataPos.CopyRowFrom(i, temp);
     }
     for (int i = 0; i < n; ++i)
     {
         fscanf(fin, "%f %f", temp, temp + 1);
 //        printf("%f %f\n",temp[0],temp[1]);
-        dataNeg.CopyRowFrom(i+1, temp);
+        dataNeg.CopyRowFrom(i, temp);
     }
     printMatrix(dataPos);
     printMatrix(dataNeg);
-    NaiveBayes nb(FeatureNum);
+    GaussianNaiveBayes nb(FeatureNum);
     nb.TrainPos(dataPos);
     nb.TrainNeg(dataNeg);
 
     F32 test[3] =
-    { -0.5, 2, 1 };
+    { 1, 2, 1 };
     printf("%f\n", nb.Classify(test));
     printf("*****End Naive Bayes Classifier Test!*****\n\n");
 }
