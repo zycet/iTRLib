@@ -15,6 +15,7 @@ public:
     * \param output 原图像的积分图像
     */
     static void Integral(const Matrix &input,Matrix &output);
+    static void Integral2(const Matrix &input,Matrix &output);
     /**
     * \brief 计算指定图像的盒子积分值(起始坐标系)
     * \param input 积分图像

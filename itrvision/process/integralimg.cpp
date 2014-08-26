@@ -37,6 +37,39 @@ void IntegralImg::Integral(const Matrix &input,Matrix &output)
     }
 }
 
+void IntegralImg::Integral2(const Matrix &input,Matrix &output)
+{
+    assert(input.GetRow()==output.GetRow());
+    assert(input.GetCol()==output.GetCol());
+
+    S32 row = input.GetRow();
+    S32 col = input.GetCol();
+    F32 *IData = input.GetData();
+    F32 *OData = output.GetData();
+    F32 result = 0.0f;
+
+    //计算第一行
+    for(S32 j=0; j <col; j++)
+    {
+        result += IData[j]*IData[j];
+        OData[j] = result;
+    }
+
+    //计算剩余行
+    S32 pCurr=col,pPrev=0;
+    for(S32 i=1; i<row; i++)
+    {
+        result = 0.0f;
+        for(S32 j=0; j<col; j++)
+        {
+            result += IData[pCurr]*IData[pCurr];
+            OData[pCurr] = result + OData[pPrev];
+            pCurr++;
+            pPrev++;
+        }
+    }
+}
+
 F32 IntegralImg::BoxFilterStarter(const Matrix &input,S32 RowPos,S32 ColPos,S32 RowNum,S32 ColNum)
 {
     S32 rowMax=input.GetRow();
