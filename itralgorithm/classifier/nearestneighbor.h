@@ -17,7 +17,7 @@ namespace itr_algorithm
         class Operator
         {
         public:
-           virtual F32 GetDis(const Vector& v1,const Vector& v2);
+           virtual F32 GetDis(const Vector& v1,const Vector& v2)=0;
         };
 
         S32 Classify(Vector X);

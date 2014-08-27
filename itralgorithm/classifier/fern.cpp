@@ -49,9 +49,21 @@ namespace itr_algorithm
         }
     }
 
-    F32 Fern::Classify(int *X)
+    F32 Fern::Classify(const itr_math::Matrix &img)
     {
         F32 vote=0;
+        for(int j=0; j<nfeat; j++)
+        {
+            X[j]=0;
+            for(int i=0; i<ncomp; i++)
+            {
+                X[j]<<=1;
+                if(img[comp[j][2*i]]<img[comp[j][2*i+1]])
+                {
+                    X[j]++;
+                }
+            }
+        }
         for(int i=0; i<nfeat; i++)
         {
             vote+=post[i][X[i]];

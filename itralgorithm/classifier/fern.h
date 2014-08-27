@@ -14,7 +14,7 @@ namespace itr_algorithm
             virtual ~Fern();
             Fern(S32 NFeat,S32 NComp,S32 Range);
             void Init(S32 NFeat,S32 NComp,S32 Range);
-            F32 Classify(S32 *X);
+            F32 Classify(const itr_math::Matrix &img);
             void Train(const itr_math::Matrix &img,bool flag);
         protected:
         private:
