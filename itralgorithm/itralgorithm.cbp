@@ -43,6 +43,8 @@
 			</Target>
 		</Build>
 		<Unit filename="classifier/classifier.h" />
+		<Unit filename="classifier/fern.cpp" />
+		<Unit filename="classifier/fern.h" />
 		<Unit filename="classifier/gaussiannaivebayes.cpp" />
 		<Unit filename="classifier/guassiannaivebayes.h" />
 		<Unit filename="classifier/naivebayes.h" />

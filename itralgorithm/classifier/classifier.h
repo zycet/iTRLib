@@ -35,5 +35,6 @@
 #define CLASSIFIER_H_
 
 #include "guassiannaivebayes.h"
-
+#include "nearestneighbor.h"
+#include "fern.h"
 #endif // CLASSIFIER_H_

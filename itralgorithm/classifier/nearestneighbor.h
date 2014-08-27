@@ -14,11 +14,21 @@ namespace itr_algorithm
     class NearestNeighbor
     {
         public:
-        void Classify(std::vector<Vector> vectorlist1,std::vector<Vector> vectorlist2, Vector VectorEx,int featurenum);
+        class Operator
+        {
+        public:
+           virtual F32 GetDis(const Vector& v1,const Vector& v2);
+        };
 
+        S32 Classify(Vector X);
+        void Train(Vector X,bool Class);
+
+        NearestNeighbor();
+        NearestNeighbor(Operator *oper);
+        void Init(Operator *oper);
         private:
-
-
+        std::vector<Vector> pos,neg;
+        Operator *oper;
     };
 
 }

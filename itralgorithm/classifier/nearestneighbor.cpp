@@ -6,38 +6,45 @@ using std::cout;
 using std::endl;
 namespace itr_algorithm
 {
-    void itr_algorithm::NearestNeighbor::Classify(vector<Vector> vectorlist1,vector<Vector> vectorlist2, Vector VectorEx,int featurenum)
+    void NearestNeighbor::Train(Vector X,bool Class)
     {
-        int length1;
-        int length2;
-        float min1;
-        float min2;
-        int i;
-        length1 = vectorlist1.size();
-        length2 = vectorlist2.size();
-        float *data1 = new float[length1];
-        float *data2 = new float[length2];
-
-        for (i = 0; i < length1; i++)
-        {
-            data1[i] = (vectorlist1[i]).ProductInner(VectorEx);
-
-        }
-        itr_math::StatisticsObj->Min(data1,length1,min1);
-        for (i = 0; i < length2; i++)
-        {
-            data2[i] = (vectorlist2[i]).ProductInner(VectorEx);
-        }
-        itr_math::StatisticsObj->Min(data2,length2,min2);
-        if(min1<min2)
-        {
-            featurenum = 1;
-        }
-        else
-        {
-            featurenum = 2;
-        }
-        delete[] data1;
-        delete[] data2;
+        (Class)?pos.push_back(X):neg.push_back(X);
     }
+
+    NearestNeighbor::NearestNeighbor()
+    {
+        oper=NULL;
+    }
+
+    NearestNeighbor::NearestNeighbor(Operator *Oper)
+    {
+        Init(oper);
+    }
+    void NearestNeighbor::Init(Operator *Oper)
+    {
+        oper=Oper;
+    }
+
+    S32 NearestNeighbor::Classify(Vector X)
+    {
+        float dis,min1=9999999,min2=9999999;
+
+        if(oper==NULL)
+        return -1;
+        std::vector<Vector>::iterator i;
+        for (i = pos.begin(); i != pos.end(); i++)
+        {
+            dis = oper->GetDis(*i,X);
+            if(min1>dis)
+            min1=dis;
+        }
+
+        for (i = neg.begin(); i != neg.end(); i++)
+        {
+            dis = oper->GetDis(*i,X);
+            if(min2>dis)
+            min2=dis;
+        }
+        return (min1>min2)?1:0;
+   }
 }
