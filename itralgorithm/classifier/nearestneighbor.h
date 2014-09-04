@@ -17,17 +17,18 @@ namespace itr_algorithm
         class Operator
         {
         public:
-           virtual F32 GetDis(const Vector& v1,const Vector& v2)=0;
+           virtual F32 GetDis(Vector& v1,Vector& v2)=0;
         };
 
-        S32 Classify(Vector X);
-        void Train(Vector X,bool Class);
+        F32 Classify(Vector &X);
+        void Classify(Vector &X,F32 &dis1,F32 &dis2);
+        void Train(Vector &X,bool Class);
 
         NearestNeighbor();
         NearestNeighbor(Operator *oper);
         void Init(Operator *oper);
-        private:
         std::vector<Vector> pos,neg;
+        private:
         Operator *oper;
     };
 

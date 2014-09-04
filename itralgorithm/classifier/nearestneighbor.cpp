@@ -6,7 +6,7 @@ using std::cout;
 using std::endl;
 namespace itr_algorithm
 {
-    void NearestNeighbor::Train(Vector X,bool Class)
+    void NearestNeighbor::Train(Vector &X,bool Class)
     {
         (Class)?pos.push_back(X):neg.push_back(X);
     }
@@ -25,12 +25,13 @@ namespace itr_algorithm
         oper=Oper;
     }
 
-    S32 NearestNeighbor::Classify(Vector X)
+    void NearestNeighbor::Classify(Vector &X,F32 &min1,F32 &min2)
     {
-        float dis,min1=9999999,min2=9999999;
+        float dis;
+        min1=9999999,min2=9999999;
 
         if(oper==NULL)
-        return -1;
+        return ;
         std::vector<Vector>::iterator i;
         for (i = pos.begin(); i != pos.end(); i++)
         {
@@ -45,6 +46,12 @@ namespace itr_algorithm
             if(min2>dis)
             min2=dis;
         }
-        return (min1>min2)?1:0;
+   }
+
+   F32  NearestNeighbor::Classify(Vector &X)
+   {
+        F32 dis1,dis2;
+        Classify(X,dis1,dis2);
+        return dis1<dis2?dis1:-dis2;
    }
 }

@@ -251,7 +251,7 @@ public:
      */
     virtual F32 ProductInner(const Vector &Vec) const;
 
-    inline F32 operator*(const Vector &Vec)
+    inline F32 operator*(const Vector &Vec) const
     {
         return this->ProductInner(Vec);
     }
