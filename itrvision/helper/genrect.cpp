@@ -13,8 +13,8 @@ void GenRect::genrectin(RectangleS rect,RectangleS rectR[],S32 num)
     {
         NumericalObj->Rand(off_x);
         NumericalObj->Rand(off_y);
-        rectR[i].Width = rect.Width-off_x*off_max;
-        rectR[i].Height = rect.Height-off_y*off_max;
+        rectR[i].Width = rect.Width;
+        rectR[i].Height = rect.Height;
         rectR[i].X = off_x*off_max+rect.X;
         rectR[i].Y = off_y*off_max+rect.Y;
     }
