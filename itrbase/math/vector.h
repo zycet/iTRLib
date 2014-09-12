@@ -262,6 +262,8 @@ public:
      * \param VecResult 结果
      */
     virtual void ProductOuter(const Vector &Vec, Vector &VecResult) const;
+
+    virtual F32 NCC(const Vector &Vec) const;
 private:
     F32 *data;
     S32 dim;
