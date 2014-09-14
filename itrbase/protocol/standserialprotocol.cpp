@@ -170,7 +170,7 @@ void StandSerialProtocol::SSPSendPackage(U8 ProtocolID, U8* Package, U8 PackageL
     //send
     if(this->DataSendFun!=NULL)
     {
-        this->DataSendFun(sendBuffer,GetSSFSPackageLength((StandSerialFrameStruct*)sendBuffer));
+        this->DataSendFun(sendBuffer,GetSSFSLength((StandSerialFrameStruct*)sendBuffer));
     }
 }
 

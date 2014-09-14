@@ -11,7 +11,7 @@
 #define StandSerialProtocolHeadLength 2//桢头长度
 #define StandSerialProtocolMateLength 2//附加信息长度
 #define StandSerialProtocolCRCLength 2//CRC长度
-#define StandSerialProtocolPlusLength StandSerialProtocolHeadLength+StandSerialProtocolMateLength+StandSerialProtocolCRCLength//帧附加信息总长
+#define StandSerialProtocolPlusLength (StandSerialProtocolHeadLength+StandSerialProtocolMateLength+StandSerialProtocolCRCLength)//帧附加信息总长
 #define StandSerialProtocolKey1Length 16//密钥1长度
 #define StandSerialProtocolKey2Length 4//密钥2长度
 

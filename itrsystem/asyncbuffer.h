@@ -63,7 +63,7 @@ public:
         pthread_mutex_unlock(&mutexRead);
         return obj;
     }
-    void SetBufferTRead(T buffer)
+    void SetBufferToRead(T buffer)
     {
         pthread_mutex_lock(&mutexRead);
         BufferToRead.Insert(buffer);
