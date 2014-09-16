@@ -92,7 +92,7 @@ void ConnectedAnalysis::Fill_q(const Matrix &input,S32 x,S32 y,Block& blk,F32* v
         {
             newx = current.first + dx[i];
             newy = current.second + dy[i];
-            if(PixIn(newx,newy) && PixEql(input(y,x),input(newy,newx)) && visited[newy*ImgWidth+newx]==0)
+            if(visited[newy*ImgWidth+newx]==0&&PixIn(newx,newy) && PixEql(input(y,x),input(newy,newx)) )
             {
                 temp.first = newx;
                 temp.second = newy;
