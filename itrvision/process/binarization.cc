@@ -10,7 +10,7 @@ Binarization::Binarization()
 Binarization::~Binarization()
 {
 }
-void Binarization::Threshold(Matrix &input,F32 UThreshold,F32 DThreshold)
+void Binarization::Threshold(Matrix &input,F32 DThreshold,F32 UThreshold)
 {
     assert(UThreshold > DThreshold);
     const S32 Width = input.GetCol();

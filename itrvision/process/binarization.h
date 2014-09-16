@@ -16,10 +16,10 @@ public:
     /**
     * \brief 对图像做二值化
     * \param input 输入图像
-    * \param UThreshold 阈值上限
     * \param DThreshold 阈值下限
+    * \param UThreshold 阈值上限
     */
-    void Threshold(Matrix &input,F32 UThreshold,F32 DThreshold);
+    void Threshold(Matrix &input,F32 DThreshold,F32 HThreshold);
 protected:
 private:
 };
