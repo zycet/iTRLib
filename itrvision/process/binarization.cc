@@ -4,12 +4,7 @@
 using itr_math::Matrix;
 namespace itr_vision
 {
-Binarization::Binarization()
-{
-}
-Binarization::~Binarization()
-{
-}
+
 void Binarization::Threshold(Matrix &input,F32 DThreshold,F32 UThreshold)
 {
     assert(UThreshold > DThreshold);

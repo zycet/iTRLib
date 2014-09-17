@@ -22,13 +22,13 @@ void ConnectedAnalysis::Contour(const Matrix &input,vector<Block> &blocks)
     this->BNum = 0;
     this->ImgWidth = input.GetCol();
     this->ImgHeight = input.GetRow();
-    F32 visited[1000*1000] = {0};
+    bool visited[1000*1000] = {false};
     int x,y;
     for(int i=0; i<ImgHeight; i++)
     {
         for(int j=0; j<ImgWidth; j++)
         {
-            if((visited[i*ImgWidth+j] == 0)&& (input(i,j)>0))
+            if((!visited[i*ImgWidth+j])&& (input(i,j)>0))
             {
                 x = j;
                 y = i;
@@ -53,7 +53,7 @@ void ConnectedAnalysis::Contour(const Matrix &input,vector<Block> &blocks)
 
 }
 //Fill the connected pixel to form a block
-void ConnectedAnalysis::Fill(const Matrix &input,S32 x,S32 y,Block& blk,F32* visited)
+void ConnectedAnalysis::Fill(const Matrix &input,S32 x,S32 y,Block& blk,bool* visited)
 {
     const int dx[] = {-1,0,1,-1,1,-1,0,1};
     const int dy[] = {-1,-1,-1,0,0,1,1,1};
@@ -73,13 +73,14 @@ void ConnectedAnalysis::Fill(const Matrix &input,S32 x,S32 y,Block& blk,F32* vis
         }
     }
 }
-void ConnectedAnalysis::Fill_q(const Matrix &input,S32 x,S32 y,Block& blk,F32* visited)
+void ConnectedAnalysis::Fill_q(const Matrix &input,S32 x,S32 y,Block& blk,bool* visited)
 {
     queue< pair<S32,S32> > unvisited;
     pair<S32,S32> current;
     pair<S32,S32> temp (x,y);
     S32 newx = 0;
     S32 newy = 0;
+    F32 value=input(y,x);
     const int dx[] = {-1,0,1,-1,1,-1,0,1};
     const int dy[] = {-1,-1,-1,0,0,1,1,1};
 
@@ -92,7 +93,7 @@ void ConnectedAnalysis::Fill_q(const Matrix &input,S32 x,S32 y,Block& blk,F32* v
         {
             newx = current.first + dx[i];
             newy = current.second + dy[i];
-            if(visited[newy*ImgWidth+newx]==0&&PixIn(newx,newy) && PixEql(input(y,x),input(newy,newx)) )
+            if(visited[newy*ImgWidth+newx]==0&&PixIn(newx,newy) && PixEql(value,input(newy,newx)) )
             {
                 temp.first = newx;
                 temp.second = newy;

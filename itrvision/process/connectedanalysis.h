@@ -36,8 +36,8 @@ private:
     * \param blk 当前被染色的区域
     * \param visited 被访问标识
     */
-    void Fill(const Matrix &input,S32 x,S32 y,Block &blk,F32* visited);
-    void Fill_q(const Matrix &input,S32 x,S32 y,Block &blk,F32* visited);
+    void Fill(const Matrix &input,S32 x,S32 y,Block &blk,bool* visited);
+    void Fill_q(const Matrix &input,S32 x,S32 y,Block &blk,bool* visited);
     /**
     * \brief 联通域排序（按面积降序排列）
     * \param blocks 联通域向量
