@@ -21,7 +21,7 @@ namespace itr_device
     * \param Height 图像高度
     * \param BufferNum 缓冲区数量(如果>0则表示使用异步采集模式,否则为同步模式)
     */
-    void v4linux::Open(U32 ID,S32 Width,S32 Height,S32 Buffer_Num)
+    int v4linux::Open(U32 ID,S32 Width,S32 Height,S32 Buffer_Num)
     {
         _width=Width;
         _height=Height;
@@ -59,15 +59,15 @@ namespace itr_device
                 bufs.memory = V4L2_MEMORY_MMAP;
                 if (ioctl(id, VIDIOC_REQBUFS, &bufs) < 0)
                 {
-
+                    fprintf(stderr, "%s: don't support MEMORY_MMAP mode!\n", __func__);
                     close(id);
                     delete ctx;
-
+                    return 0;
                 }
 
 
                 // mmap
-                for (int i = 0; i < 2; i++)
+                for (int i = 0; i < _buffernum; i++)
                 {
                     v4l2_buffer buf;
                     memset(&buf, 0, sizeof(buf));
@@ -75,9 +75,10 @@ namespace itr_device
                     buf.memory = bufs.memory;
                     if (ioctl(id, VIDIOC_QUERYBUF, &buf) < 0)
                     {
+                        fprintf(stderr, "%s: VIDIOC_QUERYBUF ERR\n", __func__);
                         close(id);
                         delete ctx;
-                        exit(0);
+                        return 0;
                     }
 
                     ctx->bufs[i].length = buf.length;
@@ -87,6 +88,7 @@ namespace itr_device
             }
             else
             {
+                fprintf(stderr, "%s: can't support read()/write() mode and streaming mode\n", __func__);
                 close(id);
                 delete ctx;
                 exit(0);
@@ -94,10 +96,10 @@ namespace itr_device
         }
         else
         {
-
+            fprintf(stderr, "%s: can't support video capture!\n", __func__);
             close(id);
             delete ctx;
-            exit(0);
+            return 0;
         }
 
         int rc;
@@ -127,6 +129,7 @@ namespace itr_device
         rc = ioctl(id, VIDIOC_G_FMT, &fmt);
         if (rc < 0)
         {
+            fprintf(stderr, "%s: can't VIDIOC_G_FMT...\n", __func__);
             exit(0);
         }
 
@@ -148,10 +151,13 @@ namespace itr_device
 
         if (pixfmt == PIX_FMT_NONE)
         {
-            exit(0);
+            fprintf(stderr, "%s: can't support %4s\n", __func__, (char *)&fmt.fmt.pix.pixelformat);
+            return 0;
         }
 
         // 构造转换器
+        fprintf(stderr, "capture_width=%d, height=%d, stride=%d\n", fmt.fmt.pix.width, fmt.fmt.pix.height,
+                fmt.fmt.pix.bytesperline);
         ctx->width = _width;
         ctx->height = _height;
         ctx->sws = sws_getContext(fmt.fmt.pix.width, fmt.fmt.pix.height, pixfmt,
@@ -164,7 +170,7 @@ namespace itr_device
         avpicture_alloc(&ctx->pic_target, PIX_FMT_YUV420P, ctx->width, ctx->height);
 
         // queue buf
-        for (int i = 0; i < _buffernum; i++)
+        for (int i = 0; i < sizeof(ctx->bufs)/sizeof(Buffer); i++)
         {
             v4l2_buffer buf;
             memset(&buf, 0, sizeof(buf));
@@ -174,6 +180,7 @@ namespace itr_device
 
             if (ioctl(id, VIDIOC_QBUF, &buf) < 0)
             {
+                fprintf(stderr, "%s: VIDIOC_QBUF err\n", __func__);
                 exit(-1);
             }
         }
@@ -258,7 +265,9 @@ namespace itr_device
                             ctx->pic_target.linesize
                           );
         if( rs <0 )
+        {
             fprintf(stderr, "%s: Scale error\n", __func__);
+        }
         // out
         for (int i = 0; i < 4; i++)
         {

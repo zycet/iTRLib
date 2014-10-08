@@ -17,7 +17,7 @@ namespace itr_device
         delete[] p_base;
 
     }
-    void AsiCamera::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
+    int AsiCamera::Open(U32 ID,S32 Width,S32 Height,S32 BufferNum)
     {
 
         assert(BufferNum ==0);/// only 实现同步；

@@ -36,7 +36,7 @@ namespace itr_device
             * \param Height 图像高度
             * \param BufferNum 缓冲区数量(如果>0则表示使用异步采集模式,否则为同步模式)
             */
-            virtual void Open(U32 ID,S32 Width,S32 Height,S32 BufferNum);
+            virtual int Open(U32 ID,S32 Width,S32 Height,S32 BufferNum);
 
             /**
             * \brief 关闭摄像头
