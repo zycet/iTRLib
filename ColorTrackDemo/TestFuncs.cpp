@@ -220,8 +220,8 @@ void TestTrack(FILE *infile,S32 Width,S32 Height)
 //    itr_vision::Scale::Bilinear(Input,img);
     itr_vision::IOpnm::WritePGMFile("0a1.pgm",S);
     itr_vision::IOpnm::WritePGMFile("0a2.pgm",H);
-    BObject.Threshold(H,20,1);
-    BObject.Threshold(S,100,50);
+    Binarization::Threshold(H,1,20);
+    Binarization::Threshold(S,50,100);
     itr_vision::IOpnm::WritePGMFile("1a1.pgm",S);
     itr_vision::IOpnm::WritePGMFile("1a2.pgm",H);
     for(int i=0; i<Width*Height; ++i)
