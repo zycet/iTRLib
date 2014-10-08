@@ -4,6 +4,7 @@
 #include "../feature/block.h"
 #include<algorithm>
 #include<queue>
+#include <string.h>
 using namespace std;
 using itr_math::Matrix;
 namespace itr_vision
@@ -22,7 +23,8 @@ void ConnectedAnalysis::Contour(const Matrix &input,vector<Block> &blocks)
     this->BNum = 0;
     this->ImgWidth = input.GetCol();
     this->ImgHeight = input.GetRow();
-    bool visited[1000*1000] = {false};
+    bool visited[1000*1000];
+    memset(visited,0,sizeof(visited));
     int x,y;
     for(int i=0; i<ImgHeight; i++)
     {
@@ -30,14 +32,12 @@ void ConnectedAnalysis::Contour(const Matrix &input,vector<Block> &blocks)
         {
             if((!visited[i*ImgWidth+j])&& (input(i,j)>0))
             {
-                x = j;
-                y = i;
                 Block blk;
                 //blk.x = x;
                 //blk.y = y;
                 //blk.Area = 0;//Area = 0 (广度)Area = 1 (深度)
                 //Fill(input,x,y,blk,visited);
-                Fill_q(input,x,y,blk,visited);
+                Fill_q(input,j,i,blk,visited);
                 blk.x /= blk.Area;
                 blk.y /= blk.Area;
                 blocks.push_back(blk);

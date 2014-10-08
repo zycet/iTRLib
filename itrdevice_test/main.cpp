@@ -13,6 +13,7 @@ int main()
     //JoyStickTest();
     //asicamera_test();
 //    JoyStickProcessTest();
+    itr_math::MathObjStandInit();
     F4Ltest();
     return 0;
 }
