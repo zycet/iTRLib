@@ -51,6 +51,7 @@
 		<Unit filename="camera/icamera.h" />
 		<Unit filename="camera/v4linux.cpp" />
 		<Unit filename="camera/v4linux.h" />
+		<Unit filename="camera/v4ltest.cpp" />
 		<Unit filename="itrdevice.h" />
 		<Unit filename="joystick/Ijoystick.cpp" />
 		<Unit filename="joystick/Ijoystick.h" />
