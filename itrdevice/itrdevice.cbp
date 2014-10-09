@@ -24,6 +24,7 @@
 					<Add library="../itrvision/bin/debug/libitrvision.a" />
 					<Add library="bin/debug/libasicameraapi.so" />
 					<Add library="ASICamera.so" />
+					<Add library="-lv4l2" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -51,7 +52,6 @@
 		<Unit filename="camera/icamera.h" />
 		<Unit filename="camera/v4linux.cpp" />
 		<Unit filename="camera/v4linux.h" />
-		<Unit filename="camera/v4ltest.cpp" />
 		<Unit filename="itrdevice.h" />
 		<Unit filename="joystick/Ijoystick.cpp" />
 		<Unit filename="joystick/Ijoystick.h" />

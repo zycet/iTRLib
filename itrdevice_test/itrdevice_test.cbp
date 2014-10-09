@@ -30,6 +30,7 @@
 					<Add library="swscale" />
 					<Add library="avcodec" />
 					<Add library="avutil" />
+					<Add library="v4l2" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -58,6 +59,8 @@
 		<Unit filename="joysticktest.cpp" />
 		<Unit filename="joysticktest.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="v4ltestbygqp.cpp" />
+		<Unit filename="v4ltestbygqp.h" />
 		<Extensions>
 			<code_completion />
 			<debugger />

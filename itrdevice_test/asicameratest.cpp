@@ -3,7 +3,6 @@ itr_device::AsiCamera image_aquaire;
 
 void image_do(itr_device::AsiCamera& AsiCameraObj,U8* Raw,S32 Length,void* ExInfo)
 {
-
     F32 *data;
     data=new F32[Length]();
     for(S32 i=0; i<Length; i++)

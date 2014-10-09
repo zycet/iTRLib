@@ -4,21 +4,19 @@
 #include "icamera.h"
 #include <stdio.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <inttypes.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/ioctl.h>
-#include <sys/mman.h>
+#include <string.h>
 #include <fcntl.h>
+#include <errno.h>
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <sys/time.h>
+#include <sys/mman.h>
 #include <linux/videodev2.h>
+#include "libv4l2.h"
 
-#define _dev "/dev/video"
+#define CLEAR(x) memset(&(x), 0, sizeof(x))
 
-extern "C" {
-#   include <libavcodec/avcodec.h>
-#   include <libswscale/swscale.h>
-}
+
 namespace itr_device
 {
     class v4linux:public ICamera
@@ -27,6 +25,11 @@ namespace itr_device
 
             v4linux();
             virtual ~v4linux();
+            enum PIC_TYPE {
+                YUV,
+                RGB
+             };
+            void Init(S32 typ);
 
             typedef void (*ReceiveFrameCallBack)(ICamera &ICameraObj,U8 *Raw,S32 Length,void *ExInfo);
 
@@ -99,42 +102,31 @@ namespace itr_device
 
         protected:
         private:
-            struct Picture
-            {
-                unsigned char *data[4];
-                int stride[4];
-            };
-            typedef struct Picture Picture;
-            Picture pic;
-            struct Buffer
-            {
-                void *start;
+
+            struct buffer {
+                void   *start;
                 size_t length;
             };
-            typedef struct Buffer Buffer;
 
-            struct Ctx
-            {
-                int vid;
-                int width, height;  // 输出图像大小
-                struct SwsContext *sws; // 用于转换
-                int rows;   // 用于 sws_scale()
-                int bytesperrow; // 用于cp到 pic_src
-                AVPicture pic_src, pic_target;  // 用于 sws_scale
-                Buffer bufs[2];     // 用于 mmap
-                PixelFormat fmt;
-            };
-            typedef struct Ctx Ctx;
 
             struct AquairePara _AqPara;
             S32 _width;
             S32 _height;
-            //      itr_container::CycleQueue<U8*>  cycleQueue;
-            U8 *p_base;// *p_use,**bufferlist;
             S32 _buffernum;
-            Ctx *id_ctx;
-            S32 id;
+
+            S32                             r, fd;
             ReceiveFrameCallBack _callback;
+
+            struct v4l2_format              fmt;
+            struct v4l2_buffer              buf;
+            struct v4l2_requestbuffers      req;
+            enum v4l2_buf_type              type;
+            struct buffer                   *buffers;
+            struct timeval                  tv;
+            fd_set                          fds;
+
+            PIC_TYPE _type;
+            void xioctl(int fh, int request, void *arg);
     };
 }
 #endif // V4LINUX_H
