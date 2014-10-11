@@ -22,9 +22,8 @@
 				<Linker>
 					<Add library="../itrbase/bin/debug/libitrbase.a" />
 					<Add library="../itrvision/bin/debug/libitrvision.a" />
-					<Add library="bin/debug/libasicameraapi.so" />
 					<Add library="ASICamera.so" />
-					<Add library="-lv4l2" />
+					<Add library="v4l2" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -45,7 +44,6 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Unit filename="camera/asicamera.cpp" />
 		<Unit filename="camera/asicamera.h" />
 		<Unit filename="camera/asicameraapi.h" />
 		<Unit filename="camera/icamera.cpp" />

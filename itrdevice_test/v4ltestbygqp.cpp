@@ -1,7 +1,7 @@
 #include "itrvision.h"
 #include"itrdevice.h"
 #include"v4linux.h"
-#define _id 1
+#define _id 0
 void v4ltestguan()
 {
     FILE *fp;

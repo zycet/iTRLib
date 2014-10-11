@@ -54,7 +54,7 @@ int main(int argc, char **argv)
         struct timeval                  tv;
         int                             r, fd = -1;
         unsigned int                    i, n_buffers;
-        char                            *dev_name = "/dev/video0";
+        char                            *dev_name = "/dev/video1";
         char                            out_name[256];
         FILE                            *fout;
         struct buffer                   *buffers;
