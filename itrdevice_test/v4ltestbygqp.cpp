@@ -1,6 +1,7 @@
 #include "itrvision.h"
 #include"itrdevice.h"
 #include"v4linux.h"
+#define _id 1
 void v4ltestguan()
 {
     FILE *fp;
@@ -13,7 +14,7 @@ void v4ltestguan()
     char filename[20];
     // RGB;
     cam.Init( 0);
-    cam.Open(0,width,height,2);
+    cam.Open( _id,width,height,2);
     for(S32 i=0; i<20; i++)
     {
         cam.FetchFrame(raw,3*width*height,exinfo);
@@ -32,7 +33,7 @@ void v4ltestguan()
     itr_device::v4linux cam2;
     //yuv
     cam2.Init(1);
-    cam2.Open(0,width,height,2);
+    cam2.Open( _id,width,height,2);
     for(S32 i=0; i<20; i++)
     {
         cam2.FetchFrame(raw,width*height,exinfo);
