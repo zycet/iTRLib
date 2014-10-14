@@ -2,6 +2,7 @@
 #include"itrdevice.h"
 #include"v4linux.h"
 #define _id 0
+#define INDEX 1
 void v4ltestguan()
 {
     FILE *fp;
@@ -15,6 +16,7 @@ void v4ltestguan()
     // RGB;
     cam.Init( 0);
     cam.Open( _id,width,height,2);
+    cam.SetTunnel(INDEX);
     for(S32 i=0; i<20; i++)
     {
         cam.FetchFrame(raw,3*width*height,exinfo);
@@ -34,6 +36,7 @@ void v4ltestguan()
     //yuv
     cam2.Init(1);
     cam2.Open( _id,width,height,2);
+    cam.SetTunnel(INDEX);
     for(S32 i=0; i<20; i++)
     {
         cam2.FetchFrame(raw,width*height,exinfo);

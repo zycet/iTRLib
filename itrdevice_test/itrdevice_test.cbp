@@ -25,7 +25,6 @@
 					<Add library="../itrdevice/bin/debug/libitrdevice.a" />
 					<Add library="../itrvision/bin/debug/libitrvision.a" />
 					<Add library="../itrbase/bin/debug/libitrbase.a" />
-					<Add library="../itrdevice/asicameraapi.so" />
 					<Add library="usb-1.0" />
 					<Add library="swscale" />
 					<Add library="avcodec" />
@@ -52,8 +51,6 @@
 		</Compiler>
 		<Unit filename="V4Ltest.cpp" />
 		<Unit filename="V4Ltest.h" />
-		<Unit filename="asicameratest.cpp" />
-		<Unit filename="asicameratest.h" />
 		<Unit filename="joystickprocesstest.cpp" />
 		<Unit filename="joystickprocesstest.h" />
 		<Unit filename="joysticktest.cpp" />
