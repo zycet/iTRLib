@@ -80,6 +80,19 @@ int main(int argc, char **argv)
                 printf("Warning: driver is sending image at %dx%d\n",
                         fmt.fmt.pix.width, fmt.fmt.pix.height);
 
+        struct v4l2_input input;
+        int index=1;
+        memset(&input,0,sizeof(input));
+        xioctl(fd,VIDIOC_G_INPUT,&input);
+        input.index=1;
+        // xioctl(fd,VIDIOC_G_INPUT,&input);
+        xioctl(fd,VIDIOC_ENUMINPUT,&input);
+        xioctl(fd,VIDIOC_S_INPUT,&index);
+        xioctl(fd,VIDIOC_G_INPUT,&input);
+        xioctl(fd,VIDIOC_ENUMINPUT,&input);
+        printf("%s\n",input.name );
+        
+
         CLEAR(req);
         req.count = 2;
         req.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
