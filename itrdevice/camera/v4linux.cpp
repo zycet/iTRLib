@@ -21,6 +21,7 @@ namespace itr_device
         else
         _type=YUV;
     }
+
     void v4linux::xioctl(int fh, int request, void *arg)
     {
         int r;
@@ -33,6 +34,10 @@ namespace itr_device
                 fprintf(stderr, "error %d, %s\n", errno, strerror(errno));
                 exit(EXIT_FAILURE);
         }
+    }
+    void v4linux::SetTunnel(S32 index)
+    {
+        xioctl(fd,VIDIOC_S_INPUT,&index);
     }
     /**
     * \brief 打开摄像头

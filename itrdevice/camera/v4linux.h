@@ -45,7 +45,10 @@ namespace itr_device
             *                                       缓冲区大小为:RGB:3*W*H, YUV:W*H
             */
             virtual int Open(U32 ID,S32 Width,S32 Height,S32 BufferNum);
-
+            /**
+            * \brief  Set camera tunnel;
+            */
+            virtual void SetTunnel(S32 index);
             /**
             * \brief 关闭摄像头
             */
