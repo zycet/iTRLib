@@ -14,6 +14,10 @@ namespace itr_device
 //    //dtor
 
     }
+    /**
+    * \brief Set Picture format
+    * \param typ : 0  RGB42, not 0YUV420
+    */
     void v4linux::Init(S32 typ)
     {
         if(typ==0)
@@ -44,7 +48,6 @@ namespace itr_device
     * \param Width 图像宽度
     * \param Height 图像高度
     * \param BufferNum 缓冲区数量(如果>0则表示使用异步采集模式,否则为同步模式)
-    * \param mode picture format : 0 YUV420, not 0 RGB42
     */
     int v4linux::Open(U32 ID,S32 Width,S32 Height,S32 Buffer_Num)
     {

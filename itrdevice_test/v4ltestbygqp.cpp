@@ -2,7 +2,7 @@
 #include"itrdevice.h"
 #include"v4linux.h"
 #define _id 0
-#define INDEX 1
+#define INDEX 0
 void v4ltestguan()
 {
     FILE *fp;
@@ -16,7 +16,7 @@ void v4ltestguan()
     // RGB;
     cam.Init( 0);
     cam.Open( _id,width,height,2);
-    cam.SetTunnel(INDEX);
+  //  cam.SetTunnel(INDEX);
     for(S32 i=0; i<20; i++)
     {
         cam.FetchFrame(raw,3*width*height,exinfo);
@@ -33,14 +33,14 @@ void v4ltestguan()
     }
     cam.Close();
     itr_device::v4linux cam2;
-    //yuv
+    //yuv420
     cam2.Init(1);
     cam2.Open( _id,width,height,2);
-    cam.SetTunnel(INDEX);
+    //cam.SetTunnel(INDEX);
     for(S32 i=0; i<20; i++)
     {
-        cam2.FetchFrame(raw,width*height,exinfo);
-        sprintf(filename,"outpgm%3d.pgm",i);
+        cam2.FetchFrame(raw,width*height*3/2,exinfo);
+        sprintf(filename,"outpgm%3d.ppm",i);
         fp=fopen(filename,"w+");
         if(fp==NULL)
         {
@@ -48,7 +48,7 @@ void v4ltestguan()
             exit(-1);
         }
         fprintf(fp, "P5\n%d %d 255\n",width,height);
-        fwrite(raw,width*height, 1, fp);
+        fwrite(raw,width*height*3/2, 1, fp);
         fclose(fp);
     }
     cam2.Close();

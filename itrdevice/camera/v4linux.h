@@ -31,7 +31,7 @@ namespace itr_device
              };
             /**
             * \brief 初始化摄像头,用来配置图象格式
-            * \param typ =0 时输出RGB格式; typ=1时输出YUV格式(只输出Y分量)
+            * \param typ =0 时输出RGB42格式; typ=1时输出YUV420格式
             */
             void Init(S32 typ);
 
@@ -42,11 +42,12 @@ namespace itr_device
             * \param Width 图像宽度
             * \param Height 图像高度
             * \param BufferNum 缓冲区数量(如果>0则表示使用异步采集模式,否则为同步模式)
-            *                                       缓冲区大小为:RGB:3*W*H, YUV:W*H
+            *                                       缓冲区大小为:RGB:W*H*3, YUV:W*H*3/2;
             */
             virtual int Open(U32 ID,S32 Width,S32 Height,S32 BufferNum);
             /**
             * \brief  Set camera tunnel;
+            * \param index 0,defalut tunnel ; 1 our tunnel;
             */
             virtual void SetTunnel(S32 index);
             /**
