@@ -16,5 +16,6 @@
 		<Project filename="itrsystem/itrsystem.cbp" />
 		<Project filename="itrsystem_test/itrsystem_test.cbp" />
 		<Project filename="TEST4V4L/TEST4V4L.cbp" />
+		<Project filename="ix264/ix264.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>

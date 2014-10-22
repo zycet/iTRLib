@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="ix264" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="debug">
+				<Option output="bin/debug/ix264" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/debug/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-g" />
+					<Add directory="../itrbase" />
+					<Add directory="../3rdparty/alglib" />
+					<Add directory="../itralgorithm" />
+					<Add directory="../itrneon" />
+					<Add directory="../itrsystem" />
+					<Add directory="../itrvision" />
+				</Compiler>
+				<Linker>
+					<Add library="../itrbase/bin/debug/libitrbase.a" />
+					<Add library="../3rdparty/alglib/bin/debug/libalglib.a" />
+					<Add library="../itralgorithm/bin/debug/libitralgorithm.a" />
+					<Add library="../itrdevice/bin/debug/libitrdevice.a" />
+					<Add library="../itrdevice/bin/debug/libitrdevice.a" />
+					<Add library="../itrsystem/bin/debug/libitrsystem.a" />
+					<Add library="../itrvision/bin/debug/libitrvision.a" />
+				</Linker>
+			</Target>
+			<Target title="delease">
+				<Option output="bin/delease/ix264" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="obj/delease/" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-Wall" />
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="ix264.cpp" />
+		<Unit filename="ix264.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>
