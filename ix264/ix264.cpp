@@ -3,6 +3,12 @@
 namespace itrx264
 {
 // return currsec * 90000
+ix264::ix264()
+{
+}
+ix264::~ix264()
+{
+}
 int64_t ix264::curr()
 {
 	struct timeval tv;

@@ -22,7 +22,7 @@ namespace itrx264
 	        void  _save_pic (void *start, S32 len);
 	public:
       		  ix264();
-		~ix264();
+            ~ix264();
 		struct Ctx
 		{
 			x264_t *x264;

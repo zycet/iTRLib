@@ -28,9 +28,9 @@
 					<Add library="../3rdparty/alglib/bin/debug/libalglib.a" />
 					<Add library="../itralgorithm/bin/debug/libitralgorithm.a" />
 					<Add library="../itrdevice/bin/debug/libitrdevice.a" />
-					<Add library="../itrdevice/bin/debug/libitrdevice.a" />
 					<Add library="../itrsystem/bin/debug/libitrsystem.a" />
 					<Add library="../itrvision/bin/debug/libitrvision.a" />
+					<Add library="x264" />
 				</Linker>
 			</Target>
 			<Target title="delease">

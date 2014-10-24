@@ -11,6 +11,7 @@ int main()
 
     Picture pic;
     itrx264::ix264 ix264obj;
+
     S32 width=640;
     S32 height=480;
     S32 _size=width*height;
@@ -20,11 +21,11 @@ int main()
     S32 imgLength=0;
     U8 imgcomped[_size*3];
     FILE* fp;
-    fp=fopen("bin/outpgm11.ppm","+r");
+    fp=fopen("outpgm11.ppm","r+");
     if(fp==NULL)
     {
-    	printf("fail to open Picture!\n");
-    	exit(0);
+    	printf("Fail to open Picture!\n");
+    	exit(1);
     }
     fscanf(fp, "P5\n%d %d 255\n",&width,&height);
     _size=width*height;

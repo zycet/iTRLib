@@ -29,6 +29,7 @@
 					<Add library="../itrsystem/bin/debug/libitrsystem.a" />
 					<Add library="../itrvision/bin/debug/libitrvision.a" />
 					<Add library="../ix264/bin/debug/libix264.a" />
+					<Add library="x264" />
 				</Linker>
 			</Target>
 			<Target title="delease">
