@@ -47,5 +47,7 @@ int main()
     {
     	printf("compress succeed!\n");
     }
+    ix264obj.vc_close();
+    fclose(fp);
     return 0;
 }
