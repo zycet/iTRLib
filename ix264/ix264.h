@@ -42,7 +42,7 @@ namespace itrx264
 
 
 		/** FIXME: vc_open 将需要增加很多入口参数, 用于设置编码属性 */
-		void vc_open (S32 width, S32 height, F32 fps);
+		void* vc_open (S32 width, S32 height, F32 fps);
 		//S32 vc_close (void *ctx);
        		 S32 vc_close ();
 		/** 每当 返回 > 0, 说明得到一帧数据, 此时可以调用 vc_get_last_frame_info() 获取更多信息 */

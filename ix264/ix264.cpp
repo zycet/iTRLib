@@ -35,7 +35,7 @@ int64_t  ix264::next_pts()
 }
 
 
-void  ix264::vc_open (S32 width, S32 height, F32 fps)
+void*  ix264::vc_open (S32 width, S32 height, F32 fps)
 {
 //	Ctx *ctx = new Ctx;
 
@@ -43,14 +43,14 @@ void  ix264::vc_open (S32 width, S32 height, F32 fps)
 
 	// 设置编码属性
 	//x264_param_default(&this->_ctx.param);
-	x264_param_default_preset(&this->_ctx.param, "fast", "zerolatency");
+	x264_param_default_preset(&(this->_ctx.param), "fast", "zerolatency");
 	//x264_param_apply_profile(&this->_ctx.param, "baseline");
 
 	this->_ctx.param.i_width = width;
 	this->_ctx.param.i_height = height;
 	this->_ctx.param.b_repeat_headers = 1;  // 重复SPS/PPS 放到关键帧前面
 	this->_ctx.param.b_cabac = 1;
-     	this->_ctx.param.i_threads = 1;
+    this->_ctx.param.i_threads = 1;
 
 	// this->_ctx.param.b_intra_refresh = 1;
 
@@ -79,7 +79,7 @@ void  ix264::vc_open (S32 width, S32 height, F32 fps)
 	if (!this->_ctx.x264) {
 		fprintf(stderr, "%s: x264_encoder_open err\n", __func__);
 	//	delete this->_ctx;
-		//return 0;
+		return 0;
 	}
 
 	x264_picture_init(&this->_ctx.picture);
@@ -92,8 +92,8 @@ void  ix264::vc_open (S32 width, S32 height, F32 fps)
 
 	//this->_ctx.get_pts = first_pts;
 	this->_ctx.info_valid = 0;
-    _Isfirst=0;
-//	return this->_ctx;
+    	_Isfirst=0;
+	return &(this->_ctx);
 }
 
 S32 ix264::vc_close ()
