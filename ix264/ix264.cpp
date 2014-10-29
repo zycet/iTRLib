@@ -35,65 +35,65 @@ int64_t  ix264::next_pts()
 }
 
 
-void*  ix264::vc_open (S32 width, S32 height, F32 fps)
+void  ix264::vc_open (S32 width, S32 height, F32 fps)
 {
 //	Ctx *ctx = new Ctx;
 
-	this->_ctx.force_keyframe = 0;
+	_ctx.force_keyframe = 0;
 
 	// 设置编码属性
-	//x264_param_default(&this->_ctx.param);
-	x264_param_default_preset(&(this->_ctx.param), "fast", "zerolatency");
-	//x264_param_apply_profile(&this->_ctx.param, "baseline");
+	//x264_param_default(&_ctx.param);
+	x264_param_default_preset(&(_ctx.param), "fast", "zerolatency");
+	//x264_param_apply_profile(&_ctx.param, "baseline");
 
-	this->_ctx.param.i_width = width;
-	this->_ctx.param.i_height = height;
-	this->_ctx.param.b_repeat_headers = 1;  // 重复SPS/PPS 放到关键帧前面
-	this->_ctx.param.b_cabac = 1;
-    this->_ctx.param.i_threads = 1;
+	_ctx.param.i_width = width;
+	_ctx.param.i_height = height;
+	_ctx.param.b_repeat_headers = 1;  // 重复SPS/PPS 放到关键帧前面
+	_ctx.param.b_cabac = 1;
+    	_ctx.param.i_threads = 1;
 
-	// this->_ctx.param.b_intra_refresh = 1;
+	// _ctx.param.b_intra_refresh = 1;
 
-	this->_ctx.param.i_fps_num = (S32)fps;
-	this->_ctx.param.i_fps_den = 1;
-	//this->_ctx.param.b_vfr_input = 1;
+	_ctx.param.i_fps_num = (S32)fps;
+	_ctx.param.i_fps_den = 1;
+	//_ctx.param.b_vfr_input = 1;
 
-	this->_ctx.param.i_keyint_max = this->_ctx.param.i_fps_num * 2;
-	//this->_ctx.param.i_keyint_min = 1;
+	_ctx.param.i_keyint_max = _ctx.param.i_fps_num * 2;
+	//_ctx.param.i_keyint_min = 1;
 
 	// rc
-	// this->_ctx.param.rc.i_rc_method = X264_RC_CRF;
-	this->_ctx.param.rc.i_bitrate = 50;
-	//this->_ctx.param.rc.f_rate_tolerance = 0.1;
-	//this->_ctx.param.rc.i_vbv_max_bitrate = this->_ctx.param.rc.i_bitrate * 1.3;
-	//this->_ctx.param.rc.f_rf_constant = 600;
-	//this->_ctx.param.rc.f_rf_constant_max = this->_ctx.param.rc.f_rf_constant * 1.3;
+	// _ctx.param.rc.i_rc_method = X264_RC_CRF;
+	_ctx.param.rc.i_bitrate = 50;
+	//_ctx.param.rc.f_rate_tolerance = 0.1;
+	//_ctx.param.rc.i_vbv_max_bitrate = _ctx.param.rc.i_bitrate * 1.3;
+	//_ctx.param.rc.f_rf_constant = 600;
+	//_ctx.param.rc.f_rf_constant_max = _ctx.param.rc.f_rf_constant * 1.3;
 
 #ifdef DEBUG
-	this->_ctx.param.i_log_level = X264_LOG_WARNING;
+	_ctx.param.i_log_level = X264_LOG_WARNING;
 #else
-	this->_ctx.param.i_log_level = X264_LOG_NONE;
+	_ctx.param.i_log_level = X264_LOG_NONE;
 #endif // release
 
-	this->_ctx.x264 = x264_encoder_open(&this->_ctx.param);
-	if (!this->_ctx.x264) {
+	_ctx.x264 = x264_encoder_open(&(_ctx.param));
+	if (!_ctx.x264) {
 		fprintf(stderr, "%s: x264_encoder_open err\n", __func__);
-	//	delete this->_ctx;
-		return 0;
+	//	delete _ctx;
+		//return 0;
 	}
 
-	x264_picture_init(&this->_ctx.picture);
-	this->_ctx.picture.img.i_csp = X264_CSP_I420;
-	this->_ctx.picture.img.i_plane = 3;
+	x264_picture_init(&_ctx.picture);
+	_ctx.picture.img.i_csp = X264_CSP_I420;
+	_ctx.picture.img.i_plane = 3;
 
-	this->_ctx.output = malloc(128*1024);
-	this->_ctx.output_bufsize = 128*1024;
-	this->_ctx.output_datasize = 0;
+	_ctx.output = malloc(128*1024);
+	_ctx.output_bufsize = 128*1024;
+	_ctx.output_datasize = 0;
 
-	//this->_ctx.get_pts = first_pts;
-	this->_ctx.info_valid = 0;
+	//_ctx.get_pts = first_pts;
+	_ctx.info_valid = 0;
     	_Isfirst=0;
-	return &(this->_ctx);
+	// return &(_ctx);
 }
 
 S32 ix264::vc_close ()

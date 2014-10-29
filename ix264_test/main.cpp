@@ -5,10 +5,12 @@
 #include <stdio.h>
 #include "itrsystem.h"
 #include "basestruct.h"
-    S32 width=640;
-    S32 height=480;
-    S32 _size=width*height;
-    
+
+#include "vcompress.h"
+S32 width=640;
+S32 height=480;
+S32 _size=width*height;
+
 
 const int MaxSendLength=65535;
 const int MaxRecLength=25;
@@ -36,7 +38,7 @@ void SSPReceivefuc(itr_protocol::StandSerialProtocol *SSP, itr_protocol::StandSe
     // F32 *kpx,*kdx,*kpy,*kdy;
     switch(Package[0])
     {
-        case 0x41:
+    case 0x41:
         mode=Package[1];
 //        if(mode!=2)
 //        {
@@ -45,7 +47,7 @@ void SSPReceivefuc(itr_protocol::StandSerialProtocol *SSP, itr_protocol::StandSe
 //                uart.Send((unsigned char*)controlData,controlLength);
 //        }
         break;
-        case 0x42:
+    case 0x42:
         MemoryCopy(Package,Package+1,16);
         // kpx=(F32*)(Package);
         // kdx=(F32*)(Package+4);
@@ -53,17 +55,17 @@ void SSPReceivefuc(itr_protocol::StandSerialProtocol *SSP, itr_protocol::StandSe
         // kdy=(F32*)(Package+12);
         // GimbalUpdatePID(*kpx,*kdx,*kpy,*kdy);
         break;
-        case 0x44:
+    case 0x44:
         config.color=Package[1];
         break;
-        case 0x43:
+    case 0x43:
         config.fps=Package[1];
         config.pixel=Package[2];
         break;
-        case 0x45:
+    case 0x45:
 
     //直接转发
-        default:
+    default:
         if(uartOK)
             uart.Send((U8*)SSFS,SSP->GetSSFSLength(SSFS));
         break;
@@ -115,8 +117,8 @@ int main()
     fp=fopen("outpgm11.pgm","r");
     if(fp==NULL)
     {
-    	printf("Fail to open Picture!\n");
-    	exit(1);
+        printf("Fail to open Picture!\n");
+        exit(1);
     }
     fscanf(fp, "P6\n%d %d 255\n",&width,&height);
     _size=width*height;
@@ -125,7 +127,7 @@ int main()
     U8 V[_size/4];
     U8 imgcomped[_size*3];
 
-    printf("Succeed to open the picture.\n");
+    printf("Picture opened !\n");
     fread(Y,1,_size,fp);
     fread(U,1,_size/4,fp);
     fread(V,1,_size/4,fp);
@@ -133,13 +135,26 @@ int main()
     pic.data[1]=U;
     pic.data[2]=V;
 
-     void *encoder=ix264obj.vc_open(width, height, 30.00);
+    void *encoder = vc_open(width, height, 30.00);
+    if (!encoder) {
+        fprintf(stderr, "ERR: can't open x264 encoder\n");
+        exit(-1);
+    }
+    int rc = vc_compress(encoder, pic.data, pic.stride, &imgCompressData, &imgLength);
 
-    int rc = ix264obj.vc_compress(pic.data, pic.stride,&imgCompressData , & imgLength);
+    // void encoder=ix264obj.vc_open(width, height, 30.00);
+    printf("ix264 oened!\n");
+
+    // int rc = ix264obj.vc_compress(pic.data, pic.stride,&imgCompressData , & imgLength);
     if(rc>0)
     {
-    	printf("compress succeed!\n");
+        printf("compress succeed!\n");
     }
+    else
+    {
+        printf("compress failed !\n");
+    }
+
     S32 offset=0;
     U8 tempbuff[8];
     for(;;)
@@ -157,7 +172,7 @@ int main()
         tempbuff[offset++]=mode;
 
         sspUdp.SSPSendPackage(0,tempbuff,offset);
-       // 发送结果
+        // 发送结果
         udpPackage.pbuffer=SendBuf;
         udpPackage.len=SendLength;
         _udp.Send(udpPackage);
