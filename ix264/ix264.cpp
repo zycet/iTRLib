@@ -35,7 +35,7 @@ int64_t  ix264::next_pts()
 }
 
 
-void  ix264::vc_open (S32 width, S32 height, F32 fps)
+void  ix264::Open (S32 width, S32 height, F32 fps)
 {
 //	Ctx *ctx = new Ctx;
 
@@ -90,17 +90,15 @@ void  ix264::vc_open (S32 width, S32 height, F32 fps)
 	_ctx.output_bufsize = 128*1024;
 	_ctx.output_datasize = 0;
 
-	//_ctx.get_pts = first_pts;
 	_ctx.info_valid = 0;
-    	_Isfirst=0;
-	// return &(_ctx);
+    _Isfirst=0;
+
 }
 
-S32 ix264::vc_close ()
+S32 ix264::Close ()
 {
 	x264_encoder_close(this->_ctx.x264);
 	free(this->_ctx.output);
-	//delete this->_ctx;
 	return 1;
 }
 
@@ -162,7 +160,7 @@ void  ix264::_save_pic (void *start, S32 len)
 	fclose(fp);
 }
 
-S32 ix264::vc_compress (unsigned char *data[4], S32 stride[4], const void **out, S32*len)
+S32 ix264::Compress (unsigned char *data[4], S32 stride[4], const void **out, S32*len)
 {
 	// _save_pic(data[0],480000+240000);
 	// 设置 picture 数据
@@ -176,7 +174,6 @@ S32 ix264::vc_compress (unsigned char *data[4], S32 stride[4], const void **out,
 	S32 nal_cnt;
 	x264_picture_t pic_out;
 
-	//this->_ctx.picture.i_pts = this->_ctx.get_pts();
 	this->_ctx.picture.i_pts = next_pts();
 	x264_picture_t *pic = &this->_ctx.picture;
 
@@ -212,24 +209,6 @@ S32 ix264::vc_compress (unsigned char *data[4], S32 stride[4], const void **out,
 		fprintf(stderr, ".");
 		return 0; // 继续
 	}
-
-#ifdef DEBUG_MORE
-	static S32 _last_pts = this->_ctx.info_pts;
-
-	fprintf(stderr, "DBG: pts delta = %lld\n", this->_ctx.info_pts - _last_pts);
-	_last_pts = this->_ctx.info_pts;
-#endif //
-
-
-#ifdef DEBUG_MORE
-	static size_t _seq = 0;
-
-	fprintf(stderr, "#%lu: [%c] frame type=%d, size=%d\n", _seq,
-			pic_out.b_keyframe ? '*' : '.',
-			pic_out.i_type, this->_ctx.output_datasize);
-
-	_seq++;
-#endif // debug
 
 	return 1;
 }

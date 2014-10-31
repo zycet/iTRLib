@@ -25,15 +25,16 @@ namespace itr_device
 
             v4linux();
             virtual ~v4linux();
-            enum PIC_TYPE {
+            enum PIC_TYPE
+            {
                 YUV,
                 RGB
-             };
+            };
             /**
             * \brief 初始化摄像头,用来配置图象格式
             * \param typ =0 时输出RGB42格式; typ=1时输出YUV420格式
             */
-            void Init(S32 typ);
+            void Init(PIC_TYPE typ);
 
             typedef void (*ReceiveFrameCallBack)(ICamera &ICameraObj,U8 *Raw,S32 Length,void *ExInfo);
 
@@ -112,7 +113,8 @@ namespace itr_device
         protected:
         private:
 
-            struct buffer {
+            struct buffer
+            {
                 void   *start;
                 size_t length;
             };
