@@ -85,10 +85,7 @@ namespace itr_device
 
         fmt.fmt.pix.field       = V4L2_FIELD_INTERLACED;
         xioctl(fd, VIDIOC_S_FMT, &fmt);
-        // if (fmt.fmt.pix.pixelformat != V4L2_PIX_FMT_RGB24) {
-        //         printf("Libv4l didn't accept RGB24 format. Can't proceed.\n");
-        //         exit(EXIT_FAILURE);
-        // }
+
         if ((fmt.fmt.pix.width != _width) || (fmt.fmt.pix.height != _height))
             printf("Warning: driver is sending image at %dx%d\n",
                    fmt.fmt.pix.width, fmt.fmt.pix.height);
