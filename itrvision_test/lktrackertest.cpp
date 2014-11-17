@@ -303,9 +303,9 @@ void lktest_Stereo()
 
     SelectKLTFeature select(gray1);
     int Amount=100;
-    const int NumBlock = 30;
-    const int NumX = 6;
-    const int NumY = 5;
+    const int NumBlock = 2;
+    const int NumX = 2;
+    const int NumY = 1;
     int border = 16;
 
     vector<CommFeaturePoint> flUArray[NumBlock];
@@ -439,7 +439,14 @@ void MakeBlocks(int width,int height,int border,int NumX,int NumY,int CubicNum,v
     {
         for(int x = 0;x < NumX;x++)
         {
-            RectangleF rectTemp(StartX + x * CubicWidth,StartY + y * CubicHeight,CubicWidth,CubicHeight);
+            int UpLeftX = StartX + x * CubicWidth;
+            int UpLeftY = StartY + y * CubicHeight;
+            RectangleF rectTemp(UpLeftX,UpLeftY,CubicWidth,CubicHeight);
+            //cout << "i = " << ++i << endl;
+            //cout << "x = " << UpLeftX << endl;
+            //cout << "y = " << UpLeftY << endl;
+            //cout << "width = " << UpLeftX + CubicWidth << endl;
+            //cout << "height = " << UpLeftY+ CubicHeight << endl;
             rect.push_back(rectTemp);
         }
     }
