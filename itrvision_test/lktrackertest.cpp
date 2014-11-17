@@ -51,10 +51,12 @@ using namespace std;
 using namespace itr_algorithm;
 using namespace itr_vision;
 void SortMatch(vector<Point2D>& U,vector<Point2D>& V,int* Quality,int length);
+void MakeBlocks(int width,int height,int border,int NumX,int NumY,int CubicNum,vector<RectangleF>& rect);
 void lktest()
 {
     //lktest2Img();
-    lktest3Img();
+    //lktest3Img();
+    lktest_Stereo();
 }
 
 
@@ -63,15 +65,14 @@ void lktest2Img()
 {
     printf("*****Begin KLT Tracking 2 Image Test!*****\n\n");
     itr_math::Matrix gray1, gray2;
-    IOpnm::ReadPGMFile("1.pgm", gray1);
-    IOpnm::ReadPGMFile("5.pgm", gray2);
+    IOpnm::ReadPGMFile("SplineTest/1.pgm", gray1);
+    IOpnm::ReadPGMFile("SplineTest/2.pgm", gray2);
 
     SelectKLTFeature select(gray1);
-    int Amount=200;
+    int Amount = 1500;
     vector<CommFeaturePoint> flU(Amount), flV(Amount), flU2(Amount);
 
-    RectangleF rect(0, 0, gray1.GetCol(), gray1.GetRow());
-    //RectangleF rect(243, 34, 130, 300);
+    RectangleF rect(16, 16, gray1.GetCol() - 16, gray1.GetRow() - 16);
 
     select.SelectGoodFeature(rect, flU);
 
@@ -102,7 +103,7 @@ void lktest2Img()
             {
                 Draw::Circle(gray2, feat->X, feat->Y, 3, 255);
             }
-            printf("Feature #%d:  (%f,%f) with value of %f\n", i++, feat->X, feat->Y, feat->Quality);
+            //printf("Feature #%d:  (%f,%f) with value of %f\n", i++, feat->X, feat->Y, feat->Quality);
             ++feat;
         }
     }
@@ -132,21 +133,21 @@ void lktest2Img()
     vector<Point2D> outU(Amount),outV(Amount);
     int count=0;
     ofstream o_file;
-    o_file.open("near_16grid_200f.txt");
+    o_file.open("SplineTest/CP.txt");
     for(int i=0; i<Amount; ++i)
     {
         if(flV[i].Quality>=0)
         {
             outU[i]=flU[i];
             outV[i]=flV[i];
-            o_file << outU[i].X << " " << outU[i].Y << " " << outV[i].X << " " << outV[i].Y << " " << flU[i].Quality <<endl;
+            o_file << outU[i].X << " " << outU[i].Y << " " << outU[i].X - outV[i].X  << " " << flU[i].Quality <<endl;
             count++;
         }
     }
     Draw::Correspond(gray1, gray2, outU, outV, count, result);
     o_file.close();
 
-    IOpnm::WritePGMFile("result.pgm",result);
+    IOpnm::WritePGMFile("SplineTest/result1.pgm",gray1);
     //IOpnm::WritePGMFile("bin/debug/gray1.pgm",gray1);
     //IOpnm::WritePGMFile("bin/debug/gray2.pgm",gray2);
     printf("*****End KLT Tracking 2 Image Test!*****\n\n");
@@ -157,13 +158,13 @@ void lktest2Img()
 /****************************************************************************************/
 void lktest3Img()
 {
-    printf("*****Begin KLT Tracking 2 Image Test!*****\n\n");
+    printf("*****Begin KLT Tracking 3 Image Test!*****\n\n");
     itr_math::Matrix gray1, gray2;
-    IOpnm::ReadPGMFile("1.pgm", gray1);
-    IOpnm::ReadPGMFile("10.pgm", gray2);
+    IOpnm::ReadPGMFile("SplineTest/1.pgm", gray1);
+    IOpnm::ReadPGMFile("SplineTest/2.pgm", gray2);
 
     SelectKLTFeature select(gray1);
-    int Amount=100;
+    int Amount=1000;
     vector<CommFeaturePoint> flU1(Amount),flU2(Amount),flU3(Amount),flU4(Amount),flU5(Amount),flU6(Amount),flU7(Amount),flU8(Amount),flU9(Amount);
     vector<CommFeaturePoint> flU10(Amount),flU11(Amount),flU12(Amount),flU13(Amount),flU14(Amount),flU15(Amount),flU16(Amount);
     vector<CommFeaturePoint> flV1(Amount),flV2(Amount),flV3(Amount),flV4(Amount),flV5(Amount),flV6(Amount),flV7(Amount),flV8(Amount),flV9(Amount);
@@ -188,12 +189,14 @@ void lktest3Img()
     flUArray[14] = flU15;flVArray[14] = flV15;
     flUArray[15] = flU16;flVArray[15] = flV16;
 
-    int w = gray1.GetCol()/4;
-    int h = gray1.GetRow()/4;
-    RectangleF rect1(0,0,w,h);RectangleF rect2(w,0,w,h);RectangleF rect3(2*w,0,w,h);RectangleF rect4(3*w,0,w,h);
-    RectangleF rect5(0,h,w,h);RectangleF rect6(w,h,w,h);RectangleF rect7(2*w,h,w,h);RectangleF rect8(3*w,h,w,h);
-    RectangleF rect9(0,2*h,w,h);RectangleF rect10(w,2*h,w,h);RectangleF rect11(2*w,2*h,w,h);RectangleF rect12(3*w,2*h,w,h);
-    RectangleF rect13(0,3*h,w,h);RectangleF rect14(w,3*h,w,h);RectangleF rect15(2*w,3*h,w,h);RectangleF rect16(3*w,3*h,w,h);
+    int border = 16;
+    int w = (gray1.GetCol()-border*2)/4;
+    int h = (gray1.GetRow()-border*2)/4;
+
+    RectangleF rect1(border,border,w,h);RectangleF rect2(w+border,border,w,h);RectangleF rect3(2*w + border,border,w,h);RectangleF rect4(3*w+border,border,w,h);
+    RectangleF rect5(border,h+border,w,h);RectangleF rect6(w+border,h+border,w,h);RectangleF rect7(2*w+border,h+border,w,h);RectangleF rect8(3*w+border,h+border,w,h);
+    RectangleF rect9(border,2*h+border,w,h);RectangleF rect10(w+border,2*h+border,w,h);RectangleF rect11(2*w+border,2*h+border,w,h);RectangleF rect12(3*w+border,2*h+border,w,h);
+    RectangleF rect13(border,3*h+border,w,h);RectangleF rect14(w+border,3*h+border,w,h);RectangleF rect15(2*w+border,3*h+border,w,h);RectangleF rect16(3*w+border,3*h+border,w,h);
 
     select.SelectGoodFeature(rect1, flUArray[0]);
     select.SelectGoodFeature(rect2, flUArray[1]);
@@ -245,9 +248,9 @@ void lktest3Img()
             {
                 if (feat->Quality >= 0)
                 {
-                    Draw::Circle(gray2, feat->X, feat->Y, 3, 255);
+                    //Draw::Circle(gray2, feat->X, feat->Y, 3, 255);
                 }
-                printf("Feature #%d:  (%f,%f) with value of %f\n", i++, feat->X, feat->Y, feat->Quality);
+                //printf("Feature #%d:  (%f,%f) with value of %f\n", i++, feat->X, feat->Y, feat->Quality);
                 ++feat;
             }
         }
@@ -275,21 +278,124 @@ void lktest3Img()
         }
     }
     ///Sort the match big -> small in terms of Quality value
-    SortMatch(outU,outV,outQ,count);
-    o_file.open("long_16grid_100.txt");
+    //SortMatch(outU,outV,outQ,count);
+    /*o_file.open("long_16grid_100.txt");
     for(int i = 0;i<count;i++)
     {
         o_file << outU[i].X << " " << outU[i].Y << " " << outV[i].X << " " << outV[i].Y << " " << outQ[i] <<endl;
     }
-    o_file.close();
-    Draw::Correspond(gray1, gray2, outU, outV, count, result);
-    cout << count << endl;
+    o_file.close();*/
+    //Draw::Correspond(gray1, gray2, outU, outV, count, result);
 
-    IOpnm::WritePGMFile("result.pgm",result);
+    IOpnm::WritePGMFile("result_16.pgm",gray1);
     //IOpnm::WritePGMFile("bin/debug/gray1.pgm",gray1);
     //IOpnm::WritePGMFile("bin/debug/gray2.pgm",gray2);
-    printf("*****End KLT Tracking 2 Image Test!*****\n\n");
+    printf("*****End KLT Tracking 3 Image Test!*****\n\n");
 
+}
+
+
+void lktest_Stereo()
+{
+    itr_math::Matrix gray1, gray2;
+    IOpnm::ReadPGMFile("SplineTest/1.pgm", gray1);
+    IOpnm::ReadPGMFile("SplineTest/2.pgm", gray2);
+
+    SelectKLTFeature select(gray1);
+    int Amount=100;
+    const int NumBlock = 30;
+    const int NumX = 6;
+    const int NumY = 5;
+    int border = 16;
+
+    vector<CommFeaturePoint> flUArray[NumBlock];
+    vector<CommFeaturePoint> flVArray[NumBlock];
+
+    for(int i = 0;i < NumBlock;i++)
+    {
+        vector<CommFeaturePoint> fluTemp(Amount);
+        vector<CommFeaturePoint> flvTemp(Amount);
+        flUArray[i] = fluTemp;
+        flVArray[i] = flvTemp;
+    }
+
+    vector<RectangleF> rect;
+    MakeBlocks(gray1.GetCol(),gray1.GetRow(),border,NumX,NumY,NumBlock,rect);
+    for(int i = 0;i < NumBlock;i++)
+    {
+        select.SelectGoodFeature(rect[i],flUArray[i]);
+    }
+
+    LKTracker tracker;
+    tracker.Init(gray1, gray2);
+
+    for(int i = 0; i < NumBlock; i++)
+    {
+        tracker.Compute(flUArray[i],flVArray[i],Amount,true);
+    }
+
+    vector<CommFeaturePoint>::iterator feat;// = flU.begin();
+
+///Debug
+    if(true)
+    {
+        for(int j=0; j < NumBlock; j++)
+        {
+            int i=0;
+            feat = flUArray[j].begin();
+            //printf("\nIn first image, Region %d:\n", j);
+            while (feat != flUArray[j].end())
+            {
+                Draw::Circle(gray1, feat->X, feat->Y, 2, 255);
+                //printf("Feature #%d:  (%f,%f) with value of %f\n", i++, feat->X, feat->Y, feat->Quality);
+                ++feat;
+            }
+
+            i=0;
+            feat = flVArray[j].begin();
+            //printf("\nIn two image, Region %d:\n", j);
+            while (feat != flVArray[j].end())
+            {
+                if (feat->Quality >= 0)
+                {
+                    //Draw::Circle(gray2, feat->X, feat->Y, 3, 255);
+                }
+                //printf("Feature #%d:  (%f,%f) with value of %f\n", i++, feat->X, feat->Y, feat->Quality);
+                ++feat;
+            }
+        }
+    }
+
+    Matrix result;
+
+    vector<Point2D> outU(Amount*NumBlock),outV(Amount*NumBlock);
+    int outQ[Amount*NumBlock];
+    int count = 0;
+    ofstream o_file;
+
+    for(int j = 0; j < NumBlock; j++)
+    {
+        for(int i=0; i<Amount; ++i)
+        {
+            if(flVArray[j][i].Quality >= 0)
+            {
+                outU[count]=flUArray[j][i];
+                outV[count]=flVArray[j][i];
+                outQ[count]=flUArray[j][i].Quality;
+                //o_file << outU[count].X << " " << outU[count].Y << " " << outV[count].X << " " << outV[count].Y << " " << outQ[count] <<endl;
+                count++;
+            }
+        }
+    }
+
+    /*o_file.open("long_16grid_100.txt");
+    for(int i = 0;i<count;i++)
+    {
+        o_file << outU[i].X << " " << outU[i].Y << " " << outV[i].X << " " << outV[i].Y << " " << outQ[i] <<endl;
+    }
+    o_file.close();*/
+
+    IOpnm::WritePGMFile("result_blk2.pgm",gray1);
 }
 
 void SortMatch(vector<Point2D>& U,vector<Point2D>& V,int* Quality,int length)
@@ -320,6 +426,25 @@ void SortMatch(vector<Point2D>& U,vector<Point2D>& V,int* Quality,int length)
         }
     }
 }
+
+void MakeBlocks(int width,int height,int border,int NumX,int NumY,int CubicNum,vector<RectangleF>& rect)
+{
+    assert(CubicNum == NumX * NumY);
+    int StartX = border;
+    int StartY = border;
+    int CubicWidth = (width - 2 * border)/NumX;
+    int CubicHeight = (height - 2 * border)/NumY;
+
+    for(int y = 0;y < NumY;y++)
+    {
+        for(int x = 0;x < NumX;x++)
+        {
+            RectangleF rectTemp(StartX + x * CubicWidth,StartY + y * CubicHeight,CubicWidth,CubicHeight);
+            rect.push_back(rectTemp);
+        }
+    }
+}
+
 void lkseq()
 {
     /*

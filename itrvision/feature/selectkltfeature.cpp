@@ -45,7 +45,7 @@ namespace itr_vision
     {
         windowWidth=7;
         bw = windowWidth >> 1;
-        mindist = 10;
+        mindist = 20;
         mineigen = 1;
         width = Img.GetCol();
         height = Img.GetRow();

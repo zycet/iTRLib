@@ -37,4 +37,5 @@
 void lktest();
 void lktest2Img();
 void lktest3Img();
+void lktest_Stereo();
 #endif // LKTRACKERTEST_H_
