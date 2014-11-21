@@ -54,7 +54,7 @@ namespace itr_vision
         img[0].Init(Height, Width);
         gradx[0].Init(Height, Width);
         grady[0].Init(Height, Width);
-        tempimg.Init(Height,Width);
+        tempimg[0].Init(Height,Width);
         int L;
         for (L = 1; L < level; ++L)
         {
@@ -63,6 +63,7 @@ namespace itr_vision
             img[L].Init(height[L], width[L]);
             gradx[L].Init(height[L], width[L]);
             grady[L].Init(height[L], width[L]);
+            tempimg[L].Init(height[L], width[L]);
         }
     }
     void Pyramid::Generate(const Matrix &Img)
@@ -74,12 +75,12 @@ namespace itr_vision
         int L;
         for (L = 1; L < level; ++L)
         {
-            conv._KLTComputeSmoothedImage(img[L - 1], sigma, tempimg);
+            conv._KLTComputeSmoothedImage(img[L - 1], sigma, tempimg[L-1]);
             for (int y = 0 ; y < height[L] ; y++)
                 for (int x = 0 ; x < width[L]  ; x++)
                 {
                     img[L][y*width[L]+x] =
-                        tempimg[(subsampling*y+subhalf)*width[L-1] +
+                        tempimg[L-1][(subsampling*y+subhalf)*width[L-1] +
                                 (subsampling*x+subhalf)];
                 }
         }

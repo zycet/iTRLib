@@ -58,7 +58,7 @@ public:
     S32 width[3], height[3];
     Matrix img[3];
     Matrix gradx[3], grady[3];
-    Matrix tempimg;
+    Matrix tempimg[3];
 private:
     int level;
     int subsampling;
