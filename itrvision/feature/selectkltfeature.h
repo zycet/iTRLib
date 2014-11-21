@@ -36,6 +36,7 @@
 
 #include "itrbase.h"
 #include "../feature/commfeaturepoint.h"
+#include "../process/convolutesquare.h"
 #include <vector>
 using std::vector;
 using itr_math::RectangleS;
