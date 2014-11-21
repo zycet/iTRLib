@@ -70,7 +70,7 @@ public:
     * \param 上一时刻图像的点
     * \param 第二帧中对应的点
     */
-    TrackResult Compute(Point2D &U, Point2D &V, S32 L);
+    TrackResult Compute(const Point2D &U, Point2D &V, S32 L);
     void Compute(const vector<CommFeaturePoint> &fl,vector<CommFeaturePoint> &flresult, S32 FeatureNum,bool Forward);
     S32 minDet;
     S32 max_residue;
@@ -82,9 +82,9 @@ public:
     */
     void AddNext(const Matrix &Img);
 private:
-    void _ComputeDt(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dt);
-    void _ComputeGrad(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dx, S32 *dy);
-    void _ComputeGrad2(Point2D &U, S32 L, S32 hw, S32 *dx, S32 *dy);
+    void _ComputeDt(const Point2D &U, const Point2D &V, S32 L, S32 hw, S32 *dt);
+    void _ComputeGrad(const Point2D &U, const Point2D &V, S32 L, S32 hw, S32 *dx, S32 *dy);
+    void _ComputeGrad2(const Point2D &U, S32 L, S32 hw, S32 *dx, S32 *dy);
     S32 _ComputeSum(S32 *a, S32 *b, S32 *sum, S32 length);
     S32 _SumDiff(S32 *a, S32 length);
 

@@ -47,13 +47,15 @@ class SelectKLTFeature
 {
 public:
     SelectKLTFeature(const Matrix &Img);
+    SelectKLTFeature(S32 width,S32 height);
+    void AddImage(const Matrix &Img);
     S32 SelectGoodFeature(const RectangleF &rect, vector<CommFeaturePoint> &fl, S32 start=0);
     virtual ~SelectKLTFeature();
     int mindist, mineigen;
     S32 windowWidth;
 private:
-    F32 MinEigenvalue(F32 gxx, F32 gxy, F32 gyy);
-    void fillMap(S32 x, S32 y, BOOL *featuremap);
+    inline F32 minEigenvalue(F32 gxx, F32 gxy, F32 gyy);
+    inline void fillMap(S32 x, S32 y, BOOL *featuremap);
     Matrix img;
     Matrix dx, dy;
     S32 bw;

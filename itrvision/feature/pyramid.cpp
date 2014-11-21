@@ -36,57 +36,64 @@
 #include "../process/convolutesquare.h"
 namespace itr_vision
 {
-Pyramid::Pyramid()
-{
-    level = 2;
-    subsampling = 4;
-    sigma = 1;
-}
-void Pyramid::Init(const Matrix &Img, int Subsampling, int Level)
-{
-    level = Level;
-    subsampling = Subsampling;
-    sigma = 0.9 * subsampling;
-    //分配空间
-    width[0] = Img.GetCol();
-    height[0] = Img.GetRow();
-    img[0].Init(height[0], width[0]);
-    gradx[0].Init(height[0], width[0]);
-    grady[0].Init(height[0], width[0]);
-    Matrix tempimg(height[0], width[0]);
-    int L;
-
-    for (L = 1; L < level; ++L)
+    Pyramid::Pyramid()
     {
-        width[L] = width[L - 1] / subsampling;
-        height[L] = height[L - 1] / subsampling;
-        img[L].Init(height[L], width[L]);
-        gradx[L].Init(height[L], width[L]);
-        grady[L].Init(height[L], width[L]);
-    }
-    ConvoluteSquare conv;
-    conv._KLTComputeSmoothedImage(Img, 0.7, img[0]);
-    int subhalf = subsampling / 2;
-    //int oldncols;
-    for (L = 1; L < level; ++L)
-    {
-        conv._KLTComputeSmoothedImage(img[L - 1], sigma, tempimg);
-        for (int y = 0 ; y < height[L] ; y++)
-            for (int x = 0 ; x < width[L]  ; x++)
-                img[L][y*width[L]+x] =
-                    tempimg[(subsampling*y+subhalf)*width[L-1] +
-                            (subsampling*x+subhalf)];
+        level = 2;
+        subsampling = 4;
+        sigma = 1;
     }
 
-    for (L = 0; L < level; ++L)
+    void Pyramid::Init(int Width,int Height,int Subsampling, int Level)
     {
-        conv._KLTComputeGradients(img[L], 1, gradx[L], grady[L]);
-    }
-}
+        level = Level;
+        subsampling = Subsampling;
+        sigma = 0.9 * subsampling;
+        //分配空间
+        width[0] = Width;
+        height[0] = Height;
+        img[0].Init(Height, Width);
+        gradx[0].Init(Height, Width);
+        grady[0].Init(Height, Width);
+        tempimg.Init(Height,Width);
+        int L;
 
-Pyramid::~Pyramid()
-{
-    // TODO Auto-generated destructor stub
-}
+        for (L = 1; L < level; ++L)
+        {
+            width[L] = width[L - 1] / subsampling;
+            height[L] = height[L - 1] / subsampling;
+            img[L].Init(height[L], width[L]);
+            gradx[L].Init(height[L], width[L]);
+            grady[L].Init(height[L], width[L]);
+        }
+    }
+    void Pyramid::Generate(const Matrix &Img)
+    {
+        ConvoluteSquare conv;
+        conv._KLTComputeSmoothedImage(Img, 0.7, img[0]);
+        int subhalf = subsampling / 2;
+        //int oldncols;
+        int L;
+        for (L = 1; L < level; ++L)
+        {
+            conv._KLTComputeSmoothedImage(img[L - 1], sigma, tempimg);
+            for (int y = 0 ; y < height[L] ; y++)
+                for (int x = 0 ; x < width[L]  ; x++)
+                {
+                    img[L][y*width[L]+x] =
+                        tempimg[(subsampling*y+subhalf)*width[L-1] +
+                                (subsampling*x+subhalf)];
+                }
+        }
+
+        for (L = 0; L < level; ++L)
+        {
+            conv._KLTComputeGradients(img[L], 1, gradx[L], grady[L]);
+        }
+    }
+
+    Pyramid::~Pyramid()
+    {
+        // TODO Auto-generated destructor stub
+    }
 
 } // namespace itr_vision

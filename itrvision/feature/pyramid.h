@@ -43,7 +43,8 @@ class Pyramid
 public:
     Pyramid();
     virtual ~Pyramid();
-    void Init(const Matrix &Img, int Subsampling, int Level);
+    void Init(int Width,int Height,int Subsampling, int Level);
+    void Generate(const Matrix &Img);
     inline int GetLevel() const
     {
         return level;
@@ -57,6 +58,7 @@ public:
     S32 width[3], height[3];
     Matrix img[3];
     Matrix gradx[3], grady[3];
+    Matrix tempimg;
 private:
     int level;
     int subsampling;

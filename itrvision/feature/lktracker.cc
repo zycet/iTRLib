@@ -49,32 +49,36 @@ namespace itr_vision
     {
         last = new Pyramid();
         current = new Pyramid();
-        last->Init(Img1, 4, 2);
-        current->Init(Img2, 4, 2);
+        int width=Img1.GetCol(),height=Img1.GetRow();
+        last->Init(width,height, 4, 2);
+        current->Init(width,height, 4, 2);
+        last->Generate(Img1);
+        current->Generate(Img2);
     }
     void LKTracker::Init(const Matrix &Img)
     {
-        last =NULL;
+        last = new Pyramid();
         current = new Pyramid();
-        current->Init(Img, 4, 2);
-
+        int width=Img.GetCol(),height=Img.GetRow();
+        last->Init(width,height, 4, 2);
+        current->Init(width,height, 4, 2);
+        current->Generate(Img);
     }
     LKTracker::~LKTracker()
     {
+        if(last!=NULL)delete last;
+        if(current!=NULL)delete current;
     }
 
     void itr_vision::LKTracker::AddNext(const Matrix &Img)
     {
-        if(last!=NULL)
-        {
-            delete last;
-        }
+        Pyramid* temp=last;
         last = current;
-        current = new Pyramid();
-        current->Init(Img, 4, 2);
+        current = temp;
+        current->Generate(Img);
     }
 
-    void LKTracker::_ComputeDt(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dt)
+    void LKTracker::_ComputeDt(const Point2D &U, const Point2D &V, S32 L, S32 hw, S32 *dt)
     {
         S32 y, x, g1, g2;
         for (y = -hw; y <= hw; ++y)
@@ -85,28 +89,36 @@ namespace itr_vision
                 *dt++ = g1 - g2;
             }
     }
-    void LKTracker::_ComputeGrad(Point2D &U, Point2D &V, S32 L, S32 hw, S32 *dx, S32 *dy)
+    void LKTracker::_ComputeGrad(const Point2D &U,const  Point2D &V, S32 L, S32 hw, S32 *dx, S32 *dy)
     {
         S32 y, x, g1, g2;
+        F32 uy,ux,vy,vx;
         for (y = -hw; y <= hw; ++y)
             for (x = -hw; x <= hw; ++x)
             {
-                g1 = Scale::Interpolation(last->gradx[L], U.Y + y, U.X + x);
-                g2 = Scale::Interpolation(current->gradx[L], V.Y + y, V.X + x);
+                uy=U.Y+y;
+                ux=U.X+x;
+                vy=V.Y+y;
+                vx=V.X+x;
+                g1 = Scale::Interpolation(last->gradx[L], uy, ux);
+                g2 = Scale::Interpolation(current->gradx[L], vy, vx);
                 *dx++ = g1 + g2;
-                g1 = Scale::Interpolation(last->grady[L], U.Y + y, U.X + x);
-                g2 = Scale::Interpolation(current->grady[L], V.Y + y, V.X + x);
+                g1 = Scale::Interpolation(last->grady[L], uy, ux);
+                g2 = Scale::Interpolation(current->grady[L], vy, vx);
                 *dy++ = g1 + g2;
             }
     }
-    void LKTracker::_ComputeGrad2(Point2D &U, S32 L, S32 hw, S32 *dx, S32 *dy)
+    void LKTracker::_ComputeGrad2(const Point2D &U, S32 L, S32 hw, S32 *dx, S32 *dy)
     {
         S32 y, x;
+        F32 uy,ux;
         for (y = -hw; y <= hw; ++y)
             for (x = -hw; x <= hw; ++x)
             {
-                *dx++ = Scale::Interpolation(last->gradx[L], U.Y + y, U.X + x);
-                *dy++ = Scale::Interpolation(last->grady[L], U.Y + y, U.X + x);
+                uy=U.Y+y;
+                ux=U.X+x;
+                *dx++ = Scale::Interpolation(last->gradx[L], uy, ux);
+                *dy++ = Scale::Interpolation(last->grady[L], uy, ux);
             }
     }
     S32 LKTracker::_ComputeSum(S32 *a, S32 *b, S32 *sum, S32 length)
@@ -125,7 +137,7 @@ namespace itr_vision
         }
         return ans;
     }
-    LKTracker::TrackResult LKTracker::Compute(Point2D &U, Point2D &V, int L)
+    LKTracker::TrackResult LKTracker::Compute(const Point2D &U, Point2D &V, int L)
     {
         S32 hw = windowWidth >> 1;
         S32 length = windowWidth * windowWidth;
@@ -164,7 +176,7 @@ namespace itr_vision
             V.X += speedx;
             V.Y += speedy;
         }
-        if ( V.X - hw < 0 || V.Y - hw < 0
+        if ( V.X < hw || V.Y < hw
                 || V.X + hw >= last->width[L] || V.Y + hw >= last->height[L])
         {
             result = OOB;
@@ -197,6 +209,10 @@ namespace itr_vision
             last = current;
             current = temp;
         }
+        F32 subsamplingDiv=1;
+        for (i = 0; i < level; ++i)
+            subsamplingDiv*=subsampling;
+        subsamplingDiv=1/subsamplingDiv;
         while (feat != fl.begin()+FeatureNum)
         {
             if (feat->Quality < 0)
@@ -205,13 +221,8 @@ namespace itr_vision
                 ++featr;
                 continue;
             }
-            U.X = (feat->X);
-            U.Y = (feat->Y);
-            for (i = 0; i < level; ++i)
-            {
-                U.X = U.X / subsampling;
-                U.Y = U.Y / subsampling;
-            }
+            U.X = (feat->X)*subsamplingDiv;
+            U.Y = (feat->Y)*subsamplingDiv;
             V.X = U.X;
             V.Y = U.Y;
             for (l = level - 1; l >= 0; --l)

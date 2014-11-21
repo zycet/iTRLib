@@ -54,11 +54,23 @@ namespace itr_vision
         dy.Init(height, width);
         ConvoluteSquare conv;
         conv._KLTComputeSmoothedImage(Img, 0.1f * windowWidth, img);
+        conv._KLTComputeGradients(img, 1.0f, dx, dy);
         featuremap = new BOOL[height* width]();
-        // TODO 求微分
+
+    }
+    SelectKLTFeature::SelectKLTFeature(S32 width,S32 height)
+    {
+        img.Init(height, width);
+        dx.Init(height, width);
+        dy.Init(height, width);
+        featuremap = new BOOL[height* width]();
+    }
+    void SelectKLTFeature::AddImage(const Matrix &Img)
+    {
+        ConvoluteSquare conv;
+        conv._KLTComputeSmoothedImage(Img, 0.1f * windowWidth, img);
         conv._KLTComputeGradients(img, 1.0f, dx, dy);
     }
-
     void SelectKLTFeature::fillMap(S32 x, S32 y, BOOL *featuremap)
     {
         int ix, iy;
@@ -76,7 +88,7 @@ namespace itr_vision
         delete[] featuremap;
     }
 
-    float SelectKLTFeature::MinEigenvalue(F32 gxx, F32 gxy, F32 gyy)
+    float SelectKLTFeature::minEigenvalue(F32 gxx, F32 gxy, F32 gyy)
     {
         itr_math::NumericalObj->Sqrt((gxx - gyy) * (gxx - gyy) + 4 * gxy * gxy, gxy);
         return (float) ((gxx + gyy - gxy) * 0.5f);
@@ -116,6 +128,7 @@ namespace itr_vision
         vector<CommFeaturePoint>::iterator featptr = featurelist.begin();
         // 初始化特征列表
         {
+            S32 index;
             for (y = beginy; y < bordy; ++y)
                 for (x = beginx; x < bordx; ++x)
                 {
@@ -124,15 +137,16 @@ namespace itr_vision
                         for (xx = x - bw; xx <= x + bw; ++xx)
                         {
                             // TODO 改成指针形式的访问
-                            gx = dx[yy*ImgWidth+ xx];
-                            gy = dy[yy*ImgWidth+ xx];
+                            index=yy*ImgWidth+ xx;
+                            gx = dx[index];
+                            gy = dy[index];
                             gxx += gx * gx;
                             gxy += gx * gy;
                             gyy += gy * gy;
                         }
                     featptr->X = x;
                     featptr->Y = y;
-                    featptr->Quality = MinEigenvalue(gxx, gxy, gyy);
+                    featptr->Quality = minEigenvalue(gxx, gxy, gyy);
                     ++featptr;
                     ++npoints;
                 }
