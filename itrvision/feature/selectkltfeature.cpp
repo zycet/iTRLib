@@ -52,7 +52,6 @@ namespace itr_vision
         img.Init(height, width);
         dx.Init(height, width);
         dy.Init(height, width);
-        ConvoluteSquare conv;
         conv._KLTComputeSmoothedImage(Img, 0.1f * windowWidth, img);
         conv._KLTComputeGradients(img, 1.0f, dx, dy);
         featuremap = new BOOL[height* width]();
@@ -67,7 +66,6 @@ namespace itr_vision
     }
     void SelectKLTFeature::AddImage(const Matrix &Img)
     {
-        ConvoluteSquare conv;
         conv._KLTComputeSmoothedImage(Img, 0.1f * windowWidth, img);
         conv._KLTComputeGradients(img, 1.0f, dx, dy);
     }

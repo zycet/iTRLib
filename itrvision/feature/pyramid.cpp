@@ -56,11 +56,11 @@ namespace itr_vision
         grady[0].Init(Height, Width);
         tempimg.Init(Height,Width);
         int L;
-
+        F32 coefficient=1/subsampling;
         for (L = 1; L < level; ++L)
         {
-            width[L] = width[L - 1] / subsampling;
-            height[L] = height[L - 1] / subsampling;
+            width[L] = width[L - 1] * coefficient;
+            height[L] = height[L - 1] * coefficient;
             img[L].Init(height[L], width[L]);
             gradx[L].Init(height[L], width[L]);
             grady[L].Init(height[L], width[L]);

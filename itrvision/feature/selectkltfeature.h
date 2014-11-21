@@ -61,6 +61,7 @@ private:
     S32 bw;
     S32 width, height;
     BOOL *featuremap;
+    ConvoluteSquare conv;
 };
 
 } // namespace itr_vision
