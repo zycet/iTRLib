@@ -33,16 +33,17 @@
 					<Add library="x264" />
 				</Linker>
 			</Target>
-			<Target title="delease">
-				<Option output="bin/delease/ix264" prefix_auto="1" extension_auto="1" />
+			<Target title="release">
+				<Option output="bin/release/ix264" prefix_auto="1" extension_auto="1" />
 				<Option working_dir="" />
-				<Option object_output="obj/delease/" />
+				<Option object_output="obj/release/" />
 				<Option type="2" />
 				<Option compiler="gcc" />
 				<Option createDefFile="1" />
 				<Compiler>
-					<Add option="-Wall" />
 					<Add option="-O2" />
+					<Add option="-Wall" />
+					<Add directory="../itrbase" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />

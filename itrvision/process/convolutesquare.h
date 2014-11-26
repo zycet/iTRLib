@@ -51,9 +51,8 @@ public:
     } ConvolutionKernel;
 
     ConvoluteSquare();
-    ConvoluteSquare(S32 FilterDim, S32 Width, S32 Height);
+    ConvoluteSquare(S32 Width, S32 Height);
     virtual ~ConvoluteSquare();
-    void Convolute(const Matrix &Input, F32 *Filter, Matrix &Output);
 
     void _computeKernels(float sigma, ConvolutionKernel *gauss,
                          ConvolutionKernel *gaussderiv);
@@ -72,12 +71,7 @@ private:
     ConvolutionKernel gauss_kernel;
     ConvolutionKernel gaussderiv_kernel;
     float sigma_last;
-    S16 *multBufferS16;
-    S16 *imageBufferS16;
-    S32 width;
-    S32 height;
-    S32 filterDim;
-    S32 r;
+    F32 *Buffer;
 };
 
 } // namespace itr_image
