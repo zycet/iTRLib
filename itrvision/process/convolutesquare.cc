@@ -272,13 +272,14 @@ namespace itr_vision
     void ConvoluteSquare::_convolveSeparate(const Matrix &imgin, ConvolutionKernel horiz_kernel,
                                             ConvolutionKernel vert_kernel, Matrix &imgout)
     {
+        Matrix tmpimg;
         if(Buffer==NULL)
         {
-            Matrix tmpimg(imgin.GetRow(), imgin.GetCol());
+            tmpimg.Init(imgin.GetRow(), imgin.GetCol());
         }
         else
         {
-            Matrix tmpimg(imgin.GetRow(), imgin.GetCol(),Buffer);
+            tmpimg.Init(imgin.GetRow(), imgin.GetCol(),Buffer);
         }
         _convolveImageHoriz(imgin, horiz_kernel, tmpimg);
         _convolveImageVert(tmpimg, vert_kernel, imgout);
