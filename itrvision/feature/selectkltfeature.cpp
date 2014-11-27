@@ -41,33 +41,17 @@
 namespace itr_vision
 {
 
-    SelectKLTFeature::SelectKLTFeature(const Matrix &Img)
+    SelectKLTFeature::SelectKLTFeature(S32 Width,S32 Height)
     {
-        windowWidth=7;
-        bw = windowWidth >> 1;
-        mindist = 5;
-        mineigen = 1;
-        width = Img.GetCol();
-        height = Img.GetRow();
-        img.Init(height, width);
-        dx.Init(height, width);
-        dy.Init(height, width);
-        conv._KLTComputeSmoothedImage(Img, 0.1f * windowWidth, img);
-        conv._KLTComputeGradients(img, 1.0f, dx, dy);
-        featuremap = new BOOL[height* width]();
-
-    }
-    SelectKLTFeature::SelectKLTFeature(S32 width,S32 height)
-    {
-        img.Init(height, width);
-        dx.Init(height, width);
-        dy.Init(height, width);
+        width=Width;
+        height=Height;
         featuremap = new BOOL[height* width]();
     }
-    void SelectKLTFeature::AddImage(const Matrix &Img)
+    void SelectKLTFeature::AddImage(Pyramid *Image)
     {
-        conv._KLTComputeSmoothedImage(Img, 0.1f * windowWidth, img);
-        conv._KLTComputeGradients(img, 1.0f, dx, dy);
+        image=Image;
+        dx=image->gradx[0].GetData();
+        dy=image->grady[0].GetData();
     }
     void SelectKLTFeature::fillMap(S32 x, S32 y, BOOL *featuremap)
     {
@@ -95,28 +79,28 @@ namespace itr_vision
     S32 SelectKLTFeature::SelectGoodFeature(const RectangleF &rect, vector<CommFeaturePoint> &featureOutput,S32 start)
     {
 
-        S32 bord = 24,ImgWidth=img.GetCol();
+        S32 bord = 24;
         S32 beginy = (rect.Y < bord) ? bord : rect.Y;
         S32 beginx = (rect.X < bord) ? bord : rect.X;
-        if (beginy >= img.GetRow() - bord)
+        if (beginy >= height - bord)
         {
-            beginy = img.GetRow() - bord;
+            beginy = height - bord;
         }
-        if (beginx >= ImgWidth - bord)
+        if (beginx >= width - bord)
         {
-            beginx = ImgWidth - bord;
+            beginx = width - bord;
         }
         S32 bordy = beginy + rect.Height;
         S32 bordx = beginx + rect.Width;
         bordy = (bordy < bord) ? bord :bordy;
         bordx = (bordx < bord) ? bord : bordx;
-        if (bordy >= img.GetRow() - bord)
+        if (bordy >= height - bord)
         {
-            bordy = img.GetRow() - bord;
+            bordy = height - bord;
         }
-        if (bordx >= ImgWidth - bord)
+        if (bordx >= width - bord)
         {
-            bordx = ImgWidth - bord;
+            bordx = width - bord;
         }
         vector<CommFeaturePoint> featurelist((bordx-beginx)*(bordy-beginy));
         S32 x, y, xx, yy;
@@ -135,7 +119,7 @@ namespace itr_vision
                         for (xx = x - bw; xx <= x + bw; ++xx)
                         {
                             // TODO 改成指针形式的访问
-                            index=yy*ImgWidth+ xx;
+                            index=yy*width+ xx;
                             gx = dx[index];
                             gy = dy[index];
                             gxx += gx * gx;

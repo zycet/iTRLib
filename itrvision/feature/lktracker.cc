@@ -45,38 +45,11 @@ namespace itr_vision
         max_residue = 10;
         max_iterations=10;
     }
-    void LKTracker::Init(const Matrix &Img1, const Matrix &Img2)
-    {
-        last = new Pyramid();
-        current = new Pyramid();
-        int width=Img1.GetCol(),height=Img1.GetRow();
-        last->Init(width,height, 4, 2);
-        current->Init(width,height, 4, 2);
-        last->Generate(Img1);
-        current->Generate(Img2);
-    }
-    void LKTracker::Init(const Matrix &Img)
-    {
-        last = new Pyramid();
-        current = new Pyramid();
-        int width=Img.GetCol(),height=Img.GetRow();
-        last->Init(width,height, 4, 2);
-        current->Init(width,height, 4, 2);
-        current->Generate(Img);
-    }
+
     LKTracker::~LKTracker()
     {
-        if(last!=NULL)delete last;
-        if(current!=NULL)delete current;
     }
 
-    void itr_vision::LKTracker::AddNext(const Matrix &Img)
-    {
-        Pyramid* temp=last;
-        last = current;
-        current = temp;
-        current->Generate(Img);
-    }
 
     void LKTracker::_ComputeDt(const Point2D &U, const Point2D &V, S32 L, S32 hw, S32 *dt)
     {
@@ -194,24 +167,22 @@ namespace itr_vision
         return result;
     }
 
-    void LKTracker::Compute(const vector<CommFeaturePoint> &fl, vector<CommFeaturePoint> &flresult, S32 FeatureNum,
-                            bool Forward)
+    void LKTracker::Compute(const vector<CommFeaturePoint> &fl, vector<CommFeaturePoint> &flresult, S32 FeatureNum,Pyramid *t0,Pyramid *t1)
     {
         vector<CommFeaturePoint>::const_iterator feat = fl.begin();
         vector<CommFeaturePoint>::iterator featr = flresult.begin();
         Point2D U, V;
         S32 l, i;
         LKTracker::TrackResult result;
+
+        last = t0;
+        current = t1;
         int subsampling = current->GetSubsampling();
-        if (!Forward)
-        {
-            Pyramid *temp = last;
-            last = current;
-            current = temp;
-        }
         F32 subsamplingDiv=1;
         for (i = 0; i < level; ++i)
+        {
             subsamplingDiv*=subsampling;
+        }
         subsamplingDiv=1/subsamplingDiv;
         while (feat != fl.begin()+FeatureNum)
         {
@@ -243,12 +214,6 @@ namespace itr_vision
             featr->Quality = -result;
             ++featr;
             ++feat;
-        }
-        if (!Forward)
-        {
-            Pyramid *temp = last;
-            last = current;
-            current = temp;
         }
     }
 

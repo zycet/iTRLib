@@ -36,6 +36,7 @@
 
 #include "itrbase.h"
 #include "../feature/commfeaturepoint.h"
+#include "../feature/pyramid.h"
 #include "../process/convolutesquare.h"
 #include <vector>
 using std::vector;
@@ -47,9 +48,8 @@ namespace itr_vision
 class SelectKLTFeature
 {
 public:
-    SelectKLTFeature(const Matrix &Img);
     SelectKLTFeature(S32 width,S32 height);
-    void AddImage(const Matrix &Img);
+    void AddImage(Pyramid *Image);
     S32 SelectGoodFeature(const RectangleF &rect, vector<CommFeaturePoint> &fl, S32 start=0);
     virtual ~SelectKLTFeature();
     int mindist, mineigen;
@@ -57,8 +57,8 @@ public:
 private:
     inline F32 minEigenvalue(F32 gxx, F32 gxy, F32 gyy);
     inline void fillMap(S32 x, S32 y, BOOL *featuremap);
-    Matrix img;
-    Matrix dx, dy;
+    Pyramid *image;
+    F32 *dx,*dy;
     S32 bw;
     S32 width, height;
     BOOL *featuremap;

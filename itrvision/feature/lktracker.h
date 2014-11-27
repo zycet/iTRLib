@@ -49,17 +49,6 @@ public:
     {
         Tracked, OOB, SmallDet, LARGE_RESIDUE,MAX_ITERATION,FBError,NCCError
     };
-    /**
-    * \brief 初始化图像，给定上一时刻和当前时刻的图像
-    * \param 上一时刻的图像
-    * \param 当前时刻的图像
-    */
-    void Init(const Matrix &Img1, const Matrix &Img2);
-    /**
-    * \brief 只给定一副图像，仅做初始化用
-    * \param 当前时刻图像
-    */
-    void Init(const Matrix &Img);
 
     LKTracker();
 
@@ -71,16 +60,12 @@ public:
     * \param 第二帧中对应的点
     */
     TrackResult Compute(const Point2D &U, Point2D &V, S32 L);
-    void Compute(const vector<CommFeaturePoint> &fl,vector<CommFeaturePoint> &flresult, S32 FeatureNum,bool Forward);
+    void Compute(const vector<CommFeaturePoint> &fl,vector<CommFeaturePoint> &flresult, S32 FeatureNum,Pyramid *t0,Pyramid *t1);
     S32 minDet;
     S32 max_residue;
     S32 max_iterations;
     static const S32 windowWidth = 7;
-    Pyramid *last,*current;
-    /**
-    * \brief 建立新金字塔
-    */
-    void AddNext(const Matrix &Img);
+
 private:
     void _ComputeDt(const Point2D &U, const Point2D &V, S32 L, S32 hw, S32 *dt);
     void _ComputeGrad(const Point2D &U, const Point2D &V, S32 L, S32 hw, S32 *dx, S32 *dy);
@@ -94,7 +79,7 @@ private:
     S32 Sum[windowWidth*windowWidth];
     F32 stopth;
     S32 level;
-
+    Pyramid *last,*current;
 };
 
 } // namespace itr_vision
