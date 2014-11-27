@@ -149,6 +149,7 @@ namespace itr_vision
         assert(imgout.GetCol() >= imgin.GetCol());
         assert(imgout.GetRow() >= imgin.GetRow());
 
+        uplimit=ncols-radius-radius;
         /* For each row, do ... */
         for (j = 0; j < nrows; j++)
         {
@@ -159,7 +160,7 @@ namespace itr_vision
             }
 
             /* Convolve middle columns with kernel */
-            uplimit=ncols-radius-radius;
+
             for (i=0; i < uplimit; i++)
             {
                 ppp = ptrrow + i;
@@ -203,7 +204,7 @@ namespace itr_vision
         /* Output image must be large enough to hold result */
         assert(imgout.GetCol() >= imgin.GetCol());
         assert(imgout.GetRow() >= imgin.GetRow());
-
+        uplimits=nrows-radius-radius;
         /* For each column, do ... */
         for (i = 0; i < ncols; i++)
         {
@@ -216,7 +217,7 @@ namespace itr_vision
             }
 
             /* Convolve middle rows with kernel */
-            uplimits=nrows-radius-radius;
+
             for (j=0; j < uplimits; j++)
             {
                 ppp = ptrcol + ncols * j;
