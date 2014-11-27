@@ -34,7 +34,7 @@
 #ifndef PYRAMID_H_
 #define PYRAMID_H_
 #include "itrbase.h"
-
+#include "../process/convolutesquare.h"
 using itr_math::Matrix;
 namespace itr_vision
 {
@@ -63,6 +63,7 @@ private:
     int level;
     int subsampling;
     float sigma;
+    ConvoluteSquare conv;
 };
 
 } // namespace itr_vision

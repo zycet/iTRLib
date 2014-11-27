@@ -52,6 +52,7 @@ public:
 
     ConvoluteSquare();
     ConvoluteSquare(S32 Width, S32 Height);
+    void Init(S32 Width, S32 Height);
     virtual ~ConvoluteSquare();
 
     void _computeKernels(float sigma, ConvolutionKernel *gauss,

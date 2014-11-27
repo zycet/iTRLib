@@ -33,7 +33,7 @@
 
 #include "pyramid.h"
 #include "../operation/scale.h"
-#include "../process/convolutesquare.h"
+
 namespace itr_vision
 {
     Pyramid::Pyramid()
@@ -65,10 +65,10 @@ namespace itr_vision
             grady[L].Init(height[L], width[L]);
             tempimg[L].Init(height[L], width[L]);
         }
+        conv.Init(Width,Height);
     }
     void Pyramid::Generate(const Matrix &Img)
     {
-        ConvoluteSquare conv;
         conv._KLTComputeSmoothedImage(Img, 0.7, img[0]);
         int subhalf = subsampling / 2;
         //int oldncols;

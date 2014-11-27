@@ -41,7 +41,7 @@
 namespace itr_vision
 {
 
-    SelectKLTFeature::SelectKLTFeature(S32 Width,S32 Height)
+    SelectKLTFeature::SelectKLTFeature(S32 Width,S32 Height):conv(Width,Height)
     {
         width=Width;
         height=Height;

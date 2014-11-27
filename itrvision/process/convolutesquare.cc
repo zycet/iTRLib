@@ -45,10 +45,13 @@ namespace itr_vision
     }
     ConvoluteSquare::ConvoluteSquare( S32 Width, S32 Height)
     {
+       Init(Width,Height);
+    }
+    void ConvoluteSquare::Init( S32 Width, S32 Height)
+    {
         sigma_last = -10.0f;
         Buffer=new F32[Width*Height];
     }
-
     ConvoluteSquare::~ConvoluteSquare()
     {
         if(Buffer!=NULL)
