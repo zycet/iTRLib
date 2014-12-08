@@ -23,7 +23,7 @@ public:
       * \param ImgOutput 输出图像
       */
 
-    static void Rectangle(const Matrix &ImgInput,RectangleS &rect,Matrix &ImgOutput);
+    static void Rectangle(const Matrix &ImgInput,const RectangleS &rect,Matrix &ImgOutput);
 };
 
 } // namespace itr_vision

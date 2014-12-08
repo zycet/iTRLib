@@ -204,7 +204,7 @@ namespace itr_math
         CalculateObj->Add(r0, r1, dim3, VecResult.GetData());
     }
 
-    F32 Vector::NCC(const Vector &Vec) const
+    F32 Vector::NormalCorrelationCoefficient(const Vector &Vec) const
     {
         F32 mean1,mean2;
         Vector v1(*this),v2(Vec);

@@ -263,7 +263,7 @@ public:
      */
     virtual void ProductOuter(const Vector &Vec, Vector &VecResult) const;
 
-    virtual F32 NCC(const Vector &Vec) const;
+    virtual F32 NormalCorrelationCoefficient(const Vector &Vec) const;
 private:
     F32 *data;
     S32 dim;
