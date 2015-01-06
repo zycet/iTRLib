@@ -8,7 +8,11 @@ namespace itr_protocol
 
     StandSerialProtocol::StandSerialProtocol()
     {
-        //ctor
+        for(int i=0; i<16; i++)
+        {
+            ProcessFunction[i]=NULL;
+        }
+        DataSendFun=NULL;
     }
 
     StandSerialProtocol::~StandSerialProtocol()
@@ -50,7 +54,7 @@ namespace itr_protocol
        * \param S1 设定的命令字1
        * \param DataSendFun 数据发送函数指针(此库会调用此函数用于发出数据)
        */
-    void StandSerialProtocol::Init(U8 S0, U8 S1, StandDataSendFun DataSendFun)
+    void StandSerialProtocol::Init(U8 S0, U8 S1, SSPDataSendFun* DataSendFun)
     {
         this->S0=S0;
         this->S1=S1;
@@ -144,7 +148,7 @@ namespace itr_protocol
                         receiveFrameNum++;
                         if(this->ProcessFunction[GetSSFSProtocolID(SSFS)] != NULL)
                         {
-                            this->ProcessFunction[GetSSFSProtocolID(SSFS)](this, SSFS,GetSSFSPackage(SSFS),GetSSFSPackageLength(SSFS));
+                            this->ProcessFunction[GetSSFSProtocolID(SSFS)]->Do(this, SSFS,GetSSFSPackage(SSFS),GetSSFSPackageLength(SSFS));
                         }
                     }
                     else
@@ -177,7 +181,7 @@ namespace itr_protocol
         //send
         if(this->DataSendFun!=NULL)
         {
-            this->DataSendFun(sendBuffer,GetSSFSLength((StandSerialFrameStruct *)sendBuffer));
+            this->DataSendFun->Do(sendBuffer,GetSSFSLength((StandSerialFrameStruct *)sendBuffer));
         }
     }
 
@@ -263,5 +267,16 @@ namespace itr_protocol
         U8 len;
         len=GetSSFSLength(SSFS);
         *(U16 *)(((U8 *)SSFS)+len-2)=CRC;
+    }
+
+    bool StandSerialProtocol::SetDataSendFunc(SSPDataSendFun *DataSendFun)
+    {
+        DataSendFun=DataSendFun;
+    }
+
+
+    bool StandSerialProtocol::AddDataRecFunc(SSPDataRecFun *ProcessFunc, S32 ID)
+    {
+        ProcessFunction[ID]=ProcessFunc;
     }
 }

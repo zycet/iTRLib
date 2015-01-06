@@ -60,7 +60,25 @@ public:
     * \param Package 接收到数据包地址
     * \param PackageLength 接收到数据包长度
     */
-    typedef void (*SSPReceive)(StandSerialProtocol* SSP, StandSerialFrameStruct* SSFS,U8* Package,S32 PackageLength);
+
+    class SSPDataRecFun
+    {
+        public:
+        virtual void Do(StandSerialProtocol* SSP, StandSerialFrameStruct* SSFS,U8* Package,S32 PackageLength){}
+    };
+
+     /**
+    * \brief 帧发送回调函数模板
+    * \param Data 待发送的数据，纯数据
+    * \param Length 待发送的数据长度
+    */
+    class SSPDataSendFun
+    {
+        public:
+        virtual S32 Do(U8* Data, S32 Length){}
+    };
+
+
     /**
     * \brief 默认构造
     */
@@ -79,7 +97,7 @@ public:
     * \param S1 设定的命令字1
     * \param DataSendFun 数据发送函数指针(此库会调用此函数用于发出数据)
     */
-    void Init(U8 S0, U8 S1, StandDataSendFun DataSendFun);
+    void Init(U8 S0, U8 S1, SSPDataSendFun* DataSendFun);
     /**
     * \brief 处理原始数据流
     * \param Buffer 待处理缓冲区
@@ -159,14 +177,22 @@ public:
     * \brief 是否自动加密
     */
     bool AutoEncrypt;
+
     /**
-    * \brief 各协议ID对应的回调函数指针组(收到对应数据帧后自动调用)
+    * \brief 设置数据发送函数
+    * \param DataSendFun 当要发送数据时需要调用的函数对象
+    * \return 是否设置成功
     */
-    SSPReceive ProcessFunction[16];
+    bool SetDataSendFunc(SSPDataSendFun* DataSendFun);
+
     /**
-    * \brief 数据发送函数指针(此库会调用此函数用于发出数据)
+    * \brief 设置数据接收处理函数
+    * \param ProcessFunc 当要收到数据时需要调用的处理对象
+    * \param ID 该对象要处理的协议ID
+    * \return 是否设置成功
     */
-    StandDataSendFun DataSendFun;
+    bool AddDataRecFunc(SSPDataRecFun* ProcessFunc,S32 ID);
+
 protected:
 private:
     /**
@@ -223,6 +249,15 @@ private:
     * \brief 数据发送缓冲区
     */
     U8 sendBuffer[StandSerialProtocolMaxLength];
+
+     /**
+    * \brief 各协议ID对应的回调函数指针组(收到对应数据帧后自动调用)
+    */
+    SSPDataRecFun* ProcessFunction[16];
+    /**
+    * \brief 数据发送函数指针(此库会调用此函数用于发出数据)
+    */
+    SSPDataSendFun* DataSendFun;
 };
 
 }
