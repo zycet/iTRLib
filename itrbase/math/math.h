@@ -62,6 +62,7 @@ extern Vector* VectorObj;
 #include "matrix.h"
 #include "geometry.h"
 #include "transform2d.h"
+#include "helpdebug.h"
 #include "gaussiangenerate.h"
 namespace itr_math
 {

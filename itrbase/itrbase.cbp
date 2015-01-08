@@ -47,6 +47,8 @@
 		<Unit filename="math/gaussiangenerate.h" />
 		<Unit filename="math/geometry.cc" />
 		<Unit filename="math/geometry.h" />
+		<Unit filename="math/helpdebug.cpp" />
+		<Unit filename="math/helpdebug.h" />
 		<Unit filename="math/math.cc" />
 		<Unit filename="math/math.h" />
 		<Unit filename="math/matrix.cc" />
