@@ -18,6 +18,7 @@
 					<Add option="-g" />
 					<Add directory="../itrbase" />
 					<Add directory="../itrvision" />
+					<Add directory="other" />
 				</Compiler>
 				<Linker>
 					<Add library="../itrbase/bin/debug/libitrbase.a" />
@@ -37,6 +38,7 @@
 					<Add option="-O2" />
 					<Add option="-Wall" />
 					<Add directory="../itrbase" />
+					<Add directory="other" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
@@ -55,6 +57,8 @@
 		<Unit filename="joystick/Ijoystick.h" />
 		<Unit filename="joystick/stdjoystick.cpp" />
 		<Unit filename="joystick/stdjoystick.h" />
+		<Unit filename="other/laserurg.cpp" />
+		<Unit filename="other/laserurg.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />
