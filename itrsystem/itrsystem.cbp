@@ -36,6 +36,7 @@
 		</Build>
 		<Unit filename="asyncbuffer.h" />
 		<Unit filename="itrsystem.h" />
+		<Unit filename="itrthread.h" />
 		<Unit filename="serialport.cpp" />
 		<Unit filename="serialport.h" />
 		<Unit filename="udp.h" />
