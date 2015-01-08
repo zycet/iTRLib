@@ -47,6 +47,24 @@ void CameraInterCalc::SetPara(F32 F,F32 dX,F32 dY,F32 u0,F32 v0)
     MatP2C.CopyFrom(0,0,3,3,temp2.GetData());
     isMatP2CAvailable =true;
 }
+
+void CameraInterCalc::SetParaWithoutF(F32 fX,F32 fY,F32 u0,F32 v0)
+{
+    MatC2P(0,0)=fX;
+    MatC2P(0,2)=u0;
+    MatC2P(1,1)=fY;
+    MatC2P(1,2)=v0;
+    MatC2P(2,2)=1;
+    isMatC2PAvailable =true;
+
+    Matrix temp1(3,3),temp2(3,3);
+    MatC2P.CopyTo(0,0,3,3,temp1.GetData());
+    temp1.Inv(temp2);
+
+    MatP2C.CopyFrom(0,0,3,3,temp2.GetData());
+    isMatP2CAvailable =true;
+}
+
 void CameraInterCalc::SetPara(F32 degX,F32 degY,F32 u0,F32 v0)
 {
     Numerical NumericalObj;
@@ -84,6 +102,7 @@ BOOL CameraInterCalc::CalcP2C(const Vector &PixelPoint,F32 Z,Vector &CameraPoint
     if(isMatP2CAvailable)
     {
         CameraPoint =MatP2C*PixelPoint;
+        CameraPoint.Mul(1.0/CameraPoint[2]);
         CameraPoint.Mul(Z);
         return 1;
     }

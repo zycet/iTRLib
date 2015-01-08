@@ -39,6 +39,14 @@ public:
     */
     void SetPara(F32 F,F32 dX,F32 dY,F32 u0,F32 v0);
     /**
+    * \brief 通过设置焦距的方法生成矩阵
+    * \param fX 水平方向焦距(单位:像素)
+    * \param fY 垂直方向焦距(单位:像素)
+    * \param u0 水平半幅图像的像素数(单位:像素)
+    * \param v0 垂直半幅图像的像素数(单位:像素)
+    */
+    void SetParaWithoutF(F32 fX,F32 fY,F32 u0,F32 v0);
+    /**
     * \brief 通过设置视场夹角的方法生成矩阵
     * \param degX 水平方向视场夹角(单位:角度)
     * \param degY 垂直方向向视场夹角(单位:角度)
