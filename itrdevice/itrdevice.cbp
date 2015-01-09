@@ -58,8 +58,6 @@
 		<Unit filename="joystick/Ijoystick.h" />
 		<Unit filename="joystick/stdjoystick.cpp" />
 		<Unit filename="joystick/stdjoystick.h" />
-		<Unit filename="other/laserurg.cpp" />
-		<Unit filename="other/laserurg.h" />
 		<Extensions>
 			<code_completion />
 			<envvars />

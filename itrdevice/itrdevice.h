@@ -6,6 +6,5 @@
 #include "joystick/Ijoystick.h"
 #include "joystick/stdjoystick.h"
 #include "camera/v4linux.h"
-#include "other/laserurg.h"
 
 #endif // ITRDEVICE_H_INCLUDED
