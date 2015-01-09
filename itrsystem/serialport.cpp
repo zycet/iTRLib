@@ -73,13 +73,14 @@ namespace itr_system
 
     int SerialPort::ReadLine(unsigned char *Data, int length)
     {
-        unsigned char temp;
-        int i=0;
+        int i=0,len=-1;
         do
         {
-            read(fd,Data+i,1);
+            len=read(fd,Data+i,1);
+            if(len<=0)
+                break;
             i++;
-        }while(i<length && Data[i]!='\n');
+        }while(i<length && Data[i-1]!='\n');
         return i;
     }
 }
