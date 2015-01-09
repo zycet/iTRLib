@@ -66,8 +66,20 @@ namespace itr_system
         return write(fd,Data,length);
     }
 
-    int SerialPort::Receive(unsigned char *Data, int length)
+    int SerialPort::Read(unsigned char *Data, int length)
     {
         return read(fd,Data,length);
+    }
+
+    int SerialPort::ReadLine(unsigned char *Data, int length)
+    {
+        unsigned char temp;
+        int i=0;
+        do
+        {
+            read(fd,Data+i,1);
+            i++;
+        }while(i<length && Data[i]!='\n');
+        return i;
     }
 }

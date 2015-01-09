@@ -13,7 +13,8 @@ namespace itr_system
             int Init(char *name, int baudrate);
             void Close();
             int Send(unsigned char *Data, int length);
-            int Receive(unsigned char *Data, int length);
+            int Read(unsigned char *Data, int length);
+            int ReadLine(unsigned char *Data, int length);
 //protected:
             //virtual void run();
     };
