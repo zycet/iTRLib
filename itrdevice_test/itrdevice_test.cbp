@@ -20,6 +20,7 @@
 					<Add directory="../itrdevice/camera" />
 					<Add directory="../3rdparty/alglib" />
 					<Add directory="../itralgorithm" />
+					<Add directory="../itrsystem" />
 				</Compiler>
 				<Linker>
 					<Add library="../itrdevice/bin/debug/libitrdevice.a" />
@@ -30,6 +31,7 @@
 					<Add library="avcodec" />
 					<Add library="avutil" />
 					<Add library="v4l2" />
+					<Add library="pthread" />
 				</Linker>
 			</Target>
 			<Target title="Release">

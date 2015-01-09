@@ -19,6 +19,7 @@
 					<Add directory="../itrbase" />
 					<Add directory="../itrvision" />
 					<Add directory="other" />
+					<Add directory="../itrsystem" />
 				</Compiler>
 				<Linker>
 					<Add library="../itrbase/bin/debug/libitrbase.a" />

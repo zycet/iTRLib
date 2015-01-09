@@ -2,30 +2,46 @@
 #define LASERURG_H
 
 #include "iostream"
-using namespace std;
+#include "itrsystem.h"
 
+#define MAX_DATALENGTH      769
+
+using namespace std;
+namespace itr_device
+{
 class LaserUrg
 {
     public:
+    int StepA;
+    int StepB;
+    int StepC;
     class OnReceiveData
     {
-        virtual void Process(int data,int length){}
+    public:
+        virtual void Process(int* data,int length){}
     };
-        /** Default constructor */
-        LaserUrg();
-        /** Default destructor */
-        virtual ~LaserUrg();
 
         ///初始化串口和波特率
-        void Init(char* dev,int baudrate);
-        void SetProcess(OnReceiveData *OnRec);
-        void Start();
-        void Stop();
+        static void Init(char* dev,int baudrate);
+        static void SetProcess(OnReceiveData *OnRec);
+        static void Start();
+        static void Stop();
     protected:
     private:
     static void* WorkThread(void*);
-    OnReceiveData *onRec;
+    static OnReceiveData *onRec;
     pthread_t tid;
-};
 
+    static itr_system::SerialPort _sp;
+    static int  _data1[ MAX_DATALENGTH];
+    static int _data2[ MAX_DATALENGTH];
+    static int _length1;
+    static int _length2;
+    static int* _data;
+    static int* _length;
+
+    static bool _data_which;
+
+};
+}
 #endif // LASERURG_H

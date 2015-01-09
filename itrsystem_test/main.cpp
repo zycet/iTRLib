@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdio.h>
 #include "itrsystem.h"
 using namespace std;
 
