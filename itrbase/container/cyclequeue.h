@@ -11,7 +11,8 @@ public:
     void Insert(T Item);
     BOOL Fetch(T& Item);
     void Clear();
-    inline T operator[](S32 Index);
+    inline T operator[](S32 Index) const;
+    inline T& operator[](S32 Index);
     inline S32 GetLength();
     inline S32 GetCapacity();
 
@@ -91,12 +92,17 @@ void CycleQueue<T>::Clear()
 }
 
 template<typename T>
-T CycleQueue<T>::operator[](S32 Index)
+T CycleQueue<T>::operator[](S32 Index) const
 {
     assert(Index < length);
     return base[(front + Index) % capacity];
 }
-
+template<typename T>
+T& CycleQueue<T>::operator[](S32 Index)
+{
+    assert(Index < length);
+    return base[(front + Index) % capacity];
+}
 template<typename T>
 S32 CycleQueue<T>::GetLength()
 {
