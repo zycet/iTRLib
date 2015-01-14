@@ -162,7 +162,7 @@ namespace itr_protocol
         return receiveFrameNum;
     }
 
-    void StandSerialProtocol::SSPSendPackage(U8 ProtocolID, U8 *Package, U8 PackageLength)
+    void StandSerialProtocol::SSPSendPackage(U8 ProtocolID, U8 *Package, S32 PackageLength)
     {
         this->sendBuffer[0]=S0;
         this->sendBuffer[1]=S1;

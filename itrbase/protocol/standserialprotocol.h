@@ -110,7 +110,7 @@ public:
     * \param Package 待发送数据包
     * \param PackageLength 待发送数据包长度
     */
-    void SSPSendPackage(U8 ProtocolID, U8* Package, U8 PackageLength);
+    void SSPSendPackage(U8 ProtocolID, U8* Package, S32 PackageLength);
     /**
     * \brief 获得帧总长
     * \param SSFS 数据帧

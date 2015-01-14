@@ -15,7 +15,7 @@ public:
     inline T& operator[](S32 Index);
     inline S32 GetLength();
     inline S32 GetCapacity();
-
+    inline T* GetBase();
 private:
     S32 capacity;
     S32 front;
@@ -23,6 +23,12 @@ private:
     T* base;
     inline void AddOne();
 };
+
+template<typename T>
+T* CycleQueue<T>::GetBase()
+{
+    return base;
+}
 
 template<typename T>
 CycleQueue<T>::CycleQueue(S32 Capacity)
@@ -50,7 +56,7 @@ void CycleQueue<T>::Init(S32 Capacity)
 template<typename T>
 CycleQueue<T>::~CycleQueue()
 {
-    delete base;
+    delete[] base;
 }
 
 template<typename T>
