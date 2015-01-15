@@ -7,7 +7,7 @@
 #include "../container/container.h"
 #include "../encode/crc.h"
 
-#define StandSerialProtocolMaxLength 255//帧最大长度
+#define StandSerialProtocolMaxLength 65535//帧最大长度
 #define StandSerialProtocolHeadLength 2//桢头长度
 #define StandSerialProtocolMateLength 2//附加信息长度
 #define StandSerialProtocolCRCLength 2//CRC长度
