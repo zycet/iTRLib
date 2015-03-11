@@ -10,7 +10,12 @@ obj/
 *.txt
 *.pgm
 *.ppm
+*Makefile
+CMakeFiles/
+*Cache*
+*cmake*
 
+!CMakeLists.txt
 !/reference/
 !/tools/
 !*.c
@@ -31,3 +36,4 @@ obj/
 /surftrac/surffeature.h
 /surftrac/surftrac.cbp
 
+/CMakeFiles/2.8.12.2/CMakeCCompiler.cmake
