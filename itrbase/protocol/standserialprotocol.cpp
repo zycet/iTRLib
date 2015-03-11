@@ -271,7 +271,7 @@ namespace itr_protocol
 
     bool StandSerialProtocol::SetDataSendFunc(SSPDataSendFun *DataSendFun)
     {
-        DataSendFun=DataSendFun;
+        this->DataSendFun=DataSendFun;
     }
 
 

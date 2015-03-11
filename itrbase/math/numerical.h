@@ -182,7 +182,7 @@ public:
     * \param result [-1,1]之间的值
     */
     virtual BOOL Sigmoid(F32 value,F32& reuslt) const;
-    const static float Pi=3.1415926f;
+//    const static float Pi=3.1415926f;
 };
 }
 
