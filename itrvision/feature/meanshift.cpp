@@ -2,7 +2,7 @@
 // Created by gaohan02 on 15-6-1.
 //
 #include <math.h>
-#include "MeanShift.h"
+#include "meanshift.h"
 
 using itr_math::Matrix;
 using itr_math::Vector;

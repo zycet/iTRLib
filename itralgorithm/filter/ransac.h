@@ -25,7 +25,7 @@ namespace itr_algorithm
             * \brief 初始化
             * \param 计算时需要用到的算子
             */
-            Ransac(Ransac<InputType,ResultType>::Operator *oper);
+            Ransac(Operator *oper);
             void Init(Ransac<InputType,ResultType>::Operator *oper);
 
             /**
@@ -43,7 +43,7 @@ namespace itr_algorithm
             InputType *data;
             ResultType *result;
             F32 *error;
-            Ransac<InputType,ResultType>::Operator *oper;
+            Operator *oper;
 
     };
 
