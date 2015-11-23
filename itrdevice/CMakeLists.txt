@@ -5,11 +5,11 @@ set(LIBRARY_OUTPUT_PATH "bin/debug")#force change build directory
 set(CMAKE_BUILD_TYPE DEBUG)	 #debug mode
 
 #add subdirectory
-add_subdirectory(camera)
-add_subdirectory(joystick)
 
+AUX_SOURCE_DIRECTORY(./camera camera)
+AUX_SOURCE_DIRECTORY(./joystick joystick)
 #build all lib into a single one
-add_library(itrdevice $<TARGET_OBJECTS:camera> $<TARGET_OBJECTS:joystick>)
+add_library(itrdevice ${camera} ${joystick})
 
 include_directories( "${itrdevice_SOURCE_DIR}/../itrbase")
 

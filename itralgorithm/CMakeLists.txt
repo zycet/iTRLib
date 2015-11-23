@@ -5,11 +5,11 @@ set(LIBRARY_OUTPUT_PATH "bin/debug")#force change build directory
 set(CMAKE_BUILD_TYPE DEBUG)	 #debug mode
 
 #add subdirectory
-add_subdirectory(classifier)
-add_subdirectory(filter)
 
+AUX_SOURCE_DIRECTORY(./classifier classifier)
+AUX_SOURCE_DIRECTORY(./filter filter)
 #build all lib into a single one
-add_library(itralgorithm $<TARGET_OBJECTS:classifier> $<TARGET_OBJECTS:filter>)
+add_library(itralgorithm ${classifier} ${filter})
 
 include_directories( "${itralgorithm_SOURCE_DIR}/../itrbase")
 

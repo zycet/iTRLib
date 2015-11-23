@@ -5,14 +5,13 @@ set(LIBRARY_OUTPUT_PATH "bin/debug")#force change build directory
 set(CMAKE_BUILD_TYPE DEBUG)	 #debug mode
 
 #add subdirectory
-add_subdirectory(camera)
-add_subdirectory(feature)
-add_subdirectory(helper)
-add_subdirectory(operation)
-add_subdirectory(process)
-
+AUX_SOURCE_DIRECTORY(./camera  camera)
+AUX_SOURCE_DIRECTORY(./feature feature)
+AUX_SOURCE_DIRECTORY(./helper  helper)
+AUX_SOURCE_DIRECTORY(./operation operation)
+AUX_SOURCE_DIRECTORY(./process process)
 #build all lib into a single one
-add_library(itrvision $<TARGET_OBJECTS:cameraparameter> $<TARGET_OBJECTS:feature> $<TARGET_OBJECTS:helper> $<TARGET_OBJECTS:operation> $<TARGET_OBJECTS:process>)
+add_library(itrvision ${cameraparameter} ${feature} ${helper} ${operation} ${process})
 
 include_directories( "${itrvision_SOURCE_DIR}/../itrbase")
 include_directories( "${itrvision_SOURCE_DIR}/../itralgorithm")

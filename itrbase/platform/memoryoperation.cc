@@ -55,9 +55,11 @@ void MemoryCopy(void* Destination, void* Source, S32 Length)
 {
     U8* dst = static_cast<U8*>(Destination);
     U8* sou = static_cast<U8*>(Source);
-    for (int i = 0; i < Length; i++)
+    while(Length--)
     {
-        dst[i] = sou[i];
+        *dst = *sou;
+        ++dst;
+        ++sou;
     }
 }
 
@@ -65,10 +67,12 @@ bool MemoryCompare(void* SourceA, void* SourceB, S32 Length)
 {
     U8* souA = static_cast<U8*>(SourceA);
     U8* souB = static_cast<U8*>(SourceB);
-    for (int i = 0; i < Length; i++)
+    while(Length--)
     {
-        if (souA[i] != souB[i])
+        if(*souA != *souB)
             return false;
+        ++souA;
+        ++souB;
     }
     return true;
 }
@@ -87,11 +91,13 @@ void MemorySwap(void* SourceA, void* SourceB, S32 Length)
     U8* souA = static_cast<U8*>(SourceA);
     U8* souB = static_cast<U8*>(SourceB);
     U8 temp;
-    for (int i = 0; i < Length; i++)
+    while (Length--)
     {
-        temp = souA[i];
-        souA[i] = souB[i];
-        souB[i] = temp;
+        temp = *souA;
+        *souA = *souB;
+        *souB = temp;
+        ++souA;
+        ++souB;
     }
 }
 
