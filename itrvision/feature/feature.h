@@ -42,5 +42,5 @@
 #include "./surf.h"
 #include "./commfeaturepoint.h"
 #include "./FeatureMatch.h"
-
+#include "./meanshift.h"
 #endif // FEATURE_H_

@@ -7,40 +7,40 @@
 #include "../container/container.h"
 #include "../encode/crc.h"
 
-#define StandSerialProtocolMaxLength 256//Ö¡×î´ó³¤¶È
-#define StandSerialProtocolHeadLength 2//èåÍ·³¤¶È
-#define StandSerialProtocolMateLength 2//¸½¼ÓÐÅÏ¢³¤¶È
-#define StandSerialProtocolCRCLength 2//CRC³¤¶È
-#define StandSerialProtocolPlusLength (StandSerialProtocolHeadLength+StandSerialProtocolMateLength+StandSerialProtocolCRCLength)//Ö¡¸½¼ÓÐÅÏ¢×Ü³¤
-#define StandSerialProtocolKey1Length 16//ÃÜÔ¿1³¤¶È
-#define StandSerialProtocolKey2Length 4//ÃÜÔ¿2³¤¶È
+#define StandSerialProtocolMaxLength 256//Ö¡ï¿½ï¿½ó³¤¶ï¿½
+#define StandSerialProtocolHeadLength 2//ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½
+#define StandSerialProtocolMateLength 2//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½ï¿½ï¿½ï¿½
+#define StandSerialProtocolCRCLength 2//CRCï¿½ï¿½ï¿½ï¿½
+#define StandSerialProtocolPlusLength (StandSerialProtocolHeadLength+StandSerialProtocolMateLength+StandSerialProtocolCRCLength)//Ö¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Ü³ï¿½
+#define StandSerialProtocolKey1Length 16//ï¿½ï¿½Ô¿1ï¿½ï¿½ï¿½ï¿½
+#define StandSerialProtocolKey2Length 4//ï¿½ï¿½Ô¿2ï¿½ï¿½ï¿½ï¿½
 
 namespace itr_protocol
 {
 
 /**
-* \brief Ö¡½á¹¹¶¨Òå½á¹¹Ìå
+* \brief Ö¡ï¿½á¹¹ï¿½ï¿½ï¿½ï¿½á¹¹ï¿½ï¿½
 */
 typedef struct
 {
     /**
-    * \brief ÃüÁî×Ö0
+    * \brief ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0
     */
     U8 S0;
     /**
-    * \brief ÃüÁî×Ö1
+    * \brief ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1
     */
     U8 S1;
     /**
-    * \brief Ö¡½á×Ü³¤
+    * \brief Ö¡ï¿½ï¿½ï¿½Ü³ï¿½
     */
     U8 Length;
     /**
-    * \brief Ö¡½áÊôÐÔ
+    * \brief Ö¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     */
     U8 Property;
     /**
-    * \brief Ö¡Êý¾ÝÆðÊ¼
+    * \brief Ö¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼
     */
     U8 Package;
     //U16 CRC;
@@ -48,17 +48,17 @@ typedef struct
 } StandSerialFrameStruct;
 
 /**
-* \brief ±ê×¼´®ÐÐÐ­ÒéÖ§³Ö¿â(SSP)
+* \brief ï¿½ï¿½×¼ï¿½ï¿½ï¿½ï¿½Ð­ï¿½ï¿½Ö§ï¿½Ö¿ï¿½(SSP)
 */
 class StandSerialProtocol
 {
 public:
     /**
-    * \brief Ö¡½ÓÊÕ»Øµ÷º¯ÊýÄ£°å
-    * \param SSP ½ÓÊÕµ½Êý¾ÝµÄStandSerialProtocol¶ÔÏó
-    * \param SSFS ½ÓÊÕµ½µÄÖ¡½á¹¹ÌåµØÖ·
-    * \param Package ½ÓÊÕµ½Êý¾Ý°üµØÖ·
-    * \param PackageLength ½ÓÊÕµ½Êý¾Ý°ü³¤¶È
+    * \brief Ö¡ï¿½ï¿½ï¿½Õ»Øµï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½
+    * \param SSP ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½Ýµï¿½StandSerialProtocolï¿½ï¿½ï¿½ï¿½
+    * \param SSFS ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½Ö¡ï¿½á¹¹ï¿½ï¿½ï¿½Ö·
+    * \param Package ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½Ý°ï¿½ï¿½ï¿½Ö·
+    * \param PackageLength ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½Ý°ï¿½ï¿½ï¿½ï¿½ï¿½
     */
 
     class SSPDataRecFun
@@ -68,9 +68,9 @@ public:
     };
 
      /**
-    * \brief Ö¡·¢ËÍ»Øµ÷º¯ÊýÄ£°å
-    * \param Data ´ý·¢ËÍµÄÊý¾Ý£¬´¿Êý¾Ý
-    * \param Length ´ý·¢ËÍµÄÊý¾Ý³¤¶È
+    * \brief Ö¡ï¿½ï¿½ï¿½Í»Øµï¿½ï¿½ï¿½ï¿½ï¿½Ä£ï¿½ï¿½
+    * \param Data ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½Ý£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    * \param Length ï¿½ï¿½ï¿½ï¿½ï¿½Íµï¿½ï¿½ï¿½ï¿½Ý³ï¿½ï¿½ï¿½
     */
     class SSPDataSendFun
     {
@@ -80,182 +80,182 @@ public:
 
 
     /**
-    * \brief Ä¬ÈÏ¹¹Ôì
+    * \brief Ä¬ï¿½Ï¹ï¿½ï¿½ï¿½
     */
     StandSerialProtocol();
     /**
-    * \brief Ä¬ÈÏÎö¹¹
+    * \brief Ä¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     */
     virtual ~StandSerialProtocol();
     /**
-    * \brief Ä¬ÈÏ¸´ÖÆ
+    * \brief Ä¬ï¿½Ï¸ï¿½ï¿½ï¿½
     */
     StandSerialProtocol(const StandSerialProtocol& other);
     /**
-    * \brief ³õÊ¼»¯²¢Éè¶¨»ù±¾²ÎÊý
-    * \param S0 Éè¶¨µÄÃüÁî×Ö0
-    * \param S1 Éè¶¨µÄÃüÁî×Ö1
-    * \param DataSendFun Êý¾Ý·¢ËÍº¯ÊýÖ¸Õë(´Ë¿â»áµ÷ÓÃ´Ëº¯ÊýÓÃÓÚ·¢³öÊý¾Ý)
+    * \brief ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½è¶¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    * \param S0 ï¿½è¶¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0
+    * \param S1 ï¿½è¶¨ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1
+    * \param DataSendFun ï¿½ï¿½ï¿½Ý·ï¿½ï¿½Íºï¿½ï¿½ï¿½Ö¸ï¿½ï¿½(ï¿½Ë¿ï¿½ï¿½ï¿½ï¿½Ã´Ëºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
     */
     void Init(U8 S0, U8 S1, SSPDataSendFun* DataSendFun);
     /**
-    * \brief ´¦ÀíÔ­Ê¼Êý¾ÝÁ÷
-    * \param Buffer ´ý´¦Àí»º³åÇø
-    * \param BufferLength ´ý´¦Àí»º³åÇø³¤¶È
+    * \brief ï¿½ï¿½ï¿½ï¿½Ô­Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    * \param Buffer ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    * \param BufferLength ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     */
     S32 ProcessRawByte(U8* Buffer, S32 BufferLength);
     /**
-    * \brief ÒÔSSPÐ­Òé·¢ËÍÖ¸¶¨Êý¾Ý°ü
-    * \param ProtocolID Ð­×÷ID
-    * \param Package ´ý·¢ËÍÊý¾Ý°ü
-    * \param PackageLength ´ý·¢ËÍÊý¾Ý°ü³¤¶È
+    * \brief ï¿½ï¿½SSPÐ­ï¿½é·¢ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½ï¿½Ý°ï¿½
+    * \param ProtocolID Ð­ï¿½ï¿½ID
+    * \param Package ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý°ï¿½
+    * \param PackageLength ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý°ï¿½ï¿½ï¿½ï¿½ï¿½
     */
-    void SSPSendPackage(U8 ProtocolID, U8* Package, S32 PackageLength);
+    S32 SSPSendPackage(U8 ProtocolID, U8* Package, S32 PackageLength);
     /**
-    * \brief »ñµÃÖ¡×Ü³¤
-    * \param SSFS Êý¾ÝÖ¡
-    * \return Ö¡×Ü³¤
+    * \brief ï¿½ï¿½ï¿½Ö¡ï¿½Ü³ï¿½
+    * \param SSFS ï¿½ï¿½ï¿½ï¿½Ö¡
+    * \return Ö¡ï¿½Ü³ï¿½
     */
     static U8 GetSSFSLength(StandSerialFrameStruct* SSFS);
     /**
-    * \brief »ñµÃÖ¡ÊôÐÔ
-    * \param SSFS Êý¾ÝÖ¡
-    * \return Ö¡ÊôÐÔ
+    * \brief ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½ï¿½ï¿½
+    * \param SSFS ï¿½ï¿½ï¿½ï¿½Ö¡
+    * \return Ö¡ï¿½ï¿½ï¿½ï¿½
     */
     static U8 GetSSFSProperty(StandSerialFrameStruct* SSFS);
     /**
-    * \brief »ñµÃÖ¡Ð­ÒéID
-    * \param SSFS Êý¾ÝÖ¡
-    * \return Ð­ÒéID
+    * \brief ï¿½ï¿½ï¿½Ö¡Ð­ï¿½ï¿½ID
+    * \param SSFS ï¿½ï¿½ï¿½ï¿½Ö¡
+    * \return Ð­ï¿½ï¿½ID
     */
     static U8 GetSSFSProtocolID(StandSerialFrameStruct* SSFS);
     /**
-    * \brief »ñµÃÖ¡ÊÇ·ñ¼ÓÃÜ
-    * \param SSFS Êý¾ÝÖ¡
-    * \return Ö¡ÊÇ·ñ¼ÓÃÜ
+    * \brief ï¿½ï¿½ï¿½Ö¡ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
+    * \param SSFS ï¿½ï¿½ï¿½ï¿½Ö¡
+    * \return Ö¡ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
     */
     static U8 GetSSFSIsEncrypt(StandSerialFrameStruct* SSFS);
     /**
-    * \brief »ñµÃÖ¡Êý¾Ý°ü
-    * \param SSFS Êý¾ÝÖ¡
-    * \return Ö¡Êý¾Ý°ü
+    * \brief ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½ï¿½Ý°ï¿½
+    * \param SSFS ï¿½ï¿½ï¿½ï¿½Ö¡
+    * \return Ö¡ï¿½ï¿½ï¿½Ý°ï¿½
     */
     static U8* GetSSFSPackage(StandSerialFrameStruct* SSFS);
     /**
-    * \brief »ñµÃÖ¡Êý¾Ý°ü³¤¶È
-    * \param SSFS Êý¾ÝÖ¡
-    * \return Ö¡Êý¾Ý°ü³¤¶È
+    * \brief ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½ï¿½Ý°ï¿½ï¿½ï¿½ï¿½ï¿½
+    * \param SSFS ï¿½ï¿½ï¿½ï¿½Ö¡
+    * \return Ö¡ï¿½ï¿½ï¿½Ý°ï¿½ï¿½ï¿½ï¿½ï¿½
     */
     static U8 GetSSFSPackageLength(StandSerialFrameStruct* SSFS);
     /**
-    * \brief »ñµÃÖ¡Ð£Ñé
-    * \param SSFS Êý¾ÝÖ¡
-    * \return Ö¡Ð£Ñé
+    * \brief ï¿½ï¿½ï¿½Ö¡Ð£ï¿½ï¿½
+    * \param SSFS ï¿½ï¿½ï¿½ï¿½Ö¡
+    * \return Ö¡Ð£ï¿½ï¿½
     */
     static U16 GetSSFSCRC(StandSerialFrameStruct* SSFS);
     /**
-    * \brief ÃÜÔ¿1
+    * \brief ï¿½ï¿½Ô¿1
     */
     U8 Key1[StandSerialProtocolKey1Length];
     /**
-    * \brief ÃÜÔ¿2
+    * \brief ï¿½ï¿½Ô¿2
     */
     U8 Key2[StandSerialProtocolKey2Length];
     /**
-    * \brief ÃüÁî×Ö0
+    * \brief ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0
     */
     U8 S0;
     /**
-    * \brief ÃüÁî×Ö1
+    * \brief ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1
     */
     U8 S1;
     /**
-    * \brief ÊÇ·ñ×Ô¶¯½âÃÜ
+    * \brief ï¿½Ç·ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½
     */
     bool AutoDecrypt;
     /**
-    * \brief ÊÇ·ñ×Ô¶¯¼ÓÃÜ
+    * \brief ï¿½Ç·ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½
     */
     bool AutoEncrypt;
 
     /**
-    * \brief ÉèÖÃÊý¾Ý·¢ËÍº¯Êý
-    * \param DataSendFun µ±Òª·¢ËÍÊý¾ÝÊ±ÐèÒªµ÷ÓÃµÄº¯Êý¶ÔÏó
-    * \return ÊÇ·ñÉèÖÃ³É¹¦
+    * \brief ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý·ï¿½ï¿½Íºï¿½ï¿½ï¿½
+    * \param DataSendFun ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Òªï¿½ï¿½ï¿½ÃµÄºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    * \return ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ã³É¹ï¿½
     */
     bool SetDataSendFunc(SSPDataSendFun* DataSendFun);
 
     /**
-    * \brief ÉèÖÃÊý¾Ý½ÓÊÕ´¦Àíº¯Êý
-    * \param ProcessFunc µ±ÒªÊÕµ½Êý¾ÝÊ±ÐèÒªµ÷ÓÃµÄ´¦Àí¶ÔÏó
-    * \param ID ¸Ã¶ÔÏóÒª´¦ÀíµÄÐ­ÒéID
-    * \return ÊÇ·ñÉèÖÃ³É¹¦
+    * \brief ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý½ï¿½ï¿½Õ´ï¿½ï¿½ï¿½ï¿½ï¿½
+    * \param ProcessFunc ï¿½ï¿½Òªï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½Òªï¿½ï¿½ï¿½ÃµÄ´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    * \param ID ï¿½Ã¶ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½Ð­ï¿½ï¿½ID
+    * \return ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ã³É¹ï¿½
     */
     bool AddDataRecFunc(SSPDataRecFun* ProcessFunc,S32 ID);
 
 protected:
 private:
     /**
-    * \brief ¼ÓÃÜ±àÂë(ÔÝÊ±²»ÊµÏÖ)
+    * \brief ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½(ï¿½ï¿½Ê±ï¿½ï¿½Êµï¿½ï¿½)
     */
     void SSPEncrypt(StandSerialFrameStruct* SSP, U8* Key1, U8* Key2);
     /**
-    * \brief ½âÃÜ±àÂë(ÔÝÊ±²»ÊµÏÖ)
+    * \brief ï¿½ï¿½ï¿½Ü±ï¿½ï¿½ï¿½(ï¿½ï¿½Ê±ï¿½ï¿½Êµï¿½ï¿½)
     */
     void SSPDecrypt(StandSerialFrameStruct* SSP, U8* Key1, U8* Key2);
     /**
-    * \brief ¼ì²é³¤¶ÈºÍCRCÊÇ·ñºÏ·¨
+    * \brief ï¿½ï¿½é³¤ï¿½Èºï¿½CRCï¿½Ç·ï¿½Ï·ï¿½
     */
     bool SSPFormatCheck(StandSerialFrameStruct* SSPF);
     /**
-    * \brief ÉèÖÃÖ¡×Ü³¤
-    * \param SSFS Êý¾ÝÖ¡
-    * \param Length ×Ü³¤
+    * \brief ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½Ü³ï¿½
+    * \param SSFS ï¿½ï¿½ï¿½ï¿½Ö¡
+    * \param Length ï¿½Ü³ï¿½
     */
     static void SetSSFSLength(StandSerialFrameStruct* SSFS,U8 Length);
     /**
-    * \brief ÉèÖÃÖ¡ÊôÐÔ
-    * \param SSFS Êý¾ÝÖ¡
-    * \param Property ÊôÐÔ
+    * \brief ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½ï¿½ï¿½
+    * \param SSFS ï¿½ï¿½ï¿½ï¿½Ö¡
+    * \param Property ï¿½ï¿½ï¿½ï¿½
     */
     static void SetSSFSProperty(StandSerialFrameStruct* SSFS,U8 Property);
     /**
-    * \brief ÉèÖÃÖ¡Ð­ÒéID
-    * \param SSFS Êý¾ÝÖ¡
-    * \param Property Ð­ÒéID
+    * \brief ï¿½ï¿½ï¿½ï¿½Ö¡Ð­ï¿½ï¿½ID
+    * \param SSFS ï¿½ï¿½ï¿½ï¿½Ö¡
+    * \param Property Ð­ï¿½ï¿½ID
     */
     static void SetSSFSProtocolID(StandSerialFrameStruct* SSFS,U8 ProtocolID);
     /**
-    * \brief ÉèÖÃÖ¡ÊÇ·ñ¼ÓÃÜ
-    * \param SSFS Êý¾ÝÖ¡
-    * \param Property ÊÇ·ñ¼ÓÃÜ
+    * \brief ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
+    * \param SSFS ï¿½ï¿½ï¿½ï¿½Ö¡
+    * \param Property ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
     */
     static void SetSSFSIsEncrypt(StandSerialFrameStruct* SSFS,U8 IsEncrypt);
     /**
-    * \brief ÉèÖÃÖ¡Ð£Ñé
-    * \param SSFS Êý¾ÝÖ¡
-    * \param Property Ð£Ñé
+    * \brief ï¿½ï¿½ï¿½ï¿½Ö¡Ð£ï¿½ï¿½
+    * \param SSFS ï¿½ï¿½ï¿½ï¿½Ö¡
+    * \param Property Ð£ï¿½ï¿½
     */
     static void SetSSFSCRC(StandSerialFrameStruct* SSFS,U16 CRC);
     /**
-    * \brief Êý¾Ý½ÓÊÕ×´Ì¬Ö¸Ê¾
+    * \brief ï¿½ï¿½ï¿½Ý½ï¿½ï¿½ï¿½×´Ì¬Ö¸Ê¾
     */
     S32 receiveBufferState;
     /**
-    * \brief Êý¾Ý½ÓÊÕ»º³åÇø
+    * \brief ï¿½ï¿½ï¿½Ý½ï¿½ï¿½Õ»ï¿½ï¿½ï¿½ï¿½ï¿½
     */
     U8 receiveBuffer[StandSerialProtocolMaxLength];
     /**
-    * \brief Êý¾Ý·¢ËÍ»º³åÇø
+    * \brief ï¿½ï¿½ï¿½Ý·ï¿½ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½
     */
     U8 sendBuffer[StandSerialProtocolMaxLength];
 
      /**
-    * \brief ¸÷Ð­ÒéID¶ÔÓ¦µÄ»Øµ÷º¯ÊýÖ¸Õë×é(ÊÕµ½¶ÔÓ¦Êý¾ÝÖ¡ºó×Ô¶¯µ÷ÓÃ)
+    * \brief ï¿½ï¿½Ð­ï¿½ï¿½IDï¿½ï¿½Ó¦ï¿½Ä»Øµï¿½ï¿½ï¿½ï¿½ï¿½Ö¸ï¿½ï¿½ï¿½ï¿½(ï¿½Õµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ï¿½Ö¡ï¿½ï¿½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½ï¿½)
     */
     SSPDataRecFun* ProcessFunction[16];
     /**
-    * \brief Êý¾Ý·¢ËÍº¯ÊýÖ¸Õë(´Ë¿â»áµ÷ÓÃ´Ëº¯ÊýÓÃÓÚ·¢³öÊý¾Ý)
+    * \brief ï¿½ï¿½ï¿½Ý·ï¿½ï¿½Íºï¿½ï¿½ï¿½Ö¸ï¿½ï¿½(ï¿½Ë¿ï¿½ï¿½ï¿½ï¿½Ã´Ëºï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)
     */
     SSPDataSendFun* DataSendFun;
 };
