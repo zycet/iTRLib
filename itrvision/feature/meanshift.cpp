@@ -79,8 +79,7 @@ namespace itr_vision
                 else
                     w[k] = 0;
             }
-            for (int k = 0; k < 256; k++)
-                printf("%f ", histp[k]);
+
             for (int y = 0; y < rect.Height; ++y)
             {
                 for (int x = 0; x < rect.Width; ++x)
