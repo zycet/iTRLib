@@ -93,12 +93,12 @@ namespace itr_vision
             deltay /= sum;
             posx += deltax;
             posy += deltay;
-            printf("\n%f %f %f %f %f\n", deltax, deltay, sum, posx, posy);
+//            printf("\n%f %f %f %f %f\n", deltax, deltay, sum, posx, posy);
 
         }
 
         rect.X = posx;
         rect.Y = posy;
-        printf("%f %f\n", posx, posy);
+//        printf("%f %f\n", posx, posy);
     }
 }
