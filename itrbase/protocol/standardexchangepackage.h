@@ -14,7 +14,7 @@ namespace itr_protocol
     class StandardExchangePackage
     {
     public:
-        static const int headerLength = 2;
+        static const int HeaderLength = 2;
         U16 property;
         U8 keyword;
         vector<U8> data;
@@ -43,7 +43,7 @@ namespace itr_protocol
 
         StandardExchangePackage(U8 DataID, const vector<U8> &Data);
 
-        S32 writeTo(U8 *buffer);
+        virtual S32 writeTo(U8 *buffer);
 
         S32 getLength();
 

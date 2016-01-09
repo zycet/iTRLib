@@ -87,6 +87,6 @@ namespace itr_protocol
 
     S32 StandardExchangePackage::getLength()
     {
-        return (S32) (headerLength + 1 + data.size());
+        return (S32) (HeaderLength + 1 + data.size());
     }
 }

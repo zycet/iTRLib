@@ -5,11 +5,13 @@
 #ifndef ITRLIB_ISTANDARDEXCHANGEPROCESSOR_H
 #define ITRLIB_ISTANDARDEXCHANGEPROCESSOR_H
 
+#include "../platform/typedef.h"
 #include <vector>
 
 using std::vector;
 namespace itr_protocol
 {
+    class StandardExchangePackage;
     class OnReceiveAction
     {
     public:
