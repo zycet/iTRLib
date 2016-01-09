@@ -37,6 +37,7 @@
 #include "typedef.h"
 #include "timeclock.h"
 #include "log.h"
+#include "bitoperator.h"
 #include "assistmacro.h"
 #include "debugsupport.h"
 #include "memoryoperation.h"
