@@ -4,9 +4,10 @@
 
 #include "bytestream.h"
 
-itr_container::ByteStream::ByteStream(U8 **data)
+itr_container::ByteStream::ByteStream(void *data)
 {
-    dataHead = *data;
+
+    dataHead = (U8 *) data;
     ptr = dataHead;
 }
 
@@ -120,3 +121,4 @@ int itr_container::ByteStream::getLength()
 {
     return (int) (ptr - dataHead);
 }
+

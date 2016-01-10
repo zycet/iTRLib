@@ -21,7 +21,7 @@ namespace itr_protocol
             return LengthWrong;
         int n = 0;
         buffer += offset;
-        itr_container::ByteStream bs(&buffer);
+        itr_container::ByteStream bs((void *) buffer);
         S0 = bs.getU8();
         S1 = bs.getU8();
         F0 = bs.getU8();
@@ -33,7 +33,7 @@ namespace itr_protocol
 
     int ComboPackage::writeTo(U8 *buffer, int offset)
     {
-        itr_container::ByteStream bs(&buffer);
+        itr_container::ByteStream bs((void *) buffer);
         bs.setU8(S0);
         bs.setU8(S1);
         bs.setU8(F0);

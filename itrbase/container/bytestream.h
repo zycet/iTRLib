@@ -12,7 +12,7 @@ namespace itr_container
     class ByteStream
     {
     public:
-        ByteStream(U8 **data);
+        ByteStream(void *data);
 
         void reset();
 
