@@ -22,13 +22,13 @@ namespace itr_protocol
     class IStandardExchangeProcessor
     {
     public:
-        virtual U32 FillBuffer(const StandardExchangePackage &SEPackage, U8 *buffer)
+        virtual U32 fillBuffer(const StandardExchangePackage &SEPackage, U8 *buffer)
         { }
 
-        virtual U32 ProcessByte(U8 *buffer, S32 offset, S32 length)
+        virtual U32 processByte(U8 *buffer, S32 offset, S32 length)
         { }
 
-        virtual void AddReceiveFun(OnReceiveAction *fun)
+        virtual void addReceiveFun(OnReceiveAction *fun)
         { }
 
         vector<OnReceiveAction *> receiveList;

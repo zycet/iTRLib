@@ -22,11 +22,11 @@ namespace itr_protocol
                 1 + StandardExchangePackage::HeaderLength + StandardExchangePackageSerial::HeaderLength;
         static const int TailLength = StandardExchangePackageSerial::TailLength;
 
-        U32 FillBuffer(const StandardExchangePackage &SEPackage, U8 *buffer);
+        U32 fillBuffer(const StandardExchangePackage &SEPackage, U8 *buffer);
 
-        U32 ProcessByte(U8 *buffer, S32 offset, S32 length);
+        U32 processByte(U8 *buffer, S32 offset, S32 length);
 
-        void AddReceiveFun(OnReceiveAction *fun);
+        void addReceiveFun(OnReceiveAction *fun);
 
     private:
         U8 receiveBuffer[256 + HeaderLength + TailLength];

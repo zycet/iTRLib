@@ -35,5 +35,6 @@
 #define CONTAINER_H_
 
 #include "cyclequeue.h"
+#include "bytestream.h"
 
 #endif // CONTAINER_H_

@@ -8,5 +8,6 @@ AUX_SOURCE_DIRECTORY(./platform platform)
 AUX_SOURCE_DIRECTORY(./encode encode)
 AUX_SOURCE_DIRECTORY(./math math)
 AUX_SOURCE_DIRECTORY(./protocol protocol)
+AUX_SOURCE_DIRECTORY(./container container)
 #build all lib into a single one
-add_library(itrbase ${platform} ${encode} ${math} ${protocol})
+add_library(itrbase ${platform} ${encode} ${math} ${protocol} ${container})
