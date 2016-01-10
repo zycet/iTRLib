@@ -9,7 +9,7 @@
 
 namespace itr_protocol
 {
-    class StandardExchangePackageSerial
+    class StandardExchangePackageSerial : public StandardExchangePackage
     {
     public:
         static const int HeaderLength = 3;
@@ -18,12 +18,12 @@ namespace itr_protocol
         static const int TailLength = 2;
         static const U8 S0Default = 0xA5;
         static const U8 S1Default = 0x5A;
-        StandardExchangePackage sep;
         U8 S0;
         U8 S1;
 
         U16 CRC16;
 
+        void init();
         StandardExchangePackageSerial();
 
         StandardExchangePackageSerial(const StandardExchangePackage &SEPackage);
@@ -32,9 +32,11 @@ namespace itr_protocol
 
         StandardExchangePackageSerial(U8 DataID, const vector<U8> &Data);
 
-        U8 getDataLen();
+        S32 getLength();
 
         S32 writeTo(U8 *buffer);
+
+        FormatErrorEnum readFrom(U8 *buffer, int offset, int length);
     };
 }
 

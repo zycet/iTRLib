@@ -25,7 +25,7 @@ namespace itr_protocol
         virtual U32 FillBuffer(const StandardExchangePackage &SEPackage, U8 *buffer)
         { }
 
-        virtual void ProcessByte(U8 *buffer, S32 offset, S32 length)
+        virtual U32 ProcessByte(U8 *buffer, S32 offset, S32 length)
         { }
 
         virtual void AddReceiveFun(OnReceiveAction *fun)

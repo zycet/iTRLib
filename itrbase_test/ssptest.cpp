@@ -1,7 +1,12 @@
 #include "ssptest.h"
+#include <vector>
+
 #include "stdio.h"
 #include "stdlib.h"
 
+using std::vector;
+
+/*
 void SSPReceivefuc(itr_protocol::StandSerialProtocol* SSP, itr_protocol::StandSerialFrameStruct* SSFS,U8* Package,S32 PackageLength)
 {
     for(S32 i=0; i<4; i++)
@@ -35,4 +40,48 @@ void SSPTest()
     ssp_obj.ProcessFunction[0]=&SSPReceivefuc;
     ssp_obj.ProcessRawByte(data,64);
     S32 J=0;
+}
+ */
+class onReceive : public itr_protocol::OnReceiveAction
+{
+    S32 Do(const itr_protocol::StandardExchangePackage &Package)
+    {
+        printf("keyword:%d\n", Package.keyword);
+        printf("data:");
+        for (int i = 0; i < Package.getDataLen(); ++i)
+        {
+            printf("%d ", Package.data[i]);
+        }
+        printf("\n");
+    }
+};
+
+void SEPTest()
+{
+    printf("=============SEP Test Begin================\n");
+    vector<U8> data;
+    U8 buffer[300];
+    for (int i = 0; i < 5; ++i)
+    {
+        data.push_back(i);
+    }
+    itr_protocol::StandardExchangePackage sep(0x01, data);
+    itr_protocol::StandardExchangePackageSerial seps(sep);
+
+    for (int j = 0; j < 5; ++j)
+    {
+        printf("%d ", sep.data[j]);
+    }
+    printf("\n");
+    itr_protocol::StandardExchangeProtocolSerial protocolSerial;
+    int len = protocolSerial.FillBuffer(sep, buffer);
+    for (int j = 0; j < len; ++j)
+    {
+        printf("%d ", buffer[j]);
+    }
+    printf("\n");
+    protocolSerial.AddReceiveFun(new onReceive);
+    int n = protocolSerial.ProcessByte(buffer, 0, 300);
+    printf("%d\n", n);
+    printf("=============SEP Test end================\n");
 }

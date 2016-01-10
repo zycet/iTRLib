@@ -45,33 +45,35 @@
 int main()
 {
     //Platform
-    TestAssistMacro();
-    TestDebugSupport();
-    TestMemoryOperation();
-    TestTypedef();
+//    TestAssistMacro();
+//    TestDebugSupport();
+//    TestMemoryOperation();
+//    TestTypedef();
     //Container
-    TestCycleQueue();
+//    TestCycleQueue();
     //Math
-    TestMathInit();
-    TestCalculate();
-    TestNumerical();
-    TestStatistics();
-    TestVector();
+//    TestMathInit();
+//    TestCalculate();
+//    TestNumerical();
+//    TestStatistics();
+//    TestVector();
 
-    TestCalculateTest();
+//    TestCalculateTest();
 
-    TestMatrix();
-    TestGeometry();
-    TestTransform();
+//    TestMatrix();
+//    TestGeometry();
+//    TestTransform();
     //test SSPS
-    SSPTest();
+//    SSPTest();
+    //Protocol
+    SEPTest();
     //Test Helper
-    TestGaussianGenerate();
-    TestCalcEff();
+//    TestGaussianGenerate();
+//    TestCalcEff();
     //Finish
 
 
-    TestMathdeDeinit();
+//    TestMathdeDeinit();
 
     TRACE_INFO("OK All");
     return 0;

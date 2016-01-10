@@ -87,6 +87,22 @@ namespace itr_protocol
 
     S32 StandardExchangePackage::getLength()
     {
+
         return (S32) (HeaderLength + 1 + data.size());
+    }
+
+    FormatErrorEnum StandardExchangePackage::readFrom(U8 *buffer, int offset, int length)
+    {
+        if (length <= HeaderLength + 1)
+            return LengthWrong;
+        this->property = *((U16 *) (buffer + offset));
+        this->keyword = buffer[offset + 2];
+        this->data.assign(buffer + offset + 3, buffer + offset + length);
+        return None;
+    }
+
+    U8 StandardExchangePackage::getDataLen() const
+    {
+        return (U8) data.size();
     }
 }

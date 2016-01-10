@@ -7,43 +7,69 @@
 
 namespace itr_protocol
 {
-    StandardExchangePackageSerial::StandardExchangePackageSerial()
+    void StandardExchangePackageSerial::init()
     {
         S0 = S0Default;
         S1 = S1Default;
     }
+    StandardExchangePackageSerial::StandardExchangePackageSerial()
+    {
+        init();
+    }
 
-    StandardExchangePackageSerial::StandardExchangePackageSerial(const StandardExchangePackage &SEPackage) : sep(
+    StandardExchangePackageSerial::StandardExchangePackageSerial(const StandardExchangePackage &SEPackage)
+            : StandardExchangePackage(
             SEPackage)
     {
-        StandardExchangePackageSerial();
+        init();
     }
 
-    StandardExchangePackageSerial::StandardExchangePackageSerial(U8 DataID) : sep(DataID)
+    StandardExchangePackageSerial::StandardExchangePackageSerial(U8 DataID) : StandardExchangePackage(DataID)
     {
-        StandardExchangePackageSerial();
+        init();
     }
 
-    StandardExchangePackageSerial::StandardExchangePackageSerial(U8 DataID, const vector<U8> &Data) : sep(DataID, Data)
+    StandardExchangePackageSerial::StandardExchangePackageSerial(U8 DataID, const vector<U8> &Data)
+            : StandardExchangePackage(DataID, Data)
     {
-        StandardExchangePackageSerial();
-    }
-
-    U8 StandardExchangePackageSerial::getDataLen()
-    {
-        return sep.data.size();
+        init();
     }
 
     S32 StandardExchangePackageSerial::writeTo(U8 *buffer)
     {
-        int n;
+        int n = 0;
         buffer[0] = S0;
         buffer[1] = S1;
         buffer[2] = getDataLen();
         n += HeaderLength;
-        n += sep.writeTo(buffer + n);
-        CRC _crcthis;
-        CRC16 = _crcthis.BL_CRC16Encode(buffer, n);
+        n += StandardExchangePackage::writeTo(buffer + n);
+        CRC crc;
+        CRC16 = crc.BL_CRC16Encode(buffer, n);
         *((U16 *) (buffer + n)) = CRC16;
+        return n + 2;
     }
+
+    S32 StandardExchangePackageSerial::getLength()
+    {
+        return this->HeaderLength + StandardExchangePackage::getLength() + this->PlusLength + this->TailLength;
+    }
+
+    FormatErrorEnum StandardExchangePackageSerial::readFrom(U8 *buffer, int offset, int length)
+    {
+        if (length < HeaderLength + TailLength + PlusLength)
+            return LengthWrong;
+        buffer += offset;
+        int dataLen = buffer[2];
+        int allLen = HeaderLength + PlusLength + dataLen + TailLength;
+        if (length < allLen)
+            return LengthWrong;
+        CRC crc;
+        if (crc.BL_CRC16Encode(buffer, allLen) != 0)
+            return CRCWrong;
+        S0 = buffer[0];
+        S1 = buffer[1];
+        dataLen = buffer[2];
+        return StandardExchangePackage::readFrom(buffer, HeaderLength, PlusLength + dataLen);
+    }
+
 }

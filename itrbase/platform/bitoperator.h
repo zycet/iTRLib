@@ -7,25 +7,8 @@
 
 #include "typedef.h"
 
-U8 GetPartBit(U32 data, int begin, int len)
-{
-    data >>= begin;
-    U8 result = 0;
-    for (int i = 0; i < len; ++i)
-    {
-        result |= (data & 1) << i;
-        data >>= 1;
-    }
-    return result;
-}
+U8 GetPartBit(U32 data, int begin, int len);
 
-void SetPartBit(U32 data, U8 value, int begin, int len)
-{
-    for (int i = 0; i < len; ++i)
-    {
-        data &= ~(1 << begin + i);
-        data |= ((value >> i) & 1) << (begin + i);
-    }
-}
+void SetPartBit(U32 data, U8 value, int begin, int len);
 
 #endif //ITRLIB_BITOPERATOR_H

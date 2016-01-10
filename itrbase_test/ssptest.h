@@ -1,6 +1,8 @@
 #ifndef SSPTEST_H
 #define SSPTEST_H
 #include "itrbase.h"
+
+void SEPTest();
 void SSPReceivefuc(itr_protocol::StandSerialProtocol* SSP, itr_protocol::StandSerialFrameStruct* SSFS,U8* Package,S32 PackageLength);
 void SSPTest();
 

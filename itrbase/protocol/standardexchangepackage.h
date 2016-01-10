@@ -11,6 +11,11 @@
 using std::vector;
 namespace itr_protocol
 {
+    enum FormatErrorEnum
+    {
+        None = 0, LengthWrong, CRCWrong, OutOfBuffer, FormatWrong, Unidentify
+    };
+
     class StandardExchangePackage
     {
     public:
@@ -43,9 +48,12 @@ namespace itr_protocol
 
         StandardExchangePackage(U8 DataID, const vector<U8> &Data);
 
+        U8 getDataLen() const;
         virtual S32 writeTo(U8 *buffer);
 
-        S32 getLength();
+        virtual FormatErrorEnum readFrom(U8 *buffer, int offset, int length);
+
+        virtual S32 getLength();
 
     };
 }
