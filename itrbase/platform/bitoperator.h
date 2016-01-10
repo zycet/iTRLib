@@ -9,6 +9,6 @@
 
 U8 GetPartBit(U32 data, int begin, int len);
 
-void SetPartBit(U32 data, U8 value, int begin, int len);
+U32 SetPartBit(U32 data, U8 value, int begin, int len);
 
 #endif //ITRLIB_BITOPERATOR_H

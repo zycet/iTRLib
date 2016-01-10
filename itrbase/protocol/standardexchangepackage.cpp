@@ -40,7 +40,7 @@ namespace itr_protocol
 
     void StandardExchangePackage::setPID(U8 pid)
     {
-        SetPartBit(property, pid, 0, 4);
+        property = (U16) SetPartBit(property, pid, 0, 4);
     }
 
     U8 StandardExchangePackage::getSID()
@@ -50,7 +50,7 @@ namespace itr_protocol
 
     void StandardExchangePackage::setSID(U8 sid)
     {
-        SetPartBit(property, sid, 4, 6);
+        property = (U16) SetPartBit(property, sid, 4, 6);
     }
 
     U8 StandardExchangePackage::getTID()
@@ -60,7 +60,7 @@ namespace itr_protocol
 
     void StandardExchangePackage::setTID(U8 tid)
     {
-        SetPartBit(property, tid, 10, 6);
+        property = (U16) SetPartBit(property, tid, 10, 6);
     }
 
     U8 StandardExchangePackage::getDataID()

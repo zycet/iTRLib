@@ -16,12 +16,13 @@ U8 GetPartBit(U32 data, int begin, int len)
     return result;
 }
 
-void SetPartBit(U32 data, U8 value, int begin, int len)
+U32 SetPartBit(U32 data, U8 value, int begin, int len)
 {
     for (int i = 0; i < len; ++i)
     {
         data &= ~(1 << begin + i);
         data |= ((value >> i) & 1) << (begin + i);
     }
+    return data;
 }
 

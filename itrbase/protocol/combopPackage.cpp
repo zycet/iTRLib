@@ -33,6 +33,7 @@ namespace itr_protocol
 
     int ComboPackage::writeTo(U8 *buffer, int offset)
     {
+        buffer += offset;
         itr_container::ByteStream bs((void *) buffer);
         bs.setU8(S0);
         bs.setU8(S1);
