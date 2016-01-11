@@ -73,7 +73,7 @@ namespace itr_protocol
         keyword = dataID;
     }
 
-    S32 StandardExchangePackage::writeTo(U8 *buffer)
+    S32 StandardExchangePackage::WriteTo(U8 *buffer)
     {
         S32 n;
         *((U16 *) buffer) = property;
@@ -91,7 +91,7 @@ namespace itr_protocol
         return (S32) (HeaderLength + 1 + data.size());
     }
 
-    FormatErrorEnum StandardExchangePackage::readFrom(U8 *buffer, int offset, int length)
+    FormatErrorEnum StandardExchangePackage::ReadFrom(U8 *buffer, int offset, int length)
     {
         if (length <= HeaderLength + 1)
             return LengthWrong;

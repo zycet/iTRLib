@@ -34,9 +34,9 @@ namespace itr_protocol
 
         S32 getLength();
 
-        S32 writeTo(U8 *buffer);
+        S32 WriteTo(U8 *buffer);
 
-        FormatErrorEnum readFrom(U8 *buffer, int offset, int length);
+        FormatErrorEnum ReadFrom(U8 *buffer, int offset, int length);
     };
 }
 

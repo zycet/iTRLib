@@ -15,22 +15,22 @@ namespace itr_protocol
     {
     public:
         U8 S0, S1;
-
         StandardExchangeProtocolSerial();
 
         static const int HeaderLength =
                 1 + StandardExchangePackage::HeaderLength + StandardExchangePackageSerial::HeaderLength;
         static const int TailLength = StandardExchangePackageSerial::TailLength;
 
-        U32 fillBuffer(const StandardExchangePackage &SEPackage, U8 *buffer);
+        U32 FillBuffer(const StandardExchangePackage &SEPackage, U8 *buffer);
 
-        U32 processByte(U8 *buffer, S32 offset, S32 length);
+        U32 ProcessByte(U8 *buffer, S32 offset, S32 length);
 
-        void addReceiveFun(OnReceiveAction *fun);
+        void AddReceiveFun(OnReceiveSEP *fun);
 
     private:
         U8 receiveBuffer[256 + HeaderLength + TailLength];
         int receiveBufferState;
+        vector<OnReceiveSEP *> receiveList;
     };
 }
 

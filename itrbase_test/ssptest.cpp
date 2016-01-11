@@ -42,7 +42,7 @@ void SSPTest()
     S32 J=0;
 }
  */
-class onReceive : public itr_protocol::OnReceiveAction
+class onReceive : public itr_protocol::OnReceiveSEP
 {
     S32 Do(const itr_protocol::StandardExchangePackage &Package)
     {
@@ -74,14 +74,14 @@ void SEPTest()
     }
     printf("\n");
     itr_protocol::StandardExchangeProtocolSerial protocolSerial;
-    int len = protocolSerial.fillBuffer(sep, buffer);
+    int len = protocolSerial.FillBuffer(sep, buffer);
     for (int j = 0; j < len; ++j)
     {
         printf("%d ", buffer[j]);
     }
     printf("\n");
-    protocolSerial.addReceiveFun(new onReceive);
-    int n = protocolSerial.processByte(buffer, 0, 300);
+    protocolSerial.AddReceiveFun(new onReceive);
+    int n = protocolSerial.ProcessByte(buffer, 0, 300);
     printf("%d\n", n);
     printf("=============SEP Test end================\n");
 }

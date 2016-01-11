@@ -35,14 +35,14 @@ namespace itr_protocol
         init();
     }
 
-    S32 StandardExchangePackageSerial::writeTo(U8 *buffer)
+    S32 StandardExchangePackageSerial::WriteTo(U8 *buffer)
     {
         int n = 0;
         buffer[0] = S0;
         buffer[1] = S1;
         buffer[2] = getDataLen();
         n += HeaderLength;
-        n += StandardExchangePackage::writeTo(buffer + n);
+        n += StandardExchangePackage::WriteTo(buffer + n);
         CRC crc;
         CRC16 = crc.BL_CRC16Encode(buffer, n);
         *((U16 *) (buffer + n)) = CRC16;
@@ -54,7 +54,7 @@ namespace itr_protocol
         return this->HeaderLength + StandardExchangePackage::getLength() + this->PlusLength + this->TailLength;
     }
 
-    FormatErrorEnum StandardExchangePackageSerial::readFrom(U8 *buffer, int offset, int length)
+    FormatErrorEnum StandardExchangePackageSerial::ReadFrom(U8 *buffer, int offset, int length)
     {
         if (length < HeaderLength + TailLength + PlusLength)
             return LengthWrong;
@@ -69,7 +69,7 @@ namespace itr_protocol
         S0 = buffer[0];
         S1 = buffer[1];
         dataLen = buffer[2];
-        return StandardExchangePackage::readFrom(buffer, HeaderLength, PlusLength + dataLen);
+        return StandardExchangePackage::ReadFrom(buffer, HeaderLength, PlusLength + dataLen);
     }
 
 }

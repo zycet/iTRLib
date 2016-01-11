@@ -12,7 +12,8 @@ using std::vector;
 namespace itr_protocol
 {
     class StandardExchangePackage;
-    class OnReceiveAction
+
+    class OnReceiveSEP
     {
     public:
         virtual S32 Do(const StandardExchangePackage &Package)
@@ -22,16 +23,15 @@ namespace itr_protocol
     class IStandardExchangeProcessor
     {
     public:
-        virtual U32 fillBuffer(const StandardExchangePackage &SEPackage, U8 *buffer)
+        virtual U32 FillBuffer(const StandardExchangePackage &SEPackage, U8 *buffer)
         { }
 
-        virtual U32 processByte(U8 *buffer, S32 offset, S32 length)
+        virtual U32 ProcessByte(U8 *buffer, S32 offset, S32 length)
         { }
 
-        virtual void addReceiveFun(OnReceiveAction *fun)
+        virtual void AddReceiveFun(OnReceiveSEP *fun)
         { }
 
-        vector<OnReceiveAction *> receiveList;
         bool Enable;
     };
 }

@@ -5,13 +5,13 @@
 #include "standardexchangeprotocolserial.h"
 namespace itr_protocol
 {
-    U32 StandardExchangeProtocolSerial::fillBuffer(const StandardExchangePackage &SEPackage, U8 *buffer)
+    U32 StandardExchangeProtocolSerial::FillBuffer(const StandardExchangePackage &SEPackage, U8 *buffer)
     {
         StandardExchangePackageSerial seps(SEPackage);
-        return (U32) seps.writeTo(buffer);
+        return (U32) seps.WriteTo(buffer);
     }
 
-    U32 StandardExchangeProtocolSerial::processByte(U8 *buffer, S32 offset, S32 length)
+    U32 StandardExchangeProtocolSerial::ProcessByte(U8 *buffer, S32 offset, S32 length)
     {
         U32 receiveFrameNum = 0;
         for (int i = offset; i < length + offset; i++)
@@ -45,7 +45,7 @@ namespace itr_protocol
                 if (receiveBufferState == dataLen + HeaderLength + TailLength)
                 {
                     StandardExchangePackageSerial sp;
-                    FormatErrorEnum fe = sp.readFrom(receiveBuffer, 0, receiveBufferState);
+                    FormatErrorEnum fe = sp.ReadFrom(receiveBuffer, 0, receiveBufferState);
                     if (fe == None)
                     {
                         receiveFrameNum++;
@@ -68,9 +68,9 @@ namespace itr_protocol
         return receiveFrameNum;
     }
 
-    void StandardExchangeProtocolSerial::addReceiveFun(OnReceiveAction *fun)
+    void StandardExchangeProtocolSerial::AddReceiveFun(OnReceiveSEP *fun)
     {
-        this->receiveList.push_back(fun);
+        receiveList.push_back(fun);
     }
 
     StandardExchangeProtocolSerial::StandardExchangeProtocolSerial()

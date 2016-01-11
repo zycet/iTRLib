@@ -49,9 +49,10 @@ namespace itr_protocol
         StandardExchangePackage(U8 DataID, const vector<U8> &Data);
 
         U8 getDataLen() const;
-        virtual S32 writeTo(U8 *buffer);
 
-        virtual FormatErrorEnum readFrom(U8 *buffer, int offset, int length);
+        virtual S32 WriteTo(U8 *buffer);
+
+        virtual FormatErrorEnum ReadFrom(U8 *buffer, int offset, int length);
 
         virtual S32 getLength();
 
