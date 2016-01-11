@@ -96,7 +96,10 @@ namespace itr_protocol
         itr_container::ByteStream bs(buffer + offset);
         this->property = bs.getU16();
         this->keyword = bs.getU8();
-        bs.getU8Array(&data[0], length - 3);
+        for (int i = 0; i < length - 3; ++i)
+        {
+            data.push_back(bs.getU8());
+        }
         return None;
     }
 
