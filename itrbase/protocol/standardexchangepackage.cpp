@@ -4,6 +4,7 @@
 
 #include "standardexchangepackage.h"
 #include "../platform/platform.h"
+#include "../container/bytestream.h"
 
 namespace itr_protocol
 {
@@ -75,14 +76,11 @@ namespace itr_protocol
 
     S32 StandardExchangePackage::WriteTo(U8 *buffer)
     {
-        S32 n;
-        *((U16 *) buffer) = property;
-        n += 2;
-        buffer[n] = keyword;
-        n += 1;
-        MemoryCopy(buffer + n, &data[0], data.size());
-        n += data.size();
-        return n;
+        itr_container::ByteStream bs(buffer);
+        bs.setU16(property);
+        bs.setU8(keyword);
+        bs.setU8Array(&data[0], data.size());
+        return bs.getLength();
     }
 
     S32 StandardExchangePackage::getLength()
@@ -95,9 +93,10 @@ namespace itr_protocol
     {
         if (length <= HeaderLength + 1)
             return LengthWrong;
-        this->property = *((U16 *) (buffer + offset));
-        this->keyword = buffer[offset + 2];
-        this->data.assign(buffer + offset + 3, buffer + offset + length);
+        itr_container::ByteStream bs(buffer + offset);
+        this->property = bs.getU16();
+        this->keyword = bs.getU8();
+        bs.getU8Array(&data[0], length - 3);
         return None;
     }
 
