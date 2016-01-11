@@ -59,7 +59,8 @@ void itr_container::ByteStream::getU8Array(U8 *buffer, U32 length)
 {
     while (length--)
     {
-        *buffer++ = getU8();
+        *buffer = getU8();
+        buffer++;
     }
 }
 
