@@ -58,7 +58,7 @@ namespace itr_vision
         float ncc = 1;
         int iter = 0;
         float posy = rect.Y, posx = rect.X;
-        while ((deltax * deltax + deltay * deltay > 0.5) && (iter < 50))
+        while ((deltax * deltax + deltay * deltay > 0.1) && (iter < 20))
         {
             iter++;
             sum = 0;
