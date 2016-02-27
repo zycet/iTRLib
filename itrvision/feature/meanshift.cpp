@@ -58,7 +58,7 @@ namespace itr_vision
         float ncc = 1;
         int iter = 0;
         float posy = rect.Y, posx = rect.X;
-        while ((deltax * deltax + deltay * deltay > 0.5) && (iter < 20))
+        while ((deltax * deltax + deltay * deltay > 0.5) && (iter < 50))
         {
             iter++;
             sum = 0;
@@ -79,21 +79,22 @@ namespace itr_vision
                 else
                     w[k] = 0;
             }
-
+            int index;
             for (int y = 0; y < rect.Height; ++y)
             {
                 for (int x = 0; x < rect.Width; ++x)
                 {
-                    sum += w[img(posy + y, posx + x)];
-                    deltax += w[img(posy + y, posx + x)] * (x - halfx);
-                    deltay += w[img(posy + y, posx + x)] * (y - halfy);
+                    index = (S32) img(posy + y, posx + x);
+                    sum += w[index];
+                    deltax += w[index] * (x - halfx);
+                    deltay += w[index] * (y - halfy);
                 }
             }
             deltax /= sum;
             deltay /= sum;
             posx += deltax;
             posy += deltay;
-//            printf("\n%f %f %f %f %f\n", deltax, deltay, sum, posx, posy);
+            printf("\n%f %f %f %f %f\n", deltax, deltay, sum, posx, posy);
 
         }
 
