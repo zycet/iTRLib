@@ -41,5 +41,6 @@
 #include "./integralimg.h"
 #include "./connectedanalysis.h"
 #include "./boxhessian.h"
+#include "./colorconvert.h"
 
 #endif // PROCESS_H_
