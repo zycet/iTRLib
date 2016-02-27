@@ -39,7 +39,7 @@ namespace itr_vision
                 weight(y, x) = getweight(x, y);
                 weightsum += weight(y, x);
             }
-        weightsum = 1.0 / weightsum;
+        weightsum = 1.0f / weightsum;
         weight.AllMul(weightsum);
         for (int y = 0; y < rect.Height; ++y)
         {
@@ -75,7 +75,7 @@ namespace itr_vision
             for (int k = 0; k < binCount; k++)
             {
                 if (histp[k] != 0)
-                    w[k] = sqrt(histq[k] / histp[k]);
+                    w[k] = sqrtf(histq[k] / histp[k]);
                 else
                     w[k] = 0;
             }
