@@ -4,7 +4,7 @@
 
 #include "colorconvert.h"
 
-void ColorConvert::yuv420p2rgb(S32 *rgb, U8 *yuv, S32 width, S32 height)
+void ColorConvert::yuv420sp2rgb(S32 *rgb, U8 *yuv, S32 width, S32 height)
 {
     int frameSize = width * height;
     int i, j;
@@ -46,23 +46,22 @@ void ColorConvert::yuv420p2rgb(S32 *rgb, U8 *yuv, S32 width, S32 height)
     }
 }
 
-void ColorConvert::yuv420sp2rgb(S32 *rgb, U8 *yuv, S32 width, S32 height)
+void ColorConvert::yuv420p2rgb(S32 *rgb, U8 *yuv, S32 width, S32 height)
 {
     int frameSize = width * height;
     int i, j;
 
-    int yp, y, u, v, r, g, b;
+    int y, u, v, r, g, b;
     int y1192;
 
     U8 *pY = yuv;
-//    U8 *pU = yuv + frameSize;
-//    U8 *pV = pU + frameSize / 4;
+    U8 *pU;
+    U8 *pV;
     int result;
-    for (i = 0, yp = 0; i < height; i++)
+    for (i = 0; i < height; i++)
     {
-        U8 *pU = yuv + frameSize + (i >> 1) * width;
-        U8 *pV = pU + frameSize / 4;
-        int uvp = frameSize + (i >> 1) * width;
+        pU = yuv + frameSize + (i >> 1) * width;
+        pV = yuv + frameSize + frameSize / 4 + (i >> 1) * width;
         u = v = 0;
         for (j = 0; j < width; j++)
         {
