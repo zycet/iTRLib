@@ -79,12 +79,16 @@ namespace itr_vision
                 }
             }
             Vector w(binCount);
+            F32 *phistp = histp.GetData(), *phistq = histq.GetData(), *pw = w.GetData();
             for (int k = 0; k < binCount; k++)
             {
-                if (histp[k] != 0)
-                    w[k] = sqrtf(histq[k] / histp[k]);
+                if (*phistp != 0)
+                    *pw = sqrtf(*phistq / *phistp);
                 else
-                    w[k] = 0;
+                    *pw = 0;
+                ++pw;
+                ++phistp;
+                ++phistq;
             }
             for (int y = 0; y < rect.Height; ++y)
             {
