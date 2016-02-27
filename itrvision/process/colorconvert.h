@@ -6,7 +6,8 @@
 #define ITRLIB_COLORCONVERT_H
 
 #include <platform/typedef.h>
-
+namespace itr_vision
+{
 class ColorConvert
 {
 public:
@@ -15,6 +16,8 @@ public:
     static void yuv420sp2rgb(S32 *rgb, U8 *yuv, S32 width, S32 height);
 
 };
+
+}
 
 
 #endif //ITRLIB_COLORCONVERT_H

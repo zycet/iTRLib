@@ -3,6 +3,8 @@
 //
 
 #include "colorconvert.h"
+namespace itr_vision
+{
 
 void ColorConvert::yuv420p2rgb(S32 *rgb, U8 *yuv, S32 width, S32 height)
 {
@@ -89,4 +91,4 @@ void ColorConvert::yuv420sp2rgb(S32 *rgb, U8 *yuv, S32 width, S32 height)
 }
 
 
-
+}
