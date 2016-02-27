@@ -32,20 +32,24 @@ namespace itr_vision
         float weightsum = 0;
         weight.Init(rect.Height, rect.Width);
         histq.Init(binCount);
-
+        F32 *pweight = weight.GetData();
         for (int y = 0; y < rect.Height; y++)
             for (int x = 0; x < rect.Width; x++)
             {
-                weight(y, x) = getweight(x, y);
-                weightsum += weight(y, x);
+                *pweight = getweight(x, y);
+                weightsum += *pweight;
+                ++pweight;
             }
         weightsum = 1.0f / weightsum;
         weight.AllMul(weightsum);
+        F32 *pimg;
+        pweight = weight.GetData();
         for (int y = 0; y < rect.Height; ++y)
         {
+            pimg = img.GetData() + (S32) rect.Y * img.GetCol() + (S32) rect.X;
             for (int x = 0; x < rect.Width; ++x)
             {
-                histq[img(rect.Y + y, rect.X + x)] += weight(y, x);
+                histq[*pimg++] += *pweight++;
             }
         }
         this->binCount = binCount;
@@ -65,12 +69,13 @@ namespace itr_vision
             sum = 0;
             deltax = deltay = 0;
             Vector histp(binCount);
+            F32 *pweight = weight.GetData();
             for (int y = 0; y < rect.Height; ++y)
             {
                 for (int x = 0; x < rect.Width; ++x)
                 {
                     index = (S32) img(posy + y, posx + x);
-                    histp[img(posy + y, posx + x)] += weight(y, x);
+                    histp[index] += *pweight++;
                 }
             }
             Vector w(binCount);
