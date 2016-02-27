@@ -57,11 +57,13 @@ void ColorConvert::yuv420sp2rgb(S32 *rgb, U8 *yuv, S32 width, S32 height)
     int y1192;
 
     U8 *pY = yuv;
-    U8 *pU = yuv + frameSize;
-    U8 *pV = pU + frameSize / 4;
+//    U8 *pU = yuv + frameSize;
+//    U8 *pV = pU + frameSize / 4;
     int result;
     for (i = 0, yp = 0; i < height; i++)
     {
+        U8 *pU = yuv + frameSize + (i >> 1) * width;
+        U8 *pV = pU + frameSize / 4 + (i >> 1) * width;
         int uvp = frameSize + (i >> 1) * width;
         u = v = 0;
         for (j = 0; j < width; j++)
