@@ -57,6 +57,7 @@ namespace itr_vision
         F32 deltax = 1, deltay = 1, sum = 0;
         float ncc = 1;
         int iter = 0;
+        int index;
         float posy = rect.Y, posx = rect.X;
         while ((deltax * deltax + deltay * deltay > 0.1) && (iter < 20))
         {
@@ -68,6 +69,7 @@ namespace itr_vision
             {
                 for (int x = 0; x < rect.Width; ++x)
                 {
+                    index = (S32) img(posy + y, posx + x);
                     histp[img(posy + y, posx + x)] += weight(y, x);
                 }
             }
@@ -79,7 +81,6 @@ namespace itr_vision
                 else
                     w[k] = 0;
             }
-            int index;
             for (int y = 0; y < rect.Height; ++y)
             {
                 for (int x = 0; x < rect.Width; ++x)
@@ -94,7 +95,6 @@ namespace itr_vision
             deltay /= sum;
             posx += deltax;
             posy += deltay;
-            printf("\n%f %f %f %f %f\n", deltax, deltay, sum, posx, posy);
 
         }
 
