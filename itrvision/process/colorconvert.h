@@ -9,6 +9,7 @@
 
 class ColorConvert
 {
+public:
     static void yuv420p2rgb(S32 *rgb, U8 *yuv, S32 width, S32 height);
 
     static void yuv420sp2rgb(S32 *rgb, U8 *yuv, S32 width, S32 height);
