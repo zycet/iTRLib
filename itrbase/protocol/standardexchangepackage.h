@@ -24,19 +24,19 @@ namespace itr_protocol
         U8 keyword;
         vector<U8> data;
 
-        U8 getPID();
+        U8 getPID() const;
 
         void setPID(U8 pid);
 
-        U8 getSID();
+        U8 getSID() const;
 
         void setSID(U8 sid);
 
-        U8 getTID();
+        U8 getTID() const;
 
         void setTID(U8 tid);
 
-        U8 getDataID();
+        U8 getDataID() const;
 
         void setDataID(U8 dataID);
 
@@ -54,7 +54,7 @@ namespace itr_protocol
 
         virtual FormatErrorEnum ReadFrom(U8 *buffer, int offset, int length);
 
-        virtual S32 getLength();
+        virtual S32 getLength() const;
 
     };
 }

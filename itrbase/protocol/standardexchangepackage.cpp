@@ -34,7 +34,7 @@ namespace itr_protocol
         data.assign(Data.begin(), Data.end());
     }
 
-    U8 StandardExchangePackage::getPID()
+    U8 StandardExchangePackage::getPID() const
     {
         return GetPartBit(property, 0, 4);
     }
@@ -44,7 +44,7 @@ namespace itr_protocol
         property = (U16) SetPartBit(property, pid, 0, 4);
     }
 
-    U8 StandardExchangePackage::getSID()
+    U8 StandardExchangePackage::getSID() const
     {
         return GetPartBit(property, 4, 6);
     }
@@ -54,7 +54,7 @@ namespace itr_protocol
         property = (U16) SetPartBit(property, sid, 4, 6);
     }
 
-    U8 StandardExchangePackage::getTID()
+    U8 StandardExchangePackage::getTID() const
     {
         return GetPartBit(property, 10, 6);
     }
@@ -64,7 +64,7 @@ namespace itr_protocol
         property = (U16) SetPartBit(property, tid, 10, 6);
     }
 
-    U8 StandardExchangePackage::getDataID()
+    U8 StandardExchangePackage::getDataID() const
     {
         return keyword;
     }
@@ -83,7 +83,7 @@ namespace itr_protocol
         return bs.getLength();
     }
 
-    S32 StandardExchangePackage::getLength()
+    S32 StandardExchangePackage::getLength() const
     {
 
         return (S32) (HeaderLength + 1 + data.size());
