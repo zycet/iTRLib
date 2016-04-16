@@ -3,6 +3,7 @@
 //
 #include <math.h>
 #include "meanshift.h"
+#include "../itrvision.h"
 
 using itr_math::Matrix;
 using itr_math::Vector;
@@ -110,5 +111,30 @@ namespace itr_vision
         rect.X = posx;
         rect.Y = posy;
 //        printf("%f %f\n", posx, posy);
+    }
+
+    void MeanShift::ChangeFormat(U8 *pic, Matrix &img, int encoderwidth, int encoderheight)
+    {
+        Matrix img_origin(encoderheight, encoderwidth);
+        S32 *pimgI = (S32 *) img_origin.GetData();
+        itr_vision::ColorConvert::yuv420p2rgb(pimgI, pic, img.GetCol(), img.GetRow());
+        itr_vision::Scale::SubSampling(img_origin, img, encoderwidth / img.GetCol());
+        pimgI = (S32 *) img.GetData();
+        F32 *pimgF = (F32 *) img.GetData();
+        for (int i = 0; i < encoderheight; i++)
+        {
+            for (int j = 0; j < encoderwidth; j++)
+            {
+                U8 r, g, b;
+                r = (U8) ((*pimgI & 0xff0000) >> 16);
+                g = (U8) ((*pimgI & 0xff00) >> 8);
+                b = (U8) (*pimgI & 0xff);
+                int a = ((r & 0xf0) << 4) | ((g & 0xf0)) | ((b & 0xf0) >> 4);
+                img(i, j) = a;
+                *pimgF = (F32) a;
+                pimgF++;
+                pimgI++;
+            }
+        }
     }
 }

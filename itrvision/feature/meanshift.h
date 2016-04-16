@@ -25,6 +25,8 @@ namespace itr_vision
         int halfx, halfy;
         float radius;
         int binCount;
+
+        void ChangeFormat(U8 *pic, itr_math::Matrix &img, int encoderwidth, int encoderheight);
     };
 
 }
