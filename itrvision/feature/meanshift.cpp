@@ -117,8 +117,8 @@ namespace itr_vision
     {
         Matrix img_origin(encoderheight, encoderwidth);
         S32 *pimgI = (S32 *) img_origin.GetData();
-        itr_vision::ColorConvert::yuv420p2rgb(pimgI, pic, img.GetCol(), img.GetRow());
-        itr_vision::Scale::SubSampling(img_origin, img, encoderwidth / img.GetCol());
+        itr_vision::ColorConvert::yuv420p2rgb(pimgI, pic, encoderwidth, encoderheight);
+        itr_vision::Scale::SubSampling(img_origin, img, img.GetCol()/encoderwidth );
         pimgI = (S32 *) img.GetData();
         F32 *pimgF = (F32 *) img.GetData();
         for (int i = 0; i < encoderheight; i++)
