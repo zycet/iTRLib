@@ -17,7 +17,7 @@ namespace itr_vision
 
         void Go(const itr_math::Matrix &img, itr_math::RectangleF &rect);
 
-        void ChangeFormat(U8 *pic, itr_math::Matrix &img, int encoderwidth, int encoderheight);
+        void ChangeFormat(itr_math::Matrix &img);
     private:
         float getweight(int x, int y);
 
@@ -26,6 +26,7 @@ namespace itr_vision
         int halfx, halfy;
         float radius;
         int binCount;
+
 
     };
 

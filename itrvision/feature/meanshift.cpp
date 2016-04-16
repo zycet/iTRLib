@@ -113,17 +113,16 @@ namespace itr_vision
 //        printf("%f %f\n", posx, posy);
     }
 
-    void MeanShift::ChangeFormat(U8 *pic, Matrix &img, int encoderwidth, int encoderheight)
+    void MeanShift::ChangeFormat(Matrix &img)
     {
-        Matrix img_origin(encoderheight, encoderwidth);
-        S32 *pimgI = (S32 *) img_origin.GetData();
-        itr_vision::ColorConvert::yuv420p2rgb(pimgI, pic, encoderwidth, encoderheight);
-        itr_vision::Scale::SubSampling(img_origin, img, img.GetCol()/encoderwidth );
-        pimgI = (S32 *) img.GetData();
+        S32 height = img.GetRow();
+        S32 width = img.GetCol();
+
+        S32 *pimgI = (S32 *) img.GetData();
         F32 *pimgF = (F32 *) img.GetData();
-        for (int i = 0; i < encoderheight; i++)
+        for (int i = 0; i < height; i++)
         {
-            for (int j = 0; j < encoderwidth; j++)
+            for (int j = 0; j < width; j++)
             {
                 U8 r, g, b;
                 r = (U8) ((*pimgI & 0xff0000) >> 16);
